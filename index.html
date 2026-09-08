@@ -1,0 +1,61 @@
+---
+layout: default
+title: Accueil
+---
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">PODCAST &amp; ANALYSES</p>
+      <h1><em>Inside</em>ENERGY MARKETS</h1>
+      <p class="lead">Comprendre comment l'énergie est produite, échangée et tarifée — un podcast et des analyses de marché par Tom Moulard.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ '/episodes/' | relative_url }}">Écouter les épisodes</a>
+        <a class="btn btn-ghost" href="{{ '/blog/' | relative_url }}">Lire le blog</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Éoliennes offshore, Inside Energy Markets">
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Derniers épisodes</h2>
+      <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes →</a>
+    </div>
+    <div class="card-grid">
+      {% for ep in site.data.episodes limit: 3 %}
+      <div class="card">
+        <p class="num">Épisode {{ ep.number }}</p>
+        <h3>{{ ep.title }}</h3>
+        <p>{{ ep.description }}</p>
+        <div class="listen-links">
+          <a href="{{ ep.spotify | default: 'https://open.spotify.com/' }}" target="_blank">Spotify</a>
+          <a href="{{ ep.apple | default: 'https://podcasts.apple.com/' }}" target="_blank">Apple Podcasts</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Derniers articles</h2>
+      <a href="{{ '/blog/' | relative_url }}">Tout le blog →</a>
+    </div>
+    <ul class="post-list">
+      {% for post in site.posts limit: 3 %}
+      <li class="post-item">
+        <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

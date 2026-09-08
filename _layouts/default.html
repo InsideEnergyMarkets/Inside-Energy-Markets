@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="wrap">
+      <a href="{{ '/' | relative_url }}" class="brand">INSIDE <span>ENERGY MARKETS</span></a>
+      <ul class="nav-links">
+        <li><a href="{{ '/episodes/' | relative_url }}">Épisodes</a></li>
+        <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">À propos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  {{ content }}
+
+  <footer>
+    <div class="wrap">
+      <span>&copy; {{ site.time | date: "%Y" }} Tom Moulard — Inside Energy Markets</span>
+      <div class="socials">
+        <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+        <a href="https://open.spotify.com/" target="_blank">Spotify</a>
+        <a href="https://podcasts.apple.com/" target="_blank">Apple Podcasts</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

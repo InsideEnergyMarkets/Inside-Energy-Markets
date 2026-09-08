@@ -1,0 +1,28 @@
+title: Inside Energy Markets
+description: "Comprendre les marchés de l'énergie — podcast et analyses par Tom Moulard."
+author: Tom Moulard
+url: ""
+baseurl: ""
+
+markdown: kramdown
+permalink: /blog/:title/
+
+collections:
+  episodes:
+    output: false
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

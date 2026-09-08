@@ -1,0 +1,27 @@
+---
+layout: default
+title: Épisodes
+permalink: /episodes/
+---
+
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Tous les épisodes</h2>
+    </div>
+    <div class="card-grid">
+      {% for ep in site.data.episodes %}
+      <div class="card">
+        <p class="num">Épisode {{ ep.number }}</p>
+        <h3>{{ ep.title }}</h3>
+        <p>{{ ep.description }}</p>
+        <div class="listen-links">
+          <a href="{{ ep.spotify }}" target="_blank">Spotify</a>
+          <a href="{{ ep.apple }}" target="_blank">Apple Podcasts</a>
+          <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

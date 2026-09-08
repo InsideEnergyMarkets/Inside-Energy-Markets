@@ -1,0 +1,24 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+---
+
+<section class="block">
+  <div class="wrap prose">
+    <div class="section-head">
+      <h2>Blog</h2>
+    </div>
+    <ul class="post-list">
+      {% for post in site.posts %}
+      <li class="post-item">
+        <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 32 }}</p>
+      </li>
+      {% else %}
+      <li class="post-item"><p>Le premier article arrive bientôt.</p></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
