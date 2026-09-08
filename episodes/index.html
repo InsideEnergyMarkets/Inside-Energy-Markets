@@ -15,11 +15,11 @@ permalink: /episodes/
         <p class="num">Épisode {{ ep.number }}</p>
         <h3>{{ ep.title }}</h3>
         <p>{{ ep.description }}</p>
-        <div class="listen-links">
-          <a href="{{ ep.spotify }}" target="_blank">Spotify</a>
-          <a href="{{ ep.apple }}" target="_blank">Apple Podcasts</a>
-          <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
-        </div>
+<div class="listen-links">
+  <a class="spotify" href="{{ ep.spotify }}" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+  <a class="apple" href="{{ ep.apple }}" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
+  <a class="linkedin" href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+</div>
       </div>
       {% endfor %}
     </div>
