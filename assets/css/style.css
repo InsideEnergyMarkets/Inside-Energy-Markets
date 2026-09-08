@@ -57,14 +57,13 @@ img { max-width: 100%; display: block; }
   height: 64px;
 }
 
-.brand {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.5px;
-  color: var(--navy);
+.brand-logo img {
+  height: 42px;
+  width: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
 }
-
-.brand span { color: var(--accent); }
 
 .nav-links {
   display: flex;
