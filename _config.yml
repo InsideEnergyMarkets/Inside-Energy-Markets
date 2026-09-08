@@ -1,8 +1,8 @@
 title: Inside Energy Markets
 description: "Comprendre les marchés de l'énergie — podcast et analyses par Tom Moulard."
 author: Tom Moulard
-url: ""
-baseurl: ""
+url: "https://insideenergymarkets.github.io"
+baseurl: "/Inside-Energy-Markets"
 
 markdown: kramdown
 permalink: /blog/:title/
