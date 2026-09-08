@@ -291,3 +291,46 @@ footer .socials { display: flex; gap: 16px; }
   .about-block .wrap { flex-direction: column; }
   .about-photo { width: 140px; }
 }
+.brand-logo img {
+  height: 42px;
+  width: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+.listen-links a {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.listen-links a.spotify { color: #1BC257; }
+.listen-links a.spotify:hover { border-color: #1BC257; background: #1BC25715; }
+
+.listen-links a.apple { color: #8F53B3; }
+.listen-links a.apple:hover { border-color: #8F53B3; background: #8F53B315; }
+
+.listen-links a.linkedin { color: #0A66C2; }
+.listen-links a.linkedin:hover { border-color: #0A66C2; background: #0A66C215; }
+
+footer .socials a {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 15px;
+  text-decoration: none;
+}
+footer .socials a.spotify { color: #1BC257; }
+footer .socials a.apple { color: #8F53B3; }
+footer .socials a.linkedin { color: #0A66C2; }
