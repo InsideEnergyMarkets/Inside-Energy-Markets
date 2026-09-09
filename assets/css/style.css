@@ -1,10 +1,9 @@
----
----
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
 
 :root {
   --sky-light: #cfe7f5;
   --sky-mid: #6fa9d6;
+  --hero-bg: #D1E6F0;
   --navy: #1c3d52;
   --navy-deep: #12293a;
   --ink: #1a2733;
@@ -59,9 +58,16 @@ img { max-width: 100%; display: block; }
   height: 64px;
 }
 
+.brand-logo {
+  display: flex;
+  align-items: center;
+}
+
 .brand-logo img {
-  height: 48px;
-  width: 48px;
+  height: 42px;
+  width: 42px;
+  max-width: 42px;
+  max-height: 42px;
   border-radius: 8px;
   object-fit: cover;
   display: block;
@@ -85,8 +91,7 @@ img { max-width: 100%; display: block; }
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(180deg, rgba(28,61,82,0.15) 0%, rgba(28,61,82,0.55) 100%),
-              url('{{ "/assets/img/hero-bg.png" | relative_url }}') center/cover no-repeat;
+  background: var(--hero-bg);
   padding: 88px 0 64px;
   position: relative;
   overflow: hidden;
@@ -111,9 +116,8 @@ img { max-width: 100%; display: block; }
   font-family: 'Bebas Neue', sans-serif;
   font-size: 68px;
   line-height: 0.95;
-  color: #ffffff;
+  color: var(--navy-deep);
   margin: 0 0 20px;
-  text-shadow: 0 2px 18px rgba(18, 41, 58, 0.25);
 }
 
 .hero h1 em {
@@ -123,7 +127,6 @@ img { max-width: 100%; display: block; }
   font-size: 28px;
   color: var(--navy-deep);
   margin-bottom: 6px;
-  text-shadow: none;
 }
 
 .hero p.lead {
@@ -164,7 +167,7 @@ img { max-width: 100%; display: block; }
   aspect-ratio: 1 / 1;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(18, 41, 58, 0.25);
+  box-shadow: 0 20px 50px rgba(18, 41, 58, 0.18);
 }
 
 .hero-art img { width: 100%; height: 100%; object-fit: cover; }
@@ -227,17 +230,40 @@ section.block.alt { background: var(--paper-dim); }
   margin: 0 0 16px;
 }
 
-.listen-links { display: flex; gap: 10px; flex-wrap: wrap; }
-
-.listen-links a {
-  font-size: 13px;
-  font-weight: 600;
-  padding: 7px 12px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  color: var(--ink);
+/* ---------- Listen / social icon links ---------- */
+.listen-links,
+footer .socials {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-.listen-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+.listen-links a,
+footer .socials a {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 15px;
+  text-decoration: none;
+  color: var(--navy-deep);
+  line-height: 1;
+}
+
+.listen-links a.spotify,
+footer .socials a.spotify { color: #1BC257; }
+.listen-links a.spotify:hover { border-color: #1BC257; background: #1BC25715; }
+
+.listen-links a.apple,
+footer .socials a.apple { color: #8F53B3; }
+.listen-links a.apple:hover { border-color: #8F53B3; background: #8F53B315; }
+
+.listen-links a.linkedin,
+footer .socials a.linkedin { color: #0A66C2; }
+.listen-links a.linkedin:hover { border-color: #0A66C2; background: #0A66C215; }
 
 /* ---------- Blog list ---------- */
 .post-list { list-style: none; margin: 0; padding: 0; }
@@ -284,7 +310,6 @@ footer {
   color: #6b7a83;
 }
 footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-footer .socials { display: flex; gap: 16px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 760px) {
@@ -294,46 +319,3 @@ footer .socials { display: flex; gap: 16px; }
   .about-block .wrap { flex-direction: column; }
   .about-photo { width: 140px; }
 }
-.brand-logo img {
-  height: 42px;
-  width: 42px;
-  border-radius: 8px;
-  object-fit: cover;
-  display: block;
-}
-
-.listen-links a {
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  font-size: 15px;
-  text-decoration: none;
-}
-
-.listen-links a.spotify { color: #1BC257; }
-.listen-links a.spotify:hover { border-color: #1BC257; background: #1BC25715; }
-
-.listen-links a.apple { color: #8F53B3; }
-.listen-links a.apple:hover { border-color: #8F53B3; background: #8F53B315; }
-
-.listen-links a.linkedin { color: #0A66C2; }
-.listen-links a.linkedin:hover { border-color: #0A66C2; background: #0A66C215; }
-
-footer .socials a {
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  font-size: 15px;
-  text-decoration: none;
-}
-footer .socials a.spotify { color: #1BC257; }
-footer .socials a.apple { color: #8F53B3; }
-footer .socials a.linkedin { color: #0A66C2; }
