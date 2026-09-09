@@ -4,22 +4,32 @@ title: Épisodes
 permalink: /episodes/
 ---
 
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">TOUS LES ÉPISODES</p>
+    <h1>Le podcast, épisode par épisode</h1>
+    <p class="lead-sm">Retrouvez chaque épisode d'Inside Energy Markets, avec les liens directs vers Spotify, Apple Podcasts et LinkedIn.</p>
+  </div>
+</section>
+
 <section class="block">
   <div class="wrap">
-    <div class="section-head">
-      <h2>Tous les épisodes</h2>
-    </div>
-    <div class="card-grid">
+    <div class="card-grid card-grid--episodes">
       {% for ep in site.data.episodes %}
-      <div class="card">
-        <p class="num">Épisode {{ ep.number }}</p>
-        <h3>{{ ep.title }}</h3>
-        <p>{{ ep.description }}</p>
-<div class="listen-links">
-  <a class="spotify" href="{{ ep.spotify }}" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-  <a class="apple" href="{{ ep.apple }}" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-  <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-</div>
+      <div class="card card--episode">
+        <div class="card-thumb">
+          <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep.title }}">
+          <span class="card-thumb-badge">EP {{ ep.number }}</span>
+        </div>
+        <div class="card-body">
+          <h3>{{ ep.title }}</h3>
+          <p>{{ ep.description }}</p>
+          <div class="listen-links">
+            <a class="spotify" href="{{ ep.spotify }}" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+            <a class="apple" href="{{ ep.apple }}" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
+            <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
+        </div>
       </div>
       {% endfor %}
     </div>
