@@ -1,3 +1,5 @@
+---
+---
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
 
 :root {
@@ -84,7 +86,7 @@ img { max-width: 100%; display: block; }
 /* ---------- Hero ---------- */
 .hero {
   background: linear-gradient(180deg, rgba(28,61,82,0.15) 0%, rgba(28,61,82,0.55) 100%),
-              url('/assets/img/hero-bg.png') center/cover no-repeat;
+              url('{{ "/assets/img/hero-bg.png" | relative_url }}') center/cover no-repeat;
   padding: 88px 0 64px;
   position: relative;
   overflow: hidden;
