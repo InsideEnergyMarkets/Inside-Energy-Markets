@@ -2,7 +2,7 @@
 Récupère 3 données marché et les écrit dans _data/market.json :
 - Brent (EIA, clé API gratuite requise -> secret EIA_API_KEY)
 - Mix électrique France en temps réel (RTE eco2mix, aucune clé requise)
-- Prix spot électricité France day-ahead (ENTSO-E, clé API gratuite requise -> secret ENTSOE_API_KEY)
+- Prix spot électricité France day-ahead (RTE Wholesale Market, OAuth2 -> secrets RTE_CLIENT_ID / RTE_CLIENT_SECRET)
 
 En cas d'échec sur une source, on garde l'ancienne valeur (le site ne casse jamais).
 """
@@ -10,14 +10,14 @@ import json
 import os
 import sys
 import datetime
-import xml.etree.ElementTree as ET
 
 import requests
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market.json")
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
-ENTSOE_API_KEY = os.environ.get("ENTSOE_API_KEY", "")
+RTE_CLIENT_ID = os.environ.get("RTE_CLIENT_ID", "")
+RTE_CLIENT_SECRET = os.environ.get("RTE_CLIENT_SECRET", "")
 
 
 def load_existing():
@@ -89,35 +89,57 @@ def fetch_mix_france(existing):
         return existing.get("mix_france")
 
 
+def get_rte_token():
+    """OAuth2 client_credentials — standard RTE, valable ~2h."""
+    import base64
+
+    creds = f"{RTE_CLIENT_ID}:{RTE_CLIENT_SECRET}".encode("utf-8")
+    b64_creds = base64.b64encode(creds).decode("utf-8")
+    r = requests.post(
+        "https://digital.iservices.rte-france.com/token/oauth/",
+        headers={"Authorization": f"Basic {b64_creds}"},
+        timeout=20,
+    )
+    r.raise_for_status()
+    return r.json()["access_token"]
+
+
 def fetch_spot_price_france(existing):
-    if not ENTSOE_API_KEY:
-        print("ENTSOE_API_KEY manquant, on garde l'ancienne valeur spot.")
+    if not RTE_CLIENT_ID or not RTE_CLIENT_SECRET:
+        print("RTE_CLIENT_ID/RTE_CLIENT_SECRET manquants, on garde l'ancienne valeur spot.")
         return existing.get("spot_price_france")
     try:
+        token = get_rte_token()
         now = datetime.datetime.utcnow()
-        start = (now - datetime.timedelta(days=1)).strftime("%Y%m%d0000")
-        end = now.strftime("%Y%m%d0000")
+        start = (now - datetime.timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        end = now.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+
+        # NOTE: endpoint/nom de champs à vérifier une fois abonné, via la
+        # console "Try it" de l'API Wholesale Market sur data.rte-france.com.
+        # Ajuste 'url' et les clés lues ci-dessous si la doc réelle diffère.
         url = (
-            "https://web-api.tp.entsoe.eu/api"
-            f"?securityToken={ENTSOE_API_KEY}&documentType=A44"
-            "&in_Domain=10YFR-RTE------C&out_Domain=10YFR-RTE------C"
-            f"&periodStart={start}&periodEnd={end}"
+            "https://digital.iservices.rte-france.com/open_api/wholesale_market/v2/france_power_exchanges"
+            f"?start_date={start}&end_date={end}"
         )
-        r = requests.get(url, timeout=20)
+        r = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=20)
         r.raise_for_status()
-        ns = {"ns": "urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:3"}
-        root = ET.fromstring(r.content)
-        points = root.findall(".//ns:Point", ns)
-        if not points:
-            raise ValueError("aucun point de prix retourné")
-        last_point = points[-1]
-        price = last_point.find("ns:price.amount", ns).text
+        payload = r.json()
+
+        items = payload.get("france_power_exchanges") or payload.get("values") or []
+        if not items:
+            raise ValueError("aucune donnée de prix retournée")
+
+        last = items[-1]
+        price = last.get("price") or last.get("spot_price") or last.get("value")
+        if price is None:
+            raise ValueError("champ prix introuvable dans la réponse")
+
         return {
             "price_eur_mwh": round(float(price), 2),
             "date": now.strftime("%Y-%m-%d"),
         }
     except Exception as e:
-        print(f"Erreur ENTSO-E spot: {e}")
+        print(f"Erreur RTE spot: {e}")
         return existing.get("spot_price_france")
 
 
