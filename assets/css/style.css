@@ -83,7 +83,8 @@ img { max-width: 100%; display: block; }
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(180deg, var(--sky-light) 0%, var(--sky-mid) 100%);
+  background: linear-gradient(180deg, rgba(28,61,82,0.15) 0%, rgba(28,61,82,0.55) 100%),
+              url('/assets/img/hero-bg.png') center/cover no-repeat;
   padding: 88px 0 64px;
   position: relative;
   overflow: hidden;
