@@ -20,6 +20,53 @@ title: Accueil
   </div>
 </section>
 
+<section class="block markets">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Marchés en direct</h2>
+      {% if site.data.market.updated_at %}
+      <span class="market-updated">Mis à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</span>
+      {% endif %}
+    </div>
+    <div class="market-grid">
+
+      <div class="market-card">
+        <p class="market-label">Brent</p>
+        {% if site.data.market.brent %}
+        <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
+        <p class="market-sub">{{ site.data.market.brent.date }}</p>
+        {% else %}
+        <p class="market-value market-pending">—</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+      <div class="market-card">
+        <p class="market-label">Prix spot électricité France</p>
+        {% if site.data.market.spot_price_france %}
+        <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
+        <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
+        {% else %}
+        <p class="market-value market-pending">—</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+      <div class="market-card">
+        <p class="market-label">Mix électrique France</p>
+        {% if site.data.market.mix_france %}
+        <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
+        <p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} — source principale à l'instant</p>
+        {% else %}
+        <p class="market-value market-pending">—</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section class="block">
   <div class="wrap">
     <div class="section-head">
