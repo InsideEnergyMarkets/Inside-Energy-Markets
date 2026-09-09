@@ -636,7 +636,7 @@ footer .socials a.footer-podcast-link:hover {
 .card-thumb-badge {
   position: absolute;
   top: 12px;
-  left: 12px;
+  right: 12px;
   background: rgba(23, 37, 95, 0.85);
   color: #ffffff;
   font-family: 'Bebas Neue', sans-serif;
