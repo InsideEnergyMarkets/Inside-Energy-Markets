@@ -4,6 +4,10 @@ Récupère 3 données marché et les écrit dans _data/market.json :
 - Mix électrique France en temps réel (RTE eco2mix, aucune clé requise)
 - Prix spot électricité France day-ahead (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
 
+Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
+un résumé hebdomadaire (_data/weekly_summary.json) : variation Brent 7j, moyenne
+prix spot 7j, part moyenne nucléaire/renouvelables 7j.
+
 En cas d'échec sur une source, on garde l'ancienne valeur (le site ne casse jamais).
 """
 import json
@@ -14,6 +18,9 @@ import datetime
 import requests
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market.json")
+HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market_history.json")
+WEEKLY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "weekly_summary.json")
+HISTORY_MAX_DAYS = 60
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
 RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")  # Client ID + Secret déjà encodés en base64, fournis par RTE
@@ -150,6 +157,91 @@ def fetch_spot_price_france(existing):
         return existing.get("spot_price_france")
 
 
+def load_history():
+    try:
+        with open(HISTORY_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+def append_to_history(history, data):
+    """Ajoute (ou met à jour) l'entrée du jour, garde HISTORY_MAX_DAYS jours max."""
+    today = datetime.date.today().isoformat()
+
+    snapshot = {
+        "date": today,
+        "brent_usd": (data.get("brent") or {}).get("price_usd"),
+        "spot_eur_mwh": (data.get("spot_price_france") or {}).get("price_eur_mwh"),
+        "mix_shares": (data.get("mix_france") or {}).get("shares"),
+    }
+
+    history = [h for h in history if h.get("date") != today]
+    history.append(snapshot)
+    history.sort(key=lambda h: h["date"])
+    history = history[-HISTORY_MAX_DAYS:]
+
+    os.makedirs(os.path.dirname(HISTORY_PATH), exist_ok=True)
+    with open(HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
+
+    return history
+
+
+def compute_weekly_summary(history):
+    """Calcule variation Brent 7j, moyenne prix spot 7j, part moyenne nucléaire/renouvelables 7j."""
+    cutoff = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+    week = [h for h in history if h["date"] >= cutoff]
+
+    summary = {
+        "period_start": week[0]["date"] if week else None,
+        "period_end": week[-1]["date"] if week else None,
+        "brent": None,
+        "spot_price": None,
+        "mix": None,
+    }
+
+    brent_points = [h["brent_usd"] for h in week if h.get("brent_usd") is not None]
+    if len(brent_points) >= 2:
+        first, last = brent_points[0], brent_points[-1]
+        change_pct = round((last - first) / first * 100, 1) if first else None
+        summary["brent"] = {
+            "start_usd": first,
+            "end_usd": last,
+            "change_pct": change_pct,
+        }
+
+    spot_points = [h["spot_eur_mwh"] for h in week if h.get("spot_eur_mwh") is not None]
+    if spot_points:
+        summary["spot_price"] = {
+            "avg_eur_mwh": round(sum(spot_points) / len(spot_points), 2),
+            "min_eur_mwh": round(min(spot_points), 2),
+            "max_eur_mwh": round(max(spot_points), 2),
+            "days_count": len(spot_points),
+        }
+
+    nuclear_vals, renewable_vals = [], []
+    for h in week:
+        shares = h.get("mix_shares") or {}
+        if not shares:
+            continue
+        nuclear_vals.append(shares.get("nucleaire", 0))
+        renewable_vals.append(
+            shares.get("eolien", 0)
+            + shares.get("solaire", 0)
+            + shares.get("hydraulique", 0)
+            + shares.get("bioenergies", 0)
+        )
+    if nuclear_vals:
+        summary["mix"] = {
+            "nuclear_avg_share": round(sum(nuclear_vals) / len(nuclear_vals), 1),
+            "renewables_avg_share": round(sum(renewable_vals) / len(renewable_vals), 1),
+            "days_count": len(nuclear_vals),
+        }
+
+    return summary
+
+
 def main():
     existing = load_existing()
 
@@ -164,8 +256,19 @@ def main():
     with open(DATA_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
+    history = load_history()
+    history = append_to_history(history, data)
+
+    weekly = compute_weekly_summary(history)
+    os.makedirs(os.path.dirname(WEEKLY_PATH), exist_ok=True)
+    with open(WEEKLY_PATH, "w", encoding="utf-8") as f:
+        json.dump(weekly, f, ensure_ascii=False, indent=2)
+
     print("Écrit dans", DATA_PATH)
     print(json.dumps(data, ensure_ascii=False, indent=2))
+    print("Historique:", len(history), "jours —", HISTORY_PATH)
+    print("Résumé hebdo:", WEEKLY_PATH)
+    print(json.dumps(weekly, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
