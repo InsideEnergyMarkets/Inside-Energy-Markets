@@ -1,6 +1,21 @@
 {
-  "updated_at": null,
-  "brent": null,
-  "mix_france": null,
+  "updated_at": "2026-09-09T08:33:42.267219Z",
+  "brent": {
+    "price_usd": 96.02,
+    "date": "2026-09-01",
+    "unit": "USD/baril"
+  },
+  "mix_france": {
+    "date_heure": "2026-06-30T22:00:00+00:00",
+    "shares": {
+      "nucleaire": 66.6,
+      "eolien": 8.6,
+      "hydraulique": 14.1,
+      "gaz": 8.8,
+      "bioenergies": 1.8
+    },
+    "top_source": "nucleaire",
+    "top_share": 66.6
+  },
   "spot_price_france": null
 }
