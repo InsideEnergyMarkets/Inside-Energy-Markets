@@ -2,7 +2,7 @@
 Récupère 3 données marché et les écrit dans _data/market.json :
 - Brent (EIA, clé API gratuite requise -> secret EIA_API_KEY)
 - Mix électrique France en temps réel (RTE eco2mix, aucune clé requise)
-- Prix spot électricité France day-ahead (RTE Wholesale Market, OAuth2 -> secrets RTE_CLIENT_ID / RTE_CLIENT_SECRET)
+- Prix spot électricité France day-ahead (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
 
 En cas d'échec sur une source, on garde l'ancienne valeur (le site ne casse jamais).
 """
@@ -16,8 +16,7 @@ import requests
 DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market.json")
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
-RTE_CLIENT_ID = os.environ.get("RTE_CLIENT_ID", "")
-RTE_CLIENT_SECRET = os.environ.get("RTE_CLIENT_SECRET", "")
+RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")  # Client ID + Secret déjà encodés en base64, fournis par RTE
 
 
 def load_existing():
@@ -90,14 +89,10 @@ def fetch_mix_france(existing):
 
 
 def get_rte_token():
-    """OAuth2 client_credentials — standard RTE, valable ~2h."""
-    import base64
-
-    creds = f"{RTE_CLIENT_ID}:{RTE_CLIENT_SECRET}".encode("utf-8")
-    b64_creds = base64.b64encode(creds).decode("utf-8")
+    """OAuth2 client_credentials — RTE fournit directement la clé base64 (Client ID:Secret encodés)."""
     r = requests.post(
         "https://digital.iservices.rte-france.com/token/oauth/",
-        headers={"Authorization": f"Basic {b64_creds}"},
+        headers={"Authorization": f"Basic {RTE_BASE64_KEY}"},
         timeout=20,
     )
     r.raise_for_status()
@@ -105,8 +100,8 @@ def get_rte_token():
 
 
 def fetch_spot_price_france(existing):
-    if not RTE_CLIENT_ID or not RTE_CLIENT_SECRET:
-        print("RTE_CLIENT_ID/RTE_CLIENT_SECRET manquants, on garde l'ancienne valeur spot.")
+    if not RTE_BASE64_KEY:
+        print("RTE_BASE64_KEY manquant, on garde l'ancienne valeur spot.")
         return existing.get("spot_price_france")
     try:
         token = get_rte_token()
@@ -114,11 +109,11 @@ def fetch_spot_price_france(existing):
         start = (now - datetime.timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
         end = now.strftime("%Y-%m-%dT%H:%M:%S+00:00")
 
-        url = "https://digital.iservices.rte-france.com/open_api/wholesale_market/v2/france_power_exchanges"
+        url = "https://digital.iservices.rte-france.com/open_api/wholesale_market/v3/france_power_exchanges"
         r = requests.get(
             url,
             headers={"Authorization": f"Bearer {token}"},
-            params={"start_date": start, "end_date": end},  # requests encode proprement le "+" de l'heure UTC
+            params={"start_date": start, "end_date": end},
             timeout=20,
         )
         r.raise_for_status()
@@ -140,7 +135,6 @@ def fetch_spot_price_france(existing):
             )
             date_label = last_value.get("start_date") or last_period.get("start_date")
         else:
-            # pas de détail fin dispo, on retombe sur le prix moyen (base_load) de la période
             price = last_period.get("base_load")
             date_label = last_period.get("start_date")
 
