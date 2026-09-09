@@ -774,3 +774,6 @@ footer .socials a.footer-podcast-link:hover {
     margin-top: -20px;
   }
 }
+.card-grid--blog {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+}
