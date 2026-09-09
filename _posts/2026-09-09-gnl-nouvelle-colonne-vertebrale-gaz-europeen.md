@@ -31,18 +31,18 @@ En attendant, si vous voulez revenir sur les bases (terminaux méthaniers, stock
 
 
 {% assign ep4 = site.data.episodes | where: "number", 4 | first %}
-<div class="card card--episode post-episode-card">
-  <div class="card-thumb" style="aspect-ratio: 16/9; position: relative; overflow: hidden;">
-    <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep4.title }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-    <span class="card-thumb-badge">EP {{ ep4.number }}</span>
+<div style="border: 1px solid #d8e1e6; border-radius: 10px; overflow: hidden; max-width: 460px; margin: 24px 0 32px; background: #fff;">
+  <div style="position: relative; width: 100%; aspect-ratio: 16/9;">
+    <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep4.title }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; margin: 0;">
+    <span style="position: absolute; top: 12px; right: 12px; background: rgba(23,37,95,0.85); color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 13px; padding: 5px 12px; border-radius: 999px;">EP {{ ep4.number }}</span>
   </div>
-  <div class="card-body">
-    <h3>{{ ep4.title }}</h3>
-    <p>{{ ep4.description }}</p>
-    <div class="listen-links">
-      <a class="spotify" href="{{ ep4.spotify }}" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-      <a class="apple" href="{{ ep4.apple }}" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-      <a class="linkedin" href="{{ ep4.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+  <div style="padding: 20px 22px 22px;">
+    <h3 style="font-size: 17px; margin: 0 0 8px;">{{ ep4.title }}</h3>
+    <p style="font-size: 14.5px; color: #47555f; margin: 0 0 16px;">{{ ep4.description }}</p>
+    <div style="display: flex; gap: 10px;">
+      <a href="{{ ep4.spotify }}" target="_blank" aria-label="Spotify" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid #d8e1e6; border-radius: 50%; color: #1BC257; text-decoration: none;"><i class="fa-brands fa-spotify"></i></a>
+      <a href="{{ ep4.apple }}" target="_blank" aria-label="Apple Podcasts" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid #d8e1e6; border-radius: 50%; color: #8F53B3; text-decoration: none;"><i class="fa-solid fa-podcast"></i></a>
+      <a href="{{ ep4.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" aria-label="LinkedIn" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid #d8e1e6; border-radius: 50%; color: #0A66C2; text-decoration: none;"><i class="fa-brands fa-linkedin"></i></a>
     </div>
   </div>
 </div>
