@@ -544,3 +544,24 @@ footer .socials a:hover {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
+
+/* --- Boutons du hero : sarcelle avec liseré blanc --- */
+.hero .btn-primary {
+  background: var(--teal);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 129, 125, 0.35);
+}
+.hero .btn-primary:hover {
+  background: var(--teal-deep);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.hero .btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+.hero .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
