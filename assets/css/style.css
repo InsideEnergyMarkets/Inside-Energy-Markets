@@ -565,10 +565,18 @@ footer .socials a:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.7);
 }
-footer .footer-podcast-link {
+footer .socials a.footer-podcast-link {
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  border: none;
+  padding: 0;
   font-size: 13px;
   font-weight: 600;
   color: var(--deep, var(--navy-deep));
   margin-left: 4px;
 }
-footer .footer-podcast-link:hover { color: var(--teal, var(--accent)); }
+footer .socials a.footer-podcast-link:hover {
+  color: var(--teal, var(--accent));
+  background: none;
+}
