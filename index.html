@@ -36,7 +36,7 @@ title: Accueil
         <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
         <p class="market-sub">{{ site.data.market.brent.date }}</p>
         {% else %}
-        <p class="market-value market-pending">—</p>
+        <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
         {% endif %}
       </div>
@@ -47,7 +47,7 @@ title: Accueil
         <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
         <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
         {% else %}
-        <p class="market-value market-pending">—</p>
+        <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
         {% endif %}
       </div>
@@ -58,7 +58,7 @@ title: Accueil
         <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
         <p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} — source principale à l'instant</p>
         {% else %}
-        <p class="market-value market-pending">—</p>
+        <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
         {% endif %}
       </div>
