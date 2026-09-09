@@ -32,8 +32,8 @@ En attendant, si vous voulez revenir sur les bases (terminaux méthaniers, stock
 
 {% assign ep4 = site.data.episodes | where: "number", 4 | first %}
 <div class="card card--episode post-episode-card">
-  <div class="card-thumb">
-    <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep4.title }}">
+  <div class="card-thumb" style="aspect-ratio: 16/9; position: relative; overflow: hidden;">
+    <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep4.title }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
     <span class="card-thumb-badge">EP {{ ep4.number }}</span>
   </div>
   <div class="card-body">
@@ -46,6 +46,7 @@ En attendant, si vous voulez revenir sur les bases (terminaux méthaniers, stock
     </div>
   </div>
 </div>
+
 
 ---
 
