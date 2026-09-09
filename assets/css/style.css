@@ -371,76 +371,83 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 }
 
 /* ================================================================
-   UPGRADE — plus de caractère visuel
+   UPGRADE — plus de caractère visuel, palette sobre et élégante
    ================================================================ */
 
 :root {
-  --coral: #e8703a;
-  --coral-deep: #c85a28;
-  --teal: #1f8a70;
+  --deep: #17255f;
+  --teal: #00817d;
+  --teal-deep: #00625f;
 }
 
-/* --- Eyebrow devient un vrai badge --- */
+/* --- Eyebrow devient un badge discret --- */
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(18, 41, 58, 0.08);
-  border: 1px solid rgba(18, 41, 58, 0.15);
+  background: rgba(23, 37, 95, 0.06);
+  border: 1px solid rgba(23, 37, 95, 0.18);
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 12.5px;
   letter-spacing: 0.5px;
+  color: var(--deep);
 }
 .eyebrow::before {
   content: "";
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--coral);
+  background: var(--teal);
   display: inline-block;
 }
 
-/* --- Boutons plus vivants --- */
+/* --- Boutons : marine dominant, sarcelle en accent --- */
 .btn-primary {
-  background: var(--coral);
-  box-shadow: 0 6px 20px rgba(232, 112, 58, 0.35);
+  background: var(--deep);
+  box-shadow: 0 6px 20px rgba(23, 37, 95, 0.28);
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 .btn-primary:hover {
-  background: var(--coral-deep);
+  background: #101c47;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(232, 112, 58, 0.45);
+  box-shadow: 0 8px 24px rgba(23, 37, 95, 0.38);
 }
 
 .btn-ghost {
-  transition: transform 0.15s ease;
+  border-color: rgba(23, 37, 95, 0.3);
+  color: var(--deep);
+  transition: transform 0.15s ease, border-color 0.15s ease;
 }
 .btn-ghost:hover {
   transform: translateY(-1px);
+  border-color: var(--teal);
 }
 
 /* --- Séparateur net entre hero et le reste --- */
 .hero {
-  border-bottom: 3px solid var(--coral);
+  border-bottom: 3px solid var(--deep);
 }
 
-/* --- Cartes épisodes/posts : relief au survol --- */
+/* --- Cartes épisodes/posts : relief discret au survol --- */
 .card,
 .market-card {
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 .card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(18, 41, 58, 0.12);
-  border-color: rgba(18, 41, 58, 0.15);
+  box-shadow: 0 14px 32px rgba(23, 37, 95, 0.10);
+  border-color: rgba(23, 37, 95, 0.18);
 }
 
 .card .num {
-  color: var(--coral-deep);
+  color: var(--teal-deep);
 }
 
-/* --- Cartes marché : une couleur par donnée --- */
+.listen-links a.spotify:hover,
+footer .socials a.spotify:hover { border-color: var(--teal); }
+
+/* --- Cartes marché : marine + sarcelle, sans surcharge de couleurs --- */
 .market-card {
   border-top: 4px solid var(--line);
   position: relative;
@@ -448,22 +455,22 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
 }
 .market-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(18, 41, 58, 0.12);
+  box-shadow: 0 14px 32px rgba(23, 37, 95, 0.10);
 }
 
-.market-card--oil { border-top-color: var(--coral); }
-.market-card--oil .market-value { color: var(--coral-deep); }
+.market-card--oil { border-top-color: var(--deep); }
+.market-card--oil .market-value { color: var(--deep); }
 
 .market-card--power { border-top-color: var(--teal); }
-.market-card--power .market-value { color: var(--teal); }
+.market-card--power .market-value { color: var(--teal-deep); }
 
 .market-card--mix { border-top-color: var(--navy); }
 .market-card--mix .market-value { color: var(--navy-deep); }
 
-/* --- Section headers avec un trait d'accent --- */
+/* --- Section headers avec un trait d'accent sarcelle, discret --- */
 .section-head {
   border-bottom-width: 2px;
-  border-bottom-color: rgba(18, 41, 58, 0.12);
+  border-bottom-color: rgba(23, 37, 95, 0.12);
   position: relative;
 }
 .section-head::after {
@@ -473,15 +480,15 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
   bottom: -2px;
   width: 56px;
   height: 2px;
-  background: var(--coral);
+  background: var(--teal);
 }
 
-/* --- Alternance de fond plus marquée --- */
+/* --- Alternance de fond, tres subtile --- */
 section.block.alt {
   background: linear-gradient(180deg, var(--paper-dim) 0%, #e7edf0 100%);
 }
 
-/* --- Liens d'écoute : leger scale au survol --- */
+/* --- Liens d'écoute : leger relief au survol --- */
 .listen-links a,
 footer .socials a {
   transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
