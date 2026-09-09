@@ -1,20 +1,23 @@
 - number: 1
   title: "Panorama de l'énergie en France"
   description: "Qui produit quoi en France : nucléaire, hydraulique, renouvelables, thermique — les bases du mix énergétique."
-  spotify: "https://open.spotify.com/"
-  apple: "https://podcasts.apple.com/"
+  spotify: "https://open.spotify.com/episode/52Jehmhya5d3TR2fyrkZ5F?si=aa7d477cc7ef40fa"
+  apple: "https://podcasts.apple.com/us/podcast/savez-vous-vraiment-d%C3%B9-vient-l%C3%A9lectricit%C3%A9-que-vous/id6807057201?i=1000786984259"
+  linkedin: "https://www.linkedin.com/posts/tom-moulard_savez-vous-vraiment-do%C3%B9-vient-l%C3%A9lectricit%C3%A9-activity-7445376949952176128-rFP4"
 
 - number: 2
   title: "Du site de production à la prise : comprendre les réseaux"
   description: "RTE, Enedis, GRDF : comment l'énergie circule et pourquoi le réseau influence les prix."
-  spotify: "https://open.spotify.com/"
-  apple: "https://podcasts.apple.com/"
+  spotify: "https://open.spotify.com/episode/6r0vLqpaRnA5t2ogIt3WvP?si=8369d00c8430401e"
+  apple: "https://podcasts.apple.com/us/podcast/comment-l%C3%A9lectricit%C3%A9-et-le-gaz-arrivent-ils-concr%C3%A8tement/id6807057201?i=1000788125049"
+  linkedin: "https://www.linkedin.com/posts/tom-moulard_comment-l%C3%A9lectricit%C3%A9etle-gaz-arrivent-ils-activity-7448346143446740992-g6bo"
 
 - number: 3
   title: "L'électricité renouvelable : opportunités, limites, intermittence"
   description: "Pourquoi l'intégration des énergies renouvelables complexifie le système électrique et le marché."
-  spotify: "https://open.spotify.com/"
-  apple: "https://podcasts.apple.com/"
+  spotify: "https://open.spotify.com/episode/3nLI7l9Or1Y9XpxUJOmZm7?si=cac30586bf8d4b78"
+  apple: "https://podcasts.apple.com/us/podcast/l%C3%A9lectricit%C3%A9-renouvelable-opportunit%C3%A9s-limites-intermittence/id6807057201?i=1000788654225"
+  linkedin: "https://www.linkedin.com/posts/tom-moulard_les-%C3%A9nergies-renouvelables-peuvent-elles-activity-7453423341157224448-GZQN"
 
 - number: 4
   title: "Le gaz naturel et le GNL : origines, flux et infrastructures"
