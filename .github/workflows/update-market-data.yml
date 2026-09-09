@@ -24,7 +24,8 @@ jobs:
       - name: Fetch market data
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
-          ENTSOE_API_KEY: ${{ secrets.ENTSOE_API_KEY }}
+          RTE_CLIENT_ID: ${{ secrets.RTE_CLIENT_ID }}
+          RTE_CLIENT_SECRET: ${{ secrets.RTE_CLIENT_SECRET }}
         run: python scripts/fetch_market_data.py
 
       - name: Commit updated data
