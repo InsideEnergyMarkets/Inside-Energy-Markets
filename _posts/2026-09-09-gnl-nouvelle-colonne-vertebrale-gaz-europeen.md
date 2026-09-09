@@ -1,6 +1,7 @@
 ---
 title: "Le GNL, nouvelle colonne vertébrale du gaz européen"
 date: 2026-09-09
+image: /assets/img/gnl-cargo.jpg
 ---
 
 Depuis 2022, l'Europe a changé de fournisseur de gaz sans vraiment changer de dépendance. Le pipeline russe a cédé la place au méthanier américain, et cette bascule redessine en profondeur la géopolitique de l'énergie sur le continent.
