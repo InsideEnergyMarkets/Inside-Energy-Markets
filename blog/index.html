@@ -13,17 +13,22 @@ permalink: /blog/
 </section>
 
 <section class="block">
-  <div class="wrap prose">
-    <ul class="post-list">
+  <div class="wrap">
+    <div class="card-grid card-grid--episodes">
       {% for post in site.posts %}
-      <li class="post-item">
-        <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
-        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncatewords: 32 }}</p>
-      </li>
+      <a class="card card--episode card--post" href="{{ post.url | relative_url }}">
+        <div class="card-thumb">
+          <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
+        </div>
+        <div class="card-body">
+          <p class="post-card-date">{{ post.date | date: "%d %B %Y" }}</p>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
+        </div>
+      </a>
       {% else %}
-      <li class="post-item"><p>Le premier article arrive bientôt.</p></li>
+      <p>Le premier article arrive bientôt.</p>
       {% endfor %}
-    </ul>
+    </div>
   </div>
 </section>
