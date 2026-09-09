@@ -111,32 +111,45 @@ def fetch_spot_price_france(existing):
     try:
         token = get_rte_token()
         now = datetime.datetime.utcnow()
-        start = (now - datetime.timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        start = (now - datetime.timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
         end = now.strftime("%Y-%m-%dT%H:%M:%S+00:00")
 
-        # NOTE: endpoint/nom de champs à vérifier une fois abonné, via la
-        # console "Try it" de l'API Wholesale Market sur data.rte-france.com.
-        # Ajuste 'url' et les clés lues ci-dessous si la doc réelle diffère.
-        url = (
-            "https://digital.iservices.rte-france.com/open_api/wholesale_market/v2/france_power_exchanges"
-            f"?start_date={start}&end_date={end}"
+        url = "https://digital.iservices.rte-france.com/open_api/wholesale_market/v2/france_power_exchanges"
+        r = requests.get(
+            url,
+            headers={"Authorization": f"Bearer {token}"},
+            params={"start_date": start, "end_date": end},  # requests encode proprement le "+" de l'heure UTC
+            timeout=20,
         )
-        r = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=20)
         r.raise_for_status()
         payload = r.json()
 
-        items = payload.get("france_power_exchanges") or payload.get("values") or []
-        if not items:
-            raise ValueError("aucune donnée de prix retournée")
+        periods = payload.get("france_power_exchanges") or []
+        if not periods:
+            raise ValueError("aucune période retournée")
 
-        last = items[-1]
-        price = last.get("price") or last.get("spot_price") or last.get("value")
+        last_period = periods[-1]
+        values = last_period.get("values") or []
+
+        if values:
+            last_value = values[-1]
+            price = (
+                last_value.get("price")
+                or last_value.get("value")
+                or last_value.get("spot_price")
+            )
+            date_label = last_value.get("start_date") or last_period.get("start_date")
+        else:
+            # pas de détail fin dispo, on retombe sur le prix moyen (base_load) de la période
+            price = last_period.get("base_load")
+            date_label = last_period.get("start_date")
+
         if price is None:
-            raise ValueError("champ prix introuvable dans la réponse")
+            raise ValueError(f"champ prix introuvable dans la réponse: {last_period}")
 
         return {
             "price_eur_mwh": round(float(price), 2),
-            "date": now.strftime("%Y-%m-%d"),
+            "date": (date_label or now.strftime("%Y-%m-%d"))[:10],
         }
     except Exception as e:
         print(f"Erreur RTE spot: {e}")
