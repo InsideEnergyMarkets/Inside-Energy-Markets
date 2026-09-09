@@ -2,8 +2,8 @@ name: Update market data
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # tous les jours à 6h UTC (7h/8h heure française selon saison)
-  workflow_dispatch: {}    # permet de le lancer manuellement depuis l'onglet Actions
+    - cron: "0 6 * * *"
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -24,8 +24,7 @@ jobs:
       - name: Fetch market data
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
-          RTE_CLIENT_ID: ${{ secrets.RTE_CLIENT_ID }}
-          RTE_CLIENT_SECRET: ${{ secrets.RTE_CLIENT_SECRET }}
+          RTE_BASE64_KEY: ${{ secrets.RTE_BASE64_KEY }}
         run: python scripts/fetch_market_data.py
 
       - name: Commit updated data
