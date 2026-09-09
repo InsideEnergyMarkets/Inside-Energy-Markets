@@ -659,3 +659,11 @@ footer .socials a.footer-podcast-link:hover {
   max-width: 420px;
   margin: 24px 0 32px;
 }
+.post-header-banner h1 {
+  font-size: 40px;
+  margin: 14px 0 6px;
+}
+.post-header-banner .lead-sm {
+  font-size: 14px;
+  opacity: 0.7;
+}
