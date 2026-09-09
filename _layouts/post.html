@@ -9,6 +9,11 @@ layout: default
       <p class="lead-sm">{{ page.date | date: "%d %B %Y" }}</p>
     </div>
   </header>
+  {% if page.image %}
+  <div class="post-hero-image">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+  </div>
+  {% endif %}
   <div class="post-body">
     <div class="wrap prose">
       {{ content }}
