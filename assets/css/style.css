@@ -687,11 +687,11 @@ footer .socials a.footer-podcast-link:hover {
   align-items: center;
   gap: 16px;
   flex-shrink: 0;
-  width: 80px;
+  width: 160px;
 }
 
 .about-photo {
-  width: 70px;
+  width: 140px;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(23, 37, 95, 0.18);
