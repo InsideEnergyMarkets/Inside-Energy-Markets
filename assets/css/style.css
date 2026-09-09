@@ -369,3 +369,124 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
   color: #6b7a83;
   margin: 0;
 }
+
+/* ================================================================
+   UPGRADE — plus de caractère visuel
+   ================================================================ */
+
+:root {
+  --coral: #e8703a;
+  --coral-deep: #c85a28;
+  --teal: #1f8a70;
+}
+
+/* --- Eyebrow devient un vrai badge --- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(18, 41, 58, 0.08);
+  border: 1px solid rgba(18, 41, 58, 0.15);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  letter-spacing: 0.5px;
+}
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--coral);
+  display: inline-block;
+}
+
+/* --- Boutons plus vivants --- */
+.btn-primary {
+  background: var(--coral);
+  box-shadow: 0 6px 20px rgba(232, 112, 58, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.btn-primary:hover {
+  background: var(--coral-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(232, 112, 58, 0.45);
+}
+
+.btn-ghost {
+  transition: transform 0.15s ease;
+}
+.btn-ghost:hover {
+  transform: translateY(-1px);
+}
+
+/* --- Séparateur net entre hero et le reste --- */
+.hero {
+  border-bottom: 3px solid var(--coral);
+}
+
+/* --- Cartes épisodes/posts : relief au survol --- */
+.card,
+.market-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(18, 41, 58, 0.12);
+  border-color: rgba(18, 41, 58, 0.15);
+}
+
+.card .num {
+  color: var(--coral-deep);
+}
+
+/* --- Cartes marché : une couleur par donnée --- */
+.market-card {
+  border-top: 4px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.market-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(18, 41, 58, 0.12);
+}
+
+.market-card--oil { border-top-color: var(--coral); }
+.market-card--oil .market-value { color: var(--coral-deep); }
+
+.market-card--power { border-top-color: var(--teal); }
+.market-card--power .market-value { color: var(--teal); }
+
+.market-card--mix { border-top-color: var(--navy); }
+.market-card--mix .market-value { color: var(--navy-deep); }
+
+/* --- Section headers avec un trait d'accent --- */
+.section-head {
+  border-bottom-width: 2px;
+  border-bottom-color: rgba(18, 41, 58, 0.12);
+  position: relative;
+}
+.section-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 56px;
+  height: 2px;
+  background: var(--coral);
+}
+
+/* --- Alternance de fond plus marquée --- */
+section.block.alt {
+  background: linear-gradient(180deg, var(--paper-dim) 0%, #e7edf0 100%);
+}
+
+/* --- Liens d'écoute : leger scale au survol --- */
+.listen-links a,
+footer .socials a {
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.listen-links a:hover,
+footer .socials a:hover {
+  transform: translateY(-2px) scale(1.05);
+}
