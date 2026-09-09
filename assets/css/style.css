@@ -497,3 +497,50 @@ footer .socials a {
 footer .socials a:hover {
   transform: translateY(-2px) scale(1.05);
 }
+
+/* ================================================================
+   HERO — fond degrade marine profond
+   ================================================================ */
+
+.hero {
+  background: linear-gradient(160deg, #17255f 0%, #0d1638 100%);
+  border-bottom: none;
+}
+
+.hero .eyebrow {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.75);
+}
+.hero .eyebrow::before {
+  background: var(--teal);
+}
+
+.hero h1 {
+  color: #ffffff;
+  text-shadow: none;
+}
+
+.hero h1 em {
+  color: rgba(255, 255, 255, 0.65);
+  text-shadow: none;
+}
+
+.hero p.lead {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hero .btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+.hero .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--teal);
+}
+
+.hero-art {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
