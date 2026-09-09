@@ -30,7 +30,7 @@ title: Accueil
     </div>
     <div class="market-grid">
 
-      <div class="market-card">
+      <div class="market-card market-card--oil">
         <p class="market-label">Brent</p>
         {% if site.data.market.brent %}
         <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
@@ -41,7 +41,7 @@ title: Accueil
         {% endif %}
       </div>
 
-      <div class="market-card">
+      <div class="market-card market-card--power">
         <p class="market-label">Prix spot électricité France</p>
         {% if site.data.market.spot_price_france %}
         <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
@@ -52,7 +52,7 @@ title: Accueil
         {% endif %}
       </div>
 
-      <div class="market-card">
+      <div class="market-card market-card--mix">
         <p class="market-label">Mix électrique France</p>
         {% if site.data.market.mix_france %}
         <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
