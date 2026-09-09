@@ -74,7 +74,7 @@ title: Accueil
       <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes →</a>
     </div>
     <div class="card-grid">
-      {% for ep in site.data.episodes limit: 3 %}
+      {% assign latest_episodes = site.data.episodes | reverse %} {% for ep in latest_episodes limit: 3 %}
       <div class="card">
         <p class="num">Épisode {{ ep.number }}</p>
         <h3>{{ ep.title }}</h3>
