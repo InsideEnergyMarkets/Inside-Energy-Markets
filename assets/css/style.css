@@ -622,6 +622,7 @@ footer .socials a.footer-podcast-link:hover {
   aspect-ratio: 16 / 9;
   max-height: 180px;
   overflow: hidden;
+  border-radius: 10px 10px 0 0;
 }
 .card-thumb img {
   width: 100%;
@@ -790,7 +791,7 @@ footer .socials a.footer-podcast-link:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--navy-deep);
+  background: rgba(23, 37, 95, 0.85);
   color: #ffffff;
   border: none;
   padding: 10px 18px;
@@ -801,9 +802,8 @@ footer .socials a.footer-podcast-link:hover {
   transition: background 0.15s ease;
   font-family: inherit;
 }
-.btn-listen:hover { background: #101c47; }
-.btn-listen i { font-size: 11px; transition: transform 0.15s ease; }
-.btn-listen[aria-expanded="true"] i { transform: rotate(180deg); }
+.btn-listen:hover { background: rgba(16, 28, 71, 0.95); }
+.btn-listen i { font-size: 12px; }
 
 .listen-dropdown {
   display: none;
