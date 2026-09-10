@@ -25,15 +25,36 @@ title: Accueil
     <div class="section-head">
       <h2>Marchés en direct</h2>
       {% if site.data.market.updated_at %}
-      <span class="market-updated">Mis à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</span>
+      <span class="market-updated"><span class="live-dot"></span>Mis à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</span>
       {% endif %}
     </div>
+
+    {% assign hist = site.data.market_history %}
+    {% assign hist_size = hist.size %}
+    {% assign last_i = hist_size | minus: 1 %}
+    {% assign prev_i = hist_size | minus: 2 %}
+
     <div class="market-grid">
 
       <div class="market-card market-card--oil">
-        <p class="market-label">Brent</p>
+        <div class="market-card-top">
+          <span class="market-icon"><i class="fa-solid fa-droplet"></i></span>
+          <p class="market-label">Brent</p>
+        </div>
         {% if site.data.market.brent %}
         <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
+        {% if hist_size > 1 %}
+          {% assign v_last = hist[last_i].brent_usd %}
+          {% assign v_prev = hist[prev_i].brent_usd %}
+          {% if v_last and v_prev %}
+            {% assign diff = v_last | minus: v_prev %}
+            {% assign pct = diff | times: 100.0 | divided_by: v_prev %}
+            <p class="market-trend {% if diff > 0 %}up{% elsif diff < 0 %}down{% else %}flat{% endif %}">
+              {% if diff > 0 %}<i class="fa-solid fa-arrow-trend-up"></i>{% elsif diff < 0 %}<i class="fa-solid fa-arrow-trend-down"></i>{% else %}<i class="fa-solid fa-minus"></i>{% endif %}
+              {{ pct | abs | round: 1 }} % vs veille
+            </p>
+          {% endif %}
+        {% endif %}
         <p class="market-sub">{{ site.data.market.brent.date }}</p>
         {% else %}
         <p class="market-value market-pending">-</p>
@@ -42,9 +63,24 @@ title: Accueil
       </div>
 
       <div class="market-card market-card--power">
-        <p class="market-label">Prix spot électricité France</p>
+        <div class="market-card-top">
+          <span class="market-icon"><i class="fa-solid fa-bolt"></i></span>
+          <p class="market-label">Prix spot électricité France</p>
+        </div>
         {% if site.data.market.spot_price_france %}
         <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
+        {% if hist_size > 1 %}
+          {% assign v_last = hist[last_i].spot_eur_mwh %}
+          {% assign v_prev = hist[prev_i].spot_eur_mwh %}
+          {% if v_last and v_prev %}
+            {% assign diff = v_last | minus: v_prev %}
+            {% assign pct = diff | times: 100.0 | divided_by: v_prev %}
+            <p class="market-trend {% if diff > 0 %}up{% elsif diff < 0 %}down{% else %}flat{% endif %}">
+              {% if diff > 0 %}<i class="fa-solid fa-arrow-trend-up"></i>{% elsif diff < 0 %}<i class="fa-solid fa-arrow-trend-down"></i>{% else %}<i class="fa-solid fa-minus"></i>{% endif %}
+              {{ pct | abs | round: 1 }} % vs veille
+            </p>
+          {% endif %}
+        {% endif %}
         <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
         {% else %}
         <p class="market-value market-pending">-</p>
@@ -53,7 +89,10 @@ title: Accueil
       </div>
 
       <div class="market-card market-card--mix">
-        <p class="market-label">Mix électrique France</p>
+        <div class="market-card-top">
+          <span class="market-icon"><i class="fa-solid fa-atom"></i></span>
+          <p class="market-label">Mix électrique France</p>
+        </div>
         {% if site.data.market.mix_france %}
         <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
         <p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} - source principale à l'instant</p>
@@ -110,9 +149,3 @@ title: Accueil
       <li class="post-item">
         <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-</section>
