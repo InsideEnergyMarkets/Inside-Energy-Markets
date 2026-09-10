@@ -14,8 +14,31 @@ permalink: /episodes/
 
 <section class="block">
   <div class="wrap">
-    <div class="card-grid card-grid--episodes">
-      {% for ep in site.data.episodes %}
+    {% assign all_episodes = site.data.episodes | reverse %}
+
+    {% assign featured = all_episodes | first %}
+    <div class="card card--episode card--featured">
+      <div class="card-thumb">
+        <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ featured.title }}">
+        <span class="card-thumb-badge">EP {{ featured.number }}</span>
+        <span class="card-featured-badge">Dernier épisode</span>
+      </div>
+      <div class="card-body">
+        <h3>{{ featured.title }}</h3>
+        <p>{{ featured.description }}</p>
+        <div class="listen-cta-wrap">
+          <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-play"></i></button>
+          <div class="listen-dropdown">
+            <a class="spotify" href="{{ featured.spotify }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
+            <a class="apple" href="{{ featured.apple }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
+            <a class="linkedin" href="{{ featured.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid--episodes card-grid--rest">
+      {% for ep in all_episodes offset: 1 %}
       <div class="card card--episode">
         <div class="card-thumb">
           <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep.title }}">
@@ -26,15 +49,4 @@ permalink: /episodes/
           <p>{{ ep.description }}</p>
           <div class="listen-cta-wrap">
             <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-play"></i></button>
-            <div class="listen-dropdown">
-              <a class="spotify" href="{{ ep.spotify }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
-              <a class="apple" href="{{ ep.apple }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
-              <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+            <div
