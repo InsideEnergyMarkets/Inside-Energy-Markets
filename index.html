@@ -26,7 +26,7 @@ title: Accueil
       <h2>Derniers épisodes</h2>
       <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes →</a>
     </div>
-<div class="card-grid card-grid--blog">
+<div class="card-grid card-grid--episodes">
   {% assign latest_episodes = site.data.episodes | reverse %}
   {% for ep in latest_episodes limit: 3 %}
   <div class="card card--episode">
@@ -144,7 +144,7 @@ title: Accueil
       <h2>Derniers articles</h2>
       <a href="{{ '/blog/' | relative_url }}">Tout le blog →</a>
     </div>
-    <div class="card-grid card-grid--episodes">
+    <div class="card-grid card-grid--blog">
       {% for post in site.posts limit: 3 %}
       <a class="card card--episode card--post" href="{{ post.url | relative_url }}">
         <div class="card-thumb">
