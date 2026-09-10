@@ -37,7 +37,7 @@
     </div>
   </footer>
 
-  <script>
+<script>
 document.addEventListener('click', function (e) {
   var btn = e.target.closest('.btn-listen');
 
@@ -47,11 +47,16 @@ document.addEventListener('click', function (e) {
   document.querySelectorAll('.btn-listen[aria-expanded="true"]').forEach(function (b) {
     if (b !== btn) b.setAttribute('aria-expanded', 'false');
   });
+  document.querySelectorAll('.card.dropdown-active').forEach(function (c) {
+    if (!btn || c !== btn.closest('.card')) c.classList.remove('dropdown-active');
+  });
 
   if (btn) {
     var dropdown = btn.nextElementSibling;
     var isOpen = dropdown.classList.toggle('open');
     btn.setAttribute('aria-expanded', isOpen);
+    var card = btn.closest('.card');
+    if (card) card.classList.toggle('dropdown-active', isOpen);
     e.stopPropagation();
   }
 });
