@@ -79,10 +79,13 @@ title: Accueil
         <p class="num">Épisode {{ ep.number }}</p>
         <h3>{{ ep.title }}</h3>
         <p>{{ ep.description }}</p>
-<div class="listen-links">
-  <a class="spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-  <a class="apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-  <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+<div class="listen-cta-wrap">
+  <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-chevron-down"></i></button>
+  <div class="listen-dropdown">
+    <a class="spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
+    <a class="apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
+    <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
+  </div>
 </div>
       </div>
       {% endfor %}
