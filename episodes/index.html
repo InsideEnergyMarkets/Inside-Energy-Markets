@@ -1,37 +1,113 @@
 ---
 layout: default
-title: Épisodes
-permalink: /episodes/
+title: Accueil
 ---
 
-<section class="episodes-header">
+<section class="hero">
   <div class="wrap">
-    <p class="eyebrow">TOUS LES ÉPISODES</p>
-    <h1>Le podcast, épisode par épisode</h1>
-    <p class="lead-sm">Retrouvez chaque épisode d'Inside Energy Markets, avec les liens directs vers Spotify, Apple Podcasts et LinkedIn.</p>
+    <div class="hero-copy">
+      <p class="eyebrow">PODCAST &amp; ANALYSES</p>
+      <h1><em>Inside</em>ENERGY MARKETS</h1>
+      <p class="lead">Les coulisses des marchés de l'énergie, racontées par Tom Moulard et ses invités.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ '/episodes/' | relative_url }}">Écouter les épisodes</a>
+        <a class="btn btn-ghost" href="{{ '/blog/' | relative_url }}">Lire le blog</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Éoliennes offshore, Inside Energy Markets">
+    </div>
+  </div>
+</section>
+
+<section class="block markets">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Marchés en direct</h2>
+      {% if site.data.market.updated_at %}
+      <span class="market-updated">Mis à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</span>
+      {% endif %}
+    </div>
+    <div class="market-grid">
+
+      <div class="market-card market-card--oil">
+        <p class="market-label">Brent</p>
+        {% if site.data.market.brent %}
+        <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
+        <p class="market-sub">{{ site.data.market.brent.date }}</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+      <div class="market-card market-card--power">
+        <p class="market-label">Prix spot électricité France</p>
+        {% if site.data.market.spot_price_france %}
+        <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
+        <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+      <div class="market-card market-card--mix">
+        <p class="market-label">Mix électrique France</p>
+        {% if site.data.market.mix_france %}
+        <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
+        <p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} - source principale à l'instant</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+    </div>
   </div>
 </section>
 
 <section class="block">
   <div class="wrap">
-    <div class="card-grid card-grid--episodes">
-      {% for ep in site.data.episodes %}
-      <div class="card card--episode">
-        <div class="card-thumb">
-          <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep.title }}">
-          <span class="card-thumb-badge">EP {{ ep.number }}</span>
-        </div>
-        <div class="card-body">
-          <h3>{{ ep.title }}</h3>
-          <p>{{ ep.description }}</p>
-          <div class="listen-links">
-            <a class="spotify" href="{{ ep.spotify }}" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-            <a class="apple" href="{{ ep.apple }}" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-            <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+    <div class="section-head">
+      <h2>Derniers épisodes</h2>
+      <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes →</a>
+    </div>
+    <div class="card-grid">
+      {% assign latest_episodes = site.data.episodes | reverse %}
+      {% for ep in latest_episodes limit: 3 %}
+      <div class="card">
+        <p class="num">Épisode {{ ep.number }}</p>
+        <h3>{{ ep.title }}</h3>
+        <p>{{ ep.description }}</p>
+        <div class="listen-cta-wrap">
+          <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-chevron-down"></i></button>
+          <div class="listen-dropdown">
+            <a class="spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
+            <a class="apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
+            <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Derniers articles</h2>
+      <a href="{{ '/blog/' | relative_url }}">Tout le blog →</a>
+    </div>
+    <ul class="post-list">
+      {% for post in site.posts limit: 3 %}
+      <li class="post-item">
+        <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
 </section>
