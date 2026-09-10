@@ -84,11 +84,14 @@ def fetch_mix_france(existing):
         shares = {k: round(v / total * 100, 1) for k, v in sources.items()}
         top = sorted(shares.items(), key=lambda kv: kv[1], reverse=True)
 
+        co2 = rec.get("taux_co2")
+
         return {
             "date_heure": rec.get("date_heure"),
             "shares": shares,
             "top_source": top[0][0],
             "top_share": top[0][1],
+            "co2_intensity": round(co2, 0) if co2 is not None else None,
         }
     except Exception as e:
         print(f"Erreur mix RTE: {e}")
