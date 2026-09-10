@@ -26,3 +26,10 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+  
+plugins:
+  - jekyll-seo-tag
+
+logo: /assets/img/hero.png
+twitter:
+  card: summary_large_image
