@@ -913,3 +913,10 @@ footer .socials a.footer-podcast-link:hover {
     aspect-ratio: 16 / 9;
   }
 }
+.card--featured {
+  overflow: visible;
+}
+.card--featured .card-thumb {
+  border-radius: 10px 0 0 10px;
+  overflow: hidden;
+}
