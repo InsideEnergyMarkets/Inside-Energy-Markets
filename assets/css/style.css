@@ -777,3 +777,64 @@ footer .socials a.footer-podcast-link:hover {
 .card-grid--blog {
   grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
 }
+
+/* ================================================================
+   BOUTON ÉCOUTER + MENU DÉROULANT
+   ================================================================ */
+
+.listen-cta-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-listen {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--navy-deep);
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  font-family: inherit;
+}
+.btn-listen:hover { background: #101c47; }
+.btn-listen i { font-size: 11px; transition: transform 0.15s ease; }
+.btn-listen[aria-expanded="true"] i { transform: rotate(180deg); }
+
+.listen-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(23, 37, 95, 0.15);
+  min-width: 210px;
+  z-index: 10;
+  overflow: hidden;
+}
+.listen-dropdown.open { display: block; }
+
+.listen-dropdown a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--paper-dim);
+}
+.listen-dropdown a:last-child { border-bottom: none; }
+.listen-dropdown a:hover { background: var(--paper-dim); text-decoration: none; }
+
+.listen-dropdown a.spotify i { color: #1BC257; }
+.listen-dropdown a.apple i { color: #8F53B3; }
+.listen-dropdown a.linkedin i { color: #0A66C2; }
