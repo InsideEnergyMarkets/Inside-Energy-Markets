@@ -144,14 +144,19 @@ title: Accueil
       <h2>Derniers articles</h2>
       <a href="{{ '/blog/' | relative_url }}">Tout le blog →</a>
     </div>
-    <ul class="post-list">
+    <div class="card-grid card-grid--episodes">
       {% for post in site.posts limit: 3 %}
-      <li class="post-item">
-        <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
-        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
-      </li>
+      <a class="card card--episode card--post" href="{{ post.url | relative_url }}">
+        <div class="card-thumb">
+          <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
+        </div>
+        <div class="card-body">
+          <p class="post-card-date">{{ post.date | date: "%d %B %Y" }}</p>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
+        </div>
+      </a>
       {% endfor %}
-    </ul>
+    </div>
   </div>
 </section>
