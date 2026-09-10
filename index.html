@@ -138,6 +138,62 @@ title: Accueil
   </div>
 </section>
 
+<section class="block alt gadgets">
+  <div class="wrap">
+    <div class="gadgets-grid">
+
+      <div class="gadget-card">
+        <p class="gadget-label">Intensité carbone du réseau français</p>
+        {% if site.data.market.mix_france.co2_intensity %}
+        {% assign co2 = site.data.market.mix_france.co2_intensity %}
+        <div class="co2-gauge {% if co2 < 50 %}co2-low{% elsif co2 < 120 %}co2-mid{% else %}co2-high{% endif %}">
+          <span class="co2-value">{{ co2 }}</span>
+          <span class="co2-unit">gCO₂/kWh</span>
+        </div>
+        <p class="gadget-sub">
+          {% if co2 < 50 %}Très bas carbone en ce moment{% elsif co2 < 120 %}Niveau modéré{% else %}Forte intensité carbone{% endif %}
+        </p>
+        {% else %}
+        <p class="gadget-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+
+      <div class="gadget-card gadget-card--wide">
+        <p class="gadget-label">Trafic maritime, détroit d'Ormuz</p>
+        <div class="ormuz-map-wrap" id="ormuz-wrap">
+          <iframe
+            id="ormuz-frame"
+            src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+            frameborder="0" scrolling="no"></iframe>
+          <div class="ormuz-fallback" id="ormuz-fallback" style="display:none;">
+            <p>La carte en direct n'a pas pu se charger.</p>
+            <a href="https://www.marinetraffic.com/en/ais/home/centerx:56.25/centery:26.55/zoom:8" target="_blank">Voir le trafic en direct sur MarineTraffic →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var frame = document.getElementById('ormuz-frame');
+  var fallback = document.getElementById('ormuz-fallback');
+  var loaded = false;
+
+  if (frame) {
+    frame.addEventListener('load', function () { loaded = true; });
+    setTimeout(function () {
+      if (!loaded) {
+        frame.style.display = 'none';
+        fallback.style.display = 'flex';
+      }
+    }, 6000);
+  }
+})();
+</script>
+
 <section class="block alt">
   <div class="wrap">
     <div class="section-head">
