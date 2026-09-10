@@ -1065,3 +1065,17 @@ footer .socials a.footer-podcast-link:hover {
 .market-trend.up { color: #b3391f; background: rgba(179, 57, 31, 0.08); }
 .market-trend.down { color: #1a7a4c; background: rgba(26, 122, 76, 0.08); }
 .market-trend.flat { color: #6b7a83; background: rgba(107, 122, 131, 0.08); }
+
+/* Correctif visibilité des chiffres sur fond sombre */
+.markets .market-value {
+  color: #ffffff !important;
+}
+.markets .market-value span {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.markets .market-label {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+.markets .market-sub {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
