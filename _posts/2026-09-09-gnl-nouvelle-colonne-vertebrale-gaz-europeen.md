@@ -36,7 +36,7 @@ En attendant, si vous voulez revenir sur les bases (terminaux méthaniers, stock
     <h3>{{ ep4.title }}</h3>
     <p>{{ ep4.description }}</p>
     <div class="listen-cta-wrap">
-      <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-arrow-right"></i></button>
+      <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-play"></i></button>
       <div class="listen-dropdown">
         <a class="spotify" href="{{ ep4.spotify }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
         <a class="apple" href="{{ ep4.apple }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
