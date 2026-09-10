@@ -837,3 +837,7 @@ footer .socials a.footer-podcast-link:hover {
 .listen-dropdown a.spotify i { color: #1BC257; }
 .listen-dropdown a.apple i { color: #8F53B3; }
 .listen-dropdown a.linkedin i { color: #0A66C2; }
+.card.dropdown-active {
+  position: relative;
+  z-index: 50;
+}
