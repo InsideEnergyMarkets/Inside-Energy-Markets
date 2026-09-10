@@ -1080,9 +1080,15 @@ footer .socials a.footer-podcast-link:hover {
   color: rgba(255, 255, 255, 0.45) !important;
 }
 
+
 /* ================================================================
-   GADGETS — jauge CO2 + tracker Ormuz
+   GADGETS — jauge CO2 + tracker Ormuz, style terminal
    ================================================================ */
+
+.gadgets {
+  background: linear-gradient(160deg, #0d1638 0%, #17255f 100%);
+  padding: 56px 0;
+}
 
 .gadgets-grid {
   display: grid;
@@ -1091,23 +1097,27 @@ footer .socials a.footer-podcast-link:hover {
 }
 
 .gadget-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   padding: 22px;
+  backdrop-filter: blur(6px);
 }
 
 .gadget-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  color: #6b7a83;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
   margin: 0 0 16px;
 }
 
 .co2-gauge {
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 20px;
   text-align: center;
+  background: rgba(255, 255, 255, 0.05);
 }
 .co2-value {
   font-family: 'JetBrains Mono', monospace;
@@ -1120,15 +1130,16 @@ footer .socials a.footer-podcast-link:hover {
   opacity: 0.7;
 }
 
-.co2-low { background: rgba(61, 220, 151, 0.12); color: #1a7a4c; }
-.co2-mid { background: rgba(232, 179, 58, 0.14); color: #92650c; }
-.co2-high { background: rgba(255, 107, 91, 0.14); color: #b3391f; }
+.co2-low { color: #3ddc97; }
+.co2-mid { color: #e8b33a; }
+.co2-high { color: #ff6b5b; }
 
 .gadget-sub {
   font-size: 13px;
-  color: #6b7a83;
+  color: rgba(255, 255, 255, 0.5);
   margin: 10px 0 0;
   text-align: center;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .ormuz-map-wrap {
@@ -1137,7 +1148,7 @@ footer .socials a.footer-podcast-link:hover {
   aspect-ratio: 16 / 9;
   border-radius: 8px;
   overflow: hidden;
-  background: #eef2f4;
+  background: rgba(255, 255, 255, 0.03);
 }
 .ormuz-map-wrap iframe {
   width: 100%;
@@ -1154,7 +1165,11 @@ footer .socials a.footer-podcast-link:hover {
   gap: 10px;
   text-align: center;
   padding: 20px;
-  background: var(--paper-dim);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+}
+.ormuz-fallback a {
+  color: var(--teal);
 }
 
 @media (max-width: 760px) {
