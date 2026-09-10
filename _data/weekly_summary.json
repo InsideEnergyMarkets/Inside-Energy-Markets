@@ -7,9 +7,9 @@
     "change_pct": 0.0
   },
   "spot_price": {
-    "avg_eur_mwh": 172.28,
+    "avg_eur_mwh": 182.21,
     "min_eur_mwh": 172.28,
-    "max_eur_mwh": 172.28,
+    "max_eur_mwh": 192.14,
     "days_count": 2
   },
   "mix": {

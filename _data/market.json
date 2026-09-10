@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-10T06:18:29.354423Z",
+  "updated_at": "2026-09-10T17:24:24.845485Z",
   "brent": {
     "price_usd": 96.02,
     "date": "2026-09-01",
@@ -15,10 +15,11 @@
       "bioenergies": 1.8
     },
     "top_source": "nucleaire",
-    "top_share": 66.6
+    "top_share": 66.6,
+    "co2_intensity": 47
   },
   "spot_price_france": {
-    "price_eur_mwh": 172.28,
-    "date": "2026-09-10"
+    "price_eur_mwh": 192.14,
+    "date": "2026-09-11"
   }
 }
