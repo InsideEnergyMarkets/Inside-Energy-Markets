@@ -20,9 +20,7 @@ Le marché mondial continue par ailleurs de s'élargir : de nouveaux exportateur
 
 ## Ce que ça change concrètement
 
-Le prix européen du gaz ne dépend plus seulement de la météo locale ou de la consommation domestique. Il est désormais connecté à une chaîne logistique mondiale : une vague de froid en Asie, un incident sur un terminal de liquéfaction américain, ou une tension dans un détroit stratégique peuvent immédiatement se répercuter sur le TTF. C'est d'ailleurs ce qui s'est produit récemment avec les tensions autour du détroit d'Ormuz, un point de passage que le Qatar (environ 7 % seulement des importations européennes) traverse pour exporter, et dont le blocage a fait grimper les prix mondiaux bien au-delà de l'exposition directe de l'Europe à cette route précise.
-
-Le gaz russe était politiquement risqué mais logistiquement prévisible : un pipeline, un point d'entrée, un contrat de long terme. Le GNL diversifie les sources, mais expose à une volatilité beaucoup plus large, celle d'un marché mondial où l'Europe n'est plus seule à négocier.
+Le prix européen du gaz était déjà en partie connecté au marché mondial avant 2022, mais cette connexion s'est nettement resserrée avec la montée en puissance du GNL. Une vague de froid en Asie, un incident sur un terminal de liquéfaction américain, ou une tension dans un détroit stratégique se répercutent aujourd'hui plus vite et plus fort sur le TTF qu'à l'époque où le pipeline russe dominait les approvisionnements. C'est d'ailleurs ce qui s'est produit récemment avec les tensions autour du détroit d'Ormuz, un point de passage que le Qatar (environ 7 % seulement des importations européennes) traverse pour exporter, et dont le blocage a fait grimper les prix mondiaux bien au-delà de l'exposition directe de l'Europe à cette route précise.
 
 
 ## Et ensuite ?
