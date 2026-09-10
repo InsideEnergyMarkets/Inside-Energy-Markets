@@ -851,7 +851,7 @@ footer .socials a.footer-podcast-link:hover {
 }
 
 .post-episode-card,
-.post-episode-card * {
+.post-episode-card *:not(i) {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
