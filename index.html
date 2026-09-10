@@ -26,7 +26,7 @@ title: Accueil
       <h2>Derniers épisodes</h2>
       <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes →</a>
     </div>
-<div class="card-grid card-grid--episodes">
+<div class="card-grid card-grid--blog">
   {% assign latest_episodes = site.data.episodes | reverse %}
   {% for ep in latest_episodes limit: 3 %}
   <div class="card card--episode">
