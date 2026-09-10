@@ -149,3 +149,9 @@ title: Accueil
       <li class="post-item">
         <p class="date">{{ post.date | date: "%d %B %Y" }}</p>
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
