@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root {
   --sky-light: #cfe7f5;
@@ -921,9 +921,25 @@ footer .socials a.footer-podcast-link:hover {
   overflow: hidden;
 }
 
+
 /* ================================================================
-   MARCHÉS EN DIRECT — version moderne
+   MARCHÉS EN DIRECT — terminal de trading
    ================================================================ */
+
+.markets {
+  background: linear-gradient(160deg, #0d1638 0%, #17255f 100%);
+  padding: 56px 0;
+}
+
+.markets .section-head {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+.markets .section-head::after {
+  background: var(--teal);
+}
+.markets .section-head h2 {
+  color: #ffffff;
+}
 
 .live-dot {
   display: inline-block;
@@ -932,6 +948,7 @@ footer .socials a.footer-podcast-link:hover {
   border-radius: 50%;
   background: var(--teal);
   margin-right: 6px;
+  box-shadow: 0 0 8px var(--teal);
   animation: pulse-dot 2s infinite;
 }
 @keyframes pulse-dot {
@@ -939,30 +956,97 @@ footer .socials a.footer-podcast-link:hover {
   50% { opacity: 0.3; }
 }
 
-.market-card {
-  position: relative;
+.market-updated {
+  color: rgba(255, 255, 255, 0.55);
 }
+
+.market-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 20px 22px;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.market-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.market-card--oil { border-top-color: var(--coral, #e8703a); }
+.market-card--power { border-top-color: var(--teal); }
+.market-card--mix { border-top-color: #6fa9d6; }
 
 .market-card-top {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .market-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: rgba(23, 37, 95, 0.06);
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  color: var(--navy-deep);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
   flex-shrink: 0;
 }
-.market-card--power .market-icon { color: var(--teal); background: rgba(0, 129, 125, 0.08); }
+
+.market-card .market-label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 600;
+}
+
+.market-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+.market-value span {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 4px;
+}
+.market-value.market-pending {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.market-sub {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.market-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 2px 0 8px;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.market-trend.up { color: #ff6b5b; background: rgba(255, 107, 91, 0.12); }
+.market-trend.down { color: #3ddc97; background: rgba(61, 220, 151, 0.12); }
+.market-trend.flat { color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.06); }
 
 .market-card .market-label {
   margin: 0;
