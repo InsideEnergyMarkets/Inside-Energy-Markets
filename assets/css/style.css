@@ -858,3 +858,58 @@ footer .socials a.footer-podcast-link:hover {
 .post-episode-card h3 {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+/* ================================================================
+   ÉPISODE EN VEDETTE (page épisodes)
+   ================================================================ */
+
+.card--featured {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+.card--featured .card-thumb {
+  width: 42%;
+  max-height: none;
+  aspect-ratio: auto;
+  flex-shrink: 0;
+}
+.card--featured .card-body {
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.card--featured h3 {
+  font-size: 24px;
+}
+.card--featured p {
+  font-size: 15.5px;
+}
+
+.card-featured-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: var(--teal);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.card-grid--rest {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (max-width: 760px) {
+  .card--featured {
+    flex-direction: column;
+  }
+  .card--featured .card-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
