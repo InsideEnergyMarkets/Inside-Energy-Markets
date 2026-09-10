@@ -49,4 +49,15 @@ permalink: /episodes/
           <p>{{ ep.description }}</p>
           <div class="listen-cta-wrap">
             <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-play"></i></button>
-            <div
+            <div class="listen-dropdown">
+              <a class="spotify" href="{{ ep.spotify }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
+              <a class="apple" href="{{ ep.apple }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
+              <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
