@@ -62,7 +62,7 @@ def fetch_mix_france(existing):
         url = (
             "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/"
             "eco2mix-national-tr/records"
-            "?order_by=date_heure%20desc&limit=1"
+            "?order_by=date_heure%20desc&limit=1&where=nucleaire%20is%20not%20null"
         )
         r = requests.get(url, timeout=20)
         r.raise_for_status()
