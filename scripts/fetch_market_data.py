@@ -70,7 +70,17 @@ def fetch_mix_france(existing):
         results = payload.get("results") or payload.get("records") or []
         if not results:
             raise ValueError("aucun enregistrement retourné par l'API v2")
-        rec = results[0]
+
+        raw = results[0]
+        # La structure exacte varie selon les versions de l'API ODRE :
+        # parfois les champs sont à la racine, parfois sous "fields",
+        # parfois sous "record" -> "fields". On gère les 3 cas.
+        if "record" in raw and isinstance(raw["record"], dict):
+            rec = raw["record"].get("fields", raw["record"])
+        elif "fields" in raw and isinstance(raw["fields"], dict):
+            rec = raw["fields"]
+        else:
+            rec = raw
 
         sources = {
             "nucleaire": rec.get("nucleaire"),
@@ -84,7 +94,7 @@ def fetch_mix_france(existing):
         sources = {k: v for k, v in sources.items() if v is not None and v > 0}
         total = sum(sources.values())
         if total <= 0:
-            raise ValueError("total de production nul")
+            raise ValueError(f"total de production nul, clés reçues: {list(rec.keys())[:15]}")
 
         shares = {k: round(v / total * 100, 1) for k, v in sources.items()}
         top = sorted(shares.items(), key=lambda kv: kv[1], reverse=True)
