@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-11T06:17:05.913546Z",
+  "updated_at": "2026-09-12T06:16:51.021264Z",
   "brent": {
     "price_usd": 109.51,
     "date": "2026-09-09",
@@ -19,7 +19,7 @@
     "co2_intensity": 47
   },
   "spot_price_france": {
-    "price_eur_mwh": 192.14,
-    "date": "2026-09-11"
+    "price_eur_mwh": 187.5,
+    "date": "2026-09-12"
   }
 }
