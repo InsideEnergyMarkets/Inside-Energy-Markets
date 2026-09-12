@@ -1,7 +1,7 @@
 """
 Récupère 3 données marché et les écrit dans _data/market.json :
 - Brent (EIA, clé API gratuite requise -> secret EIA_API_KEY)
-- Mix électrique France en temps réel (RTE eco2mix, aucune clé requise)
+- Mix électrique France en temps réel (RTE eco2mix, API v2, aucune clé requise)
 - Prix spot électricité France day-ahead (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
@@ -60,12 +60,17 @@ def fetch_brent(existing):
 def fetch_mix_france(existing):
     try:
         url = (
-            "https://odre.opendatasoft.com/api/records/1.0/search/"
-            "?dataset=eco2mix-national-tr&rows=1&sort=-date_heure"
+            "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/"
+            "eco2mix-national-tr/records"
+            "?order_by=date_heure%20desc&limit=1"
         )
         r = requests.get(url, timeout=20)
         r.raise_for_status()
-        rec = r.json()["records"][0]["fields"]
+        payload = r.json()
+        results = payload.get("results") or payload.get("records") or []
+        if not results:
+            raise ValueError("aucun enregistrement retourné par l'API v2")
+        rec = results[0]
 
         sources = {
             "nucleaire": rec.get("nucleaire"),
