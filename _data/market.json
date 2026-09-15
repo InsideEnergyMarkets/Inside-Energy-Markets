@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-14T06:19:28.066171Z",
+  "updated_at": "2026-09-15T06:18:23.035888Z",
   "brent": {
     "price_usd": 109.51,
     "date": "2026-09-09",
     "unit": "USD/baril"
   },
   "mix_france": {
-    "date_heure": "2026-09-14T06:00:00+00:00",
+    "date_heure": "2026-09-15T06:00:00+00:00",
     "shares": {
-      "nucleaire": 75.4,
-      "eolien": 2.2,
-      "solaire": 1.6,
-      "hydraulique": 11.8,
-      "gaz": 7.0,
-      "bioenergies": 2.0
+      "nucleaire": 74.2,
+      "eolien": 5.9,
+      "solaire": 1.7,
+      "hydraulique": 11.6,
+      "gaz": 4.3,
+      "bioenergies": 2.2
     },
     "top_source": "nucleaire",
-    "top_share": 75.4,
-    "co2_intensity": 41
+    "top_share": 74.2,
+    "co2_intensity": 30
   },
   "spot_price_france": {
-    "price_eur_mwh": 206.5,
-    "date": "2026-09-14"
+    "price_eur_mwh": 171.05,
+    "date": "2026-09-15"
   }
 }
