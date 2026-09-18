@@ -112,5 +112,18 @@
       "gaz": 1.2,
       "bioenergies": 2.0
     }
+  },
+  {
+    "date": "2026-09-18",
+    "brent_usd": 130.8,
+    "spot_eur_mwh": 122.86,
+    "mix_shares": {
+      "nucleaire": 75.8,
+      "eolien": 5.8,
+      "solaire": 1.2,
+      "hydraulique": 9.3,
+      "gaz": 5.9,
+      "bioenergies": 1.9
+    }
   }
 ]
