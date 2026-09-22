@@ -1620,3 +1620,18 @@ footer .socials a.footer-podcast-link:hover {
     position: relative;
   }
 }
+
+/* Correctifs page /marches/ : lisibilité + espacement */
+.mkt-panel-card .market-value {
+  color: #ffffff !important;
+}
+.mkt-panel-card .market-value span {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.mkt-block {
+  padding: 32px 0;
+}
+.mkt-panel-card {
+  margin-bottom: 0;
+}
