@@ -1183,3 +1183,10 @@ footer .socials a.footer-podcast-link:hover {
     grid-template-columns: 1fr;
   }
 }
+.market-source {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 6px 0 0;
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+}
