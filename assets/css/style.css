@@ -46,9 +46,15 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(247, 249, 250, 0.92);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--line);
+  background: #17255f;
+  border-bottom: none;
+}
+
+.site-nav .nav-links a {
+  color: rgba(255, 255, 255, 0.85);
+}
+.site-nav .nav-links a:hover {
+  color: #ffffff;
 }
 
 .site-nav .wrap {
