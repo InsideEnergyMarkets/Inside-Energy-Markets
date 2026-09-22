@@ -56,9 +56,7 @@ title: Accueil
   <div class="wrap">
     <div class="section-head">
       <h2>Marchés en direct</h2>
-      {% if site.data.market.updated_at %}
-      <span class="market-updated"><span class="live-dot"></span>Mis à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</span>
-      {% endif %}
+      <a href="{{ '/marches/' | relative_url }}">Voir le détail →</a>
     </div>
 
     {% assign hist = site.data.market_history %}
@@ -87,12 +85,12 @@ title: Accueil
             </p>
           {% endif %}
         {% endif %}
-<p class="market-sub">{{ site.data.market.brent.date }}</p>
-<p class="market-source">Source : EIA</p>
-{% else %}
-<p class="market-value market-pending">-</p>
-<p class="market-sub">Donnée à venir</p>
-{% endif %}
+        <p class="market-sub">{{ site.data.market.brent.date }}</p>
+        <p class="market-source">Source : EIA</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
       </div>
 
       <div class="market-card market-card--power">
@@ -114,12 +112,12 @@ title: Accueil
             </p>
           {% endif %}
         {% endif %}
-<p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
-<p class="market-source">Source : RTE (Wholesale Market)</p>
-{% else %}
-<p class="market-value market-pending">-</p>
-<p class="market-sub">Donnée à venir</p>
-{% endif %}
+        <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
+        <p class="market-source">Source : RTE (Wholesale Market)</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
       </div>
 
       <div class="market-card market-card--mix">
@@ -128,88 +126,44 @@ title: Accueil
           <p class="market-label">Mix électrique France</p>
         </div>
         {% if site.data.market.mix_france %}
-        <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
-<p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} - source principale à l'instant</p>
-<p class="market-source">Source : RTE (éCO2mix)</p>
-{% else %}
+        <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span> {% if site.data.market.mix_france.co2_intensity %}<span class="mix-co2-badge">{{ site.data.market.mix_france.co2_intensity }}g</span>{% endif %}</p>
+        <p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} - source principale</p>
+        <div class="mix-mini-bar">
+          {% for pair in site.data.market.mix_france.shares %}
+          <div class="mix-mini-seg" style="width: {{ pair[1] }}%;" title="{{ pair[0] }} {{ pair[1] }}%"></div>
+          {% endfor %}
+        </div>
+        <p class="market-source">Source : RTE (éCO2mix)</p>
+        {% else %}
         <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
         {% endif %}
       </div>
 
     </div>
-  </div>
-</section>
 
-<section class="block gadgets">
-  <div class="wrap">
-    <div class="gadgets-grid">
-
-<div class="gadget-card">
-  <p class="gadget-label">Intensité carbone du réseau français</p>
-  {% if site.data.market.mix_france.co2_intensity %}
-  {% assign co2 = site.data.market.mix_france.co2_intensity %}
-  <div class="co2-gauge {% if co2 < 50 %}co2-low{% elsif co2 < 120 %}co2-mid{% else %}co2-high{% endif %}">
-    <span class="co2-value">{{ co2 }}</span>
-    <span class="co2-unit">gCO₂/kWh</span>
-  </div>
-  <p class="gadget-sub">
-    {% if co2 < 50 %}Très bas carbone en ce moment{% elsif co2 < 120 %}Niveau modéré{% else %}Forte intensité carbone{% endif %}
-  </p>
-  <p class="market-source">Source : RTE (éCO2mix)</p>
-
-  <div class="mix-breakdown">
-    {% for pair in site.data.market.mix_france.shares %}
-    <div class="mix-row">
-      <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
-      <div class="mix-row-bar">
-        <div class="mix-row-fill" style="width: {{ pair[1] }}%;"></div>
-      </div>
-      <span class="mix-row-value">{{ pair[1] }}%</span>
-    </div>
-    {% endfor %}
-  </div>
-
-  {% else %}
-  <p class="gadget-sub">Donnée à venir</p>
-  {% endif %}
-</div>
-
-      <div class="gadget-card gadget-card--wide">
-        <p class="gadget-label">Trafic maritime, détroit d'Ormuz</p>
-        <div class="ormuz-map-wrap" id="ormuz-wrap">
-          <iframe
-            id="ormuz-frame"
+    <div class="ormuz-hero">
+      <div class="gadget-card gadget-card--full">
+        <p class="gadget-label">Trafic maritime en direct — Détroit d'Ormuz</p>
+        <div class="ais-embed-wrap ais-embed-wrap--hero">
+          <iframe loading="lazy" class="ais-frame"
             src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
             frameborder="0" scrolling="no"></iframe>
-          <div class="ormuz-fallback" id="ormuz-fallback" style="display:none;">
+          <div class="ais-fallback">
             <p>La carte en direct n'a pas pu se charger.</p>
-            <a href="https://www.marinetraffic.com/en/ais/home/centerx:56.25/centery:26.55/zoom:8" target="_blank">Voir le trafic en direct sur MarineTraffic →</a>
+            <a href="https://www.marinetraffic.com/en/ais/home/centerx:56.25/centery:26.55/zoom:8" target="_blank">Voir en direct sur MarineTraffic →</a>
           </div>
         </div>
+        <p class="market-source">Source : MarineTraffic — <a href="{{ '/marches/' | relative_url }}">voir aussi Bab-el-Mandeb et Malacca →</a></p>
       </div>
-
     </div>
+
+    {% if site.data.market.updated_at %}
+    <p class="mkt-updated-footer"><span class="live-dot"></span>Mis à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
+    {% endif %}
+
   </div>
 </section>
-
-<script>
-(function () {
-  var frame = document.getElementById('ormuz-frame');
-  var fallback = document.getElementById('ormuz-fallback');
-  var loaded = false;
-
-  if (frame) {
-    frame.addEventListener('load', function () { loaded = true; });
-    setTimeout(function () {
-      if (!loaded) {
-        frame.style.display = 'none';
-        fallback.style.display = 'flex';
-      }
-    }, 6000);
-  }
-})();
-</script>
 
 <section class="block alt">
   <div class="wrap">
