@@ -63,5 +63,40 @@ document.addEventListener('click', function (e) {
 </script>
 
 <script data-goatcounter="https://insideenergymarkets.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script>
+// Fallback générique pour toutes les cartes AIS (Ormuz, Bab-el-Mandeb, Malacca...)
+document.querySelectorAll('.ais-embed-wrap').forEach(function (wrap) {
+  var frame = wrap.querySelector('.ais-frame');
+  var fallback = wrap.querySelector('.ais-fallback');
+  var loaded = false;
+  if (frame) {
+    frame.addEventListener('load', function () { loaded = true; });
+    setTimeout(function () {
+      if (!loaded) {
+        frame.style.display = 'none';
+        fallback.style.display = 'flex';
+      }
+    }, 6000);
+  }
+});
+
+// Onglets de la page /marches/
+document.querySelectorAll('.mkt-tab-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var target = btn.getAttribute('data-tab');
+
+    document.querySelectorAll('.mkt-tab-btn').forEach(function (b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    document.querySelectorAll('.mkt-panel').forEach(function (panel) {
+      panel.classList.remove('active');
+    });
+    var targetPanel = document.getElementById('panel-' + target);
+    if (targetPanel) targetPanel.classList.add('active');
+  });
+});
+</script>
 </body>
 </html>
