@@ -1661,3 +1661,61 @@ footer .socials a.footer-podcast-link:hover {
   margin: 0;
   max-width: 140px;
 }
+
+/* Mix & carbone — agencement en 2 colonnes (option B) */
+.mix-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 20px;
+}
+
+.mix-split {
+  display: grid;
+  grid-template-columns: 1fr 1px 2fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.mix-split-divider {
+  background: rgba(255, 255, 255, 0.1);
+  height: 100%;
+  min-height: 140px;
+}
+
+.mix-split-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 14px;
+}
+
+.mix-split-col--co2 {
+  text-align: center;
+}
+.mix-co2-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 40px;
+  font-weight: 700;
+  color: #3ddc97;
+  margin: 0;
+  line-height: 1;
+}
+.mix-co2-unit {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 6px 0 0;
+}
+
+@media (max-width: 640px) {
+  .mix-split {
+    grid-template-columns: 1fr;
+  }
+  .mix-split-divider {
+    display: none;
+  }
+  .mix-split-col--co2 {
+    text-align: left;
+  }
+}
