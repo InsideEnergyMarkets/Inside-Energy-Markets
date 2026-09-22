@@ -1572,3 +1572,51 @@ footer .socials a.footer-podcast-link:hover {
     aspect-ratio: 16 / 9;
   }
 }
+
+/* ================================================================
+   NAV MOBILE — menu hamburger
+   ================================================================ */
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+}
+
+@media (max-width: 760px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: #17255f;
+    padding: 12px 24px 20px;
+    gap: 4px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+  }
+  .nav-links.open {
+    display: flex;
+  }
+  .nav-links li {
+    width: 100%;
+  }
+  .nav-links a {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .site-nav .wrap {
+    position: relative;
+  }
+}
