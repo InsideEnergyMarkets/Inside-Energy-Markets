@@ -124,11 +124,15 @@ permalink: /marches/
     <div class="mkt-panel-card">
       {% if site.data.market.mix_france %}
       <div class="mix-detail-top">
-        <div class="co2-gauge {% if site.data.market.mix_france.co2_intensity < 50 %}co2-low{% elsif site.data.market.mix_france.co2_intensity < 120 %}co2-mid{% else %}co2-high{% endif %}">
-          <span class="co2-value">{{ site.data.market.mix_france.co2_intensity }}</span>
-          <span class="co2-unit">gCO₂/kWh</span>
+        <div class="mix-detail-col">
+          <div class="co2-gauge {% if site.data.market.mix_france.co2_intensity < 50 %}co2-low{% elsif site.data.market.mix_france.co2_intensity < 120 %}co2-mid{% else %}co2-high{% endif %}">
+            <span class="co2-value">{{ site.data.market.mix_france.co2_intensity }}</span>
+            <span class="co2-unit">gCO₂/kWh</span>
+          </div>
+          <p class="mix-col-caption">Intensité carbone actuelle du réseau</p>
         </div>
         <div class="mix-breakdown mix-breakdown--wide">
+          <p class="mix-col-caption mix-col-caption--top">Répartition de la production électrique à l'instant</p>
           {% for pair in site.data.market.mix_france.shares %}
           <div class="mix-row">
             <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
@@ -140,7 +144,7 @@ permalink: /marches/
           {% endfor %}
         </div>
       </div>
-      <p class="market-sub">{{ site.data.market.mix_france.date_heure }}</p>
+      <p class="market-sub">Relevé du {{ site.data.market.mix_france.date_heure | date: "%d/%m/%Y à %Hh%M" }}</p>
       <p class="market-source">Source : RTE (éCO2mix)</p>
       {% else %}
       <p class="gadget-sub">Donnée à venir</p>
