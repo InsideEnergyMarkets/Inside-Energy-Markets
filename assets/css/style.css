@@ -1637,7 +1637,17 @@ footer .socials a.footer-podcast-link:hover {
 }
 .mkt-panel-card:last-child {
   margin-bottom: 0;
+.mix-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 20px;
 }
+
+.mix-detail-top {
+  align-items: flex-start;
+}
+
 .mix-detail-col {
   display: flex;
   flex-direction: column;
@@ -1650,9 +1660,4 @@ footer .socials a.footer-podcast-link:hover {
   text-align: center;
   margin: 0;
   max-width: 140px;
-}
-.mix-col-caption--top {
-  max-width: none;
-  text-align: left;
-  margin: 0 0 12px;
 }
