@@ -87,11 +87,12 @@ title: Accueil
             </p>
           {% endif %}
         {% endif %}
-        <p class="market-sub">{{ site.data.market.brent.date }}</p>
-        {% else %}
-        <p class="market-value market-pending">-</p>
-        <p class="market-sub">Donnée à venir</p>
-        {% endif %}
+<p class="market-sub">{{ site.data.market.brent.date }}</p>
+<p class="market-source">Source : EIA</p>
+{% else %}
+<p class="market-value market-pending">-</p>
+<p class="market-sub">Donnée à venir</p>
+{% endif %}
       </div>
 
       <div class="market-card market-card--power">
@@ -113,11 +114,12 @@ title: Accueil
             </p>
           {% endif %}
         {% endif %}
-        <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
-        {% else %}
-        <p class="market-value market-pending">-</p>
-        <p class="market-sub">Donnée à venir</p>
-        {% endif %}
+<p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
+<p class="market-source">Source : RTE (Wholesale Market)</p>
+{% else %}
+<p class="market-value market-pending">-</p>
+<p class="market-sub">Donnée à venir</p>
+{% endif %}
       </div>
 
       <div class="market-card market-card--mix">
@@ -127,8 +129,9 @@ title: Accueil
         </div>
         {% if site.data.market.mix_france %}
         <p class="market-value">{{ site.data.market.mix_france.top_share }}<span>%</span></p>
-        <p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} - source principale à l'instant</p>
-        {% else %}
+<p class="market-sub">{{ site.data.market.mix_france.top_source | capitalize }} - source principale à l'instant</p>
+<p class="market-source">Source : RTE (éCO2mix)</p>
+{% else %}
         <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
         {% endif %}
