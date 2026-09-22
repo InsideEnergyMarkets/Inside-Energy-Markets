@@ -9,19 +9,22 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-  <nav class="site-nav">
-    <div class="wrap">
-      <a href="{{ '/' | relative_url }}" class="brand-logo">
-        <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Inside Energy Markets">
-      </a>
-<ul class="nav-links">
-  <li><a href="{{ '/episodes/' | relative_url }}">Épisodes</a></li>
-  <li><a href="{{ '/marches/' | relative_url }}">Marchés</a></li>
-  <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
-  <li><a href="{{ '/about/' | relative_url }}">À propos</a></li>
-</ul>
-    </div>
-  </nav>
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="{{ '/' | relative_url }}" class="brand-logo">
+      <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Inside Energy Markets">
+    </a>
+    <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="{{ '/episodes/' | relative_url }}">Épisodes</a></li>
+      <li><a href="{{ '/marches/' | relative_url }}">Marchés</a></li>
+      <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
+      <li><a href="{{ '/about/' | relative_url }}">À propos</a></li>
+    </ul>
+  </div>
+</nav>
 
   {{ content }}
 
@@ -97,6 +100,17 @@ document.querySelectorAll('.mkt-tab-btn').forEach(function (btn) {
     if (targetPanel) targetPanel.classList.add('active');
   });
 });
+</script>
+
+<script>
+var navToggle = document.querySelector('.nav-toggle');
+var navLinks = document.querySelector('.nav-links');
+if (navToggle) {
+  navToggle.addEventListener('click', function () {
+    var isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
 </script>
 </body>
 </html>
