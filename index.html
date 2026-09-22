@@ -159,8 +159,7 @@ title: Accueil
   <p class="market-source">Source : RTE (éCO2mix)</p>
 
   <div class="mix-breakdown">
-    {% assign sorted_shares = site.data.market.mix_france.shares | sort: 1 | reverse %}
-    {% for pair in sorted_shares %}
+    {% for pair in site.data.market.mix_france.shares %}
     <div class="mix-row">
       <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
       <div class="mix-row-bar">
