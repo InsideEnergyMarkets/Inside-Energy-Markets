@@ -1,0 +1,198 @@
+---
+layout: default
+title: Données marché
+permalink: /marches/
+---
+
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">DONNÉES EN DIRECT</p>
+    <h1>Marchés, mix électrique & trafic maritime</h1>
+    <p class="lead-sm">Prix, mix énergétique français et routes maritimes stratégiques, mis à jour automatiquement chaque jour.</p>
+  </div>
+</section>
+
+<section class="block markets">
+  <div class="wrap">
+
+    <div class="mkt-tabs">
+      <button type="button" class="mkt-tab-btn active" data-tab="marche">Marché</button>
+      <button type="button" class="mkt-tab-btn" data-tab="mix">Mix &amp; carbone</button>
+      <button type="button" class="mkt-tab-btn" data-tab="traffic">Trafic maritime</button>
+    </div>
+
+    {% assign hist = site.data.market_history %}
+    {% assign hist_size = hist.size %}
+    {% assign last_i = hist_size | minus: 1 %}
+    {% assign prev_i = hist_size | minus: 2 %}
+
+    <!-- ===== ONGLET MARCHÉ ===== -->
+    <div class="mkt-panel active" id="panel-marche">
+      <div class="market-grid">
+        <div class="market-card market-card--oil">
+          <div class="market-card-top">
+            <span class="market-icon"><i class="fa-solid fa-droplet"></i></span>
+            <p class="market-label">Brent</p>
+          </div>
+          {% if site.data.market.brent %}
+          <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
+          {% if hist_size > 1 %}
+            {% assign v_last = hist[last_i].brent_usd %}
+            {% assign v_prev = hist[prev_i].brent_usd %}
+            {% if v_last and v_prev %}
+              {% assign diff = v_last | minus: v_prev %}
+              {% assign pct = diff | times: 100.0 | divided_by: v_prev %}
+              <p class="market-trend {% if diff > 0 %}up{% elsif diff < 0 %}down{% else %}flat{% endif %}">
+                {% if diff > 0 %}<i class="fa-solid fa-arrow-trend-up"></i>{% elsif diff < 0 %}<i class="fa-solid fa-arrow-trend-down"></i>{% else %}<i class="fa-solid fa-minus"></i>{% endif %}
+                {{ pct | abs | round: 1 }} % vs veille
+              </p>
+            {% endif %}
+          {% endif %}
+          <p class="market-sub">{{ site.data.market.brent.date }}</p>
+          <p class="market-source">Source : EIA</p>
+          {% else %}
+          <p class="market-value market-pending">-</p>
+          <p class="market-sub">Donnée à venir</p>
+          {% endif %}
+        </div>
+
+        <div class="market-card market-card--power">
+          <div class="market-card-top">
+            <span class="market-icon"><i class="fa-solid fa-bolt"></i></span>
+            <p class="market-label">Prix spot électricité France</p>
+          </div>
+          {% if site.data.market.spot_price_france %}
+          <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
+          {% if hist_size > 1 %}
+            {% assign v_last = hist[last_i].spot_eur_mwh %}
+            {% assign v_prev = hist[prev_i].spot_eur_mwh %}
+            {% if v_last and v_prev %}
+              {% assign diff = v_last | minus: v_prev %}
+              {% assign pct = diff | times: 100.0 | divided_by: v_prev %}
+              <p class="market-trend {% if diff > 0 %}up{% elsif diff < 0 %}down{% else %}flat{% endif %}">
+                {% if diff > 0 %}<i class="fa-solid fa-arrow-trend-up"></i>{% elsif diff < 0 %}<i class="fa-solid fa-arrow-trend-down"></i>{% else %}<i class="fa-solid fa-minus"></i>{% endif %}
+                {{ pct | abs | round: 1 }} % vs veille
+              </p>
+            {% endif %}
+          {% endif %}
+          <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
+          <p class="market-source">Source : RTE (Wholesale Market)</p>
+          {% else %}
+          <p class="market-value market-pending">-</p>
+          <p class="market-sub">Donnée à venir</p>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if site.data.weekly_summary %}
+      <div class="mkt-weekly">
+        <p class="gadget-label">Résumé sur 7 jours{% if site.data.weekly_summary.period_start %} ({{ site.data.weekly_summary.period_start }} → {{ site.data.weekly_summary.period_end }}){% endif %}</p>
+        <div class="mkt-weekly-grid">
+          {% if site.data.weekly_summary.brent %}
+          <div class="mkt-weekly-item">
+            <span class="mkt-weekly-label">Brent</span>
+            <span class="mkt-weekly-value {% if site.data.weekly_summary.brent.change_pct > 0 %}up{% elsif site.data.weekly_summary.brent.change_pct < 0 %}down{% endif %}">
+              {{ site.data.weekly_summary.brent.change_pct }}%
+            </span>
+          </div>
+          {% endif %}
+          {% if site.data.weekly_summary.spot_price %}
+          <div class="mkt-weekly-item">
+            <span class="mkt-weekly-label">Spot moyen</span>
+            <span class="mkt-weekly-value">{{ site.data.weekly_summary.spot_price.avg_eur_mwh }} €/MWh</span>
+          </div>
+          <div class="mkt-weekly-item">
+            <span class="mkt-weekly-label">Spot min/max</span>
+            <span class="mkt-weekly-value">{{ site.data.weekly_summary.spot_price.min_eur_mwh }} / {{ site.data.weekly_summary.spot_price.max_eur_mwh }}</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- ===== ONGLET MIX & CARBONE ===== -->
+    <div class="mkt-panel" id="panel-mix">
+      <div class="gadget-card gadget-card--full">
+        <p class="gadget-label">Mix électrique &amp; intensité carbone — France</p>
+        {% if site.data.market.mix_france %}
+        <div class="mix-detail-top">
+          <div class="co2-gauge {% if site.data.market.mix_france.co2_intensity < 50 %}co2-low{% elsif site.data.market.mix_france.co2_intensity < 120 %}co2-mid{% else %}co2-high{% endif %}">
+            <span class="co2-value">{{ site.data.market.mix_france.co2_intensity }}</span>
+            <span class="co2-unit">gCO₂/kWh</span>
+          </div>
+          <div class="mix-breakdown mix-breakdown--wide">
+            {% for pair in site.data.market.mix_france.shares %}
+            <div class="mix-row">
+              <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
+              <div class="mix-row-bar">
+                <div class="mix-row-fill" style="width: {{ pair[1] }}%;"></div>
+              </div>
+              <span class="mix-row-value">{{ pair[1] }}%</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <p class="market-sub">{{ site.data.market.mix_france.date_heure }}</p>
+        <p class="market-source">Source : RTE (éCO2mix)</p>
+        {% else %}
+        <p class="gadget-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- ===== ONGLET TRAFIC MARITIME ===== -->
+    <div class="mkt-panel" id="panel-traffic">
+      <div class="strait-grid">
+
+        <div class="gadget-card">
+          <p class="gadget-label">Détroit d'Ormuz</p>
+          <div class="ais-embed-wrap">
+            <iframe loading="lazy" class="ais-frame"
+              src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+              frameborder="0" scrolling="no"></iframe>
+            <div class="ais-fallback">
+              <p>La carte en direct n'a pas pu se charger.</p>
+              <a href="https://www.marinetraffic.com/en/ais/home/centerx:56.25/centery:26.55/zoom:8" target="_blank">Voir en direct sur MarineTraffic →</a>
+            </div>
+          </div>
+          <p class="market-source">Source : MarineTraffic</p>
+        </div>
+
+        <div class="gadget-card">
+          <p class="gadget-label">Détroit de Bab-el-Mandeb</p>
+          <div class="ais-embed-wrap">
+            <iframe loading="lazy" class="ais-frame"
+              src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:12.6/centerx:43.4/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+              frameborder="0" scrolling="no"></iframe>
+            <div class="ais-fallback">
+              <p>La carte en direct n'a pas pu se charger.</p>
+              <a href="https://www.marinetraffic.com/en/ais/home/centerx:43.4/centery:12.6/zoom:8" target="_blank">Voir en direct sur MarineTraffic →</a>
+            </div>
+          </div>
+          <p class="market-source">Source : MarineTraffic</p>
+        </div>
+
+        <div class="gadget-card">
+          <p class="gadget-label">Détroit de Malacca</p>
+          <div class="ais-embed-wrap">
+            <iframe loading="lazy" class="ais-frame"
+              src="https://www.marinetraffic.com/en/ais/embed/zoom:6/centery:3.5/centerx:100.5/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+              frameborder="0" scrolling="no"></iframe>
+            <div class="ais-fallback">
+              <p>La carte en direct n'a pas pu se charger.</p>
+              <a href="https://www.marinetraffic.com/en/ais/home/centerx:100.5/centery:3.5/zoom:6" target="_blank">Voir en direct sur MarineTraffic →</a>
+            </div>
+          </div>
+          <p class="market-source">Source : MarineTraffic</p>
+        </div>
+
+      </div>
+    </div>
+
+    {% if site.data.market.updated_at %}
+    <p class="mkt-updated-footer"><span class="live-dot"></span>Données marché mises à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
+    {% endif %}
+
+  </div>
+</section>
