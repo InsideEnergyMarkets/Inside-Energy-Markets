@@ -1230,3 +1230,272 @@ footer .socials a.footer-podcast-link:hover {
   font-family: 'JetBrains Mono', monospace;
   color: rgba(255, 255, 255, 0.85);
 }
+
+/* ================================================================
+   BADGE CO2 + MINI-BARRE (carte Mix, accueil)
+   ================================================================ */
+
+.mix-co2-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3ddc97;
+  background: rgba(61, 220, 151, 0.12);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+}
+
+.mix-mini-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 10px 0 6px;
+}
+.mix-mini-seg {
+  height: 100%;
+  background: var(--teal);
+}
+.mix-mini-seg:nth-child(2) { background: #3ddc97; }
+.mix-mini-seg:nth-child(3) { background: #6fa9d6; }
+.mix-mini-seg:nth-child(4) { background: #e8703a; }
+.mix-mini-seg:nth-child(5) { background: #e8b33a; }
+.mix-mini-seg:nth-child(6) { background: rgba(255,255,255,0.3); }
+
+/* ================================================================
+   TRAFIC MARITIME — cartes AIS (générique, plusieurs détroits)
+   ================================================================ */
+
+.ais-embed-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+.ais-embed-wrap--hero {
+  aspect-ratio: 21 / 9;
+}
+.ais-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.ais-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+}
+.ais-fallback a {
+  color: var(--teal);
+}
+
+.ormuz-hero {
+  margin-top: 20px;
+}
+
+.strait-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* ================================================================
+   GADGET CARD générique (réutilisée sur plusieurs pages)
+   ================================================================ */
+
+.gadget-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 22px;
+  backdrop-filter: blur(6px);
+}
+.gadget-card--full {
+  width: 100%;
+}
+.gadget-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 16px;
+}
+.gadget-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 10px 0 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.co2-gauge {
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  min-width: 140px;
+  flex-shrink: 0;
+}
+.co2-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px;
+  font-weight: 700;
+  display: block;
+}
+.co2-unit {
+  font-size: 12px;
+  opacity: 0.7;
+}
+.co2-low { color: #3ddc97; }
+.co2-mid { color: #e8b33a; }
+.co2-high { color: #ff6b5b; }
+
+.mix-detail-top {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.mix-breakdown {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mix-breakdown--wide {
+  flex: 1;
+  min-width: 220px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.mix-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.mix-row-label {
+  width: 78px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+.mix-row-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.mix-row-fill {
+  height: 100%;
+  background: var(--teal);
+  border-radius: 3px;
+}
+.mix-row-value {
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.mkt-updated-footer {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 20px 0 0;
+}
+
+/* ================================================================
+   PAGE /marches/ — onglets
+   ================================================================ */
+
+.mkt-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.mkt-tab-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.65);
+  padding: 9px 18px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.mkt-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+}
+.mkt-tab-btn.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+
+.mkt-panel {
+  display: none;
+}
+.mkt-panel.active {
+  display: block;
+}
+
+.mkt-weekly {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px 22px;
+}
+.mkt-weekly-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 12px;
+}
+.mkt-weekly-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mkt-weekly-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.mkt-weekly-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: #fff;
+}
+.mkt-weekly-value.up { color: #ff6b5b; }
+.mkt-weekly-value.down { color: #3ddc97; }
+
+@media (max-width: 760px) {
+  .strait-grid {
+    grid-template-columns: 1fr;
+  }
+  .mix-detail-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
