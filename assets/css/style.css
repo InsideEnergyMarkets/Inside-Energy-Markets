@@ -1633,5 +1633,8 @@ footer .socials a.footer-podcast-link:hover {
   padding: 32px 0;
 }
 .mkt-panel-card {
+  margin-bottom: 20px;
+}
+.mkt-panel-card:last-child {
   margin-bottom: 0;
 }
