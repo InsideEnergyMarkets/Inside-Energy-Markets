@@ -46,7 +46,7 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   z-index: 20;
-  background: #17255f;
+  background: linear-gradient(160deg, #17255f 0%, #0d1638 100%);
   border-bottom: none;
 }
 
