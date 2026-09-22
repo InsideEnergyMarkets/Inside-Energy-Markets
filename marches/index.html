@@ -123,16 +123,16 @@ permalink: /marches/
     <h2 class="mkt-page-title">Mix &amp; carbone</h2>
     <div class="mkt-panel-card">
       {% if site.data.market.mix_france %}
+      <p class="mix-panel-title">Répartition de la production électrique française à l'instant</p>
       <div class="mix-detail-top">
         <div class="mix-detail-col">
           <div class="co2-gauge {% if site.data.market.mix_france.co2_intensity < 50 %}co2-low{% elsif site.data.market.mix_france.co2_intensity < 120 %}co2-mid{% else %}co2-high{% endif %}">
             <span class="co2-value">{{ site.data.market.mix_france.co2_intensity }}</span>
             <span class="co2-unit">gCO₂/kWh</span>
           </div>
-          <p class="mix-col-caption">Intensité carbone actuelle du réseau</p>
+          <p class="mix-col-caption">Intensité carbone actuelle</p>
         </div>
         <div class="mix-breakdown mix-breakdown--wide">
-          <p class="mix-col-caption mix-col-caption--top">Répartition de la production électrique à l'instant</p>
           {% for pair in site.data.market.mix_france.shares %}
           <div class="mix-row">
             <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
