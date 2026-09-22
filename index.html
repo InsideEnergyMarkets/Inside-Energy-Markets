@@ -145,21 +145,36 @@ title: Accueil
   <div class="wrap">
     <div class="gadgets-grid">
 
-      <div class="gadget-card">
-        <p class="gadget-label">Intensité carbone du réseau français</p>
-        {% if site.data.market.mix_france.co2_intensity %}
-        {% assign co2 = site.data.market.mix_france.co2_intensity %}
-        <div class="co2-gauge {% if co2 < 50 %}co2-low{% elsif co2 < 120 %}co2-mid{% else %}co2-high{% endif %}">
-          <span class="co2-value">{{ co2 }}</span>
-          <span class="co2-unit">gCO₂/kWh</span>
-        </div>
-        <p class="gadget-sub">
-          {% if co2 < 50 %}Très bas carbone en ce moment{% elsif co2 < 120 %}Niveau modéré{% else %}Forte intensité carbone{% endif %}
-        </p>
-        {% else %}
-        <p class="gadget-sub">Donnée à venir</p>
-        {% endif %}
+<div class="gadget-card">
+  <p class="gadget-label">Intensité carbone du réseau français</p>
+  {% if site.data.market.mix_france.co2_intensity %}
+  {% assign co2 = site.data.market.mix_france.co2_intensity %}
+  <div class="co2-gauge {% if co2 < 50 %}co2-low{% elsif co2 < 120 %}co2-mid{% else %}co2-high{% endif %}">
+    <span class="co2-value">{{ co2 }}</span>
+    <span class="co2-unit">gCO₂/kWh</span>
+  </div>
+  <p class="gadget-sub">
+    {% if co2 < 50 %}Très bas carbone en ce moment{% elsif co2 < 120 %}Niveau modéré{% else %}Forte intensité carbone{% endif %}
+  </p>
+  <p class="market-source">Source : RTE (éCO2mix)</p>
+
+  <div class="mix-breakdown">
+    {% assign sorted_shares = site.data.market.mix_france.shares | sort: 1 | reverse %}
+    {% for pair in sorted_shares %}
+    <div class="mix-row">
+      <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
+      <div class="mix-row-bar">
+        <div class="mix-row-fill" style="width: {{ pair[1] }}%;"></div>
       </div>
+      <span class="mix-row-value">{{ pair[1] }}%</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <p class="gadget-sub">Donnée à venir</p>
+  {% endif %}
+</div>
 
       <div class="gadget-card gadget-card--wide">
         <p class="gadget-label">Trafic maritime, détroit d'Ormuz</p>
