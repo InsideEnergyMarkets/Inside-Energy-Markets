@@ -1499,3 +1499,76 @@ footer .socials a.footer-podcast-link:hover {
     align-items: stretch;
   }
 }
+
+/* ================================================================
+   PAGE /marches/ — panneaux marine sur fond blanc
+   ================================================================ */
+
+.mkt-page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  color: var(--navy-deep);
+  margin: 0 0 18px;
+  letter-spacing: 0.5px;
+}
+
+.mkt-panel-card {
+  background: linear-gradient(160deg, #17255f 0%, #0d1638 100%);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 16px 40px rgba(23, 37, 95, 0.18);
+  margin-bottom: 40px;
+}
+.mkt-panel-card--map {
+  padding: 22px;
+}
+
+.market-grid--detail {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.mkt-card-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mkt-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
+}
+.mkt-badge.up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
+.mkt-badge.down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+
+.mkt-sparkline {
+  width: 100%;
+  height: 30px;
+  display: block;
+  margin: 10px 0 4px;
+}
+
+.mkt-updated-footer--light {
+  color: #6b7a83;
+}
+.mkt-updated-footer--light .live-dot {
+  background: var(--teal);
+  box-shadow: none;
+}
+
+.ais-embed-wrap--hero {
+  aspect-ratio: 21 / 9;
+}
+
+@media (max-width: 760px) {
+  .ais-embed-wrap--hero {
+    aspect-ratio: 16 / 9;
+  }
+}
