@@ -1719,3 +1719,37 @@ footer .socials a.footer-podcast-link:hover {
     text-align: left;
   }
 }
+
+/* ================================================================
+   HENRY HUB + BADGES DE TRAFIC MARITIME
+   ================================================================ */
+
+.traffic-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.traffic-badge.fluide {
+  color: #3ddc97;
+  background: rgba(61, 220, 151, 0.14);
+}
+.traffic-badge.partiel {
+  color: #e8b33a;
+  background: rgba(232, 179, 58, 0.14);
+}
+.traffic-badge.ferme {
+  color: #ff6b5b;
+  background: rgba(255, 107, 91, 0.14);
+}
+
+.mkt-traffic-stats {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+  margin: 0 0 14px;
+}
+
+.market-card--gas { border-top-color: #e8b33a; }
