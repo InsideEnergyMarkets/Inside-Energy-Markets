@@ -269,7 +269,10 @@ def fetch_chokepoint_traffic(existing):
             date_ms = attrs.get("date")
             date_str = None
             if date_ms:
-                date_str = datetime.datetime.utcfromtimestamp(date_ms / 1000).strftime("%Y-%m-%d")
+                try:
+                    date_str = datetime.datetime.utcfromtimestamp(float(date_ms) / 1000).strftime("%Y-%m-%d")
+                except (TypeError, ValueError):
+                    date_str = str(date_ms)
 
             n_tanker = attrs.get("n_tanker")
             n_total = attrs.get("n_total")
