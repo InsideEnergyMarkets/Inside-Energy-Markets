@@ -227,6 +227,11 @@ def fetch_chokepoint_baseline(name_fragment):
 
 def classify_traffic_status(current, baseline):
     """Retourne 'fluide', 'partiel' ou 'ferme' selon le ratio trafic actuel / moyenne normale."""
+    try:
+        current = float(current)
+        baseline = float(baseline)
+    except (TypeError, ValueError):
+        return None
     if not current or not baseline or baseline <= 0:
         return None
     ratio = current / baseline
