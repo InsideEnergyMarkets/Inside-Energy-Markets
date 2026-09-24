@@ -1637,6 +1637,8 @@ footer .socials a.footer-podcast-link:hover {
 }
 .mkt-panel-card:last-child {
   margin-bottom: 0;
+}
+
 .mix-panel-title {
   font-size: 13px;
   font-weight: 600;
@@ -1761,7 +1763,7 @@ footer .socials a.footer-podcast-link:hover {
 .gadget-label {
   color: rgba(255, 255, 255, 0.75) !important;
 }
-css
+
 .mkt-traffic-stats {
   color: rgba(255, 255, 255, 0.7) !important;
 }
