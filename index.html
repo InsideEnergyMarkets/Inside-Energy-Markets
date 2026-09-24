@@ -142,9 +142,20 @@ title: Accueil
 
     </div>
 
+    {% assign cp_home = site.data.market.chokepoints.hormuz %}
     <div class="ormuz-hero">
       <div class="gadget-card gadget-card--full">
-        <p class="gadget-label">Trafic maritime en direct — Détroit d'Ormuz</p>
+        <div class="mkt-card-header-row">
+          <p class="gadget-label">Trafic maritime en direct — Détroit d'Ormuz</p>
+          {% if cp_home.status %}
+          <span class="traffic-badge {{ cp_home.status }}">
+            {% if cp_home.status == 'fluide' %}● Trafic fluide{% elsif cp_home.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
+          </span>
+          {% endif %}
+        </div>
+        {% if cp_home.n_total %}
+        <p class="mkt-traffic-stats">{{ cp_home.n_tanker }} tankers/jour · {{ cp_home.n_total }} navires/jour en moyenne (fenêtre du {{ cp_home.period_start }} au {{ cp_home.date }})</p>
+        {% endif %}
         <div class="ais-embed-wrap ais-embed-wrap--hero">
           <iframe loading="lazy" class="ais-frame"
             src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
