@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24T08:52:47.606703Z",
+  "updated_at": "2026-09-24T08:54:16.476028Z",
   "brent": {
     "price_usd": 114.89,
     "date": "2026-09-22",
@@ -29,8 +29,32 @@
     "date": "2026-09-24"
   },
   "chokepoints": {
-    "hormuz": null,
-    "bab_el_mandeb": null,
-    "malacca": null
+    "hormuz": {
+      "portname": "Strait of Hormuz",
+      "date": "2026-09-20",
+      "n_tanker": 0,
+      "n_total": 1,
+      "tanker_avg": 19540,
+      "total_avg": 32496,
+      "status": "ferme"
+    },
+    "bab_el_mandeb": {
+      "portname": "Bab el-Mandeb Strait",
+      "date": "2026-09-20",
+      "n_tanker": 5,
+      "n_total": 26,
+      "tanker_avg": 6424,
+      "total_avg": 19306,
+      "status": "ferme"
+    },
+    "malacca": {
+      "portname": "Malacca Strait",
+      "date": "2026-09-20",
+      "n_tanker": 78,
+      "n_total": 230,
+      "tanker_avg": 27469,
+      "total_avg": 71451,
+      "status": "ferme"
+    }
   }
 }
