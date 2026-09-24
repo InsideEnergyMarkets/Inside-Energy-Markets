@@ -204,7 +204,7 @@ CHOKEPOINTS = {
 
 
 def fetch_chokepoint_baseline(name_fragment):
-    """Moyenne annuelle 'normale' de trafic pour un détroit (référence 2019-2024, IMF PortWatch)."""
+    """Référence annuelle de trafic pour un détroit (IMF PortWatch) — convertie en moyenne journalière."""
     url = (
         "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/"
         "PortWatch_chokepoints_database/FeatureServer/0/query"
@@ -219,9 +219,13 @@ def fetch_chokepoint_baseline(name_fragment):
     if not features:
         raise ValueError(f"aucune référence pour {name_fragment}")
     attrs = features[0]["attributes"]
+
+    tanker_annual = attrs.get("vessel_count_tanker")
+    total_annual = attrs.get("vessel_count_total")
+
     return {
-        "tanker_avg": attrs.get("vessel_count_tanker"),
-        "total_avg": attrs.get("vessel_count_total"),
+        "tanker_avg": round(float(tanker_annual) / 365, 1) if tanker_annual else None,
+        "total_avg": round(float(total_annual) / 365, 1) if total_annual else None,
     }
 
 
