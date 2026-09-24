@@ -196,12 +196,12 @@
     "brent_usd": 114.89,
     "spot_eur_mwh": 182.5,
     "mix_shares": {
-      "nucleaire": 68.2,
-      "eolien": 2.1,
-      "solaire": 19.8,
-      "hydraulique": 5.5,
-      "gaz": 2.5,
-      "bioenergies": 1.9
+      "nucleaire": 67.3,
+      "eolien": 1.8,
+      "solaire": 21.4,
+      "hydraulique": 5.6,
+      "gaz": 2.1,
+      "bioenergies": 1.8
     }
   }
 ]
