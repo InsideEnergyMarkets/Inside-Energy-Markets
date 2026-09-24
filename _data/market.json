@@ -1,26 +1,36 @@
 {
-  "updated_at": "2026-09-24T07:26:05.754240Z",
+  "updated_at": "2026-09-24T08:51:05.012005Z",
   "brent": {
     "price_usd": 114.89,
     "date": "2026-09-22",
     "unit": "USD/baril"
   },
+  "henry_hub": {
+    "price_usd_mmbtu": 2.9,
+    "date": "2026-09-22",
+    "unit": "USD/MMBtu"
+  },
   "mix_france": {
-    "date_heure": "2026-09-24T07:00:00+00:00",
+    "date_heure": "2026-09-24T08:30:00+00:00",
     "shares": {
-      "nucleaire": 70.6,
-      "eolien": 3.1,
-      "solaire": 6.3,
-      "hydraulique": 11.3,
-      "gaz": 6.8,
+      "nucleaire": 68.2,
+      "eolien": 2.1,
+      "solaire": 19.8,
+      "hydraulique": 5.5,
+      "gaz": 2.5,
       "bioenergies": 1.9
     },
     "top_source": "nucleaire",
-    "top_share": 70.6,
-    "co2_intensity": 39
+    "top_share": 68.2,
+    "co2_intensity": 21
   },
   "spot_price_france": {
     "price_eur_mwh": 182.5,
     "date": "2026-09-24"
+  },
+  "chokepoints": {
+    "hormuz": null,
+    "bab_el_mandeb": null,
+    "malacca": null
   }
 }
