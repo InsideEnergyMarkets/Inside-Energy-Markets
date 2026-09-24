@@ -1753,3 +1753,8 @@ footer .socials a.footer-podcast-link:hover {
 }
 
 .market-card--gas { border-top-color: #e8b33a; }
+
+/* Correctif visibilité des titres sur les cartes trafic maritime */
+.mkt-panel-card--map .gadget-label {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
