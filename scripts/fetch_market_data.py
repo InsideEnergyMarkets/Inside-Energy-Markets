@@ -1,12 +1,13 @@
 """
-Récupère 3 données marché et les écrit dans _data/market.json :
+Récupère les données marché et les écrit dans _data/market.json :
 - Brent (EIA, clé API gratuite requise -> secret EIA_API_KEY)
-- Mix électrique France en temps réel (RTE eco2mix, API v2, aucune clé requise)
+- Henry Hub, gaz naturel US (EIA, même clé)
+- Mix électrique France en temps réel (RTE eco2mix API v2, aucune clé requise)
 - Prix spot électricité France day-ahead (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
+- Trafic maritime par détroit stratégique (IMF PortWatch, AIS, aucune clé requise)
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
-un résumé hebdomadaire (_data/weekly_summary.json) : variation Brent 7j, moyenne
-prix spot 7j, part moyenne nucléaire/renouvelables 7j.
+un résumé hebdomadaire (_data/weekly_summary.json).
 
 En cas d'échec sur une source, on garde l'ancienne valeur (le site ne casse jamais).
 """
@@ -23,7 +24,7 @@ WEEKLY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "weekly_sum
 HISTORY_MAX_DAYS = 60
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
-RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")  # Client ID + Secret déjà encodés en base64, fournis par RTE
+RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")
 
 
 def load_existing():
@@ -57,6 +58,30 @@ def fetch_brent(existing):
         return existing.get("brent")
 
 
+def fetch_henry_hub(existing):
+    """Prix du gaz naturel américain (Henry Hub), même API EIA que le Brent."""
+    if not EIA_API_KEY:
+        print("EIA_API_KEY manquant, on garde l'ancienne valeur Henry Hub.")
+        return existing.get("henry_hub")
+    try:
+        url = (
+            "https://api.eia.gov/v2/natural-gas/pri/fut/data/"
+            f"?api_key={EIA_API_KEY}&frequency=daily&data[0]=value"
+            "&facets[series][]=RNGWHHD&sort[0][column]=period&sort[0][direction]=desc&length=1"
+        )
+        r = requests.get(url, timeout=20)
+        r.raise_for_status()
+        row = r.json()["response"]["data"][0]
+        return {
+            "price_usd_mmbtu": round(float(row["value"]), 2),
+            "date": row["period"],
+            "unit": "USD/MMBtu",
+        }
+    except Exception as e:
+        print(f"Erreur Henry Hub: {e}")
+        return existing.get("henry_hub")
+
+
 def fetch_mix_france(existing):
     try:
         url = (
@@ -72,9 +97,6 @@ def fetch_mix_france(existing):
             raise ValueError("aucun enregistrement retourné par l'API v2")
 
         raw = results[0]
-        # La structure exacte varie selon les versions de l'API ODRE :
-        # parfois les champs sont à la racine, parfois sous "fields",
-        # parfois sous "record" -> "fields". On gère les 3 cas.
         if "record" in raw and isinstance(raw["record"], dict):
             rec = raw["record"].get("fields", raw["record"])
         elif "fields" in raw and isinstance(raw["fields"], dict):
@@ -114,7 +136,6 @@ def fetch_mix_france(existing):
 
 
 def get_rte_token():
-    """OAuth2 client_credentials — RTE fournit directement la clé base64 (Client ID:Secret encodés)."""
     r = requests.post(
         "https://digital.iservices.rte-france.com/token/oauth/",
         headers={"Authorization": f"Basic {RTE_BASE64_KEY}"},
@@ -175,6 +196,105 @@ def fetch_spot_price_france(existing):
         return existing.get("spot_price_france")
 
 
+CHOKEPOINTS = {
+    "hormuz": "Hormuz",
+    "bab_el_mandeb": "Bab",
+    "malacca": "Malacca",
+}
+
+
+def fetch_chokepoint_baseline(name_fragment):
+    """Moyenne annuelle 'normale' de trafic pour un détroit (référence 2019-2024, IMF PortWatch)."""
+    url = (
+        "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/"
+        "PortWatch_chokepoints_database/FeatureServer/0/query"
+        f"?where=UPPER(portname)%20LIKE%20UPPER('%25{name_fragment}%25')"
+        "&outFields=portname,vessel_count_tanker,vessel_count_total"
+        "&resultRecordCount=1&f=json"
+    )
+    r = requests.get(url, timeout=20)
+    r.raise_for_status()
+    payload = r.json()
+    features = payload.get("features") or []
+    if not features:
+        raise ValueError(f"aucune référence pour {name_fragment}")
+    attrs = features[0]["attributes"]
+    return {
+        "tanker_avg": attrs.get("vessel_count_tanker"),
+        "total_avg": attrs.get("vessel_count_total"),
+    }
+
+
+def classify_traffic_status(current, baseline):
+    """Retourne 'fluide', 'partiel' ou 'ferme' selon le ratio trafic actuel / moyenne normale."""
+    if not current or not baseline or baseline <= 0:
+        return None
+    ratio = current / baseline
+    if ratio >= 0.8:
+        return "fluide"
+    elif ratio >= 0.4:
+        return "partiel"
+    else:
+        return "ferme"
+
+
+def fetch_chokepoint_traffic(existing):
+    """Trafic maritime (nb de tankers/jour) par détroit, via IMF PortWatch (AIS, gratuit, sans clé)."""
+    existing_traffic = existing.get("chokepoints", {}) or {}
+    result = {}
+
+    for key, name_fragment in CHOKEPOINTS.items():
+        try:
+            url = (
+                "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/"
+                "Daily_Chokepoints_Data/FeatureServer/0/query"
+                f"?where=UPPER(portname)%20LIKE%20UPPER('%25{name_fragment}%25')"
+                "&outFields=date,portname,n_tanker,n_total"
+                "&orderByFields=date%20DESC"
+                "&resultRecordCount=1&f=json"
+            )
+            r = requests.get(url, timeout=20)
+            r.raise_for_status()
+            payload = r.json()
+            features = payload.get("features") or []
+            if not features:
+                raise ValueError(f"aucun enregistrement pour {name_fragment} (clés reçues: {list(payload.keys())})")
+
+            attrs = features[0]["attributes"]
+            date_ms = attrs.get("date")
+            date_str = None
+            if date_ms:
+                date_str = datetime.datetime.utcfromtimestamp(date_ms / 1000).strftime("%Y-%m-%d")
+
+            n_tanker = attrs.get("n_tanker")
+            n_total = attrs.get("n_total")
+
+            entry = {
+                "portname": attrs.get("portname"),
+                "date": date_str,
+                "n_tanker": n_tanker,
+                "n_total": n_total,
+            }
+
+            try:
+                baseline = fetch_chokepoint_baseline(name_fragment)
+                entry["tanker_avg"] = baseline.get("tanker_avg")
+                entry["total_avg"] = baseline.get("total_avg")
+                entry["status"] = classify_traffic_status(n_total, baseline.get("total_avg"))
+            except Exception as e2:
+                print(f"Erreur référence {key}: {e2}")
+                entry["tanker_avg"] = existing_traffic.get(key, {}).get("tanker_avg") if existing_traffic.get(key) else None
+                entry["total_avg"] = existing_traffic.get(key, {}).get("total_avg") if existing_traffic.get(key) else None
+                entry["status"] = existing_traffic.get(key, {}).get("status") if existing_traffic.get(key) else None
+
+            result[key] = entry
+        except Exception as e:
+            print(f"Erreur trafic {key}: {e}")
+            result[key] = existing_traffic.get(key)
+
+    return result
+
+
 def load_history():
     try:
         with open(HISTORY_PATH, "r", encoding="utf-8") as f:
@@ -184,7 +304,6 @@ def load_history():
 
 
 def append_to_history(history, data):
-    """Ajoute (ou met à jour) l'entrée du jour, garde HISTORY_MAX_DAYS jours max."""
     today = datetime.date.today().isoformat()
 
     snapshot = {
@@ -207,7 +326,6 @@ def append_to_history(history, data):
 
 
 def compute_weekly_summary(history):
-    """Calcule variation Brent 7j, moyenne prix spot 7j, part moyenne nucléaire/renouvelables 7j."""
     cutoff = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
     week = [h for h in history if h["date"] >= cutoff]
 
@@ -266,8 +384,10 @@ def main():
     data = {
         "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
         "brent": fetch_brent(existing),
+        "henry_hub": fetch_henry_hub(existing),
         "mix_france": fetch_mix_france(existing),
         "spot_price_france": fetch_spot_price_france(existing),
+        "chokepoints": fetch_chokepoint_traffic(existing),
     }
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
