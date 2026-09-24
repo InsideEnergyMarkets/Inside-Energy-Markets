@@ -96,6 +96,21 @@ permalink: /marches/
           {% endif %}
         </div>
 
+        <div class="market-card market-card--gas">
+          <div class="market-card-top">
+            <span class="market-icon"><i class="fa-solid fa-fire-flame-simple"></i></span>
+            <p class="market-label">Henry Hub (gaz US)</p>
+          </div>
+          {% if site.data.market.henry_hub %}
+          <p class="market-value">{{ site.data.market.henry_hub.price_usd_mmbtu }} <span>$/MMBtu</span></p>
+          <p class="market-sub">{{ site.data.market.henry_hub.date }}</p>
+          <p class="market-source">Source : EIA</p>
+          {% else %}
+          <p class="market-value market-pending">-</p>
+          <p class="market-sub">Donnée à venir</p>
+          {% endif %}
+        </div>
+
       </div>
 
       {% if site.data.weekly_summary.spot_price %}
@@ -160,8 +175,19 @@ permalink: /marches/
   <div class="wrap">
     <h2 class="mkt-page-title">Trafic maritime</h2>
 
+    {% assign cp = site.data.market.chokepoints.hormuz %}
     <div class="mkt-panel-card mkt-panel-card--map">
-      <p class="gadget-label">Détroit d'Ormuz</p>
+      <div class="mkt-card-header-row">
+        <p class="gadget-label">Détroit d'Ormuz</p>
+        {% if cp.status %}
+        <span class="traffic-badge {{ cp.status }}">
+          {% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
+        </span>
+        {% endif %}
+      </div>
+      {% if cp.n_total %}
+      <p class="mkt-traffic-stats">{{ cp.n_tanker }} tankers/jour · {{ cp.n_total }} navires/jour en moyenne (fenêtre du {{ cp.period_start }} au {{ cp.date }})</p>
+      {% endif %}
       <div class="ais-embed-wrap ais-embed-wrap--hero">
         <iframe class="ais-frame"
           src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
@@ -174,8 +200,19 @@ permalink: /marches/
       <p class="market-source">Source : MarineTraffic</p>
     </div>
 
+    {% assign cp = site.data.market.chokepoints.bab_el_mandeb %}
     <div class="mkt-panel-card mkt-panel-card--map">
-      <p class="gadget-label">Détroit de Bab-el-Mandeb</p>
+      <div class="mkt-card-header-row">
+        <p class="gadget-label">Détroit de Bab-el-Mandeb</p>
+        {% if cp.status %}
+        <span class="traffic-badge {{ cp.status }}">
+          {% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
+        </span>
+        {% endif %}
+      </div>
+      {% if cp.n_total %}
+      <p class="mkt-traffic-stats">{{ cp.n_tanker }} tankers/jour · {{ cp.n_total }} navires/jour en moyenne (fenêtre du {{ cp.period_start }} au {{ cp.date }})</p>
+      {% endif %}
       <div class="ais-embed-wrap ais-embed-wrap--hero">
         <iframe class="ais-frame"
           src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:12.6/centerx:43.4/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
@@ -188,8 +225,19 @@ permalink: /marches/
       <p class="market-source">Source : MarineTraffic</p>
     </div>
 
+    {% assign cp = site.data.market.chokepoints.malacca %}
     <div class="mkt-panel-card mkt-panel-card--map">
-      <p class="gadget-label">Détroit de Malacca</p>
+      <div class="mkt-card-header-row">
+        <p class="gadget-label">Détroit de Malacca</p>
+        {% if cp.status %}
+        <span class="traffic-badge {{ cp.status }}">
+          {% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
+        </span>
+        {% endif %}
+      </div>
+      {% if cp.n_total %}
+      <p class="mkt-traffic-stats">{{ cp.n_tanker }} tankers/jour · {{ cp.n_total }} navires/jour en moyenne (fenêtre du {{ cp.period_start }} au {{ cp.date }})</p>
+      {% endif %}
       <div class="ais-embed-wrap ais-embed-wrap--hero">
         <iframe class="ais-frame"
           src="https://www.marinetraffic.com/en/ais/embed/zoom:6/centery:3.5/centerx:100.5/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
