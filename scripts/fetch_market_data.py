@@ -248,7 +248,9 @@ def classify_traffic_status(current, baseline):
 
 
 def fetch_chokepoint_traffic(existing):
-    """Trafic maritime (nb de tankers/jour) par détroit, via IMF PortWatch (AIS, gratuit, sans clé)."""
+    """Trafic maritime (nb de tankers/jour) par détroit, via IMF PortWatch (AIS, gratuit, sans clé).
+    On moyenne les 5 derniers jours disponibles pour lisser les anomalies ponctuelles
+    (couverture satellite incomplète un jour donné, mise à jour par lots, etc.)."""
     existing_traffic = existing.get("chokepoints", {}) or {}
     result = {}
 
@@ -260,7 +262,7 @@ def fetch_chokepoint_traffic(existing):
                 f"?where=UPPER(portname)%20LIKE%20UPPER('%25{name_fragment}%25')"
                 "&outFields=date,portname,n_tanker,n_total"
                 "&orderByFields=date%20DESC"
-                "&resultRecordCount=1&f=json"
+                "&resultRecordCount=5&f=json"
             )
             r = requests.get(url, timeout=20)
             r.raise_for_status()
@@ -269,35 +271,50 @@ def fetch_chokepoint_traffic(existing):
             if not features:
                 raise ValueError(f"aucun enregistrement pour {name_fragment} (clés reçues: {list(payload.keys())})")
 
-            attrs = features[0]["attributes"]
-            date_ms = attrs.get("date")
-            date_str = None
-            if date_ms:
-                try:
-                    date_str = datetime.datetime.utcfromtimestamp(float(date_ms) / 1000).strftime("%Y-%m-%d")
-                except (TypeError, ValueError):
-                    date_str = str(date_ms)
+            rows = []
+            for feat in features:
+                a = feat["attributes"]
+                date_ms = a.get("date")
+                date_str = None
+                if date_ms:
+                    try:
+                        date_str = datetime.datetime.utcfromtimestamp(float(date_ms) / 1000).strftime("%Y-%m-%d")
+                    except (TypeError, ValueError):
+                        date_str = str(date_ms)
+                rows.append({
+                    "date": date_str,
+                    "n_tanker": a.get("n_tanker"),
+                    "n_total": a.get("n_total"),
+                })
 
-            n_tanker = attrs.get("n_tanker")
-            n_total = attrs.get("n_total")
+            tanker_vals = [r["n_tanker"] for r in rows if r["n_tanker"] is not None]
+            total_vals = [r["n_total"] for r in rows if r["n_total"] is not None]
+
+            n_tanker_avg = round(sum(tanker_vals) / len(tanker_vals), 1) if tanker_vals else None
+            n_total_avg = round(sum(total_vals) / len(total_vals), 1) if total_vals else None
+            latest_date = rows[0]["date"] if rows else None
+            oldest_date = rows[-1]["date"] if rows else None
 
             entry = {
-                "portname": attrs.get("portname"),
-                "date": date_str,
-                "n_tanker": n_tanker,
-                "n_total": n_total,
+                "portname": features[0]["attributes"].get("portname"),
+                "date": latest_date,
+                "period_start": oldest_date,
+                "n_tanker": n_tanker_avg,
+                "n_total": n_total_avg,
+                "days_averaged": len(rows),
             }
 
             try:
                 baseline = fetch_chokepoint_baseline(name_fragment)
                 entry["tanker_avg"] = baseline.get("tanker_avg")
                 entry["total_avg"] = baseline.get("total_avg")
-                entry["status"] = classify_traffic_status(n_total, baseline.get("total_avg"))
+                entry["status"] = classify_traffic_status(n_total_avg, baseline.get("total_avg"))
             except Exception as e2:
                 print(f"Erreur référence {key}: {e2}")
-                entry["tanker_avg"] = existing_traffic.get(key, {}).get("tanker_avg") if existing_traffic.get(key) else None
-                entry["total_avg"] = existing_traffic.get(key, {}).get("total_avg") if existing_traffic.get(key) else None
-                entry["status"] = existing_traffic.get(key, {}).get("status") if existing_traffic.get(key) else None
+                prev = existing_traffic.get(key) or {}
+                entry["tanker_avg"] = prev.get("tanker_avg")
+                entry["total_avg"] = prev.get("total_avg")
+                entry["status"] = prev.get("status")
 
             result[key] = entry
         except Exception as e:
