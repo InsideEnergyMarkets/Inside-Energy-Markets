@@ -1758,3 +1758,6 @@ footer .socials a.footer-podcast-link:hover {
 .mkt-panel-card--map .gadget-label {
   color: rgba(255, 255, 255, 0.75) !important;
 }
+.gadget-label {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
