@@ -1,0 +1,30 @@
+name: Backfill History (one-time)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install requests
+      - name: Run backfill
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          RTE_BASE64_KEY: ${{ secrets.RTE_BASE64_KEY }}
+        run: python scripts/backfill_history.py
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add _data/market_history.json
+          git diff --quiet --cached || git commit -m "Backfill historique Brent, Henry Hub, Spot FR"
+          git push
