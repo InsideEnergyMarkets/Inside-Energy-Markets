@@ -112,5 +112,73 @@ if (navToggle) {
   });
 }
 </script>
+  <script>
+(function () {
+  var chartInstances = {};
+
+  function sliceData(arr, days) {
+    if (!arr) return [];
+    return arr.slice(Math.max(arr.length - days, 0));
+  }
+
+  function renderChart(key, days) {
+    var dataset = window.mktChartData && window.mktChartData[key];
+    if (!dataset) return;
+    var canvas = document.getElementById('chart-canvas-' + key);
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    var labels = sliceData(dataset.labels, days);
+    var values = sliceData(dataset.values, days);
+
+    if (chartInstances[key]) chartInstances[key].destroy();
+    chartInstances[key] = new Chart(canvas.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          borderColor: dataset.color,
+          backgroundColor: dataset.color + '22',
+          fill: true,
+          tension: 0.25,
+          spanGaps: true,
+          pointRadius: 0,
+          borderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { display: false },
+          y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+        }
+      }
+    });
+  }
+
+  document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
+    var key = card.getAttribute('data-chart');
+
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('.period-btn')) return;
+      card.classList.toggle('flipped');
+      if (card.classList.contains('flipped') && !chartInstances[key]) {
+        renderChart(key, 30);
+      }
+    });
+
+    card.querySelectorAll('.period-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        card.querySelectorAll('.period-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        renderChart(key, parseInt(btn.getAttribute('data-period'), 10));
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>
