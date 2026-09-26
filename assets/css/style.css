@@ -1767,3 +1767,79 @@ footer .socials a.footer-podcast-link:hover {
 .mkt-traffic-stats {
   color: rgba(255, 255, 255, 0.7) !important;
 }
+.mkt-flip-outer { perspective: 1000px; padding: 0; background: none; border: none; cursor: pointer; }
+.mkt-flip-inner {
+  position: relative;
+  width: 100%;
+  min-height: 230px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.mkt-flip-outer.flipped .mkt-flip-inner { transform: rotateY(180deg); }
+.mkt-flip-front, .mkt-flip-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  padding: 20px 22px;
+  display: flex; flex-direction: column;
+}
+.mkt-flip-front {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-top: 3px solid rgba(255,255,255,0.2);
+}
+.mkt-flip-back {
+  background: #0d1638;
+  border: 1px solid rgba(255,255,255,0.18);
+  transform: rotateY(180deg);
+}
+.market-card--oil .mkt-flip-front { border-top-color: #e8703a; }
+.market-card--power .mkt-flip-front { border-top-color: #00817d; }
+.market-card--gas .mkt-flip-front { border-top-color: #e8b33a; }
+
+.mkt-commodity-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 23px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin: 2px 0 8px;
+}
+.mkt-commodity-name--sm { font-size: 16px; margin: 0; }
+
+@keyframes mkt-pulse-hint {
+  0%, 100% { opacity: 0.6; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+.mkt-flip-hint {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 11.5px;
+  color: #8ecbf0;
+  text-align: center;
+  animation: mkt-pulse-hint 1.8s infinite;
+  font-weight: 600;
+}
+
+.mkt-flip-back-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.mkt-period-btns { display: flex; gap: 5px; }
+.period-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #e2e8f5;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.period-btn.active { background: #e8703a; border-color: #e8703a; color: #fff; }
+.period-btn:hover:not(.active) { background: rgba(255,255,255,0.2); }
+
+.mkt-chart-wrap { flex: 1; position: relative; min-height: 130px; }
+.mkt-chart-wrap canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
