@@ -25,6 +25,7 @@ HISTORY_MAX_DAYS = 60
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
 RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")
+OILPRICEAPI_KEY = os.environ.get("OILPRICEAPI_KEY", "")
 
 
 def load_existing():
@@ -35,7 +36,35 @@ def load_existing():
         return {}
 
 
+def fetch_brent_oilpriceapi():
+    """Brent via OilPriceAPI, mis à jour toutes les 5 minutes (plan gratuit)."""
+    if not OILPRICEAPI_KEY:
+        return None
+    url = "https://api.oilpriceapi.com/v1/prices/latest?by_code=BRENT_CRUDE_USD"
+    r = requests.get(url, headers={"Authorization": f"Token {OILPRICEAPI_KEY}"}, timeout=15)
+    r.raise_for_status()
+    payload = r.json()
+    row = payload.get("data") or payload
+    price = row.get("price")
+    if price is None:
+        raise ValueError(f"champ prix introuvable, réponse reçue: {payload}")
+    timestamp = row.get("created_at") or row.get("timestamp")
+    return {
+        "price_usd": round(float(price), 2),
+        "date": (timestamp or "")[:10],
+        "unit": "USD/baril",
+        "source": "OilPriceAPI",
+    }
+
+
 def fetch_brent(existing):
+    try:
+        result = fetch_brent_oilpriceapi()
+        if result:
+            return result
+    except Exception as e:
+        print(f"Erreur Brent (OilPriceAPI), repli sur EIA: {e}")
+
     if not EIA_API_KEY:
         print("EIA_API_KEY manquant, on garde l'ancienne valeur Brent.")
         return existing.get("brent")
@@ -52,14 +81,42 @@ def fetch_brent(existing):
             "price_usd": round(float(row["value"]), 2),
             "date": row["period"],
             "unit": "USD/baril",
+            "source": "EIA",
         }
     except Exception as e:
-        print(f"Erreur Brent: {e}")
+        print(f"Erreur Brent (EIA): {e}")
         return existing.get("brent")
 
 
+def fetch_henry_hub_oilpriceapi():
+    """Henry Hub via OilPriceAPI, mis à jour toutes les 5 minutes."""
+    if not OILPRICEAPI_KEY:
+        return None
+    url = "https://api.oilpriceapi.com/v1/prices/latest?by_code=NATURAL_GAS_USD"
+    r = requests.get(url, headers={"Authorization": f"Token {OILPRICEAPI_KEY}"}, timeout=15)
+    r.raise_for_status()
+    payload = r.json()
+    row = payload.get("data") or payload
+    price = row.get("price")
+    if price is None:
+        raise ValueError(f"champ prix introuvable, réponse reçue: {payload}")
+    timestamp = row.get("created_at") or row.get("timestamp")
+    return {
+        "price_usd_mmbtu": round(float(price), 2),
+        "date": (timestamp or "")[:10],
+        "unit": "USD/MMBtu",
+        "source": "OilPriceAPI",
+    }
+
+
 def fetch_henry_hub(existing):
-    """Prix du gaz naturel américain (Henry Hub), même API EIA que le Brent."""
+    try:
+        result = fetch_henry_hub_oilpriceapi()
+        if result:
+            return result
+    except Exception as e:
+        print(f"Erreur Henry Hub (OilPriceAPI), repli sur EIA: {e}")
+
     if not EIA_API_KEY:
         print("EIA_API_KEY manquant, on garde l'ancienne valeur Henry Hub.")
         return existing.get("henry_hub")
@@ -76,9 +133,10 @@ def fetch_henry_hub(existing):
             "price_usd_mmbtu": round(float(row["value"]), 2),
             "date": row["period"],
             "unit": "USD/MMBtu",
+            "source": "EIA",
         }
     except Exception as e:
-        print(f"Erreur Henry Hub: {e}")
+        print(f"Erreur Henry Hub (EIA): {e}")
         return existing.get("henry_hub")
 
 
