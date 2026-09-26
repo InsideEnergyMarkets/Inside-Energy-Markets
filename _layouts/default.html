@@ -6,6 +6,7 @@
   <link rel="icon" type="image/png" href="{{ '/assets/img/hero.png' | relative_url }}">
   {% seo %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
 <body>
@@ -160,17 +161,11 @@ if (navToggle) {
 
   document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
     var key = card.getAttribute('data-chart');
-    var front = card.querySelector('.mkt-flip-front');
-    var back = card.querySelector('.mkt-flip-back');
-
-    front.classList.add('mkt-active');
 
     card.addEventListener('click', function (e) {
       if (e.target.closest('.period-btn')) return;
-      var showingBack = back.classList.contains('mkt-active');
-      front.classList.toggle('mkt-active', showingBack);
-      back.classList.toggle('mkt-active', !showingBack);
-      if (!showingBack && !chartInstances[key]) {
+      card.classList.toggle('flipped');
+      if (card.classList.contains('flipped') && !chartInstances[key]) {
         renderChart(key, 30);
       }
     });
@@ -184,7 +179,6 @@ if (navToggle) {
       });
     });
   });
-})();
 </script>
 </body>
 </html>
