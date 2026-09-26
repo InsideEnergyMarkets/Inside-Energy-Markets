@@ -7,14 +7,14 @@
     "change_pct": -20.2
   },
   "spot_price": {
-    "avg_eur_mwh": 167.06,
+    "avg_eur_mwh": 164.07,
     "min_eur_mwh": 89.06,
     "max_eur_mwh": 201.18,
     "days_count": 8
   },
   "mix": {
-    "nuclear_avg_share": 72.4,
-    "renewables_avg_share": 23.6,
+    "nuclear_avg_share": 71.3,
+    "renewables_avg_share": 24.8,
     "days_count": 8
   }
 }
