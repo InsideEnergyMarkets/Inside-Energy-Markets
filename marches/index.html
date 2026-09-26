@@ -22,96 +22,101 @@ permalink: /marches/
   <div class="wrap">
     <h2 class="mkt-page-title">Marché</h2>
     <div class="mkt-panel-card">
-      <div class="market-grid market-grid--detail">
+<div class="market-grid market-grid--detail">
 
-        <div class="market-card market-card--oil">
-          <div class="market-card-top">
-            <span class="market-icon"><i class="fa-solid fa-droplet"></i></span>
-            <p class="market-label">Brent</p>
-          </div>
-          {% if site.data.market.brent %}
-          <div class="mkt-card-header-row">
-            <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
-            {% if site.data.weekly_summary.brent.change_pct %}
-            <span class="mkt-badge {% if site.data.weekly_summary.brent.change_pct > 0 %}up{% elsif site.data.weekly_summary.brent.change_pct < 0 %}down{% endif %}">
-              {{ site.data.weekly_summary.brent.change_pct }}% (7j)
-            </span>
-            {% endif %}
-          </div>
-          {% if hist_size > 1 %}
-          {% assign brent_series = hist | map: "brent_usd" | compact %}
-          {% if brent_series.size > 1 %}
-          {% assign brent_sorted = brent_series | sort %}
-          {% assign brent_min = brent_sorted | first %}
-          {% assign brent_max = brent_sorted | last %}
-          {% assign brent_range = brent_max | minus: brent_min %}
-          {% if brent_range == 0 %}{% assign brent_range = 1 %}{% endif %}
-          {% assign brent_count_minus1 = brent_series.size | minus: 1 %}
-          <svg class="mkt-sparkline" viewBox="0 0 180 30" preserveAspectRatio="none">
-            <polyline fill="none" stroke="#e8703a" stroke-width="2" points="
-              {% for v in brent_series %}
-                {% assign x = forloop.index0 | times: 180 | divided_by: brent_count_minus1 %}
-                {% assign y_pct = v | minus: brent_min | times: 1.0 | divided_by: brent_range %}
-                {% assign y_scaled = y_pct | times: 24 %}
-                {% assign y = 26 | minus: y_scaled %}
-                {{ x }},{{ y | round: 1 }}
-              {% endfor %}
-            " />
-          </svg>
-          {% endif %}
-          {% endif %}
-          <p class="market-sub">{{ site.data.market.brent.date }}</p>
-          <p class="market-source">Source : {{ site.data.market.brent.source | default: "EIA" }}</p>
-          {% else %}
-          <p class="market-value market-pending">-</p>
-          <p class="market-sub">Donnée à venir</p>
-          {% endif %}
-        </div>
-
-        <div class="market-card market-card--power">
-          <div class="market-card-top">
-            <span class="market-icon"><i class="fa-solid fa-bolt"></i></span>
-            <p class="market-label">Prix spot électricité France</p>
-          </div>
-          {% if site.data.market.spot_price_france %}
-          <div class="mkt-card-header-row">
-            <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
-            {% if hist_size > 1 %}
-              {% assign v_last = hist[last_i].spot_eur_mwh %}
-              {% assign v_prev = hist[prev_i].spot_eur_mwh %}
-              {% if v_last and v_prev %}
-                {% assign diff = v_last | minus: v_prev %}
-                {% assign pct = diff | times: 100.0 | divided_by: v_prev %}
-                <span class="mkt-badge {% if diff > 0 %}up{% elsif diff < 0 %}down{% endif %}">
-                  {{ pct | round: 1 }}% (24h)
-                </span>
-              {% endif %}
-            {% endif %}
-          </div>
-          <p class="market-sub">{{ site.data.market.spot_price_france.date }}</p>
-          <p class="market-source">Source : RTE (Wholesale Market)</p>
-          {% else %}
-          <p class="market-value market-pending">-</p>
-          <p class="market-sub">Donnée à venir</p>
-          {% endif %}
-        </div>
-
-        <div class="market-card market-card--gas">
-          <div class="market-card-top">
-            <span class="market-icon"><i class="fa-solid fa-fire-flame-simple"></i></span>
-            <p class="market-label">Henry Hub (gaz US)</p>
-          </div>
-          {% if site.data.market.henry_hub %}
-          <p class="market-value">{{ site.data.market.henry_hub.price_usd_mmbtu }} <span>$/MMBtu</span></p>
-          <p class="market-sub">{{ site.data.market.henry_hub.date }}</p>
-          <p class="market-source">Source : {{ site.data.market.henry_hub.source | default: "EIA" }}</p>
-          {% else %}
-          <p class="market-value market-pending">-</p>
-          <p class="market-sub">Donnée à venir</p>
-          {% endif %}
-        </div>
-
+  <div class="market-card market-card--power mkt-flip-outer" data-chart="spot">
+    <div class="mkt-flip-inner">
+      <div class="mkt-flip-front">
+        <div class="market-card-top"><span class="market-icon"><i class="fa-solid fa-bolt"></i></span></div>
+        <p class="mkt-commodity-name">ÉLECTRICITÉ FR</p>
+        {% if site.data.market.spot_price_france %}
+        <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
+        <p class="market-sub">Mis à jour : {{ site.data.market.spot_price_france.date }} · RTE</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+        <p class="mkt-flip-hint">▾ Cliquer pour l'historique</p>
       </div>
+      <div class="mkt-flip-back">
+        <div class="mkt-flip-back-head">
+          <span class="mkt-commodity-name mkt-commodity-name--sm">ÉLECTRICITÉ FR</span>
+          <div class="mkt-period-btns">
+            <button type="button" class="period-btn" data-period="7">7j</button>
+            <button type="button" class="period-btn active" data-period="30">30j</button>
+            <button type="button" class="period-btn" data-period="60">60j</button>
+          </div>
+        </div>
+        <div class="mkt-chart-wrap"><canvas id="chart-canvas-spot"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="market-card market-card--oil mkt-flip-outer" data-chart="brent">
+    <div class="mkt-flip-inner">
+      <div class="mkt-flip-front">
+        <div class="market-card-top"><span class="market-icon"><i class="fa-solid fa-droplet"></i></span></div>
+        <p class="mkt-commodity-name">BRENT</p>
+        {% if site.data.market.brent %}
+        <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
+        <p class="market-sub">Mis à jour : {{ site.data.market.brent.date }} · {{ site.data.market.brent.source | default: "EIA" }}</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+        <p class="mkt-flip-hint">▾ Cliquer pour l'historique</p>
+      </div>
+      <div class="mkt-flip-back">
+        <div class="mkt-flip-back-head">
+          <span class="mkt-commodity-name mkt-commodity-name--sm">BRENT</span>
+          <div class="mkt-period-btns">
+            <button type="button" class="period-btn" data-period="7">7j</button>
+            <button type="button" class="period-btn active" data-period="30">30j</button>
+            <button type="button" class="period-btn" data-period="60">60j</button>
+          </div>
+        </div>
+        <div class="mkt-chart-wrap"><canvas id="chart-canvas-brent"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="market-card market-card--gas mkt-flip-outer" data-chart="henryhub">
+    <div class="mkt-flip-inner">
+      <div class="mkt-flip-front">
+        <div class="market-card-top"><span class="market-icon"><i class="fa-solid fa-fire-flame-simple"></i></span></div>
+        <p class="mkt-commodity-name">HENRY HUB</p>
+        {% if site.data.market.henry_hub %}
+        <p class="market-value">{{ site.data.market.henry_hub.price_usd_mmbtu }} <span>$/MMBtu</span></p>
+        <p class="market-sub">Mis à jour : {{ site.data.market.henry_hub.date }} · {{ site.data.market.henry_hub.source | default: "EIA" }}</p>
+        {% else %}
+        <p class="market-value market-pending">-</p>
+        <p class="market-sub">Donnée à venir</p>
+        {% endif %}
+        <p class="mkt-flip-hint">▾ Cliquer pour l'historique</p>
+      </div>
+      <div class="mkt-flip-back">
+        <div class="mkt-flip-back-head">
+          <span class="mkt-commodity-name mkt-commodity-name--sm">HENRY HUB</span>
+          <div class="mkt-period-btns">
+            <button type="button" class="period-btn" data-period="7">7j</button>
+            <button type="button" class="period-btn active" data-period="30">30j</button>
+            <button type="button" class="period-btn" data-period="60">60j</button>
+          </div>
+        </div>
+        <div class="mkt-chart-wrap"><canvas id="chart-canvas-henryhub"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  window.mktChartData = {
+    spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, color: "#00817d" },
+    brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, color: "#e8703a" },
+    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_usd_mmbtu" | jsonify }}, color: "#e8b33a" }
+  };
+</script>
 
       {% if site.data.weekly_summary.spot_price %}
       <div class="mkt-weekly">
