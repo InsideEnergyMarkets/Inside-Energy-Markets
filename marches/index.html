@@ -61,7 +61,7 @@ permalink: /marches/
           {% endif %}
           {% endif %}
           <p class="market-sub">{{ site.data.market.brent.date }}</p>
-          <p class="market-source">Source : EIA</p>
+          <p class="market-source">Source : {{ site.data.market.brent.source | default: "EIA" }}</p>
           {% else %}
           <p class="market-value market-pending">-</p>
           <p class="market-sub">Donnée à venir</p>
@@ -104,7 +104,7 @@ permalink: /marches/
           {% if site.data.market.henry_hub %}
           <p class="market-value">{{ site.data.market.henry_hub.price_usd_mmbtu }} <span>$/MMBtu</span></p>
           <p class="market-sub">{{ site.data.market.henry_hub.date }}</p>
-          <p class="market-source">Source : EIA</p>
+          <p class="market-source">Source : {{ site.data.market.henry_hub.source | default: "EIA" }}</p>
           {% else %}
           <p class="market-value market-pending">-</p>
           <p class="market-sub">Donnée à venir</p>
