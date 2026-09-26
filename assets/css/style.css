@@ -1767,44 +1767,20 @@ footer .socials a.footer-podcast-link:hover {
 .mkt-traffic-stats {
   color: rgba(255, 255, 255, 0.7) !important;
 }
-.mkt-flip-outer { perspective: 1000px; padding: 0; background: none; border: none; cursor: pointer; }
-.mkt-flip-inner {
-  position: relative;
-  width: 100%;
-  min-height: 230px;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-.mkt-flip-outer.flipped .mkt-flip-inner { transform: rotateY(180deg); }
-.mkt-flip-front, .mkt-flip-back {
-  position: absolute; inset: 0;
-  backface-visibility: hidden;
-  border-radius: 8px;
-  padding: 20px 22px;
-  display: flex; flex-direction: column;
-}
-.mkt-flip-front {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-top: 3px solid rgba(255,255,255,0.2);
-}
-.mkt-flip-back {
-  background: #0d1638;
-  border: 1px solid rgba(255,255,255,0.18);
-  transform: rotateY(180deg);
-}
-.market-card--oil .mkt-flip-front { border-top-color: #e8703a; }
-.market-card--power .mkt-flip-front { border-top-color: #00817d; }
-.market-card--gas .mkt-flip-front { border-top-color: #e8b33a; }
+.mkt-flip-outer { cursor: pointer; }
 
-.mkt-commodity-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 23px;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-  margin: 2px 0 8px;
+.mkt-flip-front, .mkt-flip-back {
+  display: none;
 }
-.mkt-commodity-name--sm { font-size: 16px; margin: 0; }
+.mkt-flip-front.mkt-active, .mkt-flip-back.mkt-active {
+  display: flex;
+  flex-direction: column;
+  animation: mkt-fade-in 0.25s ease;
+}
+@keyframes mkt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 .mkt-flip-front { position: relative; }
 .mkt-flip-hint {
@@ -1842,3 +1818,7 @@ footer .socials a.footer-podcast-link:hover {
 
 .mkt-chart-wrap { flex: 1; position: relative; min-height: 130px; }
 .mkt-chart-wrap canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
+.market-card--oil.mkt-flip-outer { border-top: 3px solid #e8703a; }
+.market-card--power.mkt-flip-outer { border-top: 3px solid #00817d; }
+.market-card--gas.mkt-flip-outer { border-top: 3px solid #e8b33a; }
