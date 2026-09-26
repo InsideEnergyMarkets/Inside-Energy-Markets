@@ -1,5 +1,158 @@
 [
   {
+    "date": "2026-07-28",
+    "brent_usd": 85.51,
+    "henry_hub_usd_mmbtu": 2.65
+  },
+  {
+    "date": "2026-07-29",
+    "brent_usd": 91.95,
+    "henry_hub_usd_mmbtu": 2.58
+  },
+  {
+    "date": "2026-07-30",
+    "brent_usd": 91.91,
+    "henry_hub_usd_mmbtu": 2.65
+  },
+  {
+    "date": "2026-07-31",
+    "brent_usd": 96.95,
+    "henry_hub_usd_mmbtu": 2.59
+  },
+  {
+    "date": "2026-08-03",
+    "brent_usd": 88.9,
+    "henry_hub_usd_mmbtu": 2.81
+  },
+  {
+    "date": "2026-08-04",
+    "brent_usd": 86.47,
+    "henry_hub_usd_mmbtu": 2.74
+  },
+  {
+    "date": "2026-08-05",
+    "brent_usd": 86.65,
+    "henry_hub_usd_mmbtu": 2.6
+  },
+  {
+    "date": "2026-08-06",
+    "brent_usd": 89.65,
+    "henry_hub_usd_mmbtu": 2.6
+  },
+  {
+    "date": "2026-08-07",
+    "brent_usd": 87.62,
+    "henry_hub_usd_mmbtu": 2.56
+  },
+  {
+    "date": "2026-08-10",
+    "brent_usd": 92.74,
+    "henry_hub_usd_mmbtu": 2.72
+  },
+  {
+    "date": "2026-08-11",
+    "brent_usd": 93.26,
+    "henry_hub_usd_mmbtu": 2.79
+  },
+  {
+    "date": "2026-08-12",
+    "brent_usd": 92.52,
+    "henry_hub_usd_mmbtu": 2.82
+  },
+  {
+    "date": "2026-08-13",
+    "brent_usd": 92.03,
+    "henry_hub_usd_mmbtu": 2.82
+  },
+  {
+    "date": "2026-08-14",
+    "brent_usd": 92.02,
+    "henry_hub_usd_mmbtu": 2.79
+  },
+  {
+    "date": "2026-08-17",
+    "brent_usd": 92.43,
+    "henry_hub_usd_mmbtu": 2.77
+  },
+  {
+    "date": "2026-08-18",
+    "brent_usd": 95.29,
+    "henry_hub_usd_mmbtu": 2.82
+  },
+  {
+    "date": "2026-08-19",
+    "brent_usd": 92.37,
+    "henry_hub_usd_mmbtu": 2.94
+  },
+  {
+    "date": "2026-08-20",
+    "brent_usd": 94.0,
+    "henry_hub_usd_mmbtu": 2.94
+  },
+  {
+    "date": "2026-08-21",
+    "brent_usd": 96.92,
+    "henry_hub_usd_mmbtu": 2.82
+  },
+  {
+    "date": "2026-08-24",
+    "brent_usd": 92.71,
+    "henry_hub_usd_mmbtu": 2.83
+  },
+  {
+    "date": "2026-08-25",
+    "brent_usd": 88.24,
+    "henry_hub_usd_mmbtu": 2.7
+  },
+  {
+    "date": "2026-08-26",
+    "brent_usd": 87.77,
+    "henry_hub_usd_mmbtu": 2.81
+  },
+  {
+    "date": "2026-08-27",
+    "brent_usd": 90.18,
+    "henry_hub_usd_mmbtu": 2.89
+  },
+  {
+    "date": "2026-08-28",
+    "brent_usd": 89.75,
+    "henry_hub_usd_mmbtu": 2.82
+  },
+  {
+    "date": "2026-08-31",
+    "henry_hub_usd_mmbtu": 2.9
+  },
+  {
+    "date": "2026-09-01",
+    "brent_usd": 96.02,
+    "henry_hub_usd_mmbtu": 2.9
+  },
+  {
+    "date": "2026-09-02",
+    "brent_usd": 97.59,
+    "henry_hub_usd_mmbtu": 2.88
+  },
+  {
+    "date": "2026-09-03",
+    "brent_usd": 100.52,
+    "henry_hub_usd_mmbtu": 2.95
+  },
+  {
+    "date": "2026-09-04",
+    "brent_usd": 102.24,
+    "henry_hub_usd_mmbtu": 2.92
+  },
+  {
+    "date": "2026-09-07",
+    "brent_usd": 104.47
+  },
+  {
+    "date": "2026-09-08",
+    "brent_usd": 106.12,
+    "henry_hub_usd_mmbtu": 2.9
+  },
+  {
     "date": "2026-09-09",
     "brent_usd": 96.02,
     "spot_eur_mwh": 172.28,
@@ -9,7 +162,8 @@
       "hydraulique": 14.1,
       "gaz": 8.8,
       "bioenergies": 1.8
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.81
   },
   {
     "date": "2026-09-10",
@@ -21,7 +175,8 @@
       "hydraulique": 14.1,
       "gaz": 8.8,
       "bioenergies": 1.8
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.76
   },
   {
     "date": "2026-09-11",
@@ -33,7 +188,8 @@
       "hydraulique": 14.1,
       "gaz": 8.8,
       "bioenergies": 1.8
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.71
   },
   {
     "date": "2026-09-12",
@@ -72,7 +228,8 @@
       "hydraulique": 11.8,
       "gaz": 7.0,
       "bioenergies": 2.0
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.85
   },
   {
     "date": "2026-09-15",
@@ -85,7 +242,8 @@
       "hydraulique": 11.6,
       "gaz": 4.3,
       "bioenergies": 2.2
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.97
   },
   {
     "date": "2026-09-16",
@@ -98,7 +256,8 @@
       "hydraulique": 9.5,
       "gaz": 3.6,
       "bioenergies": 1.9
-    }
+    },
+    "henry_hub_usd_mmbtu": 3.0
   },
   {
     "date": "2026-09-17",
@@ -111,7 +270,8 @@
       "hydraulique": 8.7,
       "gaz": 1.2,
       "bioenergies": 2.0
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.9
   },
   {
     "date": "2026-09-18",
@@ -124,7 +284,8 @@
       "hydraulique": 9.3,
       "gaz": 5.9,
       "bioenergies": 1.9
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.97
   },
   {
     "date": "2026-09-19",
@@ -163,7 +324,8 @@
       "hydraulique": 14.1,
       "gaz": 6.2,
       "bioenergies": 1.9
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.93
   },
   {
     "date": "2026-09-22",
@@ -176,7 +338,8 @@
       "hydraulique": 14.2,
       "gaz": 7.0,
       "bioenergies": 1.7
-    }
+    },
+    "henry_hub_usd_mmbtu": 2.9
   },
   {
     "date": "2026-09-23",
@@ -229,5 +392,9 @@
       "gaz": 0.6,
       "bioenergies": 2.0
     }
+  },
+  {
+    "date": "2026-09-27",
+    "spot_eur_mwh": 153.85
   }
 ]
