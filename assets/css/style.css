@@ -1806,18 +1806,17 @@ footer .socials a.footer-podcast-link:hover {
 }
 .mkt-commodity-name--sm { font-size: 16px; margin: 0; }
 
-@keyframes mkt-pulse-hint {
-  0%, 100% { opacity: 0.6; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-2px); }
-}
+.mkt-flip-front { position: relative; }
 .mkt-flip-hint {
-  margin-top: auto;
-  padding-top: 10px;
-  font-size: 11.5px;
-  color: #8ecbf0;
-  text-align: center;
-  animation: mkt-pulse-hint 1.8s infinite;
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.55);
   font-weight: 600;
+  background: rgba(255,255,255,0.08);
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
 .mkt-flip-back-head {
