@@ -112,7 +112,7 @@ if (navToggle) {
   });
 }
 </script>
-  <script>
+<script>
 (function () {
   var chartInstances = {};
 
@@ -160,11 +160,17 @@ if (navToggle) {
 
   document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
     var key = card.getAttribute('data-chart');
+    var front = card.querySelector('.mkt-flip-front');
+    var back = card.querySelector('.mkt-flip-back');
+
+    front.classList.add('mkt-active');
 
     card.addEventListener('click', function (e) {
       if (e.target.closest('.period-btn')) return;
-      card.classList.toggle('flipped');
-      if (card.classList.contains('flipped') && !chartInstances[key]) {
+      var showingBack = back.classList.contains('mkt-active');
+      front.classList.toggle('mkt-active', showingBack);
+      back.classList.toggle('mkt-active', !showingBack);
+      if (!showingBack && !chartInstances[key]) {
         renderChart(key, 30);
       }
     });
