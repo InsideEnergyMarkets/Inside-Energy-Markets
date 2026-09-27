@@ -18,11 +18,11 @@
     "date_heure": "2026-09-27T09:15:00+00:00",
     "shares": {
       "nucleaire": 57.1,
-      "eolien": 6.5,
       "solaire": 29.7,
+      "eolien": 6.5,
       "hydraulique": 3.4,
-      "gaz": 1.1,
-      "bioenergies": 2.2
+      "bioenergies": 2.2,
+      "gaz": 1.1
     },
     "top_source": "nucleaire",
     "top_share": 57.1,
