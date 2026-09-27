@@ -6,7 +6,7 @@
 {% assign news = site.data.news.items %}
 {% if news and news.size > 0 %}
 <div class="nw-bar" role="region" aria-label="Dernières informations">
-  <span class="nw-label">Dernières infos</span>
+  <span class="nw-label"><span class="nw-label-long">Dernières&nbsp;</span>infos</span>
   <ul class="nw-list">
     {% for n in news %}
     <li class="nw-slide{% if forloop.first %} is-active{% endif %}">
