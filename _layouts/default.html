@@ -551,6 +551,9 @@ if (navToggle) {
     if (modalState.trigger) modalState.trigger.focus();
   }
 
+  // Accès depuis les blocs où le graphique est toujours visible (ex. Électricité France)
+  window.mktCharts = { render: renderChart, open: openModal };
+
   document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
     var key = card.getAttribute('data-chart');
     var nameEl = card.querySelector('.mkt-commodity-name--sm');
@@ -730,6 +733,27 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   setInterval(next, 6000);
 });
 
+// ===== Graphiques toujours visibles (bloc Électricité) : périodes et agrandissement =====
+(function () {
+  if (!window.mktCharts) return;
+  document.querySelectorAll('[data-chart-controls]').forEach(function (box) {
+    var key = box.getAttribute('data-chart-controls');
+    window.mktCharts.render(key, 30);
+    box.querySelectorAll('[data-period]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        box.querySelectorAll('[data-period]').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        window.mktCharts.render(key, parseInt(btn.getAttribute('data-period'), 10));
+      });
+    });
+  });
+  document.querySelectorAll('[data-expand]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      window.mktCharts.open(btn.getAttribute('data-expand'), btn.getAttribute('data-title'), btn);
+    });
+  });
+})();
+
 // ===== Sommaire de la page Marchés : rubrique en cours de lecture =====
 (function () {
   var links = document.querySelectorAll('.mk-toc a[href^="#"]');
@@ -810,11 +834,12 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     filters.appendChild(b);
   });
 
-  document.getElementById('inc-list').innerHTML = items.slice(0, 8).map(function (i) {
-    var k = kind(i.type), vessel = i.vessel_type;
-    return '<li style="--c:' + k.color + '"><time>' + when(i.date) + '</time><span class="inc-tag">' + k.label + '</span>' +
-           '<span class="inc-tag">' + esc(i.place) + '</span>' + (vessel ? '<span class="inc-vessel">' + esc(vessel) + '</span>' : '') +
-           '<br>' + esc(i.summary) + '</li>';
+  // Liste courte : les 5 plus récents, résumé coupé à 2 lignes (texte complet dans la fiche de la carte)
+  document.getElementById('inc-list').innerHTML = items.slice(0, 5).map(function (i) {
+    var k = kind(i.type), where = [i.place, i.vessel_type].filter(Boolean).join(' · ');
+    var day = new Date(i.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    return '<li style="--c:' + k.color + '"><div class="inc-meta"><time>' + day + '</time><span class="inc-tag">' + k.label +
+           '</span><span class="inc-where">' + esc(where) + '</span></div><p class="inc-sum">' + esc(i.summary) + '</p></li>';
   }).join('');
 })();
 </script>

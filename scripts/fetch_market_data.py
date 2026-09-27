@@ -238,7 +238,8 @@ def fetch_mix_france(existing):
         if total <= 0:
             raise ValueError(f"total de production nul, clés reçues: {list(rec.keys())[:15]}")
 
-        shares = {k: round(v / total * 100, 1) for k, v in sources.items()}
+        # Du plus gros au plus petit contributeur, pour l'affichage
+        shares = {k: round(v / total * 100, 1) for k, v in sorted(sources.items(), key=lambda kv: -kv[1])}
         top = sorted(shares.items(), key=lambda kv: kv[1], reverse=True)
 
         co2 = rec.get("taux_co2")

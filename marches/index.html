@@ -8,7 +8,7 @@ permalink: /marches/
   <div class="wrap">
     <p class="eyebrow">DONNÉES EN DIRECT</p>
     <h1>Marchés, mix électrique & trafic maritime</h1>
-    <p class="lead-sm">Prix, mix énergétique français et routes maritimes stratégiques, mis à jour automatiquement chaque jour.</p>
+    <p class="lead-sm">Prix, mix énergétique français et routes maritimes stratégiques.</p>
   </div>
 </section>
 
@@ -41,7 +41,6 @@ permalink: /marches/
     <a href="#petrole-gaz"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>Pétrole et gaz</a>
     <a href="#routes-maritimes"><i class="fa-solid fa-ship" aria-hidden="true"></i>Routes maritimes</a>
     <a href="#securite"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Sécurité en mer</a>
-    <a href="#sources" class="mk-toc-minor">Sources</a>
   </div>
 </nav>
 
@@ -94,54 +93,59 @@ permalink: /marches/
       </div>
     </header>
 
-    <div class="mk-power-grid">
-      <div class="mkt-panel-card mk-power-price">
-        <div class="market-grid market-grid--detail">
-          {% include market-card.html key="spot" cls="power" icon="fa-bolt" name="ÉLECTRICITÉ FR" entry=market.spot_price_france field="price_eur_mwh" unit="€/MWh" source="RTE" %}
+    {% assign spot = market.spot_price_france %}
+    {% assign mix = market.mix_france %}
+    <div class="pw-card">
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">Prix spot, moyenne du jour</p>
+          <button type="button" class="period-btn pw-expand" data-expand="spot" data-title="Électricité FR" aria-label="Agrandir le graphique" title="Agrandir">&#x2922;</button>
         </div>
+        {% if spot %}
+        <p class="pw-value">{{ spot.price_eur_mwh | replace: ".", "," }} <small>€/MWh</small></p>
+        <p class="pw-sub">{{ spot.date_label | default: spot.date }} · RTE</p>
+        {% else %}
+        <p class="pw-value">-</p>
+        {% endif %}
         {% if weekly.spot_price %}
-        <div class="mkt-weekly">
-          <p class="gadget-label">Sur 7 jours{% if weekly.period_start %} ({{ weekly.period_start | date: "%d/%m" }} → {{ weekly.period_end | date: "%d/%m" }}){% endif %}</p>
-          <div class="mkt-weekly-grid">
-            <div class="mkt-weekly-item">
-              <span class="mkt-weekly-label">Spot moyen</span>
-              <span class="mkt-weekly-value">{{ weekly.spot_price.avg_eur_mwh }} €/MWh</span>
-            </div>
-            <div class="mkt-weekly-item">
-              <span class="mkt-weekly-label">Jour le plus bas / le plus haut</span>
-              <span class="mkt-weekly-value">{{ weekly.spot_price.min_eur_mwh }} / {{ weekly.spot_price.max_eur_mwh }}</span>
-            </div>
-          </div>
+        <div class="pw-stats">
+          <div><span>Moyenne 7 j</span><strong>{{ weekly.spot_price.avg_eur_mwh | round: 0 }} €</strong></div>
+          <div><span>Plus bas</span><strong>{{ weekly.spot_price.min_eur_mwh | round: 0 }} €</strong></div>
+          <div><span>Plus haut</span><strong>{{ weekly.spot_price.max_eur_mwh | round: 0 }} €</strong></div>
         </div>
         {% endif %}
-      </div>
-
-      <div class="mkt-panel-card mk-power-mix">
-        {% if market.mix_france %}
-        <p class="mix-panel-title">Mix électrique en ce moment</p>
-        <div class="mix-split">
-          <div class="mix-split-col mix-split-col--co2">
-            <p class="mix-split-label">Intensité carbone</p>
-            <p class="mix-co2-value">{{ market.mix_france.co2_intensity }}</p>
-            <p class="mix-co2-unit">gCO₂/kWh</p>
-          </div>
-          <div class="mix-split-divider"></div>
-          <div class="mix-split-col mix-split-col--sources">
-            <p class="mix-split-label">Sources de production</p>
-            <div class="mix-breakdown mix-breakdown--wide">
-              {% for pair in market.mix_france.shares %}
-              <div class="mix-row">
-                <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
-                <div class="mix-row-bar"><div class="mix-row-fill" style="width: {{ pair[1] }}%;"></div></div>
-                <span class="mix-row-value">{{ pair[1] }}%</span>
-              </div>
-              {% endfor %}
-            </div>
+        <div class="pw-chart-head">
+          <span>Historique</span>
+          <div class="mkt-period-btns" data-chart-controls="spot">
+            <button type="button" class="period-btn" data-period="7">7j</button>
+            <button type="button" class="period-btn active" data-period="30">30j</button>
+            <button type="button" class="period-btn" data-period="60">60j</button>
           </div>
         </div>
-        <p class="market-sub">Relevé du {{ market.mix_france.date_heure | date: "%d/%m/%Y à %Hh%M" }} · RTE (éCO2mix)</p>
+        <div class="pw-chart"><canvas id="chart-canvas-spot" aria-label="Prix spot de l'électricité, historique"></canvas></div>
+      </div>
+
+      <div class="pw-mix">
+        <p class="pw-label">Production en ce moment</p>
+        {% if mix %}
+        {% assign co2 = mix.co2_intensity %}
+        {% if co2 < 50 %}{% assign co2_level = "low" %}{% assign co2_text = "Très bas carbone" %}{% elsif co2 < 100 %}{% assign co2_level = "low" %}{% assign co2_text = "Bas carbone" %}{% elsif co2 < 250 %}{% assign co2_level = "mid" %}{% assign co2_text = "Carbone modéré" %}{% else %}{% assign co2_level = "high" %}{% assign co2_text = "Carbone élevé" %}{% endif %}
+        <div class="pw-co2 pw-co2--{{ co2_level }}">
+          <span class="pw-co2-value">{{ co2 | round: 0 }}</span>
+          <span class="pw-co2-text"><strong>{{ co2_text }}</strong>gCO₂ par kWh produit</span>
+        </div>
+        <div class="pw-stack" role="img" aria-label="Répartition de la production électrique">
+          {% for pair in mix.shares %}<span class="pw-src--{{ pair[0] }}" style="width: {{ pair[1] }}%"></span>{% endfor %}
+        </div>
+        <ul class="pw-legend">
+          {% for pair in mix.shares %}
+          {% case pair[0] %}{% when "nucleaire" %}{% assign lbl = "Nucléaire" %}{% when "eolien" %}{% assign lbl = "Éolien" %}{% when "solaire" %}{% assign lbl = "Solaire" %}{% when "hydraulique" %}{% assign lbl = "Hydraulique" %}{% when "gaz" %}{% assign lbl = "Gaz" %}{% when "bioenergies" %}{% assign lbl = "Bioénergies" %}{% when "thermique" %}{% assign lbl = "Thermique fossile" %}{% else %}{% assign lbl = pair[0] | capitalize %}{% endcase %}
+          <li><i class="pw-src--{{ pair[0] }}" aria-hidden="true"></i>{{ lbl }}<b>{{ pair[1] | replace: ".", "," }} %</b></li>
+          {% endfor %}
+        </ul>
+        <p class="pw-sub">Relevé du {{ mix.date_heure | date: "%d/%m à %Hh%M" }} · RTE éCO2mix</p>
         {% else %}
-        <p class="gadget-sub">Donnée à venir</p>
+        <p class="pw-sub">Donnée à venir</p>
         {% endif %}
       </div>
     </div>
@@ -221,27 +225,6 @@ permalink: /marches/
       </div>
     </header>
     {% include incidents.html %}
-  </div>
-</section>
-
-<!-- ===== SOURCES ET MÉTHODE ===== -->
-<section class="mk-section" id="sources">
-  <div class="wrap">
-    <header class="mk-head">
-      <span class="mk-head-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></span>
-      <div>
-        <h2 class="mkt-page-title">Sources et méthode</h2>
-        <p class="mk-lead">Toutes les données de cette page sont publiques et récupérées automatiquement. Si une source ne répond pas, la dernière valeur connue est conservée.</p>
-      </div>
-    </header>
-    <div class="mk-sources">
-      <div><strong>Prix spot électricité</strong><span>RTE (prix du jour), Energy-Charts / SMARD (historique)</span><em>toutes les 6 h</em></div>
-      <div><strong>Mix et intensité carbone</strong><span>RTE éCO2mix</span><em>toutes les 6 h</em></div>
-      <div><strong>Brent et Henry Hub</strong><span>OilPriceAPI (cours du jour), EIA (historique)</span><em>toutes les 6 h</em></div>
-      <div><strong>Trafic des détroits</strong><span>IMF PortWatch (FMI), contexte EIA</span><em>publication hebdomadaire</em></div>
-      <div><strong>Incidents en mer</strong><span>UKMTO (Royal Navy), Open Government Licence v3.0</span><em>toutes les 2 h</em></div>
-      <div><strong>Dernières infos</strong><span>Flux RSS d'Al Jazeera, France 24, Le Monde, EIA et BBC</span><em>toutes les 2 h</em></div>
-    </div>
     {% if market.updated_at %}
     <p class="mkt-updated-footer mkt-updated-footer--light"><span class="live-dot"></span>Données marché mises à jour le {{ market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
     {% endif %}

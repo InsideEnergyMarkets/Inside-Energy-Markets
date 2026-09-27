@@ -120,6 +120,25 @@ def summarize(details):
     return summary if len(summary) <= 300 else summary[:300].rsplit(" ", 1)[0] + "…"
 
 
+PLACES_FR = {
+    "strait of hormuz": "Détroit d'Ormuz", "gulf of oman": "Golfe d'Oman", "persian gulf": "Golfe Persique",
+    "arabian gulf": "Golfe Persique", "gulf of aden": "Golfe d'Aden", "southern red sea": "Sud de la mer Rouge",
+    "northern red sea": "Nord de la mer Rouge", "red sea": "Mer Rouge", "bab el mandeb": "Bab-el-Mandeb",
+    "arabian sea": "Mer d'Arabie", "indian ocean basin": "Océan Indien", "ukmto vra": "Océan Indien",
+    "somali basin": "Bassin somalien", "southern arabian gulf": "Sud du golfe Persique",
+    "northern arabian gulf": "Nord du golfe Persique",
+}
+VESSELS_FR = {
+    "tanker": "Tanker", "cargo": "Cargo", "bulk carrier": "Vraquier", "container": "Porte-conteneurs",
+    "container ship": "Porte-conteneurs", "general cargo": "Cargo", "fishing": "Pêche", "dhow": "Boutre",
+    "other": "", "merchant": "Navire marchand", "lpg tanker": "Méthanier GPL", "lng tanker": "Méthanier",
+}
+
+
+def translate(value, table):
+    return table.get(value.lower(), value) if value else value
+
+
 def clean(value):
     value = (value or "").strip()
     # Valeurs utilisées par l'UKMTO quand l'information n'est pas connue
@@ -147,8 +166,8 @@ def update_incidents():
             "type": x.get("incidentTypeName"),
             "lat": round(float(x["locationLatitude"]), 4),
             "lon": round(float(x["locationLongitude"]), 4),
-            "place": clean(x.get("place")),
-            "vessel_type": clean(x.get("vesselType")),
+            "place": translate(clean(x.get("place")), PLACES_FR),
+            "vessel_type": translate(clean(x.get("vesselType")), VESSELS_FR),
             "vessel_name": clean(x.get("vesselName")),
             "summary": summarize(x.get("otherDetails")),
         }

@@ -6,16 +6,15 @@
 {% if incidents and incidents.size > 0 %}
 <section class="mt-card inc-card">
   <h3 class="mkt-commodity-name">Carte des incidents</h3>
-  <p class="mt-kpi-note">Incidents signalés par les navires au UKMTO (centre maritime de la Royal Navy) sur les 90 derniers jours,
-    à leur position exacte. Mis à jour automatiquement toutes les 2 heures.</p>
+  <p class="mt-kpi-note">Incidents signalés par les navires au UKMTO (centre maritime de la Royal Navy) sur les 90 derniers jours.</p>
   <div class="inc-filters" id="inc-filters"></div>
   <div id="inc-map" role="region" aria-label="Carte des incidents maritimes"></div>
-  <h4 class="inc-list-title">Derniers incidents</h4>
-  <ol class="inc-list" id="inc-list"></ol>
-  <p class="mt-src">Source : <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">UKMTO</a>.
-    Contient des informations du secteur public publiées sous
-    <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>.
-    Résumés dans la langue d'origine (anglais). Fond de carte © OpenStreetMap.</p>
+  <div class="inc-latest">
+    <h4 class="inc-list-title">Derniers incidents</h4>
+    <ol class="inc-list" id="inc-list"></ol>
+    <a class="inc-all" href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">Tous les incidents sur le site de l'UKMTO →</a>
+  </div>
+  <p class="mt-src">Source : <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">UKMTO</a> · <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a></p>
 </section>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>

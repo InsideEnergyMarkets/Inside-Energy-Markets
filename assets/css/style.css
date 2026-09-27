@@ -2005,8 +2005,12 @@ footer .socials a.footer-podcast-link:hover {
 .mt-src a, .mt-more a { color: #4fd1c5; }
 .mt-more { font-size: 13px; font-weight: 600; margin: 10px 0 0; }
 
-.mt-map summary { cursor: pointer; font-weight: 600; font-size: 13px; color: #4fd1c5; padding: 10px 0; }
-.mt-map-note { font-size: 12px; color: rgba(255, 255, 255, 0.65); margin: 0 0 10px; }
+.mt-map { margin: 18px 0 0; }
+.mt-map-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.mt-live { display: inline-flex; align-items: center; gap: 7px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #4fd1c5; }
+.mt-live i { width: 7px; height: 7px; border-radius: 50%; background: #4fd1c5; animation: nw-pulse 1.4s infinite; }
+.mt-map-note { font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.mt-map .ais-embed-wrap { border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); }
 
 @media (max-width: 640px) {
   .mt-card { padding: 18px 16px; }
@@ -2124,11 +2128,6 @@ footer .socials a.footer-podcast-link:hover {
 .mk-lead { margin: 0; font-size: 14px; color: #5a6b7b; max-width: 720px; }
 .mt-card, .mt-brent { scroll-margin-top: 120px; }
 
-.mk-power-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px; align-items: stretch; }
-.mk-power-grid .mkt-panel-card { margin-bottom: 0; }
-.mk-power-price .market-grid--detail { grid-template-columns: 1fr; }
-.mk-power-price .mkt-weekly { margin-top: 18px; }
-@media (max-width: 860px) { .mk-power-grid { grid-template-columns: 1fr; } }
 
 .mk-straits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
 .mk-strait {
@@ -2182,3 +2181,68 @@ footer .socials a.footer-podcast-link:hover {
 }
 .hm-alert:hover { background: rgba(255, 107, 91, 0.2); }
 .hm-alert i { color: #ff6b5b; }
+
+/* ===== Électricité France : carte prix + mix ===== */
+.pw-card {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  background: linear-gradient(160deg, #17255f 0%, #0d1638 100%); border-radius: 16px; color: #fff;
+  box-shadow: 0 16px 40px rgba(23, 37, 95, 0.18); overflow: hidden;
+}
+.pw-price, .pw-mix { padding: 26px 28px; display: flex; flex-direction: column; }
+.pw-mix { background: rgba(255, 255, 255, 0.03); border-left: 1px solid rgba(255, 255, 255, 0.08); }
+.pw-top { display: flex; justify-content: space-between; align-items: center; }
+.pw-label { margin: 0; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.pw-value { margin: 10px 0 2px; font-family: 'JetBrains Mono', monospace; font-size: 44px; line-height: 1.1; color: #fff; }
+.pw-value small { font-family: 'Inter', sans-serif; font-size: 15px; color: rgba(255, 255, 255, 0.55); }
+.pw-sub { margin: 0; font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+.pw-mix .pw-sub { margin-top: auto; padding-top: 14px; }
+.pw-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0; }
+.pw-stats div { background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 9px 12px; display: flex; flex-direction: column; gap: 2px; }
+.pw-stats span { font-size: 11px; color: rgba(255, 255, 255, 0.5); }
+.pw-stats strong { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; }
+.pw-chart-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.pw-chart-head > span { font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.pw-chart { position: relative; height: 170px; }
+.pw-chart canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
+.pw-co2 { display: flex; align-items: center; gap: 14px; margin: 14px 0 18px; }
+.pw-co2-value { font-family: 'JetBrains Mono', monospace; font-size: 44px; line-height: 1; }
+.pw-co2-text { display: flex; flex-direction: column; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.pw-co2-text strong { font-size: 14px; }
+.pw-co2--low .pw-co2-value, .pw-co2--low strong { color: #3ddc97; }
+.pw-co2--mid .pw-co2-value, .pw-co2--mid strong { color: #e8b33a; }
+.pw-co2--high .pw-co2-value, .pw-co2--high strong { color: #ff6b5b; }
+.pw-stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: rgba(255, 255, 255, 0.08); gap: 2px; }
+.pw-stack span { display: block; height: 100%; min-width: 3px; }
+.pw-legend { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px 18px; }
+.pw-legend li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255, 255, 255, 0.85); }
+.pw-legend i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.pw-legend b { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; }
+.pw-src--nucleaire { background: #8b7cf6; }
+.pw-src--eolien { background: #4fd1c5; }
+.pw-src--solaire { background: #f6c343; }
+.pw-src--hydraulique { background: #3b82f6; }
+.pw-src--gaz { background: #e8703a; }
+.pw-src--bioenergies { background: #3ddc97; }
+.pw-src--thermique { background: #a0aec0; }
+@media (max-width: 860px) {
+  .pw-card { grid-template-columns: 1fr; }
+  .pw-mix { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+}
+@media (max-width: 480px) {
+  .pw-price, .pw-mix { padding: 20px 18px; }
+  .pw-value, .pw-co2-value { font-size: 36px; }
+  .pw-legend { grid-template-columns: 1fr; }
+}
+
+/* ===== Incidents : liste courte à côté de la carte ===== */
+.inc-latest { margin-top: 18px; }
+.inc-list li { padding-bottom: 12px; }
+.inc-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.inc-where { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.inc-sum {
+  margin: 3px 0 0; font-size: 12.5px; line-height: 1.45; color: rgba(255, 255, 255, 0.7);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.inc-all { display: inline-block; margin-top: 2px; font-size: 13px; font-weight: 600; color: #4fd1c5; text-decoration: none; }
+.inc-all:hover { text-decoration: underline; }
