@@ -3,7 +3,7 @@
   "period_end": "2026-09-27",
   "brent": {
     "start_usd": 116.15,
-    "end_usd": 104.45,
+    "end_usd": 104.38,
     "change_pct": -10.1
   },
   "spot_price": {
@@ -13,8 +13,8 @@
     "days_count": 8
   },
   "mix": {
-    "nuclear_avg_share": 72.1,
-    "renewables_avg_share": 23.0,
+    "nuclear_avg_share": 70.8,
+    "renewables_avg_share": 24.2,
     "days_count": 8
   }
 }

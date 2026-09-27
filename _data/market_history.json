@@ -580,10 +580,12 @@
       "gaz": 6.2,
       "bioenergies": 1.8
     },
-    "brent_usd": 104.45,
+    "brent_usd": 104.38,
     "brent_source": "OilPriceAPI",
     "spot_eur_mwh": 161.52,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "henry_hub_usd_mmbtu": 3.2,
+    "henry_hub_source": "OilPriceAPI"
   },
   {
     "date": "2026-09-26",
@@ -601,10 +603,10 @@
   {
     "date": "2026-09-27",
     "mix_shares": {
-      "nucleaire": 71.6,
-      "eolien": 7.4,
-      "solaire": 14.1,
-      "hydraulique": 3.6,
+      "nucleaire": 61.5,
+      "eolien": 6.2,
+      "solaire": 25.6,
+      "hydraulique": 3.4,
       "gaz": 1.1,
       "bioenergies": 2.2
     },

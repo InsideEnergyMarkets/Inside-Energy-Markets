@@ -1,34 +1,37 @@
 {
-  "updated_at": "2026-09-27T08:12:31.000211Z",
+  "updated_at": "2026-09-27T09:00:44.544233Z",
   "brent": {
     "price_usd": 104.38,
-    "date": "2026-09-27",
+    "date": "2026-09-25",
     "unit": "USD/baril",
-    "source": "OilPriceAPI"
+    "source": "OilPriceAPI",
+    "date_label": "Cours du ven. 25/09"
   },
   "henry_hub": {
     "price_usd_mmbtu": 3.2,
-    "date": "2026-09-27",
+    "date": "2026-09-25",
     "unit": "USD/MMBtu",
-    "source": "OilPriceAPI"
+    "source": "OilPriceAPI",
+    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)"
   },
   "mix_france": {
-    "date_heure": "2026-09-27T07:45:00+00:00",
+    "date_heure": "2026-09-27T08:45:00+00:00",
     "shares": {
-      "nucleaire": 71.6,
-      "eolien": 7.4,
-      "solaire": 14.1,
-      "hydraulique": 3.6,
+      "nucleaire": 61.5,
+      "eolien": 6.2,
+      "solaire": 25.6,
+      "hydraulique": 3.4,
       "gaz": 1.1,
       "bioenergies": 2.2
     },
     "top_source": "nucleaire",
-    "top_share": 71.6,
+    "top_share": 61.5,
     "co2_intensity": 16
   },
   "spot_price_france": {
     "price_eur_mwh": 115.41,
     "date": "2026-09-27",
+    "date_label": "Moyenne du dim. 27/09",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE"
   },
@@ -36,6 +39,7 @@
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-09-20",
+      "age_days": 7,
       "period_start": "2026-09-16",
       "n_tanker": 0.6,
       "n_total": 3.6,
@@ -47,6 +51,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-09-20",
+      "age_days": 7,
       "period_start": "2026-09-16",
       "n_tanker": 6.4,
       "n_total": 24.8,
@@ -58,6 +63,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-09-20",
+      "age_days": 7,
       "period_start": "2026-09-16",
       "n_tanker": 71.6,
       "n_total": 230.0,
