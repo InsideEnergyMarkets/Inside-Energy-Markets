@@ -179,84 +179,24 @@ permalink: /marches/
 <section class="block mkt-block">
   <div class="wrap">
     <h2 class="mkt-page-title">Trafic maritime</h2>
+    {% assign cp_ref = site.data.market.chokepoints.hormuz %}
+    <p class="mt-section-note">Passages de navires comptés à partir des signaux AIS (IMF PortWatch). Données publiées une fois par semaine,
+      avec environ une semaine de retard{% if cp_ref.date %} : dernière donnée au <strong>{{ cp_ref.date | date: "%d/%m" }}</strong>{% endif %}.</p>
 
-    {% assign cp = site.data.market.chokepoints.hormuz %}
-    <div class="mkt-panel-card mkt-panel-card--map">
-      <div class="mkt-card-header-row">
-        <p class="gadget-label">Détroit d'Ormuz</p>
-        {% if cp.status %}
-        <span class="traffic-badge {{ cp.status }}">
-          {% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
-        </span>
-        {% endif %}
-      </div>
-      {% if cp.n_total %}
-      <p class="mkt-traffic-stats">{{ cp.n_tanker }} tankers/jour · {{ cp.n_total }} navires/jour en moyenne (fenêtre du {{ cp.period_start }} au {{ cp.date }})</p>
-{% if cp.age_days and cp.age_days >= 2 %}<p class="mkt-traffic-lag">Données au {{ cp.date | date: "%d/%m" }}, soit il y a {{ cp.age_days }} jours : PortWatch (FMI) publie une fois par semaine, avec environ une semaine de retard.</p>{% endif %}
-      {% endif %}
-      <div class="ais-embed-wrap ais-embed-wrap--hero">
-        <iframe class="ais-frame"
-          src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
-          frameborder="0" scrolling="no"></iframe>
-        <div class="ais-fallback">
-          <p>La carte en direct n'a pas pu se charger.</p>
-          <a href="https://www.marinetraffic.com/en/ais/home/centerx:56.25/centery:26.55/zoom:8" target="_blank">Voir en direct sur MarineTraffic →</a>
-        </div>
-      </div>
-      <p class="market-source">Source : MarineTraffic</p>
-    </div>
+    <script>window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};</script>
+    {% include chokepoint.html key="hormuz" name="Détroit d'Ormuz" lat="26.55" lon="56.25" zoom="8" %}
+    {% include chokepoint.html key="bab_el_mandeb" name="Détroit de Bab-el-Mandeb" lat="12.6" lon="43.4" zoom="8" %}
+    {% include chokepoint.html key="malacca" name="Détroit de Malacca" lat="3.5" lon="100.5" zoom="6" %}
 
-    {% assign cp = site.data.market.chokepoints.bab_el_mandeb %}
-    <div class="mkt-panel-card mkt-panel-card--map">
-      <div class="mkt-card-header-row">
-        <p class="gadget-label">Détroit de Bab-el-Mandeb</p>
-        {% if cp.status %}
-        <span class="traffic-badge {{ cp.status }}">
-          {% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
-        </span>
-        {% endif %}
-      </div>
-      {% if cp.n_total %}
-      <p class="mkt-traffic-stats">{{ cp.n_tanker }} tankers/jour · {{ cp.n_total }} navires/jour en moyenne (fenêtre du {{ cp.period_start }} au {{ cp.date }})</p>
-{% if cp.age_days and cp.age_days >= 2 %}<p class="mkt-traffic-lag">Données au {{ cp.date | date: "%d/%m" }}, soit il y a {{ cp.age_days }} jours : PortWatch (FMI) publie une fois par semaine, avec environ une semaine de retard.</p>{% endif %}
-      {% endif %}
-      <div class="ais-embed-wrap ais-embed-wrap--hero">
-        <iframe class="ais-frame"
-          src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:12.6/centerx:43.4/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
-          frameborder="0" scrolling="no"></iframe>
-        <div class="ais-fallback">
-          <p>La carte en direct n'a pas pu se charger.</p>
-          <a href="https://www.marinetraffic.com/en/ais/home/centerx:43.4/centery:12.6/zoom:8" target="_blank">Voir en direct sur MarineTraffic →</a>
-        </div>
-      </div>
-      <p class="market-source">Source : MarineTraffic</p>
-    </div>
-
-    {% assign cp = site.data.market.chokepoints.malacca %}
-    <div class="mkt-panel-card mkt-panel-card--map">
-      <div class="mkt-card-header-row">
-        <p class="gadget-label">Détroit de Malacca</p>
-        {% if cp.status %}
-        <span class="traffic-badge {{ cp.status }}">
-          {% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
-        </span>
-        {% endif %}
-      </div>
-      {% if cp.n_total %}
-      <p class="mkt-traffic-stats">{{ cp.n_tanker }} tankers/jour · {{ cp.n_total }} navires/jour en moyenne (fenêtre du {{ cp.period_start }} au {{ cp.date }})</p>
-{% if cp.age_days and cp.age_days >= 2 %}<p class="mkt-traffic-lag">Données au {{ cp.date | date: "%d/%m" }}, soit il y a {{ cp.age_days }} jours : PortWatch (FMI) publie une fois par semaine, avec environ une semaine de retard.</p>{% endif %}
-      {% endif %}
-      <div class="ais-embed-wrap ais-embed-wrap--hero">
-        <iframe class="ais-frame"
-          src="https://www.marinetraffic.com/en/ais/embed/zoom:6/centery:3.5/centerx:100.5/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
-          frameborder="0" scrolling="no"></iframe>
-        <div class="ais-fallback">
-          <p>La carte en direct n'a pas pu se charger.</p>
-          <a href="https://www.marinetraffic.com/en/ais/home/centerx:100.5/centery:3.5/zoom:6" target="_blank">Voir en direct sur MarineTraffic →</a>
-        </div>
-      </div>
-      <p class="market-source">Source : MarineTraffic</p>
-    </div>
+    <section class="mt-card mt-brent">
+      <h3 class="mkt-commodity-name">Ormuz et le prix du pétrole</h3>
+      <p class="mt-kpi-note">Capacité des tankers passant à Ormuz sur 12 mois (moyenne 7 jours, en % de la normale {{ cp_ref.ref_period }}), face au prix du Brent.</p>
+      <div class="mt-chart mt-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ cp_ref.ref_capacity_tanker_mt }}" aria-label="Capacité des tankers à Ormuz et prix du Brent sur 12 mois"></canvas></div>
+      <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>Capacité tankers à Ormuz (% de la normale)
+        <span class="mt-sw"></span>Brent ($/baril)</p>
+      <p class="mt-src">Sources : IMF PortWatch (passages), EIA et OilPriceAPI (Brent)</p>
+      <script>window.mktBrentYear = {{ site.data.brent_year | jsonify }};</script>
+    </section>
 
     {% if site.data.market.updated_at %}
     <p class="mkt-updated-footer mkt-updated-footer--light"><span class="live-dot"></span>Données marché mises à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>

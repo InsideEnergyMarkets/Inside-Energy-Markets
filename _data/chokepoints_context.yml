@@ -1,0 +1,24 @@
+# Contexte fixe affiché sur chaque carte détroit (à mettre à jour à la main).
+# Source : EIA, World Oil Transit Chokepoints, publié le 3 mars 2026 (données du 1er semestre 2025).
+source_label: "EIA, World Oil Transit Chokepoints (mars 2026, données du 1er semestre 2025)"
+source_url: "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints"
+
+hormuz:
+  - value: "20,9 Mb/j"
+    text: "de pétrole, soit environ 20 % de la consommation mondiale"
+  - value: "1/4"
+    text: "du pétrole transporté par mer"
+  - value: "> 20 %"
+    text: "du GNL mondial (surtout du Qatar)"
+
+bab_el_mandeb:
+  - value: "4,2 Mb/j"
+    text: "de pétrole au 1er semestre 2025"
+  - value: "÷ 2"
+    text: "par rapport à 2023, depuis les attaques en mer Rouge"
+
+malacca:
+  - value: "23,2 Mb/j"
+    text: "de pétrole au 1er semestre 2025"
+  - value: "29 %"
+    text: "du pétrole transporté par mer, 1er point de passage mondial"
