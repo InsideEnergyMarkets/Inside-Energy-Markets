@@ -717,6 +717,7 @@ document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
     'Advisory': { label: 'Avis', color: '#4fd1c5' }
   };
   var OTHER = { label: 'Autre', color: '#a0aec0' };
+  // Noms de navire anonymisés par l'UKMTO (NONE, MERCHANT…) : on n'affiche que le type
   function kind(t) { return TYPES[t] || OTHER; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
   function when(iso) {
@@ -734,7 +735,7 @@ document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
   var groups = {};
   items.slice().reverse().forEach(function (i) { // les plus récents dessinés au-dessus
     var k = kind(i.type);
-    var vessel = [i.vessel_type, i.vessel_name].filter(Boolean).join(' ');
+    var vessel = i.vessel_type;
     var marker = L.circleMarker([i.lat, i.lon], { radius: 7, color: '#fff', weight: 1.5, fillColor: k.color, fillOpacity: 0.9 })
       .bindPopup('<strong>' + k.label + ' · ' + esc(i.place) + '</strong><br>' + when(i.date) +
                  (vessel ? ' · ' + esc(vessel) : '') + '<br>' + esc(i.summary) +
@@ -762,7 +763,7 @@ document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
   });
 
   document.getElementById('inc-list').innerHTML = items.slice(0, 8).map(function (i) {
-    var k = kind(i.type), vessel = [i.vessel_type, i.vessel_name].filter(Boolean).join(' ');
+    var k = kind(i.type), vessel = i.vessel_type;
     return '<li style="--c:' + k.color + '"><time>' + when(i.date) + '</time><span class="inc-tag">' + k.label + '</span>' +
            '<span class="inc-tag">' + esc(i.place) + '</span>' + (vessel ? '<span class="inc-vessel">' + esc(vessel) + '</span>' : '') +
            '<br>' + esc(i.summary) + '</li>';
