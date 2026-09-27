@@ -40,6 +40,36 @@ def load_existing():
         return {}
 
 
+JOURS = ["lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim."]
+
+
+def last_trading_day(date_str):
+    """Samedi ou dimanche -> vendredi précédent (bourses fermées le week-end)."""
+    d = datetime.date.fromisoformat(date_str[:10])
+    while d.weekday() >= 5:
+        d -= datetime.timedelta(days=1)
+    return d
+
+
+def label_quote(entry):
+    """Date de cotation + libellé affiché sur les cartes Brent / Henry Hub.
+
+    Le week-end, OilPriceAPI renvoie la clôture du vendredi datée du jour de la
+    collecte : on la rattache au vendredi et on l'écrit clairement.
+    """
+    if not entry or not entry.get("date"):
+        return entry
+    collected = datetime.date.fromisoformat(entry["date"][:10])
+    trading = last_trading_day(entry["date"])
+    entry["date"] = trading.isoformat()
+    day = f"{JOURS[trading.weekday()]} {trading:%d/%m}"
+    entry["date_label"] = (
+        f"Clôture du {day} (bourse fermée le week-end)" if trading != collected
+        else f"Cours du {day}"
+    )
+    return entry
+
+
 def oilpriceapi_date(row):
     # as_of = heure de la cotation sur le marché (ex. clôture du vendredi),
     # created_at = heure à laquelle OilPriceAPI l'a collectée
@@ -314,9 +344,11 @@ def fetch_spot_price_france(existing):
             raise ValueError(f"aucune journée complète retournée ({len(periods)} périodes)")
 
         last_day = max(daily)
+        d = datetime.date.fromisoformat(last_day)
         return {
             "price_eur_mwh": daily[last_day],
             "date": last_day,
+            "date_label": f"Moyenne du {JOURS[d.weekday()]} {d:%d/%m}",
             "unit": "EUR/MWh, moyenne journalière",
             "source": "RTE",
             "daily": daily,
@@ -425,9 +457,19 @@ def fetch_chokepoint_traffic(existing):
             latest_date = rows[0]["date"] if rows else None
             oldest_date = rows[-1]["date"] if rows else None
 
+            # PortWatch publie une fois par semaine avec ~1 semaine de retard :
+            # on garde l'âge de la donnée pour l'afficher (sinon on croit à une panne)
+            age_days = None
+            if latest_date:
+                try:
+                    age_days = (datetime.date.today() - datetime.date.fromisoformat(latest_date[:10])).days
+                except ValueError:
+                    pass
+
             entry = {
                 "portname": features[0]["attributes"].get("portname"),
                 "date": latest_date,
+                "age_days": age_days,
                 "period_start": oldest_date,
                 "n_tanker": n_tanker_avg,
                 "n_total": n_total_avg,
@@ -597,8 +639,8 @@ def main():
 
     data = {
         "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
-        "brent": fetch_brent(existing),
-        "henry_hub": fetch_henry_hub(existing),
+        "brent": label_quote(fetch_brent(existing)),
+        "henry_hub": label_quote(fetch_henry_hub(existing)),
         "mix_france": fetch_mix_france(existing),
         "spot_price_france": spot,
         "chokepoints": fetch_chokepoint_traffic(existing),

@@ -73,7 +73,7 @@ title: Accueil
         <p class="mkt-commodity-name">ÉLECTRICITÉ FR</p>
         {% if site.data.market.spot_price_france %}
         <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
-        <p class="market-sub">Mis à jour : {{ site.data.market.spot_price_france.date }} · RTE</p>
+        <p class="market-sub">{% if site.data.market.spot_price_france.date_label %}{{ site.data.market.spot_price_france.date_label }}{% else %}Mis à jour : {{ site.data.market.spot_price_france.date }}{% endif %} · RTE</p>
         {% else %}
         <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
@@ -101,7 +101,7 @@ title: Accueil
         <p class="mkt-commodity-name">BRENT</p>
         {% if site.data.market.brent %}
         <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
-        <p class="market-sub">Mis à jour : {{ site.data.market.brent.date }} · {{ site.data.market.brent.source | default: "EIA" }}</p>
+        <p class="market-sub">{% if site.data.market.brent.date_label %}{{ site.data.market.brent.date_label }}{% else %}Mis à jour : {{ site.data.market.brent.date }}{% endif %} · {{ site.data.market.brent.source | default: "EIA" }}</p>
         {% else %}
         <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
@@ -129,7 +129,7 @@ title: Accueil
         <p class="mkt-commodity-name">HENRY HUB</p>
         {% if site.data.market.henry_hub %}
         <p class="market-value">{{ site.data.market.henry_hub.price_usd_mmbtu }} <span>$/MMBtu</span></p>
-        <p class="market-sub">Mis à jour : {{ site.data.market.henry_hub.date }} · {{ site.data.market.henry_hub.source | default: "EIA" }}</p>
+        <p class="market-sub">{% if site.data.market.henry_hub.date_label %}{{ site.data.market.henry_hub.date_label }}{% else %}Mis à jour : {{ site.data.market.henry_hub.date }}{% endif %} · {{ site.data.market.henry_hub.source | default: "EIA" }}</p>
         {% else %}
         <p class="market-value market-pending">-</p>
         <p class="market-sub">Donnée à venir</p>
@@ -173,6 +173,7 @@ title: Accueil
         </div>
         {% if cp_home.n_total %}
         <p class="mkt-traffic-stats">{{ cp_home.n_tanker }} tankers/jour · {{ cp_home.n_total }} navires/jour en moyenne (fenêtre du {{ cp_home.period_start }} au {{ cp_home.date }})</p>
+{% if cp_home.age_days and cp_home.age_days >= 2 %}<p class="mkt-traffic-lag">Données au {{ cp_home.date | date: "%d/%m" }}, soit il y a {{ cp_home.age_days }} jours : PortWatch (FMI) publie une fois par semaine, avec environ une semaine de retard.</p>{% endif %}
         {% endif %}
         <div class="ais-embed-wrap ais-embed-wrap--hero">
           <iframe loading="lazy" class="ais-frame"
