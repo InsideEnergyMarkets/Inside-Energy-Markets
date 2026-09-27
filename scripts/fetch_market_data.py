@@ -5,7 +5,9 @@ Récupère les données marché et les écrit dans _data/market.json :
 - Mix électrique France en temps réel (RTE eco2mix API v2, aucune clé requise)
 - Prix spot électricité France day-ahead, moyenne journalière des prix horaires
   (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
-- Trafic maritime par détroit stratégique (IMF PortWatch, AIS, aucune clé requise)
+- Trafic maritime par détroit stratégique (IMF PortWatch, AIS, aucune clé requise),
+  avec historique 90 jours dans _data/chokepoints_history.json
+- Brent sur 12 mois (EIA) pour le graphique Ormuz / Brent : _data/brent_year.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
 un résumé hebdomadaire (_data/weekly_summary.json). Chaque prix de l'historique est
@@ -367,30 +369,60 @@ CHOKEPOINTS = {
     "malacca": "Malacca",
 }
 
+PORTWATCH_DAILY_URL = (
+    "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/"
+    "Daily_Chokepoints_Data/FeatureServer/0/query"
+)
+CHOKEPOINTS_HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "chokepoints_history.json")
+BRENT_YEAR_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "brent_year.json")
+TRAFFIC_FIELDS = ("n_tanker", "n_total", "capacity_tanker")
+CHOKEPOINT_HISTORY_DAYS = 90
 
-def fetch_chokepoint_baseline(name_fragment):
-    """Référence annuelle de trafic pour un détroit (IMF PortWatch) — convertie en moyenne journalière."""
-    url = (
-        "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/"
-        "PortWatch_chokepoints_database/FeatureServer/0/query"
-        f"?where=UPPER(portname)%20LIKE%20UPPER('%25{name_fragment}%25')"
-        "&outFields=portname,vessel_count_tanker,vessel_count_total"
-        "&resultRecordCount=1&f=json"
-    )
-    r = requests.get(url, timeout=20)
+# « Normale » = moyenne journalière de janvier à octobre 2023 : avant les attaques en
+# mer Rouge (nov. 2023) et avant la fermeture d'Ormuz. La base annuelle de PortWatch
+# était déjà tirée vers le bas par ces crises (Bab-el-Mandeb surtout).
+REFERENCE_START, REFERENCE_END = "2023-01-01", "2023-10-31"
+REFERENCE_LABEL = "janv.-oct. 2023"
+
+
+def _portwatch_date(value):
+    if isinstance(value, (int, float)):
+        return datetime.datetime.utcfromtimestamp(value / 1000).strftime("%Y-%m-%d")
+    return str(value)[:10]
+
+
+def portwatch_daily(name_fragment, count, extra_where=""):
+    """Passages quotidiens d'un détroit (IMF PortWatch), du plus ancien au plus récent."""
+    r = requests.get(PORTWATCH_DAILY_URL, params={
+        "where": f"UPPER(portname) LIKE UPPER('%{name_fragment}%'){extra_where}",
+        "outFields": "date,portname," + ",".join(TRAFFIC_FIELDS),
+        "orderByFields": "date DESC",
+        "resultRecordCount": count,
+        "f": "json",
+    }, timeout=30)
     r.raise_for_status()
-    payload = r.json()
-    features = payload.get("features") or []
+    features = r.json().get("features") or []
     if not features:
-        raise ValueError(f"aucune référence pour {name_fragment}")
-    attrs = features[0]["attributes"]
+        raise ValueError(f"aucun enregistrement PortWatch pour {name_fragment}")
+    rows = [{"date": _portwatch_date(f["attributes"]["date"]),
+             **{k: f["attributes"].get(k) for k in TRAFFIC_FIELDS}} for f in features]
+    return sorted(rows, key=lambda row: row["date"]), features[0]["attributes"].get("portname")
 
-    tanker_annual = attrs.get("vessel_count_tanker")
-    total_annual = attrs.get("vessel_count_total")
 
+def _mean(rows, field):
+    values = [row[field] for row in rows if row.get(field) is not None]
+    return sum(values) / len(values) if values else None
+
+
+def fetch_chokepoint_reference(name_fragment):
+    rows, _ = portwatch_daily(
+        name_fragment, 400,
+        f" AND date >= DATE '{REFERENCE_START}' AND date <= DATE '{REFERENCE_END}'")
     return {
-        "tanker_avg": round(float(tanker_annual) / 365, 1) if tanker_annual else None,
-        "total_avg": round(float(total_annual) / 365, 1) if total_annual else None,
+        "ref_tanker": round(_mean(rows, "n_tanker"), 1),
+        "ref_total": round(_mean(rows, "n_total"), 1),
+        "ref_capacity_tanker_mt": round(_mean(rows, "capacity_tanker") / 1e6, 2),
+        "ref_period": REFERENCE_LABEL,
     }
 
 
@@ -401,7 +433,7 @@ def classify_traffic_status(current, baseline):
         baseline = float(baseline)
     except (TypeError, ValueError):
         return None
-    if not current or not baseline or baseline <= 0:
+    if baseline <= 0:
         return None
     ratio = current / baseline
     if ratio >= 0.8:
@@ -412,91 +444,86 @@ def classify_traffic_status(current, baseline):
         return "ferme"
 
 
+def _pct(value, ref):
+    return round(value / ref * 100) if value is not None and ref else None
+
+
+def load_json(path, default):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
+
+
 def fetch_chokepoint_traffic(existing):
-    """Trafic maritime (nb de tankers/jour) par détroit, via IMF PortWatch (AIS, gratuit, sans clé).
-    On moyenne les 5 derniers jours disponibles pour lisser les anomalies ponctuelles
-    (couverture satellite incomplète un jour donné, mise à jour par lots, etc.)."""
+    """Trafic par détroit via IMF PortWatch (AIS satellite, gratuit, sans clé).
+
+    Valeurs du jour = moyenne des 5 derniers jours publiés (lisse les anomalies de
+    couverture). Renvoie aussi l'historique sur 90 jours (et 12 mois pour Ormuz),
+    écrit à part dans _data/chokepoints_history.json pour les graphiques.
+    """
     existing_traffic = existing.get("chokepoints", {}) or {}
+    history = load_json(CHOKEPOINTS_HISTORY_PATH, {})
     result = {}
 
     for key, name_fragment in CHOKEPOINTS.items():
         try:
-            url = (
-                "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/"
-                "Daily_Chokepoints_Data/FeatureServer/0/query"
-                f"?where=UPPER(portname)%20LIKE%20UPPER('%25{name_fragment}%25')"
-                "&outFields=date,portname,n_tanker,n_total"
-                "&orderByFields=date%20DESC"
-                "&resultRecordCount=5&f=json"
-            )
-            r = requests.get(url, timeout=20)
-            r.raise_for_status()
-            payload = r.json()
-            features = payload.get("features") or []
-            if not features:
-                raise ValueError(f"aucun enregistrement pour {name_fragment} (clés reçues: {list(payload.keys())})")
+            rows, portname = portwatch_daily(name_fragment, CHOKEPOINT_HISTORY_DAYS)
+            last5 = rows[-5:]
+            latest_date = rows[-1]["date"]
+            n_tanker, n_total = _mean(last5, "n_tanker"), _mean(last5, "n_total")
+            capacity = _mean(last5, "capacity_tanker")
 
-            rows = []
-            for feat in features:
-                a = feat["attributes"]
-                date_ms = a.get("date")
-                date_str = None
-                if date_ms:
-                    try:
-                        date_str = datetime.datetime.utcfromtimestamp(float(date_ms) / 1000).strftime("%Y-%m-%d")
-                    except (TypeError, ValueError):
-                        date_str = str(date_ms)
-                rows.append({
-                    "date": date_str,
-                    "n_tanker": a.get("n_tanker"),
-                    "n_total": a.get("n_total"),
-                })
+            # La normale ne change pas : on ne la redemande que si elle manque
+            prev = existing_traffic.get(key) or {}
+            if prev.get("ref_period") == REFERENCE_LABEL and prev.get("ref_total"):
+                ref = {k: prev[k] for k in ("ref_tanker", "ref_total", "ref_capacity_tanker_mt", "ref_period")}
+            else:
+                ref = fetch_chokepoint_reference(name_fragment)
 
-            tanker_vals = [r["n_tanker"] for r in rows if r["n_tanker"] is not None]
-            total_vals = [r["n_total"] for r in rows if r["n_total"] is not None]
-
-            n_tanker_avg = round(sum(tanker_vals) / len(tanker_vals), 1) if tanker_vals else None
-            n_total_avg = round(sum(total_vals) / len(total_vals), 1) if total_vals else None
-            latest_date = rows[0]["date"] if rows else None
-            oldest_date = rows[-1]["date"] if rows else None
-
-            # PortWatch publie une fois par semaine avec ~1 semaine de retard :
-            # on garde l'âge de la donnée pour l'afficher (sinon on croit à une panne)
-            age_days = None
-            if latest_date:
-                try:
-                    age_days = (datetime.date.today() - datetime.date.fromisoformat(latest_date[:10])).days
-                except ValueError:
-                    pass
-
-            entry = {
-                "portname": features[0]["attributes"].get("portname"),
+            capacity_mt = round(capacity / 1e6, 2) if capacity is not None else None
+            result[key] = {
+                "portname": portname,
                 "date": latest_date,
-                "age_days": age_days,
-                "period_start": oldest_date,
-                "n_tanker": n_tanker_avg,
-                "n_total": n_total_avg,
-                "days_averaged": len(rows),
+                "age_days": (datetime.date.today() - datetime.date.fromisoformat(latest_date)).days,
+                "period_start": last5[0]["date"],
+                "days_averaged": len(last5),
+                "n_tanker": round(n_tanker, 1) if n_tanker is not None else None,
+                "n_total": round(n_total, 1) if n_total is not None else None,
+                "capacity_tanker_mt": capacity_mt,
+                **ref,
+                "pct_tanker": _pct(n_tanker, ref["ref_tanker"]),
+                "pct_total": _pct(n_total, ref["ref_total"]),
+                "pct_capacity": _pct(capacity_mt, ref["ref_capacity_tanker_mt"]),
+                "status": classify_traffic_status(n_total, ref["ref_total"]),
             }
-
-            try:
-                baseline = fetch_chokepoint_baseline(name_fragment)
-                entry["tanker_avg"] = baseline.get("tanker_avg")
-                entry["total_avg"] = baseline.get("total_avg")
-                entry["status"] = classify_traffic_status(n_total_avg, baseline.get("total_avg"))
-            except Exception as e2:
-                print(f"Erreur référence {key}: {e2}")
-                prev = existing_traffic.get(key) or {}
-                entry["tanker_avg"] = prev.get("tanker_avg")
-                entry["total_avg"] = prev.get("total_avg")
-                entry["status"] = prev.get("status")
-
-            result[key] = entry
+            history[key] = rows
+            if key == "hormuz":
+                history["hormuz_year"], _ = portwatch_daily(name_fragment, 366)
         except Exception as e:
             print(f"Erreur trafic {key}: {e}")
             result[key] = existing_traffic.get(key)
 
+    os.makedirs(os.path.dirname(CHOKEPOINTS_HISTORY_PATH), exist_ok=True)
+    with open(CHOKEPOINTS_HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, separators=(",", ":"))
     return result
+
+
+def update_brent_year():
+    """Brent sur 12 mois (EIA, clôtures quotidiennes) pour le graphique Ormuz / Brent."""
+    if not EIA_API_KEY:
+        print("EIA_API_KEY manquant, Brent 12 mois non mis à jour.")
+        return
+    try:
+        series = fetch_eia_series("RBRTE", 400)
+    except Exception as e:
+        print(f"Erreur Brent 12 mois (EIA): {e}")
+        return
+    rows = [{"date": d, "v": v} for d, v in sorted(series.items())]
+    with open(BRENT_YEAR_PATH, "w", encoding="utf-8") as f:
+        json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def load_history():
@@ -648,6 +675,7 @@ def main():
         "spot_price_france": spot,
         "chokepoints": fetch_chokepoint_traffic(existing),
     }
+    update_brent_year()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:

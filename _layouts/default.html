@@ -88,7 +88,17 @@ document.querySelectorAll('.ais-embed-wrap').forEach(function (wrap) {
     }, AIS_TIMEOUT_MS);
   }
 
+  // Carte repliée (data-src) : on ne la charge qu'à l'ouverture du volet
+  var details = wrap.closest('details');
+  if (details && frame.dataset.src) {
+    details.addEventListener('toggle', function () {
+      if (details.open && !frame.getAttribute('src')) frame.src = frame.dataset.src;
+    });
+  }
+
   frame.addEventListener('load', function () {
+    // Une iframe sans src déclenche aussi « load » (page vide) : on l'ignore
+    if (!frame.getAttribute('src')) return;
     loaded = true;
     clearTimeout(timer);
     fallback.style.display = 'none';
@@ -579,6 +589,110 @@ if (navToggle) {
       });
     });
   });
+})();
+</script>
+<script>
+// ===== Détroits : courbe 90 jours et graphique Ormuz / Brent =====
+(function () {
+  if (typeof Chart === 'undefined') return;
+  var TICK = 'rgba(255,255,255,0.5)', GRID = 'rgba(255,255,255,0.06)';
+
+  function day(s) {
+    var p = s.split('-');
+    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  }
+  function fmt(v, d) { return v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  // Moyenne mobile sur 7 points (PortWatch publie un point par jour, week-ends compris)
+  function ma7(values) {
+    return values.map(function (_, i) {
+      var s = values.slice(Math.max(0, i - 6), i + 1).filter(function (v) { return v !== null; });
+      return s.length ? s.reduce(function (a, b) { return a + b; }, 0) / s.length : null;
+    });
+  }
+  function xAxis(limit) {
+    return { ticks: { color: TICK, maxTicksLimit: limit, maxRotation: 0,
+                      callback: function (v) { return day(this.getLabelForValue(v)); } },
+             grid: { display: false } };
+  }
+
+  var history = window.mktChokepoints || {};
+
+  document.querySelectorAll('canvas[data-cp-chart]').forEach(function (canvas) {
+    var rows = history[canvas.getAttribute('data-cp-chart')];
+    if (!rows || !rows.length) return;
+    var ref = parseFloat(canvas.getAttribute('data-ref'));
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: rows.map(function (r) { return r.date; }),
+        datasets: [
+          { data: ma7(rows.map(function (r) { return r.n_tanker; })), borderColor: '#e8703a', backgroundColor: '#e8703a22',
+            fill: true, tension: 0.25, pointRadius: 0, pointHoverRadius: 3, borderWidth: 2 },
+          { data: rows.map(function () { return ref; }), borderColor: 'rgba(255,255,255,0.6)', borderDash: [5, 4],
+            pointRadius: 0, pointHoverRadius: 0, borderWidth: 1.5 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+          title: function (items) { return day(items[0].label); },
+          label: function (c) { return (c.datasetIndex ? 'Normale : ' : 'Tankers/jour (moy. 7 j) : ') + fmt(c.parsed.y, 1); },
+          afterBody: function () { return 'Source : IMF PortWatch'; } } } },
+        scales: { x: xAxis(6), y: { beginAtZero: true, ticks: { color: TICK }, grid: { color: GRID } } }
+      }
+    });
+  });
+
+  var cmp = document.getElementById('mt-brent-cmp');
+  var year = history.hormuz_year;
+  if (cmp && year && year.length) {
+    var refCap = parseFloat(cmp.getAttribute('data-ref')) * 1e6;
+    var capMa = ma7(year.map(function (r) { return r.capacity_tanker; }));
+    var capByDay = {};
+    year.forEach(function (r, i) { capByDay[r.date] = capMa[i] === null ? null : Math.round(capMa[i] / refCap * 1000) / 10; });
+
+    // Brent : clôtures EIA sur 12 mois, complétées par les derniers cours du site (OilPriceAPI)
+    var brent = {}, lastEia = '';
+    (window.mktBrentYear || []).forEach(function (b) { brent[b.date] = b.v; if (b.date > lastEia) lastEia = b.date; });
+    var recent = window.mktChartData && window.mktChartData.brent;
+    if (recent) recent.labels.forEach(function (d, i) {
+      if (d > lastEia && recent.values[i] !== null && recent.values[i] !== undefined) brent[d] = recent.values[i];
+    });
+
+    var start = year[0].date, dates = {};
+    year.forEach(function (r) { dates[r.date] = 1; });
+    Object.keys(brent).forEach(function (d) { if (d >= start) dates[d] = 1; });
+    var labels = Object.keys(dates).sort();
+
+    new Chart(cmp, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { data: labels.map(function (d) { return d in capByDay ? capByDay[d] : null; }), yAxisID: 'y',
+            borderColor: '#4fd1c5', tension: 0.25, pointRadius: 0, pointHoverRadius: 3, borderWidth: 2, spanGaps: true },
+          { data: labels.map(function (d) { return d in brent ? brent[d] : null; }), yAxisID: 'y1',
+            borderColor: '#e8703a', tension: 0.25, pointRadius: 0, pointHoverRadius: 3, borderWidth: 2, spanGaps: true }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (items) { return day(items[0].label); },
+          label: function (c) {
+            return c.datasetIndex ? 'Brent : ' + fmt(c.parsed.y, 2) + ' $/baril'
+                                  : 'Capacité tankers Ormuz : ' + fmt(c.parsed.y, 0) + ' % de la normale';
+          } } } },
+        scales: {
+          x: xAxis(7),
+          y: { position: 'left', min: 0, max: 120, grid: { color: GRID },
+               ticks: { color: '#4fd1c5', callback: function (v) { return v + ' %'; } } },
+          y1: { position: 'right', grid: { display: false },
+                ticks: { color: '#e8703a', callback: function (v) { return v + ' $'; } } }
+        }
+      }
+    });
+  }
 })();
 </script>
 </body>

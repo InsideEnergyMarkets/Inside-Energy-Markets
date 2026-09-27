@@ -1959,8 +1959,57 @@ footer .socials a.footer-podcast-link:hover {
   font-size: 11.5px;
   color: rgba(255, 255, 255, 0.5);
 }
-.mkt-traffic-lag {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.55) !important;
-  margin-top: -4px;
+
+/* ===== Détroits : tableau de bord par détroit ===== */
+.mt-section-note { color: #5a6b7b; font-size: 13px; margin: -6px 0 18px; }
+.mt-card {
+  background: linear-gradient(160deg, #17255f, #0d1638);
+  border-radius: 16px;
+  padding: 22px 24px;
+  color: #fff;
+  margin-bottom: 22px;
+}
+.mt-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mt-card .mkt-commodity-name { margin: 0; font-size: 26px; }
+.mt-badge { font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
+.mt-badge.fluide { background: rgba(61, 220, 151, 0.15); color: #3ddc97; }
+.mt-badge.partiel { background: rgba(232, 179, 58, 0.15); color: #e8b33a; }
+.mt-badge.ferme { background: rgba(255, 107, 91, 0.15); color: #ff6b5b; }
+
+.mt-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 18px 0 8px; }
+.mt-kpi { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 12px 14px; }
+.mt-kpi-label { font-size: 11px; color: rgba(255, 255, 255, 0.55); text-transform: uppercase; letter-spacing: 0.4px; }
+.mt-kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; margin: 4px 0 2px; }
+.mt-kpi-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.mt-kpi-sub { font-size: 11.5px; color: rgba(255, 255, 255, 0.55); }
+.mt-kpi-note { font-size: 12px; color: rgba(255, 255, 255, 0.55); margin: 0 0 14px; }
+.mt-gauge { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; margin-top: 8px; position: relative; overflow: hidden; }
+.mt-gauge span { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 3px; }
+.mt-gauge--ok { background: #3ddc97; }
+.mt-gauge--mid { background: #e8b33a; }
+.mt-gauge--low { background: #ff6b5b; }
+
+.mt-chart { position: relative; height: 200px; }
+.mt-chart--tall { height: 280px; }
+.mt-chart canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.mt-legend { font-size: 11.5px; color: rgba(255, 255, 255, 0.6); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 8px 0 16px; }
+.mt-sw { display: inline-block; width: 18px; border-top: 2px solid #e8703a; margin-right: -8px; vertical-align: middle; }
+.mt-sw--ref { border-top: 2px dashed rgba(255, 255, 255, 0.6); }
+.mt-sw--teal { border-top-color: #4fd1c5; }
+
+.mt-ctx { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.mt-ctx-item { border-left: 3px solid #00817d; padding: 2px 0 2px 10px; }
+.mt-ctx-item strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 17px; }
+.mt-ctx-item span { font-size: 12px; color: rgba(255, 255, 255, 0.65); }
+.mt-src { font-size: 11px; color: rgba(255, 255, 255, 0.45); margin: 8px 0 6px; }
+.mt-src a, .mt-more a { color: #4fd1c5; }
+.mt-more { font-size: 13px; font-weight: 600; margin: 10px 0 0; }
+
+.mt-map summary { cursor: pointer; font-weight: 600; font-size: 13px; color: #4fd1c5; padding: 10px 0; }
+.mt-map-note { font-size: 12px; color: rgba(255, 255, 255, 0.65); margin: 0 0 10px; }
+
+@media (max-width: 640px) {
+  .mt-card { padding: 18px 16px; }
+  .mt-card .mkt-commodity-name { font-size: 22px; }
+  .mt-kpi-value { font-size: 20px; }
 }

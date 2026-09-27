@@ -160,32 +160,9 @@ title: Accueil
   };
 </script>
 
-    {% assign cp_home = site.data.market.chokepoints.hormuz %}
     <div class="ormuz-hero">
-      <div class="gadget-card gadget-card--full">
-        <div class="mkt-card-header-row">
-          <p class="gadget-label">Trafic maritime en direct — Détroit d'Ormuz</p>
-          {% if cp_home.status %}
-          <span class="traffic-badge {{ cp_home.status }}">
-            {% if cp_home.status == 'fluide' %}● Trafic fluide{% elsif cp_home.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}
-          </span>
-          {% endif %}
-        </div>
-        {% if cp_home.n_total %}
-        <p class="mkt-traffic-stats">{{ cp_home.n_tanker }} tankers/jour · {{ cp_home.n_total }} navires/jour en moyenne (fenêtre du {{ cp_home.period_start }} au {{ cp_home.date }})</p>
-{% if cp_home.age_days and cp_home.age_days >= 2 %}<p class="mkt-traffic-lag">Données au {{ cp_home.date | date: "%d/%m" }}, soit il y a {{ cp_home.age_days }} jours : PortWatch (FMI) publie une fois par semaine, avec environ une semaine de retard.</p>{% endif %}
-        {% endif %}
-        <div class="ais-embed-wrap ais-embed-wrap--hero">
-          <iframe loading="lazy" class="ais-frame"
-            src="https://www.marinetraffic.com/en/ais/embed/zoom:8/centery:26.55/centerx:56.25/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
-            frameborder="0" scrolling="no"></iframe>
-          <div class="ais-fallback">
-            <p>La carte en direct n'a pas pu se charger.</p>
-            <a href="https://www.marinetraffic.com/en/ais/home/centerx:56.25/centery:26.55/zoom:8" target="_blank">Voir en direct sur MarineTraffic →</a>
-          </div>
-        </div>
-        <p class="market-source">Source : MarineTraffic — <a href="{{ '/marches/' | relative_url }}">voir aussi Bab-el-Mandeb et Malacca →</a></p>
-      </div>
+      <script>window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};</script>
+      {% include chokepoint.html key="hormuz" name="Détroit d'Ormuz" lat="26.55" lon="56.25" zoom="8" link=true %}
     </div>
 
     {% if site.data.market.updated_at %}

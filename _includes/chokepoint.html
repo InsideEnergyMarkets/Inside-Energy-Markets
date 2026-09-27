@@ -1,0 +1,58 @@
+{% comment %}
+  Carte « tableau de bord » d'un détroit.
+  Paramètres : key (hormuz, bab_el_mandeb, malacca), name, lat, lon, zoom, link (optionnel).
+  Données : site.data.market.chokepoints[key] (valeurs du jour) et
+  site.data.chokepoints_history[key] (courbe 90 jours, lue par le script de la page).
+{% endcomment %}
+{% assign cp = site.data.market.chokepoints[include.key] %}
+{% assign ctx = site.data.chokepoints_context %}
+<article class="mt-card">
+  <header class="mt-head">
+    <h3 class="mkt-commodity-name">{{ include.name }}</h3>
+    {% if cp.status %}
+    <span class="mt-badge {{ cp.status }}">{% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}</span>
+    {% endif %}
+  </header>
+
+  {% if cp.pct_total != nil %}
+  <div class="mt-kpis">
+    {% include chokepoint-kpi.html label="Tankers / jour" value=cp.n_tanker pct=cp.pct_tanker ref=cp.ref_tanker %}
+    {% include chokepoint-kpi.html label="Navires / jour" value=cp.n_total pct=cp.pct_total ref=cp.ref_total %}
+    {% include chokepoint-kpi.html label="Capacité tankers / jour" value=cp.capacity_tanker_mt unit="Mt" pct=cp.pct_capacity ref=cp.ref_capacity_tanker_mt %}
+  </div>
+  <p class="mt-kpi-note">Moyenne des 5 derniers jours publiés ({{ cp.period_start | date: "%d/%m" }} au {{ cp.date | date: "%d/%m" }}),
+    comparée à la normale ({{ cp.ref_period }}). La capacité est le tonnage de port en lourd des tankers.</p>
+
+  <div class="mt-chart"><canvas data-cp-chart="{{ include.key }}" data-ref="{{ cp.ref_tanker }}" aria-label="Tankers par jour sur 90 jours, {{ include.name }}"></canvas></div>
+  <p class="mt-legend"><span class="mt-sw"></span>Tankers par jour (moyenne 7 j)
+    <span class="mt-sw mt-sw--ref"></span>Normale ({{ cp.ref_period }})</p>
+  {% else %}
+  <p class="mt-kpi-note">Données de trafic momentanément indisponibles.</p>
+  {% endif %}
+
+  {% assign items = ctx[include.key] %}
+  {% if items %}
+  <div class="mt-ctx">
+    {% for item in items %}<div class="mt-ctx-item"><strong>{{ item.value }}</strong><span>{{ item.text }}</span></div>{% endfor %}
+  </div>
+  <p class="mt-src">Contexte : <a href="{{ ctx.source_url }}" target="_blank" rel="noopener">{{ ctx.source_label }}</a> · Trafic : IMF PortWatch</p>
+  {% endif %}
+
+  <details class="mt-map">
+    <summary>Voir la carte en direct (MarineTraffic)</summary>
+    <p class="mt-map-note">La carte montre tous les navires <em>présents</em> dans la zone (ports, mouillages, pêche).
+      Les chiffres ci-dessus comptent les <em>passages</em> dans le détroit : les deux peuvent fortement diverger.</p>
+    <div class="ais-embed-wrap ais-embed-wrap--hero">
+      <iframe class="ais-frame" title="Carte MarineTraffic, {{ include.name }}"
+        data-src="https://www.marinetraffic.com/en/ais/embed/zoom:{{ include.zoom }}/centery:{{ include.lat }}/centerx:{{ include.lon }}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+        frameborder="0" scrolling="no"></iframe>
+      <div class="ais-fallback">
+        <p>La carte en direct n'a pas pu se charger.</p>
+        <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">Voir en direct sur MarineTraffic →</a>
+      </div>
+    </div>
+    <p class="mt-src">Source : MarineTraffic</p>
+  </details>
+
+  {% if include.link %}<p class="mt-more"><a href="{{ '/marches/' | relative_url }}">Voir aussi Bab-el-Mandeb, Malacca et le lien Ormuz / Brent →</a></p>{% endif %}
+</article>
