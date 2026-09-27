@@ -1835,12 +1835,17 @@ footer .socials a.footer-podcast-link:hover {
   border-radius: 999px;
 }
 
+/* Titre sur la 1re ligne, boutons sur la 2e : titre + 4 boutons ne tiennent pas
+   sur une ligne dans une carte étroite (le bouton d'agrandissement débordait) */
 .mkt-flip-back-head {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
   margin-bottom: 12px;
 }
+.mkt-flip-back-head .mkt-commodity-name--sm { white-space: nowrap; }
+.mkt-flip-back-head .mkt-expand-btn { margin-left: auto; }
 .mkt-period-btns { display: flex; gap: 5px; }
 .period-btn {
   background: rgba(255,255,255,0.1);
@@ -1944,6 +1949,9 @@ footer .socials a.footer-podcast-link:hover {
   .mkt-modal-box { height: 100%; border-radius: 0; padding: 18px 16px; }
   .mkt-modal-chart { height: auto; flex: 1; min-height: 260px; }
   .mkt-modal-head .mkt-commodity-name { font-size: 24px; }
+  /* Croix toujours en haut à droite de l'écran, même en faisant défiler */
+  .mkt-modal-head { padding-right: 48px; }
+  .mkt-modal-close { position: fixed; top: 14px; right: 14px; z-index: 2; background: rgba(13, 22, 56, 0.9); }
 }
 .mkt-modal-note {
   grid-column: 1 / -1;
