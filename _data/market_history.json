@@ -4,210 +4,329 @@
     "brent_usd": 91.95,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.58,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 113.73,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-07-30",
     "brent_usd": 91.91,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.65,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 114.37,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-07-31",
     "brent_usd": 96.95,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.59,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 132.51,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-01",
+    "spot_eur_mwh": 102.24,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-02",
+    "spot_eur_mwh": 99.25,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-03",
     "brent_usd": 88.9,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.81,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 132.23,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-04",
     "brent_usd": 86.47,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.74,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 134.63,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-05",
     "brent_usd": 86.65,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.6,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 98.83,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-06",
     "brent_usd": 89.65,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.6,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 97.28,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-07",
     "brent_usd": 87.62,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.56,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 106.26,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-08",
+    "spot_eur_mwh": 93.84,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-09",
+    "spot_eur_mwh": 90.93,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-10",
     "brent_usd": 92.74,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.72,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 125.99,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-11",
     "brent_usd": 93.26,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.79,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 115.13,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-12",
     "brent_usd": 92.52,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 141.2,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-13",
     "brent_usd": 92.03,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 154.68,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-14",
     "brent_usd": 92.02,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.79,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 145.74,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-15",
+    "spot_eur_mwh": 122.27,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-16",
+    "spot_eur_mwh": 138.15,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-17",
     "brent_usd": 92.43,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.77,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 177.35,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-18",
     "brent_usd": 95.29,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 162.21,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-19",
     "brent_usd": 92.37,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.94,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 165.78,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-20",
     "brent_usd": 94.0,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.94,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 143.12,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-21",
     "brent_usd": 96.92,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 152.8,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-22",
+    "spot_eur_mwh": 100.62,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-23",
+    "spot_eur_mwh": 76.47,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-24",
     "brent_usd": 92.71,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.83,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 105.45,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-25",
     "brent_usd": 88.24,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.7,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 153.92,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-26",
     "brent_usd": 87.77,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.81,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 159.84,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-27",
     "brent_usd": 90.18,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.89,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 156.6,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-28",
     "brent_usd": 89.75,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 134.28,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-29",
+    "spot_eur_mwh": 65.33,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-08-30",
+    "spot_eur_mwh": 72.61,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-08-31",
     "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 81.84,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-01",
     "brent_usd": 96.02,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 148.72,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-02",
     "brent_usd": 97.59,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.88,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 163.6,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-03",
     "brent_usd": 100.52,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.95,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 138.34,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-04",
     "brent_usd": 102.24,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.92,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 110.12,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-09-05",
+    "spot_eur_mwh": 79.08,
+    "spot_source": "Energy-Charts / SMARD"
+  },
+  {
+    "date": "2026-09-06",
+    "spot_eur_mwh": 113.02,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-07",
     "brent_usd": 104.47,
-    "brent_source": "EIA"
+    "brent_source": "EIA",
+    "spot_eur_mwh": 163.24,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-08",
     "brent_usd": 106.12,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 149.69,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-09",
-    "spot_eur_mwh": 172.28,
     "mix_shares": {
       "nucleaire": 66.6,
       "eolien": 8.6,
@@ -218,11 +337,12 @@
     "brent_usd": 109.51,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.81,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 149.47,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-10",
-    "spot_eur_mwh": 192.14,
     "mix_shares": {
       "nucleaire": 66.6,
       "eolien": 8.6,
@@ -233,11 +353,12 @@
     "brent_usd": 120.98,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.76,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 172.76,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-11",
-    "spot_eur_mwh": 192.14,
     "mix_shares": {
       "nucleaire": 66.6,
       "eolien": 8.6,
@@ -248,11 +369,12 @@
     "brent_usd": 118.06,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.71,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 176.71,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-12",
-    "spot_eur_mwh": 187.5,
     "mix_shares": {
       "nucleaire": 56.0,
       "eolien": 2.8,
@@ -260,11 +382,12 @@
       "hydraulique": 3.5,
       "gaz": 0.8,
       "bioenergies": 1.9
-    }
+    },
+    "spot_eur_mwh": 130.85,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-13",
-    "spot_eur_mwh": 206.0,
     "mix_shares": {
       "nucleaire": 84.8,
       "eolien": 4.8,
@@ -272,11 +395,12 @@
       "hydraulique": 5.1,
       "gaz": 1.0,
       "bioenergies": 2.4
-    }
+    },
+    "spot_eur_mwh": 129.94,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-14",
-    "spot_eur_mwh": 206.5,
     "mix_shares": {
       "nucleaire": 75.4,
       "eolien": 2.2,
@@ -288,11 +412,12 @@
     "brent_usd": 121.25,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.85,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 216.33,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-15",
-    "spot_eur_mwh": 171.05,
     "mix_shares": {
       "nucleaire": 74.2,
       "eolien": 5.9,
@@ -304,11 +429,12 @@
     "brent_usd": 130.8,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.97,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 170.63,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-16",
-    "spot_eur_mwh": 169.07,
     "mix_shares": {
       "nucleaire": 74.2,
       "eolien": 9.4,
@@ -320,11 +446,12 @@
     "brent_usd": 127.84,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 3.0,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 178.28,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-17",
-    "spot_eur_mwh": 168.41,
     "mix_shares": {
       "nucleaire": 77.5,
       "eolien": 9.1,
@@ -336,11 +463,12 @@
     "brent_usd": 121.18,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 127.12,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-18",
-    "spot_eur_mwh": 122.86,
     "mix_shares": {
       "nucleaire": 75.8,
       "eolien": 5.8,
@@ -352,11 +480,12 @@
     "brent_usd": 119.66,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.97,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 119.74,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-19",
-    "spot_eur_mwh": 89.06,
     "mix_shares": {
       "nucleaire": 78.3,
       "eolien": 11.8,
@@ -364,11 +493,12 @@
       "hydraulique": 5.6,
       "gaz": 0.7,
       "bioenergies": 2.2
-    }
+    },
+    "spot_eur_mwh": 50.96,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-20",
-    "spot_eur_mwh": 166.5,
     "mix_shares": {
       "nucleaire": 81.2,
       "eolien": 8.4,
@@ -376,11 +506,12 @@
       "hydraulique": 5.1,
       "gaz": 1.3,
       "bioenergies": 2.5
-    }
+    },
+    "spot_eur_mwh": 59.17,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-21",
-    "spot_eur_mwh": 172.4,
     "mix_shares": {
       "nucleaire": 72.1,
       "eolien": 4.6,
@@ -392,11 +523,12 @@
     "brent_usd": 116.15,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.93,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 142.3,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-22",
-    "spot_eur_mwh": 201.18,
     "mix_shares": {
       "nucleaire": 69.1,
       "eolien": 7.0,
@@ -408,11 +540,12 @@
     "brent_usd": 114.89,
     "brent_source": "EIA",
     "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA"
+    "henry_hub_source": "EIA",
+    "spot_eur_mwh": 159.12,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-23",
-    "spot_eur_mwh": 161.77,
     "mix_shares": {
       "nucleaire": 73.2,
       "eolien": 3.8,
@@ -420,11 +553,12 @@
       "hydraulique": 12.8,
       "gaz": 7.3,
       "bioenergies": 1.9
-    }
+    },
+    "spot_eur_mwh": 148.95,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-24",
-    "spot_eur_mwh": 182.5,
     "mix_shares": {
       "nucleaire": 67.3,
       "eolien": 1.8,
@@ -432,11 +566,12 @@
       "hydraulique": 5.6,
       "gaz": 2.1,
       "bioenergies": 1.8
-    }
+    },
+    "spot_eur_mwh": 158.11,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-25",
-    "spot_eur_mwh": 185.3,
     "mix_shares": {
       "nucleaire": 71.6,
       "eolien": 6.4,
@@ -446,11 +581,12 @@
       "bioenergies": 1.8
     },
     "brent_usd": 104.45,
-    "brent_source": "OilPriceAPI"
+    "brent_source": "OilPriceAPI",
+    "spot_eur_mwh": 161.52,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-26",
-    "spot_eur_mwh": 153.85,
     "mix_shares": {
       "nucleaire": 70.6,
       "eolien": 3.4,
@@ -458,7 +594,9 @@
       "hydraulique": 14.9,
       "gaz": 8.2,
       "bioenergies": 2.1
-    }
+    },
+    "spot_eur_mwh": 148.2,
+    "spot_source": "Energy-Charts / SMARD"
   },
   {
     "date": "2026-09-27",
@@ -471,6 +609,6 @@
       "bioenergies": 2.5
     },
     "spot_eur_mwh": 115.41,
-    "spot_source": "RTE"
+    "spot_source": "Energy-Charts / SMARD"
   }
 ]
