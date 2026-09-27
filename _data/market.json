@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-27T09:00:44.544233Z",
+  "updated_at": "2026-09-27T09:02:29.800580Z",
   "brent": {
     "price_usd": 104.38,
     "date": "2026-09-25",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du ven. 25/09"
+    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)"
   },
   "henry_hub": {
     "price_usd_mmbtu": 3.2,
