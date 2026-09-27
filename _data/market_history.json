@@ -395,6 +395,14 @@
   },
   {
     "date": "2026-09-27",
-    "spot_eur_mwh": 153.85
+    "brent_usd": 104.38,
+    "spot_eur_mwh": 153.85,
+    "mix_shares": {
+      "nucleaire": 79.7,
+      "eolien": 5.2,
+      "hydraulique": 7.0,
+      "gaz": 5.7,
+      "bioenergies": 2.4
+    }
   }
 ]
