@@ -1299,6 +1299,17 @@ footer .socials a.footer-podcast-link:hover {
 .ais-fallback a {
   color: var(--teal);
 }
+.ais-fallback { z-index: 1; background: rgba(13, 22, 56, 0.92); }
+.ais-retry {
+  background: var(--teal);
+  border: none;
+  color: #fff;
+  font: 600 13px 'Inter', sans-serif;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ais-retry:hover { background: var(--teal-deep); }
 
 .ormuz-hero {
   margin-top: 20px;

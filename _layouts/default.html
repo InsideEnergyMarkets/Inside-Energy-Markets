@@ -69,18 +69,53 @@ document.addEventListener('click', function (e) {
 <script data-goatcounter="https://insideenergymarkets.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <script>
 // Fallback générique pour toutes les cartes AIS (Ormuz, Bab-el-Mandeb, Malacca...)
+// Le délai ne démarre que quand la carte est visible à l'écran : avec loading="lazy",
+// le navigateur ne charge l'iframe qu'à l'approche de la carte, et un délai lancé dès
+// l'ouverture de la page expirait avant même le début du chargement (surtout sur mobile).
+// La carte n'est jamais cachée : le message passe par-dessus et disparaît si elle
+// finit par se charger.
+var AIS_TIMEOUT_MS = 20000;
 document.querySelectorAll('.ais-embed-wrap').forEach(function (wrap) {
   var frame = wrap.querySelector('.ais-frame');
   var fallback = wrap.querySelector('.ais-fallback');
-  var loaded = false;
-  if (frame) {
-    frame.addEventListener('load', function () { loaded = true; });
-    setTimeout(function () {
-      if (!loaded) {
-        frame.style.display = 'none';
-        fallback.style.display = 'flex';
+  if (!frame || !fallback) return;
+  var loaded = false, timer = null;
+
+  function startTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      if (!loaded) fallback.style.display = 'flex';
+    }, AIS_TIMEOUT_MS);
+  }
+
+  frame.addEventListener('load', function () {
+    loaded = true;
+    clearTimeout(timer);
+    fallback.style.display = 'none';
+  });
+
+  var retry = document.createElement('button');
+  retry.type = 'button';
+  retry.className = 'ais-retry';
+  retry.textContent = 'Réessayer';
+  retry.addEventListener('click', function () {
+    loaded = false;
+    fallback.style.display = 'none';
+    frame.src = frame.src;
+    startTimer();
+  });
+  fallback.insertBefore(retry, fallback.querySelector('a'));
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        if (!loaded) startTimer();
       }
-    }, 12000);
+    });
+    observer.observe(wrap);
+  } else {
+    startTimer();
   }
 });
 
