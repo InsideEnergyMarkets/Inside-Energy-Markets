@@ -662,6 +662,29 @@ def compute_weekly_summary(history):
     return summary
 
 
+# Champ du prix dans market.json -> champ correspondant dans l'historique
+CHANGE_FIELDS = {
+    "spot_price_france": ("price_eur_mwh", "spot_eur_mwh"),
+    "brent": ("price_usd", "brent_usd"),
+    "henry_hub": ("price_usd_mmbtu", "henry_hub_usd_mmbtu"),
+}
+
+
+def add_changes(data, history):
+    """Variation de chaque prix par rapport au cours précédent connu (flèche sur le site)."""
+    for key, (field, hist_field) in CHANGE_FIELDS.items():
+        entry = data.get(key)
+        if not entry or entry.get(field) is None or not entry.get("date"):
+            continue
+        previous = [h for h in history if h.get(hist_field) is not None and h["date"] < entry["date"][:10]]
+        if not previous or not previous[-1][hist_field]:
+            continue
+        prev = previous[-1]
+        entry["prev_value"] = prev[hist_field]
+        entry["prev_date"] = prev["date"]
+        entry["change_pct"] = round((entry[field] - prev[hist_field]) / prev[hist_field] * 100, 1)
+
+
 def main():
     existing = load_existing()
 
@@ -684,6 +707,10 @@ def main():
 
     history = load_history()
     history = append_to_history(history, data, spot_daily)
+
+    add_changes(data, history)
+    with open(DATA_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
     weekly = compute_weekly_summary(history)
     os.makedirs(os.path.dirname(WEEKLY_PATH), exist_ok=True)

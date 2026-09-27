@@ -75,7 +75,8 @@ permalink: /marches/
         {% if inc.stats %}
         {% assign last_inc = inc.items | first %}
         <span class="mk-glance-value">{{ inc.stats.total_30d }} <small>dont {{ inc.stats.attacks_30d }} attaques</small></span>
-        <span class="mk-glance-sub">dernier le {{ last_inc.date | date: "%d/%m" }}, {{ last_inc.place }}</span>
+        {% assign top_place = inc.stats.top_places | first %}
+        <span class="mk-glance-sub">{% if top_place %}dont {{ top_place.n }} {% if top_place.place contains "Détroit" %}dans le{% else %}en zone{% endif %} {{ top_place.place | replace: "Détroit", "détroit" }} · {% endif %}dernier le {{ last_inc.date | date: "%d/%m" }}</span>
         {% else %}<span class="mk-glance-value">-</span>{% endif %}
       </a>
     </div>
@@ -102,7 +103,7 @@ permalink: /marches/
           <button type="button" class="period-btn pw-expand" data-expand="spot" data-title="Électricité FR" aria-label="Agrandir le graphique" title="Agrandir">&#x2922;</button>
         </div>
         {% if spot %}
-        <p class="pw-value">{{ spot.price_eur_mwh | replace: ".", "," }} <small>€/MWh</small></p>
+        <p class="pw-value">{{ spot.price_eur_mwh | replace: ".", "," }} <small>€/MWh</small>{% include price-change.html entry=spot %}</p>
         <p class="pw-sub">{{ spot.date_label | default: spot.date }} · RTE</p>
         {% else %}
         <p class="pw-value">-</p>
@@ -133,6 +134,14 @@ permalink: /marches/
         <div class="pw-co2 pw-co2--{{ co2_level }}">
           <span class="pw-co2-value">{{ co2 | round: 0 }}</span>
           <span class="pw-co2-text"><strong>{{ co2_text }}</strong>gCO₂ par kWh produit</span>
+        </div>
+        {% assign low_carbon = 0 %}
+        {% for pair in mix.shares %}{% unless pair[0] == "gaz" or pair[0] == "thermique" or pair[0] == "charbon" or pair[0] == "fioul" %}{% assign low_carbon = low_carbon | plus: pair[1] %}{% endunless %}{% endfor %}
+        {% assign top = mix.top_source %}
+        {% case top %}{% when "nucleaire" %}{% assign top_lbl = "Nucléaire" %}{% when "eolien" %}{% assign top_lbl = "Éolien" %}{% when "solaire" %}{% assign top_lbl = "Solaire" %}{% when "hydraulique" %}{% assign top_lbl = "Hydraulique" %}{% when "gaz" %}{% assign top_lbl = "Gaz" %}{% when "bioenergies" %}{% assign top_lbl = "Bioénergies" %}{% else %}{% assign top_lbl = top | capitalize %}{% endcase %}
+        <div class="pw-stats pw-stats--mix">
+          <div><span>Source dominante</span><strong><i class="pw-dot pw-src--{{ top }}" aria-hidden="true"></i>{{ top_lbl }} {{ mix.top_share | replace: ".", "," }} %</strong></div>
+          <div><span>Part bas carbone</span><strong>{{ low_carbon | round: 1 | replace: ".", "," }} %</strong></div>
         </div>
         <div class="pw-stack" role="img" aria-label="Répartition de la production électrique">
           {% for pair in mix.shares %}<span class="pw-src--{{ pair[0] }}" style="width: {{ pair[1] }}%"></span>{% endfor %}

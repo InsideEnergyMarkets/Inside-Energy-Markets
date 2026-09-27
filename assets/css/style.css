@@ -2054,15 +2054,7 @@ footer .socials a.footer-podcast-link:hover {
   .nw-count { display: none; }
 }
 
-/* ===== Incidents : alertes officielles et carte ===== */
-.al-box { background: #fff; border: 1px solid #d8e1e6; border-left: 4px solid #ff6b5b; border-radius: 12px; padding: 18px 20px; margin-bottom: 22px; }
-.al-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; margin: 0 0 4px; color: #17255f; letter-spacing: 0.5px; }
-.al-box p { margin: 0 0 12px; font-size: 13px; color: #5a6b7b; }
-.al-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
-.al-links a { display: block; padding: 10px 12px; border-radius: 8px; background: #f7f9fa; border: 1px solid #eef2f4; color: #17255f; text-decoration: none; font-size: 13px; }
-.al-links a strong { display: block; color: #00817d; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
-.al-links a:hover { border-color: #00817d; }
-
+/* ===== Incidents : carte ===== */
 .inc-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
 .inc-chip {
   font: 700 12px 'Inter', sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer;
@@ -2246,3 +2238,27 @@ footer .socials a.footer-podcast-link:hover {
 }
 .inc-all { display: inline-block; margin-top: 2px; font-size: 13px; font-weight: 600; color: #4fd1c5; text-decoration: none; }
 .inc-all:hover { text-decoration: underline; }
+
+/* ===== Variation des prix (flèche vs cours précédent) ===== */
+.px-change {
+  display: inline-flex; align-items: baseline; gap: 4px; font: 700 13px 'Inter', sans-serif;
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap; vertical-align: middle;
+}
+.px-change small { font-weight: 500; font-size: 11px; opacity: 0.75; margin-left: 2px; }
+.px-change--up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
+.px-change--down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.px-change--flat { color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.08); }
+.market-change { margin: 2px 0 6px; }
+.pw-value .px-change { margin-left: 12px; font-size: 14px; }
+.hm-tile .px-change { align-self: flex-start; }
+
+/* ===== Mix : source dominante et part bas carbone ===== */
+.pw-stats--mix { grid-template-columns: 1fr 1fr; margin: 0 0 18px; }
+.pw-stats--mix strong { display: flex; align-items: center; gap: 7px; font-size: 15px; }
+.pw-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+/* La carte Leaflet crée ses propres calques (z-index 400+) : on l'isole pour qu'elle
+   ne passe pas par-dessus la barre du site et le sommaire au défilement */
+#inc-map { position: relative; z-index: 0; isolation: isolate; }
+
+.hm-alert span { line-height: 1.45; }

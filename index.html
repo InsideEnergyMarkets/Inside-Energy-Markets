@@ -75,6 +75,7 @@ title: Accueil
         <span class="hm-tile-name"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Électricité FR</span>
         {% if market.spot_price_france %}
         <span class="hm-tile-value">{{ market.spot_price_france.price_eur_mwh }} <small>€/MWh</small></span>
+        {% include price-change.html entry=market.spot_price_france %}
         <span class="hm-tile-sub">{{ market.spot_price_france.date_label | default: market.spot_price_france.date }}{% if weekly.spot_price %} · moy. 7 j {{ weekly.spot_price.avg_eur_mwh | round: 0 }} €{% endif %}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
       </a>
@@ -82,6 +83,7 @@ title: Accueil
         <span class="hm-tile-name"><i class="fa-solid fa-droplet" aria-hidden="true"></i>Brent</span>
         {% if market.brent %}
         <span class="hm-tile-value">{{ market.brent.price_usd }} <small>$/baril</small></span>
+        {% include price-change.html entry=market.brent %}
         <span class="hm-tile-sub">{% if weekly.brent %}{% if weekly.brent.change_pct > 0 %}<b class="up">+{{ weekly.brent.change_pct | replace: ".", "," }} %</b>{% else %}<b class="down">{{ weekly.brent.change_pct | replace: ".", "," }} %</b>{% endif %} sur 7 j · {% endif %}{{ market.brent.source }}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
       </a>
@@ -89,6 +91,7 @@ title: Accueil
         <span class="hm-tile-name"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>Henry Hub</span>
         {% if market.henry_hub %}
         <span class="hm-tile-value">{{ market.henry_hub.price_usd_mmbtu }} <small>$/MMBtu</small></span>
+        {% include price-change.html entry=market.henry_hub %}
         <span class="hm-tile-sub">{{ market.henry_hub.date_label | default: market.henry_hub.date }} · {{ market.henry_hub.source }}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
       </a>
@@ -104,7 +107,8 @@ title: Accueil
     {% assign inc = site.data.incidents %}
     {% if inc.stats %}
     <a class="hm-alert" href="{{ marches }}#securite"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-      {{ inc.stats.total_30d }} incidents en mer signalés sur 30 jours dans la zone, dont {{ inc.stats.attacks_30d }} attaques. Voir la carte →</a>
+      <span>{{ inc.stats.total_30d }} incidents signalés en mer sur 30 jours, dont {{ inc.stats.attacks_30d }} attaques{% if inc.stats.top_places.size > 0 %} :
+      {% for tp in inc.stats.top_places %}{{ tp.place }} ({{ tp.n }}){% unless forloop.last %}, {% endunless %}{% endfor %}{% endif %}. Voir la carte →</span></a>
     {% endif %}
 
     {% if market.updated_at %}

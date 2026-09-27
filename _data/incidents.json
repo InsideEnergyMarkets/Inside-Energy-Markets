@@ -1,8 +1,22 @@
 {
- "updated_at": "2026-09-27T12:04:57+00:00",
+ "updated_at": "2026-09-27T12:16:39+00:00",
  "stats": {
   "total_30d": 20,
-  "attacks_30d": 14
+  "attacks_30d": 14,
+  "top_places": [
+   {
+    "place": "Détroit d'Ormuz",
+    "n": 13
+   },
+   {
+    "place": "Océan Indien",
+    "n": 3
+   },
+   {
+    "place": "Golfe d'Aden",
+    "n": 2
+   }
+  ]
  },
  "items": [
   {

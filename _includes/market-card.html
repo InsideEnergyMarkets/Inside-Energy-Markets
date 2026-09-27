@@ -11,6 +11,7 @@
       <p class="mkt-commodity-name">{{ include.name }}</p>
       {% if entry %}
       <p class="market-value">{{ entry[include.field] }} <span>{{ include.unit }}</span></p>
+      <p class="market-change">{% include price-change.html entry=entry %}</p>
       <p class="market-sub">{% if entry.date_label %}{{ entry.date_label }}{% else %}Mis à jour : {{ entry.date }}{% endif %} · {{ entry.source | default: include.source }}</p>
       {% else %}
       <p class="market-value market-pending">-</p>

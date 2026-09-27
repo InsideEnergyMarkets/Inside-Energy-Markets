@@ -10,6 +10,7 @@ Actualités et incidents maritimes, lancé toutes les 2 h par .github/workflows/
 
 En cas d'échec d'une source, on garde les données précédentes (le site ne casse jamais).
 """
+import collections
 import datetime
 import json
 import os
@@ -177,7 +178,12 @@ def update_incidents():
     items = sorted((i for i in stored.values() if i["date"] >= cutoff), key=lambda i: i["date"], reverse=True)
     since = (now_utc() - datetime.timedelta(days=30)).isoformat()
     recent = [i for i in items if i["date"] >= since]
-    stats = {"total_30d": len(recent), "attacks_30d": sum(1 for i in recent if i["type"] == "Attack")}
+    places = collections.Counter(i["place"] for i in recent if i["place"])
+    stats = {
+        "total_30d": len(recent),
+        "attacks_30d": sum(1 for i in recent if i["type"] == "Attack"),
+        "top_places": [{"place": p, "n": n} for p, n in places.most_common(3)],
+    }
     write_json(INCIDENTS_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "stats": stats, "items": items})
     print(f"Incidents UKMTO : {len(raw)} dans le flux, {len(items)} conservés")
 

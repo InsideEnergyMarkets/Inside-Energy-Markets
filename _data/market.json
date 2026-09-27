@@ -5,14 +5,20 @@
     "date": "2026-09-25",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)"
+    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)",
+    "prev_value": 114.89,
+    "prev_date": "2026-09-22",
+    "change_pct": -9.1
   },
   "henry_hub": {
     "price_usd_mmbtu": 3.2,
     "date": "2026-09-25",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)"
+    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)",
+    "prev_value": 2.9,
+    "prev_date": "2026-09-22",
+    "change_pct": 10.3
   },
   "mix_france": {
     "date_heure": "2026-09-27T09:15:00+00:00",
@@ -33,7 +39,10 @@
     "date": "2026-09-27",
     "date_label": "Moyenne du dim. 27/09",
     "unit": "EUR/MWh, moyenne journalière",
-    "source": "RTE"
+    "source": "RTE",
+    "prev_value": 148.2,
+    "prev_date": "2026-09-26",
+    "change_pct": -22.1
   },
   "chokepoints": {
     "hormuz": {
