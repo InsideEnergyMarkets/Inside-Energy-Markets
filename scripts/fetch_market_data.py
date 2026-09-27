@@ -40,6 +40,29 @@ def load_existing():
         return {}
 
 
+def oilpriceapi_date(row):
+    # as_of = heure de la cotation sur le marché (ex. clôture du vendredi),
+    # created_at = heure à laquelle OilPriceAPI l'a collectée
+    return row.get("as_of") or row.get("created_at") or row.get("timestamp")
+
+
+def fetch_eia_series(series_code, length):
+    """{date: valeur} des `length` derniers jours publiés par l'EIA pour une série."""
+    url = (
+        "https://api.eia.gov/v2/petroleum/pri/spt/data/"
+        if series_code == "RBRTE"
+        else "https://api.eia.gov/v2/natural-gas/pri/fut/data/"
+    )
+    url += (
+        f"?api_key={EIA_API_KEY}&frequency=daily&data[0]=value"
+        f"&facets[series][]={series_code}&sort[0][column]=period&sort[0][direction]=desc&length={length}"
+    )
+    r = requests.get(url, timeout=20)
+    r.raise_for_status()
+    rows = r.json()["response"]["data"]
+    return {row["period"]: round(float(row["value"]), 2) for row in rows}
+
+
 def fetch_brent_oilpriceapi():
     """Brent via OilPriceAPI, mis à jour toutes les 5 minutes (plan gratuit)."""
     if not OILPRICEAPI_KEY:
@@ -52,7 +75,7 @@ def fetch_brent_oilpriceapi():
     price = row.get("price")
     if price is None:
         raise ValueError(f"champ prix introuvable, réponse reçue: {payload}")
-    timestamp = row.get("created_at") or row.get("timestamp")
+    timestamp = oilpriceapi_date(row)
     return {
         "price_usd": round(float(price), 2),
         "date": (timestamp or "")[:10],
@@ -104,7 +127,7 @@ def fetch_henry_hub_oilpriceapi():
     price = row.get("price")
     if price is None:
         raise ValueError(f"champ prix introuvable, réponse reçue: {payload}")
-    timestamp = row.get("created_at") or row.get("timestamp")
+    timestamp = oilpriceapi_date(row)
     return {
         "price_usd_mmbtu": round(float(price), 2),
         "date": (timestamp or "")[:10],
@@ -481,6 +504,18 @@ def append_to_history(history, data, spot_daily):
     if henry.get("date") and not is_weekend(henry["date"]):
         set_history_value(history, henry["date"], "henry_hub_usd_mmbtu",
                           henry.get("price_usd_mmbtu"), henry.get("source", "EIA"))
+
+    # Jours de cotation encore vides (run manqué, panne OilPriceAPI) : comblés avec
+    # l'EIA, qui publie avec quelques jours de retard. Ne remplace jamais une valeur.
+    if EIA_API_KEY:
+        for series, field in (("RBRTE", "brent_usd"), ("RNGWHHD", "henry_hub_usd_mmbtu")):
+            try:
+                for day, value in fetch_eia_series(series, 15).items():
+                    entry = next((h for h in history if h.get("date") == day), {})
+                    if entry.get(field) is None:
+                        set_history_value(history, day, field, value, "EIA")
+            except Exception as e:
+                print(f"Erreur complément EIA {series}: {e}")
 
     # Spot : moyenne journalière de chaque journée complète renvoyée par RTE
     for day, price in spot_daily.items():
