@@ -117,9 +117,20 @@ if (navToggle) {
 (function () {
   var chartInstances = {};
 
-  function sliceData(arr, days) {
-    if (!arr) return [];
-    return arr.slice(Math.max(arr.length - days, 0));
+  // Ne garde que les points renseignés de la série, sur les N derniers jours
+  // avant son dernier point, pour que la courbe occupe toute la largeur
+  function seriesWindow(dataset, days) {
+    var labels = [], values = [];
+    (dataset.labels || []).forEach(function (d, i) {
+      var v = dataset.values && dataset.values[i];
+      if (v !== null && v !== undefined) { labels.push(d); values.push(v); }
+    });
+    if (!labels.length) return { labels: labels, values: values };
+    var cutoff = new Date(labels[labels.length - 1]);
+    cutoff.setDate(cutoff.getDate() - days);
+    var start = 0;
+    while (start < labels.length - 1 && new Date(labels[start]) <= cutoff) start++;
+    return { labels: labels.slice(start), values: values.slice(start) };
   }
 
   function renderChart(key, days) {
@@ -128,8 +139,9 @@ if (navToggle) {
     var canvas = document.getElementById('chart-canvas-' + key);
     if (!canvas || typeof Chart === 'undefined') return;
 
-    var labels = sliceData(dataset.labels, days);
-    var values = sliceData(dataset.values, days);
+    var win = seriesWindow(dataset, days);
+    var labels = win.labels;
+    var values = win.values;
 
     if (chartInstances[key]) chartInstances[key].destroy();
     chartInstances[key] = new Chart(canvas.getContext('2d'), {

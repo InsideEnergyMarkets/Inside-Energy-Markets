@@ -396,9 +396,16 @@ def append_to_history(history, data):
     snapshot = {
         "date": today,
         "brent_usd": (data.get("brent") or {}).get("price_usd"),
+        "henry_hub_usd_mmbtu": (data.get("henry_hub") or {}).get("price_usd_mmbtu"),
         "spot_eur_mwh": (data.get("spot_price_france") or {}).get("price_eur_mwh"),
         "mix_shares": (data.get("mix_france") or {}).get("shares"),
     }
+
+    # Si une source a échoué sur ce run, on garde la valeur déjà enregistrée pour aujourd'hui
+    existing = next((h for h in history if h.get("date") == today), {})
+    for k, v in existing.items():
+        if snapshot.get(k) is None and v is not None:
+            snapshot[k] = v
 
     history = [h for h in history if h.get("date") != today]
     history.append(snapshot)
