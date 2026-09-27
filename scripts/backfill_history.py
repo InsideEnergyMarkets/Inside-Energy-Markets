@@ -67,6 +67,11 @@ def fetch_oilpriceapi_history(code):
     rows = data.get("prices", data) if isinstance(data, dict) else data
     if not isinstance(rows, list):
         raise ValueError(f"format inattendu : {str(payload)[:300]}")
+    stamps = sorted(r.get("created_at") or r.get("timestamp") or r.get("date") or "" for r in rows)
+    print(f"  [diag] clés data: {list(data.keys()) if isinstance(data, dict) else 'liste'}, "
+          f"meta: {payload.get('meta')}, {len(rows)} lignes, "
+          f"{stamps[0] if stamps else '-'} -> {stamps[-1] if stamps else '-'}, "
+          f"exemple: {rows[0] if rows else '-'}")
 
     last = {}
     for row in rows:
@@ -109,7 +114,14 @@ def fetch_rte_spot_history():
     result = {}
     while start < now:
         end = min(start + datetime.timedelta(days=RTE_CHUNK_DAYS), now)
-        result.update(daily_spot_averages(fetch_power_exchanges(token, start, end)))
+        periods = fetch_power_exchanges(token, start, end)
+        values = [v for p in periods for v in (p.get("values") or [])]
+        stamps = sorted(v.get("start_date") or "" for v in values)
+        print(f"  [diag] {start.date()} -> {end.date()} : {len(periods)} périodes, {len(values)} valeurs, "
+              f"{stamps[0] if stamps else '-'} -> {stamps[-1] if stamps else '-'}, "
+              f"clés période: {list(periods[0].keys()) if periods else '-'}, "
+              f"exemple valeur: {values[0] if values else '-'}")
+        result.update(daily_spot_averages(periods))
         start = end
     today = midnight.date().isoformat()
     return {d: p for d, p in result.items() if d <= today}
