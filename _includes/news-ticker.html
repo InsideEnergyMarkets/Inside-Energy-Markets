@@ -1,0 +1,23 @@
+{% comment %}
+  Bandeau « Dernières infos » : titres repris des flux RSS (scripts/fetch_news.py).
+  Un titre à la fois ; le script du layout passe au suivant toutes les 6 s en le faisant
+  glisser de bas en haut, et s'arrête au survol ou quand un titre a le focus.
+{% endcomment %}
+{% assign news = site.data.news.items %}
+{% if news and news.size > 0 %}
+<div class="nw-bar" role="region" aria-label="Dernières informations">
+  <span class="nw-label"><span><span class="nw-label-long">Dernières </span>infos</span></span>
+  <ul class="nw-list">
+    {% for n in news %}
+    <li class="nw-slide{% if forloop.first %} is-active{% endif %}">
+      <a href="{{ n.url | escape }}" target="_blank" rel="noopener">
+        <span class="nw-src">{{ n.source | escape }}</span>
+        <span class="nw-title">{{ n.title | escape }}</span>
+        <span class="nw-time" data-date="{{ n.date }}"></span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <span class="nw-count" aria-hidden="true">1/{{ news.size }}</span>
+</div>
+{% endif %}

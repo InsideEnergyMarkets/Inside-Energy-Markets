@@ -1,0 +1,10 @@
+{% comment %}
+  Flèche de variation d'un prix par rapport au cours précédent connu
+  (champs change_pct, prev_date, prev_value calculés par fetch_market_data.py).
+  Hausse en rouge, baisse en vert, comme le reste du site.
+{% endcomment %}
+{% assign e = include.entry %}
+{% if e.change_pct != nil %}
+{% if e.change_pct > 0 %}{% assign dir = "up" %}{% assign arrow = "▲" %}{% assign sign = "+" %}{% elsif e.change_pct < 0 %}{% assign dir = "down" %}{% assign arrow = "▼" %}{% assign sign = "" %}{% else %}{% assign dir = "flat" %}{% assign arrow = "=" %}{% assign sign = "" %}{% endif %}
+<span class="px-change px-change--{{ dir }}" title="Cours précédent : {{ e.prev_value }} le {{ e.prev_date | date: '%d/%m' }}"><span aria-hidden="true">{{ arrow }}</span> {{ sign }}{{ e.change_pct | replace: ".", "," }} %<small>vs {{ e.prev_date | date: "%d/%m" }}</small></span>
+{% endif %}

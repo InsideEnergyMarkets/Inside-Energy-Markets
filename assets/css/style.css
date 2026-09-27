@@ -2005,11 +2005,260 @@ footer .socials a.footer-podcast-link:hover {
 .mt-src a, .mt-more a { color: #4fd1c5; }
 .mt-more { font-size: 13px; font-weight: 600; margin: 10px 0 0; }
 
-.mt-map summary { cursor: pointer; font-weight: 600; font-size: 13px; color: #4fd1c5; padding: 10px 0; }
-.mt-map-note { font-size: 12px; color: rgba(255, 255, 255, 0.65); margin: 0 0 10px; }
+.mt-map { margin: 18px 0 0; }
+.mt-map-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.mt-live { display: inline-flex; align-items: center; gap: 7px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #4fd1c5; }
+.mt-live i { width: 7px; height: 7px; border-radius: 50%; background: #4fd1c5; animation: nw-pulse 1.4s infinite; }
+.mt-map-note { font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.mt-map .ais-embed-wrap { border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); }
 
 @media (max-width: 640px) {
   .mt-card { padding: 18px 16px; }
   .mt-card .mkt-commodity-name { font-size: 22px; }
   .mt-kpi-value { font-size: 20px; }
 }
+
+/* ===== Bandeau « Dernières infos » : un titre à la fois, défilement vertical ===== */
+.nw-section { padding: 18px 0 0; }
+.nw-bar { display: flex; align-items: stretch; background: #0d1638; border-radius: 10px; overflow: hidden; color: #fff; min-height: 46px; }
+.nw-label {
+  flex: none; display: flex; align-items: center; gap: 8px; background: #e8703a; padding: 0 14px;
+  font: 700 12px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; white-space: nowrap;
+}
+.nw-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: nw-pulse 1.4s infinite; }
+@keyframes nw-pulse { 50% { opacity: 0.25; } }
+.nw-list { flex: 1; min-width: 0; position: relative; list-style: none; margin: 0; padding: 0; overflow: hidden; }
+.nw-slide {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  transform: translateY(100%); opacity: 0; visibility: hidden;
+  transition: transform 0.6s ease, opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+.nw-slide.is-active { transform: translateY(0); opacity: 1; visibility: visible; transition: transform 0.6s ease, opacity 0.6s ease; }
+.nw-slide.is-leaving { transform: translateY(-100%); opacity: 0; visibility: visible; transition: transform 0.6s ease, opacity 0.6s ease; }
+.nw-slide a { display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; padding: 0 16px; color: #fff; text-decoration: none; font-size: 14px; }
+.nw-slide a:hover .nw-title, .nw-slide a:focus .nw-title { color: #4fd1c5; }
+.nw-src { flex: none; font-weight: 700; color: #4fd1c5; font-size: 12px; }
+.nw-title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nw-time { flex: none; color: rgba(255, 255, 255, 0.5); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+.nw-count { flex: none; display: flex; align-items: center; padding: 0 12px; font: 12px 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.45); }
+.nw-note { font-size: 11px; color: #5a6b7b; margin: 6px 0 0; }
+@media (prefers-reduced-motion: reduce) {
+  .nw-slide, .nw-slide.is-active, .nw-slide.is-leaving { transition: none; }
+}
+@media (max-width: 640px) {
+  .nw-bar { min-height: 64px; }
+  .nw-label { padding: 0 10px; font-size: 11px; }
+  .nw-label-long { display: none; }
+  .nw-slide a { flex-wrap: wrap; gap: 2px 8px; padding: 8px 12px; font-size: 13px; }
+  .nw-title { flex-basis: 100%; order: 3; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .nw-count { display: none; }
+}
+
+/* ===== Incidents : carte ===== */
+.inc-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.inc-chip {
+  font: 700 12px 'Inter', sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--c); background: transparent; color: var(--c);
+}
+.inc-chip.active { background: var(--c); color: #0d1638; }
+#inc-map { height: 440px; border-radius: 10px; background: #0d1638; }
+.inc-tiles { filter: invert(1) hue-rotate(200deg) brightness(0.9) contrast(0.85) saturate(0.6); }
+.inc-list-title { font: 700 13px 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.4px; color: rgba(255, 255, 255, 0.6); margin: 20px 0 10px; }
+.inc-list { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 2px solid rgba(255, 255, 255, 0.15); }
+.inc-list li { position: relative; padding: 0 0 14px 10px; font-size: 13px; color: rgba(255, 255, 255, 0.85); }
+.inc-list li::before { content: ''; position: absolute; left: -25px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px #0d1638; }
+.inc-list time { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255, 255, 255, 0.55); margin-right: 6px; }
+.inc-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); margin-right: 4px; }
+.inc-vessel { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.inc-card .leaflet-popup-content { font: 13px/1.4 'Inter', sans-serif; }
+@media (max-width: 640px) { #inc-map { height: 340px; } }
+
+/* ===== Page Marchés : sommaire, « À retenir », rubriques ===== */
+.mk-toc {
+  position: sticky; top: 64px; z-index: 15;
+  background: rgba(247, 249, 250, 0.94); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line); margin-top: 18px;
+}
+.mk-toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
+.mk-toc .wrap::-webkit-scrollbar { display: none; }
+.mk-toc a {
+  flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 999px;
+  font: 600 13px 'Inter', sans-serif; color: #17255f; text-decoration: none; border: 1px solid transparent;
+}
+.mk-toc a:hover, .mk-toc a.is-current { background: #fff; border-color: #d8e1e6; }
+.mk-toc a.is-current { color: #00817d; border-color: #00817d; }
+.mk-toc i { font-size: 12px; color: #00817d; }
+.mk-toc .mk-toc-minor { margin-left: auto; color: #5a6b7b; font-weight: 500; }
+
+.mk-glance { padding: 22px 0 6px; }
+.mk-glance-title { font: 700 12px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: #5a6b7b; margin: 0 0 10px; }
+.mk-glance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.mk-glance-item {
+  display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 12px; text-decoration: none;
+  background: #fff; border: 1px solid #d8e1e6; transition: border-color 0.2s, transform 0.2s;
+}
+.mk-glance-item:hover { border-color: #00817d; transform: translateY(-2px); }
+.mk-glance-label { font-size: 12px; color: #5a6b7b; }
+.mk-glance-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #17255f; }
+.mk-glance-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: #5a6b7b; }
+.mk-glance-value.up { color: #d9463a; }
+.mk-glance-value.down { color: #1f9d6b; }
+.mk-glance-sub { font-size: 12px; color: #5a6b7b; }
+
+.mk-section { padding: 44px 0 28px; scroll-margin-top: 120px; }
+.mk-section--alt { background: var(--paper-dim); }
+.mk-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px; }
+.mk-head .mkt-page-title { margin: 0 0 4px; font-size: 30px; }
+.mk-head-icon {
+  flex: none; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  background: #17255f; color: #fff; font-size: 18px;
+}
+.mk-head-icon--power { background: #00817d; }
+.mk-head-icon--oil { background: #e8703a; }
+.mk-head-icon--sea { background: #2f6f8f; }
+.mk-head-icon--risk { background: #d9463a; }
+.mk-lead { margin: 0; font-size: 14px; color: #5a6b7b; max-width: 720px; }
+.mt-card, .mt-brent { scroll-margin-top: 120px; }
+
+
+.mk-straits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
+.mk-strait {
+  display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 12px; text-decoration: none;
+  background: #fff; border: 1px solid #d8e1e6; border-top: 4px solid #a0aec0;
+}
+.mk-strait.fluide { border-top-color: #1f9d6b; }
+.mk-strait.partiel { border-top-color: #e8b33a; }
+.mk-strait.ferme { border-top-color: #d9463a; }
+.mk-strait:hover { border-color: #00817d; }
+.mk-strait-name { font: 600 13px 'Inter', sans-serif; color: #17255f; }
+.mk-strait-pct { font-family: 'JetBrains Mono', monospace; font-size: 26px; color: #17255f; }
+.mk-strait-sub { font-size: 12px; color: #5a6b7b; }
+.mk-strait-bar { height: 5px; background: #eef2f4; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.mk-strait-bar span { display: block; height: 100%; background: #17255f; border-radius: 3px; }
+@media (max-width: 640px) {
+  .mk-straits { grid-template-columns: 1fr; }
+  .mk-head .mkt-page-title { font-size: 26px; }
+}
+
+.mk-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.mk-sources div { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; background: #fff; border: 1px solid #d8e1e6; border-radius: 10px; }
+.mk-sources strong { font-size: 13px; color: #17255f; }
+.mk-sources span { font-size: 13px; color: #1a2733; }
+.mk-sources em { font-style: normal; font-size: 12px; color: #00817d; }
+
+/* ===== Accueil : « Le point marchés » ===== */
+.hm-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.hm-tile {
+  display: flex; flex-direction: column; gap: 6px; padding: 18px 18px 16px; border-radius: 14px; text-decoration: none; color: #fff;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 3px solid #a0aec0;
+  transition: background 0.2s, transform 0.2s;
+}
+.hm-tile:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+.hm-tile--power { border-top-color: #00817d; }
+.hm-tile--oil { border-top-color: #e8703a; }
+.hm-tile--gas { border-top-color: #e8b33a; }
+.hm-tile--sea { border-top-color: #4fd1c5; }
+.hm-tile-name { display: flex; align-items: center; gap: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.5px; }
+.hm-tile-name i { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
+.hm-tile-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; }
+.hm-tile-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.hm-tile-sub { font-size: 12px; color: rgba(255, 255, 255, 0.6); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.hm-tile-sub b { font-weight: 700; }
+.hm-tile-sub b.up { color: #ff6b5b; }
+.hm-tile-sub b.down { color: #3ddc97; }
+.hm-tile-sub .mt-badge { padding: 2px 8px; font-size: 11px; }
+.hm-alert {
+  display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 16px; border-radius: 10px;
+  background: rgba(255, 107, 91, 0.12); color: #ffd2cc; font-size: 13.5px; text-decoration: none;
+}
+.hm-alert:hover { background: rgba(255, 107, 91, 0.2); }
+.hm-alert i { color: #ff6b5b; }
+
+/* ===== Électricité France : carte prix + mix ===== */
+.pw-card {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  background: linear-gradient(160deg, #17255f 0%, #0d1638 100%); border-radius: 16px; color: #fff;
+  box-shadow: 0 16px 40px rgba(23, 37, 95, 0.18); overflow: hidden;
+}
+.pw-price, .pw-mix { padding: 26px 28px; display: flex; flex-direction: column; }
+.pw-mix { background: rgba(255, 255, 255, 0.03); border-left: 1px solid rgba(255, 255, 255, 0.08); }
+.pw-top { display: flex; justify-content: space-between; align-items: center; }
+.pw-label { margin: 0; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.pw-value { margin: 10px 0 2px; font-family: 'JetBrains Mono', monospace; font-size: 44px; line-height: 1.1; color: #fff; }
+.pw-value small { font-family: 'Inter', sans-serif; font-size: 15px; color: rgba(255, 255, 255, 0.55); }
+.pw-sub { margin: 0; font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+.pw-mix .pw-sub { margin-top: auto; padding-top: 14px; }
+.pw-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0; }
+.pw-stats div { background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 9px 12px; display: flex; flex-direction: column; gap: 2px; }
+.pw-stats span { font-size: 11px; color: rgba(255, 255, 255, 0.5); }
+.pw-stats strong { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; }
+.pw-chart-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.pw-chart-head > span { font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.pw-chart { position: relative; height: 170px; }
+.pw-chart canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
+.pw-co2 { display: flex; align-items: center; gap: 14px; margin: 14px 0 18px; }
+.pw-co2-value { font-family: 'JetBrains Mono', monospace; font-size: 44px; line-height: 1; }
+.pw-co2-text { display: flex; flex-direction: column; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.pw-co2-text strong { font-size: 14px; }
+.pw-co2--low .pw-co2-value, .pw-co2--low strong { color: #3ddc97; }
+.pw-co2--mid .pw-co2-value, .pw-co2--mid strong { color: #e8b33a; }
+.pw-co2--high .pw-co2-value, .pw-co2--high strong { color: #ff6b5b; }
+.pw-stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: rgba(255, 255, 255, 0.08); gap: 2px; }
+.pw-stack span { display: block; height: 100%; min-width: 3px; }
+.pw-legend { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px 18px; }
+.pw-legend li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255, 255, 255, 0.85); }
+.pw-legend i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.pw-legend b { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; }
+.pw-src--nucleaire { background: #8b7cf6; }
+.pw-src--eolien { background: #4fd1c5; }
+.pw-src--solaire { background: #f6c343; }
+.pw-src--hydraulique { background: #3b82f6; }
+.pw-src--gaz { background: #e8703a; }
+.pw-src--bioenergies { background: #3ddc97; }
+.pw-src--thermique { background: #a0aec0; }
+@media (max-width: 860px) {
+  .pw-card { grid-template-columns: 1fr; }
+  .pw-mix { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+}
+@media (max-width: 480px) {
+  .pw-price, .pw-mix { padding: 20px 18px; }
+  .pw-value, .pw-co2-value { font-size: 36px; }
+  .pw-legend { grid-template-columns: 1fr; }
+}
+
+/* ===== Incidents : liste courte à côté de la carte ===== */
+.inc-latest { margin-top: 18px; }
+.inc-list li { padding-bottom: 12px; }
+.inc-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.inc-where { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.inc-sum {
+  margin: 3px 0 0; font-size: 12.5px; line-height: 1.45; color: rgba(255, 255, 255, 0.7);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.inc-all { display: inline-block; margin-top: 2px; font-size: 13px; font-weight: 600; color: #4fd1c5; text-decoration: none; }
+.inc-all:hover { text-decoration: underline; }
+
+/* ===== Variation des prix (flèche vs cours précédent) ===== */
+.px-change {
+  display: inline-flex; align-items: baseline; gap: 4px; font: 700 13px 'Inter', sans-serif;
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap; vertical-align: middle;
+}
+.px-change small { font-weight: 500; font-size: 11px; opacity: 0.75; margin-left: 2px; }
+.px-change--up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
+.px-change--down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.px-change--flat { color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.08); }
+.market-change { margin: 2px 0 6px; }
+.pw-value .px-change { margin-left: 12px; font-size: 14px; }
+.hm-tile .px-change { align-self: flex-start; }
+
+/* ===== Mix : source dominante et part bas carbone ===== */
+.pw-stats--mix { grid-template-columns: 1fr 1fr; margin: 0 0 18px; }
+.pw-stats--mix strong { display: flex; align-items: center; gap: 7px; font-size: 15px; }
+.pw-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+/* La carte Leaflet crée ses propres calques (z-index 400+) : on l'isole pour qu'elle
+   ne passe pas par-dessus la barre du site et le sommaire au défilement */
+#inc-map { position: relative; z-index: 0; isolation: isolate; }
+
+.hm-alert span { line-height: 1.45; }

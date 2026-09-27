@@ -6,7 +6,7 @@
 {% endcomment %}
 {% assign cp = site.data.market.chokepoints[include.key] %}
 {% assign ctx = site.data.chokepoints_context %}
-<article class="mt-card">
+<article class="mt-card" id="detroit-{{ include.key }}">
   <header class="mt-head">
     <h3 class="mkt-commodity-name">{{ include.name }}</h3>
     {% if cp.status %}
@@ -38,21 +38,22 @@
   <p class="mt-src">Contexte : <a href="{{ ctx.source_url }}" target="_blank" rel="noopener">{{ ctx.source_label }}</a> · Trafic : IMF PortWatch</p>
   {% endif %}
 
-  <details class="mt-map">
-    <summary>Voir la carte en direct (MarineTraffic)</summary>
-    <p class="mt-map-note">La carte montre tous les navires <em>présents</em> dans la zone (ports, mouillages, pêche).
-      Les chiffres ci-dessus comptent les <em>passages</em> dans le détroit : les deux peuvent fortement diverger.</p>
+  <figure class="mt-map">
+    <figcaption class="mt-map-head">
+      <span class="mt-live"><i aria-hidden="true"></i>Carte en direct</span>
+      <span class="mt-map-note">Tous les navires présents dans la zone, ports compris : ce n'est pas le nombre de passages.</span>
+    </figcaption>
     <div class="ais-embed-wrap ais-embed-wrap--hero">
-      <iframe class="ais-frame" title="Carte MarineTraffic, {{ include.name }}"
-        data-src="https://www.marinetraffic.com/en/ais/embed/zoom:{{ include.zoom }}/centery:{{ include.lat }}/centerx:{{ include.lon }}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+      <iframe class="ais-frame" loading="lazy" title="Carte MarineTraffic, {{ include.name }}"
+        src="https://www.marinetraffic.com/en/ais/embed/zoom:{{ include.zoom }}/centery:{{ include.lat }}/centerx:{{ include.lon }}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
         frameborder="0" scrolling="no"></iframe>
       <div class="ais-fallback">
         <p>La carte en direct n'a pas pu se charger.</p>
         <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">Voir en direct sur MarineTraffic →</a>
       </div>
     </div>
-    <p class="mt-src">Source : MarineTraffic</p>
-  </details>
+    <p class="mt-src">Carte : MarineTraffic</p>
+  </figure>
 
   {% if include.link %}<p class="mt-more"><a href="{{ '/marches/' | relative_url }}">Voir aussi Bab-el-Mandeb, Malacca et le lien Ormuz / Brent →</a></p>{% endif %}
 </article>
