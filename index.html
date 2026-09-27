@@ -154,9 +154,9 @@ title: Accueil
 
 <script>
   window.mktChartData = {
-    spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, color: "#00817d" },
-    brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, color: "#e8703a" },
-    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_usd_mmbtu" | jsonify }}, color: "#e8b33a" }
+    spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, sources: {{ hist | map: "spot_source" | jsonify }}, unit: "€/MWh", color: "#00817d" },
+    brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: "$/baril", color: "#e8703a" },
+    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_usd_mmbtu" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "$/MMBtu", color: "#e8b33a" }
   };
 </script>
 

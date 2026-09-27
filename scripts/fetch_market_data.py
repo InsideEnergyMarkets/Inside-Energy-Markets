@@ -1,13 +1,15 @@
 """
 Récupère les données marché et les écrit dans _data/market.json :
-- Brent (EIA, clé API gratuite requise -> secret EIA_API_KEY)
-- Henry Hub, gaz naturel US (EIA, même clé)
+- Brent (OilPriceAPI -> secret OILPRICEAPI_KEY, repli sur EIA -> secret EIA_API_KEY)
+- Henry Hub, gaz naturel US (OilPriceAPI, repli sur EIA)
 - Mix électrique France en temps réel (RTE eco2mix API v2, aucune clé requise)
-- Prix spot électricité France day-ahead (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
+- Prix spot électricité France day-ahead, moyenne journalière des prix horaires
+  (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
 - Trafic maritime par détroit stratégique (IMF PortWatch, AIS, aucune clé requise)
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
-un résumé hebdomadaire (_data/weekly_summary.json).
+un résumé hebdomadaire (_data/weekly_summary.json). Chaque prix de l'historique est
+rangé à la date du prix lui-même (pas à la date du run) et porte sa source.
 
 En cas d'échec sur une source, on garde l'ancienne valeur (le site ne casse jamais).
 """
@@ -15,6 +17,7 @@ import json
 import os
 import sys
 import datetime
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -22,6 +25,7 @@ DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market.json"
 HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market_history.json")
 WEEKLY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "weekly_summary.json")
 HISTORY_MAX_DAYS = 60
+PARIS = ZoneInfo("Europe/Paris")
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
 RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")
@@ -203,51 +207,96 @@ def get_rte_token():
     return r.json()["access_token"]
 
 
+def fetch_power_exchanges(token, start, end):
+    """Prix day-ahead France entre deux datetimes (avec fuseau), tels que renvoyés par RTE."""
+    url = "https://digital.iservices.rte-france.com/open_api/wholesale_market/v3/france_power_exchanges"
+    r = requests.get(
+        url,
+        headers={"Authorization": f"Bearer {token}"},
+        params={
+            "start_date": start.isoformat(timespec="seconds"),
+            "end_date": end.isoformat(timespec="seconds"),
+        },
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json().get("france_power_exchanges") or []
+
+
+def _spot_value(v):
+    # Test explicite sur None : un prix à 0 ou négatif est un vrai prix
+    for key in ("price", "value", "spot_price"):
+        if v.get(key) is not None:
+            return float(v[key])
+    return None
+
+
+def _paris_day(timestamp):
+    """Date (heure de Paris) d'un horodatage RTE, quel que soit son fuseau."""
+    if not timestamp:
+        return ""
+    try:
+        dt = datetime.datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+        if dt.tzinfo is not None:
+            dt = dt.astimezone(PARIS)
+        return dt.date().isoformat()
+    except ValueError:
+        return timestamp[:10]
+
+
+def daily_spot_averages(periods):
+    """{date: moyenne des prix horaires du jour}, en ne gardant que les journées complètes."""
+    by_day, base_load = {}, {}
+    for period in periods:
+        values = period.get("values") or []
+        for v in values:
+            day = _paris_day(v.get("start_date"))
+            price = _spot_value(v)
+            if day and price is not None:
+                by_day.setdefault(day, []).append(price)
+        if not values and period.get("base_load") is not None:
+            day = _paris_day(period.get("start_date"))
+            if day:
+                base_load[day] = round(float(period["base_load"]), 2)
+
+    result = dict(base_load)
+    if by_day:
+        # Une journée complète a au moins 24 prix (23 ou 25 aux changements d'heure,
+        # 96 en pas de 15 min) : on écarte les journées tronquées
+        full = max(24, max(len(p) for p in by_day.values()))
+        for day, p in by_day.items():
+            if len(p) >= 0.9 * full:
+                result[day] = round(sum(p) / len(p), 2)
+    return result
+
+
 def fetch_spot_price_france(existing):
     if not RTE_BASE64_KEY:
         print("RTE_BASE64_KEY manquant, on garde l'ancienne valeur spot.")
         return existing.get("spot_price_france")
     try:
         token = get_rte_token()
-        now = datetime.datetime.utcnow()
-        start = (now - datetime.timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
-        end = now.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        now = datetime.datetime.now(PARIS).replace(microsecond=0)
+        midnight = now.replace(hour=0, minute=0, second=0)
+        start = midnight - datetime.timedelta(days=3)
+        try:
+            # Les prix du jour sont publiés la veille : on demande jusqu'à minuit ce soir
+            periods = fetch_power_exchanges(token, start, midnight + datetime.timedelta(days=1))
+        except requests.HTTPError:
+            periods = fetch_power_exchanges(token, start, now)
 
-        url = "https://digital.iservices.rte-france.com/open_api/wholesale_market/v3/france_power_exchanges"
-        r = requests.get(
-            url,
-            headers={"Authorization": f"Bearer {token}"},
-            params={"start_date": start, "end_date": end},
-            timeout=20,
-        )
-        r.raise_for_status()
-        payload = r.json()
+        today = midnight.date().isoformat()
+        daily = {d: p for d, p in daily_spot_averages(periods).items() if d <= today}
+        if not daily:
+            raise ValueError(f"aucune journée complète retournée ({len(periods)} périodes)")
 
-        periods = payload.get("france_power_exchanges") or []
-        if not periods:
-            raise ValueError("aucune période retournée")
-
-        last_period = periods[-1]
-        values = last_period.get("values") or []
-
-        if values:
-            last_value = values[-1]
-            price = (
-                last_value.get("price")
-                or last_value.get("value")
-                or last_value.get("spot_price")
-            )
-            date_label = last_value.get("start_date") or last_period.get("start_date")
-        else:
-            price = last_period.get("base_load")
-            date_label = last_period.get("start_date")
-
-        if price is None:
-            raise ValueError(f"champ prix introuvable dans la réponse: {last_period}")
-
+        last_day = max(daily)
         return {
-            "price_eur_mwh": round(float(price), 2),
-            "date": (date_label or now.strftime("%Y-%m-%d"))[:10],
+            "price_eur_mwh": daily[last_day],
+            "date": last_day,
+            "unit": "EUR/MWh, moyenne journalière",
+            "source": "RTE",
+            "daily": daily,
         }
     except Exception as e:
         print(f"Erreur RTE spot: {e}")
@@ -390,27 +439,60 @@ def load_history():
         return []
 
 
-def append_to_history(history, data):
+SOURCE_FIELDS = {
+    "brent_usd": "brent_source",
+    "henry_hub_usd_mmbtu": "henry_hub_source",
+    "spot_eur_mwh": "spot_source",
+}
+
+
+def history_entry(history, date):
+    entry = next((h for h in history if h.get("date") == date), None)
+    if entry is None:
+        entry = {"date": date}
+        history.append(entry)
+    return entry
+
+
+def set_history_value(history, date, field, value, source):
+    """Écrit une valeur à la date du prix (pas à la date du run), avec sa source."""
+    if not date or value is None:
+        return
+    entry = history_entry(history, date)
+    entry[field] = value
+    entry[SOURCE_FIELDS[field]] = source
+
+
+def is_weekend(date_str):
+    return datetime.date.fromisoformat(date_str[:10]).weekday() >= 5
+
+
+def append_to_history(history, data, spot_daily):
     today = datetime.date.today().isoformat()
 
-    snapshot = {
-        "date": today,
-        "brent_usd": (data.get("brent") or {}).get("price_usd"),
-        "henry_hub_usd_mmbtu": (data.get("henry_hub") or {}).get("price_usd_mmbtu"),
-        "spot_eur_mwh": (data.get("spot_price_france") or {}).get("price_eur_mwh"),
-        "mix_shares": (data.get("mix_france") or {}).get("shares"),
-    }
+    # Brent et Henry Hub ne cotent pas le week-end : une valeur datée samedi ou
+    # dimanche n'est que la clôture du vendredi répétée
+    brent = data.get("brent") or {}
+    if brent.get("date") and not is_weekend(brent["date"]):
+        set_history_value(history, brent["date"], "brent_usd",
+                          brent.get("price_usd"), brent.get("source", "EIA"))
 
-    # Si une source a échoué sur ce run, on garde la valeur déjà enregistrée pour aujourd'hui
-    existing = next((h for h in history if h.get("date") == today), {})
-    for k, v in existing.items():
-        if snapshot.get(k) is None and v is not None:
-            snapshot[k] = v
+    henry = data.get("henry_hub") or {}
+    if henry.get("date") and not is_weekend(henry["date"]):
+        set_history_value(history, henry["date"], "henry_hub_usd_mmbtu",
+                          henry.get("price_usd_mmbtu"), henry.get("source", "EIA"))
 
-    history = [h for h in history if h.get("date") != today]
-    history.append(snapshot)
-    history.sort(key=lambda h: h["date"])
-    history = history[-HISTORY_MAX_DAYS:]
+    # Spot : moyenne journalière de chaque journée complète renvoyée par RTE
+    for day, price in spot_daily.items():
+        set_history_value(history, day, "spot_eur_mwh", price, "RTE")
+
+    # Mix : instantané temps réel, rangé à la date du run
+    shares = (data.get("mix_france") or {}).get("shares")
+    if shares:
+        history_entry(history, today)["mix_shares"] = shares
+
+    cutoff = (datetime.date.today() - datetime.timedelta(days=HISTORY_MAX_DAYS)).isoformat()
+    history = sorted((h for h in history if h["date"] >= cutoff), key=lambda h: h["date"])
 
     os.makedirs(os.path.dirname(HISTORY_PATH), exist_ok=True)
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:
@@ -475,12 +557,15 @@ def compute_weekly_summary(history):
 def main():
     existing = load_existing()
 
+    spot = fetch_spot_price_france(existing)
+    spot_daily = spot.pop("daily", {}) if spot else {}
+
     data = {
         "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
         "brent": fetch_brent(existing),
         "henry_hub": fetch_henry_hub(existing),
         "mix_france": fetch_mix_france(existing),
-        "spot_price_france": fetch_spot_price_france(existing),
+        "spot_price_france": spot,
         "chokepoints": fetch_chokepoint_traffic(existing),
     }
 
@@ -489,7 +574,7 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     history = load_history()
-    history = append_to_history(history, data)
+    history = append_to_history(history, data, spot_daily)
 
     weekly = compute_weekly_summary(history)
     os.makedirs(os.path.dirname(WEEKLY_PATH), exist_ok=True)
