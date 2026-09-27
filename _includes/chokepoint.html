@@ -6,7 +6,7 @@
 {% endcomment %}
 {% assign cp = site.data.market.chokepoints[include.key] %}
 {% assign ctx = site.data.chokepoints_context %}
-<article class="mt-card">
+<article class="mt-card" id="detroit-{{ include.key }}">
   <header class="mt-head">
     <h3 class="mkt-commodity-name">{{ include.name }}</h3>
     {% if cp.status %}

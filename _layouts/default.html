@@ -730,6 +730,29 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   setInterval(next, 6000);
 });
 
+// ===== Sommaire de la page Marchés : rubrique en cours de lecture =====
+(function () {
+  var links = document.querySelectorAll('.mk-toc a[href^="#"]');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.remove('is-current'); });
+      var a = byId[e.target.id];
+      if (a) {
+        a.classList.add('is-current');
+        a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(byId).forEach(function (id) {
+    var section = document.getElementById(id);
+    if (section) observer.observe(section);
+  });
+})();
+
 // ===== Carte des incidents UKMTO =====
 (function () {
   var box = document.getElementById('inc-map');

@@ -18,104 +18,11 @@ permalink: /marches/
   </div>
 </section>
 
-
 {% assign hist = site.data.market_history %}
-{% assign hist_size = hist.size %}
-{% assign last_i = hist_size | minus: 1 %}
-{% assign prev_i = hist_size | minus: 2 %}
-
-<!-- ===== MARCHÉ ===== -->
-<section class="block mkt-block">
-  <div class="wrap">
-    <h2 class="mkt-page-title">Marché</h2>
-    <div class="mkt-panel-card">
-<div class="market-grid market-grid--detail">
-
-  <div class="market-card market-card--power mkt-flip-outer" data-chart="spot">
-    <div class="mkt-flip-inner">
-      <div class="mkt-flip-front">
-        <div class="market-card-top"><span class="market-icon"><i class="fa-solid fa-bolt"></i></span></div>
-        <p class="mkt-commodity-name">ÉLECTRICITÉ FR</p>
-        {% if site.data.market.spot_price_france %}
-        <p class="market-value">{{ site.data.market.spot_price_france.price_eur_mwh }} <span>€/MWh</span></p>
-        <p class="market-sub">{% if site.data.market.spot_price_france.date_label %}{{ site.data.market.spot_price_france.date_label }}{% else %}Mis à jour : {{ site.data.market.spot_price_france.date }}{% endif %} · RTE</p>
-        {% else %}
-        <p class="market-value market-pending">-</p>
-        <p class="market-sub">Donnée à venir</p>
-        {% endif %}
-        <p class="mkt-flip-hint">▾ Voir l'historique</p>
-      </div>
-      <div class="mkt-flip-back">
-        <div class="mkt-flip-back-head">
-          <span class="mkt-commodity-name mkt-commodity-name--sm">ÉLECTRICITÉ FR</span>
-          <div class="mkt-period-btns">
-            <button type="button" class="period-btn" data-period="7">7j</button>
-            <button type="button" class="period-btn active" data-period="30">30j</button>
-            <button type="button" class="period-btn" data-period="60">60j</button>
-          </div>
-        </div>
-        <div class="mkt-chart-wrap"><canvas id="chart-canvas-spot"></canvas></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="market-card market-card--oil mkt-flip-outer" data-chart="brent">
-    <div class="mkt-flip-inner">
-      <div class="mkt-flip-front">
-        <div class="market-card-top"><span class="market-icon"><i class="fa-solid fa-droplet"></i></span></div>
-        <p class="mkt-commodity-name">BRENT</p>
-        {% if site.data.market.brent %}
-        <p class="market-value">{{ site.data.market.brent.price_usd }} <span>$/baril</span></p>
-        <p class="market-sub">{% if site.data.market.brent.date_label %}{{ site.data.market.brent.date_label }}{% else %}Mis à jour : {{ site.data.market.brent.date }}{% endif %} · {{ site.data.market.brent.source | default: "EIA" }}</p>
-        {% else %}
-        <p class="market-value market-pending">-</p>
-        <p class="market-sub">Donnée à venir</p>
-        {% endif %}
-        <p class="mkt-flip-hint">▾ Voir l'historique</p>
-      </div>
-      <div class="mkt-flip-back">
-        <div class="mkt-flip-back-head">
-          <span class="mkt-commodity-name mkt-commodity-name--sm">BRENT</span>
-          <div class="mkt-period-btns">
-            <button type="button" class="period-btn" data-period="7">7j</button>
-            <button type="button" class="period-btn active" data-period="30">30j</button>
-            <button type="button" class="period-btn" data-period="60">60j</button>
-          </div>
-        </div>
-        <div class="mkt-chart-wrap"><canvas id="chart-canvas-brent"></canvas></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="market-card market-card--gas mkt-flip-outer" data-chart="henryhub">
-    <div class="mkt-flip-inner">
-      <div class="mkt-flip-front">
-        <div class="market-card-top"><span class="market-icon"><i class="fa-solid fa-fire-flame-simple"></i></span></div>
-        <p class="mkt-commodity-name">HENRY HUB</p>
-        {% if site.data.market.henry_hub %}
-        <p class="market-value">{{ site.data.market.henry_hub.price_usd_mmbtu }} <span>$/MMBtu</span></p>
-        <p class="market-sub">{% if site.data.market.henry_hub.date_label %}{{ site.data.market.henry_hub.date_label }}{% else %}Mis à jour : {{ site.data.market.henry_hub.date }}{% endif %} · {{ site.data.market.henry_hub.source | default: "EIA" }}</p>
-        {% else %}
-        <p class="market-value market-pending">-</p>
-        <p class="market-sub">Donnée à venir</p>
-        {% endif %}
-        <p class="mkt-flip-hint">▾ Voir l'historique</p>
-      </div>
-      <div class="mkt-flip-back">
-        <div class="mkt-flip-back-head">
-          <span class="mkt-commodity-name mkt-commodity-name--sm">HENRY HUB</span>
-          <div class="mkt-period-btns">
-            <button type="button" class="period-btn" data-period="7">7j</button>
-            <button type="button" class="period-btn active" data-period="30">30j</button>
-            <button type="button" class="period-btn" data-period="60">60j</button>
-          </div>
-        </div>
-        <div class="mkt-chart-wrap"><canvas id="chart-canvas-henryhub"></canvas></div>
-      </div>
-    </div>
-  </div>
-
-</div>
+{% assign market = site.data.market %}
+{% assign weekly = site.data.weekly_summary %}
+{% assign ormuz = market.chokepoints.hormuz %}
+{% assign inc = site.data.incidents %}
 
 <script>
   window.mktChartData = {
@@ -123,97 +30,219 @@ permalink: /marches/
     brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: "$/baril", color: "#e8703a" },
     henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_usd_mmbtu" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "$/MMBtu", color: "#e8b33a" }
   };
+  window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};
+  window.mktBrentYear = {{ site.data.brent_year | jsonify }};
 </script>
 
-      {% if site.data.weekly_summary.spot_price %}
-      <div class="mkt-weekly">
-        <p class="gadget-label">Résumé sur 7 jours{% if site.data.weekly_summary.period_start %} ({{ site.data.weekly_summary.period_start }} → {{ site.data.weekly_summary.period_end }}){% endif %}</p>
-        <div class="mkt-weekly-grid">
-          <div class="mkt-weekly-item">
-            <span class="mkt-weekly-label">Spot moyen</span>
-            <span class="mkt-weekly-value">{{ site.data.weekly_summary.spot_price.avg_eur_mwh }} €/MWh</span>
-          </div>
-          <div class="mkt-weekly-item">
-            <span class="mkt-weekly-label">Jour le plus bas / le plus haut (7j)</span>
-            <span class="mkt-weekly-value">{{ site.data.weekly_summary.spot_price.min_eur_mwh }} / {{ site.data.weekly_summary.spot_price.max_eur_mwh }}</span>
-          </div>
-        </div>
-      </div>
-      {% endif %}
+<!-- ===== SOMMAIRE + À RETENIR ===== -->
+<nav class="mk-toc" aria-label="Rubriques de la page">
+  <div class="wrap">
+    <a href="#electricite"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Électricité</a>
+    <a href="#petrole-gaz"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>Pétrole et gaz</a>
+    <a href="#routes-maritimes"><i class="fa-solid fa-ship" aria-hidden="true"></i>Routes maritimes</a>
+    <a href="#securite"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Sécurité en mer</a>
+    <a href="#sources" class="mk-toc-minor">Sources</a>
+  </div>
+</nav>
+
+<section class="mk-glance">
+  <div class="wrap">
+    <p class="mk-glance-title">À retenir</p>
+    <div class="mk-glance-grid">
+      <a class="mk-glance-item" href="#electricite">
+        <span class="mk-glance-label">Électricité, spot moyen 7 j</span>
+        {% if weekly.spot_price %}
+        <span class="mk-glance-value">{{ weekly.spot_price.avg_eur_mwh | round: 0 }} <small>€/MWh</small></span>
+        <span class="mk-glance-sub">de {{ weekly.spot_price.min_eur_mwh | round: 0 }} à {{ weekly.spot_price.max_eur_mwh | round: 0 }} €/MWh selon les jours</span>
+        {% else %}<span class="mk-glance-value">-</span>{% endif %}
+      </a>
+      <a class="mk-glance-item" href="#petrole-gaz">
+        <span class="mk-glance-label">Brent sur 7 jours</span>
+        {% if weekly.brent %}
+        {% if weekly.brent.change_pct > 0 %}{% assign trend = "up" %}{% assign sign = "+" %}{% elsif weekly.brent.change_pct < 0 %}{% assign trend = "down" %}{% assign sign = "" %}{% else %}{% assign trend = "" %}{% assign sign = "" %}{% endif %}
+        <span class="mk-glance-value {{ trend }}">{{ sign }}{{ weekly.brent.change_pct | replace: ".", "," }} <small>%</small></span>
+        <span class="mk-glance-sub">de {{ weekly.brent.start_usd | replace: ".", "," }} à {{ weekly.brent.end_usd | replace: ".", "," }} $/baril</span>
+        {% else %}<span class="mk-glance-value">-</span>{% endif %}
+      </a>
+      <a class="mk-glance-item" href="#routes-maritimes">
+        <span class="mk-glance-label">Trafic à Ormuz</span>
+        {% if ormuz.pct_total != nil %}
+        <span class="mk-glance-value {% if ormuz.status == 'ferme' %}up{% endif %}">{{ ormuz.pct_total }} <small>% de la normale</small></span>
+        <span class="mk-glance-sub">{{ ormuz.n_total | replace: ".", "," }} navires/jour, données au {{ ormuz.date | date: "%d/%m" }}</span>
+        {% else %}<span class="mk-glance-value">-</span>{% endif %}
+      </a>
+      <a class="mk-glance-item" href="#securite">
+        <span class="mk-glance-label">Incidents en mer, 30 jours</span>
+        {% if inc.stats %}
+        {% assign last_inc = inc.items | first %}
+        <span class="mk-glance-value">{{ inc.stats.total_30d }} <small>dont {{ inc.stats.attacks_30d }} attaques</small></span>
+        <span class="mk-glance-sub">dernier le {{ last_inc.date | date: "%d/%m" }}, {{ last_inc.place }}</span>
+        {% else %}<span class="mk-glance-value">-</span>{% endif %}
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ===== MIX & CARBONE ===== -->
-<section class="block mkt-block">
+<!-- ===== 1. ÉLECTRICITÉ FRANCE ===== -->
+<section class="mk-section" id="electricite">
   <div class="wrap">
-    <h2 class="mkt-page-title">Mix &amp; carbone</h2>
-    <div class="mkt-panel-card">
-      {% if site.data.market.mix_france %}
-      <p class="mix-panel-title">Mix électrique français</p>
-      <div class="mix-split">
-        <div class="mix-split-col mix-split-col--co2">
-          <p class="mix-split-label">Intensité carbone</p>
-          <p class="mix-co2-value">{{ site.data.market.mix_france.co2_intensity }}</p>
-          <p class="mix-co2-unit">gCO₂/kWh</p>
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--power"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">Électricité France</h2>
+        <p class="mk-lead">Prix de gros du jour et façon dont l'électricité est produite en ce moment.</p>
+      </div>
+    </header>
+
+    <div class="mk-power-grid">
+      <div class="mkt-panel-card mk-power-price">
+        <div class="market-grid market-grid--detail">
+          {% include market-card.html key="spot" cls="power" icon="fa-bolt" name="ÉLECTRICITÉ FR" entry=market.spot_price_france field="price_eur_mwh" unit="€/MWh" source="RTE" %}
         </div>
-        <div class="mix-split-divider"></div>
-        <div class="mix-split-col mix-split-col--sources">
-          <p class="mix-split-label">Sources</p>
-          <div class="mix-breakdown mix-breakdown--wide">
-            {% for pair in site.data.market.mix_france.shares %}
-            <div class="mix-row">
-              <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
-              <div class="mix-row-bar">
-                <div class="mix-row-fill" style="width: {{ pair[1] }}%;"></div>
-              </div>
-              <span class="mix-row-value">{{ pair[1] }}%</span>
+        {% if weekly.spot_price %}
+        <div class="mkt-weekly">
+          <p class="gadget-label">Sur 7 jours{% if weekly.period_start %} ({{ weekly.period_start | date: "%d/%m" }} → {{ weekly.period_end | date: "%d/%m" }}){% endif %}</p>
+          <div class="mkt-weekly-grid">
+            <div class="mkt-weekly-item">
+              <span class="mkt-weekly-label">Spot moyen</span>
+              <span class="mkt-weekly-value">{{ weekly.spot_price.avg_eur_mwh }} €/MWh</span>
             </div>
-            {% endfor %}
+            <div class="mkt-weekly-item">
+              <span class="mkt-weekly-label">Jour le plus bas / le plus haut</span>
+              <span class="mkt-weekly-value">{{ weekly.spot_price.min_eur_mwh }} / {{ weekly.spot_price.max_eur_mwh }}</span>
+            </div>
           </div>
         </div>
+        {% endif %}
       </div>
-      <p class="market-sub">Relevé du {{ site.data.market.mix_france.date_heure | date: "%d/%m/%Y à %Hh%M" }}</p>
-      <p class="market-source">Source : RTE (éCO2mix)</p>
-      {% else %}
-      <p class="gadget-sub">Donnée à venir</p>
-      {% endif %}
+
+      <div class="mkt-panel-card mk-power-mix">
+        {% if market.mix_france %}
+        <p class="mix-panel-title">Mix électrique en ce moment</p>
+        <div class="mix-split">
+          <div class="mix-split-col mix-split-col--co2">
+            <p class="mix-split-label">Intensité carbone</p>
+            <p class="mix-co2-value">{{ market.mix_france.co2_intensity }}</p>
+            <p class="mix-co2-unit">gCO₂/kWh</p>
+          </div>
+          <div class="mix-split-divider"></div>
+          <div class="mix-split-col mix-split-col--sources">
+            <p class="mix-split-label">Sources de production</p>
+            <div class="mix-breakdown mix-breakdown--wide">
+              {% for pair in market.mix_france.shares %}
+              <div class="mix-row">
+                <span class="mix-row-label">{{ pair[0] | capitalize }}</span>
+                <div class="mix-row-bar"><div class="mix-row-fill" style="width: {{ pair[1] }}%;"></div></div>
+                <span class="mix-row-value">{{ pair[1] }}%</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <p class="market-sub">Relevé du {{ market.mix_france.date_heure | date: "%d/%m/%Y à %Hh%M" }} · RTE (éCO2mix)</p>
+        {% else %}
+        <p class="gadget-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== TRAFIC MARITIME ===== -->
-<section class="block mkt-block">
+<!-- ===== 2. PÉTROLE ET GAZ ===== -->
+<section class="mk-section mk-section--alt" id="petrole-gaz">
   <div class="wrap">
-    <h2 class="mkt-page-title">Trafic maritime</h2>
-    {% assign cp_ref = site.data.market.chokepoints.hormuz %}
-    <p class="mt-section-note">Passages de navires comptés à partir des signaux AIS (IMF PortWatch). Données publiées une fois par semaine,
-      avec environ une semaine de retard{% if cp_ref.date %} : dernière donnée au <strong>{{ cp_ref.date | date: "%d/%m" }}</strong>{% endif %}.</p>
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--oil"><i class="fa-solid fa-oil-well" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">Pétrole et gaz</h2>
+        <p class="mk-lead">Les deux prix de référence mondiaux, et ce qui fait bouger le Brent en ce moment.</p>
+      </div>
+    </header>
 
-    <script>window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};</script>
-    {% include chokepoint.html key="hormuz" name="Détroit d'Ormuz" lat="26.55" lon="56.25" zoom="8" %}
-    {% include chokepoint.html key="bab_el_mandeb" name="Détroit de Bab-el-Mandeb" lat="12.6" lon="43.4" zoom="8" %}
-    {% include chokepoint.html key="malacca" name="Détroit de Malacca" lat="3.5" lon="100.5" zoom="6" %}
+    <div class="mkt-panel-card">
+      <div class="market-grid market-grid--detail">
+        {% include market-card.html key="brent" cls="oil" icon="fa-droplet" name="BRENT" entry=market.brent field="price_usd" unit="$/baril" source="EIA" %}
+        {% include market-card.html key="henryhub" cls="gas" icon="fa-fire-flame-simple" name="HENRY HUB" entry=market.henry_hub field="price_usd_mmbtu" unit="$/MMBtu" source="EIA" %}
+      </div>
+    </div>
 
     <section class="mt-card mt-brent">
       <h3 class="mkt-commodity-name">Ormuz et le prix du pétrole</h3>
-      <p class="mt-kpi-note">Capacité des tankers passant à Ormuz sur 12 mois (moyenne 7 jours, en % de la normale {{ cp_ref.ref_period }}), face au prix du Brent.</p>
-      <div class="mt-chart mt-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ cp_ref.ref_capacity_tanker_mt }}" aria-label="Capacité des tankers à Ormuz et prix du Brent sur 12 mois"></canvas></div>
+      <p class="mt-kpi-note">Capacité des tankers passant à Ormuz sur 12 mois (moyenne 7 jours, en % de la normale {{ ormuz.ref_period }}), face au prix du Brent.</p>
+      <div class="mt-chart mt-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ ormuz.ref_capacity_tanker_mt }}" aria-label="Capacité des tankers à Ormuz et prix du Brent sur 12 mois"></canvas></div>
       <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>Capacité tankers à Ormuz (% de la normale)
         <span class="mt-sw"></span>Brent ($/baril)</p>
-      <p class="mt-src">Sources : IMF PortWatch (passages), EIA et OilPriceAPI (Brent)</p>
-      <script>window.mktBrentYear = {{ site.data.brent_year | jsonify }};</script>
+      <p class="mt-src">Sources : IMF PortWatch (passages), EIA et OilPriceAPI (Brent) · <a href="#detroit-hormuz">Détail du détroit d'Ormuz ↓</a></p>
     </section>
-
-    {% if site.data.market.updated_at %}
-    <p class="mkt-updated-footer mkt-updated-footer--light"><span class="live-dot"></span>Données marché mises à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
-    {% endif %}
   </div>
 </section>
 
-<!-- ===== INCIDENTS ===== -->
-<section class="block mkt-block">
+<!-- ===== 3. ROUTES MARITIMES ===== -->
+<section class="mk-section" id="routes-maritimes">
   <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--sea"><i class="fa-solid fa-ship" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">Routes maritimes</h2>
+        <p class="mk-lead">Passages de navires dans les trois détroits clés, comptés à partir des signaux AIS (IMF PortWatch).
+          Publiés une fois par semaine, avec environ une semaine de retard{% if ormuz.date %} : dernière donnée au <strong>{{ ormuz.date | date: "%d/%m" }}</strong>{% endif %}.</p>
+      </div>
+    </header>
+
+    <div class="mk-straits">
+      {% assign straits = "hormuz|Ormuz,bab_el_mandeb|Bab-el-Mandeb,malacca|Malacca" | split: "," %}
+      {% for s in straits %}
+      {% assign parts = s | split: "|" %}
+      {% assign cp = market.chokepoints[parts[0]] %}
+      <a class="mk-strait {{ cp.status }}" href="#detroit-{{ parts[0] }}">
+        <span class="mk-strait-name">{{ parts[1] }}</span>
+        <span class="mk-strait-pct">{% if cp.pct_total != nil %}{{ cp.pct_total }} %{% else %}-{% endif %}</span>
+        <span class="mk-strait-sub">du trafic normal</span>
+        <span class="mk-strait-bar"><span style="width: {{ cp.pct_total | default: 0 | at_most: 100 }}%"></span></span>
+      </a>
+      {% endfor %}
+    </div>
+
+    {% include chokepoint.html key="hormuz" name="Détroit d'Ormuz" lat="26.55" lon="56.25" zoom="8" %}
+    {% include chokepoint.html key="bab_el_mandeb" name="Détroit de Bab-el-Mandeb" lat="12.6" lon="43.4" zoom="8" %}
+    {% include chokepoint.html key="malacca" name="Détroit de Malacca" lat="3.5" lon="100.5" zoom="6" %}
+  </div>
+</section>
+
+<!-- ===== 4. SÉCURITÉ EN MER ===== -->
+<section class="mk-section mk-section--alt" id="securite">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--risk"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">Sécurité en mer</h2>
+        <p class="mk-lead">Attaques, saisies et activités suspectes signalées par les navires dans le Golfe, en mer Rouge et dans le golfe d'Aden.</p>
+      </div>
+    </header>
     {% include incidents.html %}
+  </div>
+</section>
+
+<!-- ===== SOURCES ET MÉTHODE ===== -->
+<section class="mk-section" id="sources">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">Sources et méthode</h2>
+        <p class="mk-lead">Toutes les données de cette page sont publiques et récupérées automatiquement. Si une source ne répond pas, la dernière valeur connue est conservée.</p>
+      </div>
+    </header>
+    <div class="mk-sources">
+      <div><strong>Prix spot électricité</strong><span>RTE (prix du jour), Energy-Charts / SMARD (historique)</span><em>toutes les 6 h</em></div>
+      <div><strong>Mix et intensité carbone</strong><span>RTE éCO2mix</span><em>toutes les 6 h</em></div>
+      <div><strong>Brent et Henry Hub</strong><span>OilPriceAPI (cours du jour), EIA (historique)</span><em>toutes les 6 h</em></div>
+      <div><strong>Trafic des détroits</strong><span>IMF PortWatch (FMI), contexte EIA</span><em>publication hebdomadaire</em></div>
+      <div><strong>Incidents en mer</strong><span>UKMTO (Royal Navy), Open Government Licence v3.0</span><em>toutes les 2 h</em></div>
+      <div><strong>Dernières infos</strong><span>Flux RSS d'Al Jazeera, France 24, Le Monde, EIA et BBC</span><em>toutes les 2 h</em></div>
+    </div>
+    {% if market.updated_at %}
+    <p class="mkt-updated-footer mkt-updated-footer--light"><span class="live-dot"></span>Données marché mises à jour le {{ market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
+    {% endif %}
   </div>
 </section>

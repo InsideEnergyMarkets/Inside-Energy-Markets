@@ -1,0 +1,33 @@
+{% comment %}
+  Carte de prix retournable (face : prix du jour ; dos : graphique 7/30/60 j).
+  Paramètres : key (spot, brent, henryhub), cls (power, oil, gas), icon, name,
+  entry (objet de site.data.market), field (nom du champ prix), unit, source.
+{% endcomment %}
+{% assign entry = include.entry %}
+<div class="market-card market-card--{{ include.cls }} mkt-flip-outer" data-chart="{{ include.key }}">
+  <div class="mkt-flip-inner">
+    <div class="mkt-flip-front">
+      <div class="market-card-top"><span class="market-icon"><i class="fa-solid {{ include.icon }}"></i></span></div>
+      <p class="mkt-commodity-name">{{ include.name }}</p>
+      {% if entry %}
+      <p class="market-value">{{ entry[include.field] }} <span>{{ include.unit }}</span></p>
+      <p class="market-sub">{% if entry.date_label %}{{ entry.date_label }}{% else %}Mis à jour : {{ entry.date }}{% endif %} · {{ entry.source | default: include.source }}</p>
+      {% else %}
+      <p class="market-value market-pending">-</p>
+      <p class="market-sub">Donnée à venir</p>
+      {% endif %}
+      <p class="mkt-flip-hint">▾ Voir l'historique</p>
+    </div>
+    <div class="mkt-flip-back">
+      <div class="mkt-flip-back-head">
+        <span class="mkt-commodity-name mkt-commodity-name--sm">{{ include.name }}</span>
+        <div class="mkt-period-btns">
+          <button type="button" class="period-btn" data-period="7">7j</button>
+          <button type="button" class="period-btn active" data-period="30">30j</button>
+          <button type="button" class="period-btn" data-period="60">60j</button>
+        </div>
+      </div>
+      <div class="mkt-chart-wrap"><canvas id="chart-canvas-{{ include.key }}"></canvas></div>
+    </div>
+  </div>
+</div>

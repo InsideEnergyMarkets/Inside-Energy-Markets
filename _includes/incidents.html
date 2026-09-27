@@ -2,19 +2,6 @@
   Incidents dans la zone : liens vers les alertes officielles + carte des incidents
   signalés au UKMTO (scripts/fetch_news.py -> _data/incidents.json, toutes les 2 h).
 {% endcomment %}
-<h2 class="mkt-page-title">Incidents dans la zone</h2>
-
-<div class="al-box">
-  <h3>Alertes officielles</h3>
-  <p>Les sources de référence pour la sécurité des navires dans le Golfe et en mer Rouge.</p>
-  <div class="al-links">
-    <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener"><strong>UKMTO (Royaume-Uni)</strong>Incidents récents signalés par les navires</a>
-    <a href="https://www.ukmto.org/partner-products/jmic-products/jmic-advisories/2026" target="_blank" rel="noopener"><strong>JMIC</strong>Notes d'analyse, avec la liste des incidents confirmés</a>
-    <a href="https://www.maritime.dot.gov/msci/2026-011-persian-gulf-strait-hormuz-and-gulf-oman-iranian-attacks-commercial-vessels" target="_blank" rel="noopener"><strong>MARAD 2026-011 (États-Unis)</strong>Ormuz et Golfe : attaques iraniennes contre les navires</a>
-    <a href="https://www.maritime.dot.gov/msci/2026-006-red-sea-bab-el-mandeb-strait-gulf-aden-arabian-sea-and-somali-basin-houthi-attacks" target="_blank" rel="noopener"><strong>MARAD 2026-006 (États-Unis)</strong>Mer Rouge et Bab-el-Mandeb : attaques houthies</a>
-  </div>
-</div>
-
 {% assign incidents = site.data.incidents.items %}
 {% if incidents and incidents.size > 0 %}
 <section class="mt-card inc-card">
@@ -34,3 +21,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>window.mktIncidents = {{ incidents | jsonify }};</script>
 {% endif %}
+
+<div class="al-box">
+  <h3>Alertes officielles</h3>
+  <p>Les sources de référence pour la sécurité des navires dans le Golfe et en mer Rouge.</p>
+  <div class="al-links">
+    <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener"><strong>UKMTO (Royaume-Uni)</strong>Incidents récents signalés par les navires</a>
+    <a href="https://www.ukmto.org/partner-products/jmic-products/jmic-advisories/2026" target="_blank" rel="noopener"><strong>JMIC</strong>Notes d'analyse, avec la liste des incidents confirmés</a>
+    <a href="https://www.maritime.dot.gov/msci/2026-011-persian-gulf-strait-hormuz-and-gulf-oman-iranian-attacks-commercial-vessels" target="_blank" rel="noopener"><strong>MARAD 2026-011 (États-Unis)</strong>Ormuz et Golfe : attaques iraniennes contre les navires</a>
+    <a href="https://www.maritime.dot.gov/msci/2026-006-red-sea-bab-el-mandeb-strait-gulf-aden-arabian-sea-and-somali-basin-houthi-attacks" target="_blank" rel="noopener"><strong>MARAD 2026-006 (États-Unis)</strong>Mer Rouge et Bab-el-Mandeb : attaques houthies</a>
+  </div>
+</div>

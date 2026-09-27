@@ -156,7 +156,10 @@ def update_incidents():
 
     cutoff = (now_utc() - datetime.timedelta(days=INCIDENTS_KEEP_DAYS)).isoformat()
     items = sorted((i for i in stored.values() if i["date"] >= cutoff), key=lambda i: i["date"], reverse=True)
-    write_json(INCIDENTS_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "items": items})
+    since = (now_utc() - datetime.timedelta(days=30)).isoformat()
+    recent = [i for i in items if i["date"] >= since]
+    stats = {"total_30d": len(recent), "attacks_30d": sum(1 for i in recent if i["type"] == "Attack")}
+    write_json(INCIDENTS_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "stats": stats, "items": items})
     print(f"Incidents UKMTO : {len(raw)} dans le flux, {len(items)} conservés")
 
 

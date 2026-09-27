@@ -2076,3 +2076,109 @@ footer .socials a.footer-podcast-link:hover {
 .inc-vessel { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
 .inc-card .leaflet-popup-content { font: 13px/1.4 'Inter', sans-serif; }
 @media (max-width: 640px) { #inc-map { height: 340px; } }
+
+/* ===== Page Marchés : sommaire, « À retenir », rubriques ===== */
+.mk-toc {
+  position: sticky; top: 64px; z-index: 15;
+  background: rgba(247, 249, 250, 0.94); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line); margin-top: 18px;
+}
+.mk-toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
+.mk-toc .wrap::-webkit-scrollbar { display: none; }
+.mk-toc a {
+  flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 999px;
+  font: 600 13px 'Inter', sans-serif; color: #17255f; text-decoration: none; border: 1px solid transparent;
+}
+.mk-toc a:hover, .mk-toc a.is-current { background: #fff; border-color: #d8e1e6; }
+.mk-toc a.is-current { color: #00817d; border-color: #00817d; }
+.mk-toc i { font-size: 12px; color: #00817d; }
+.mk-toc .mk-toc-minor { margin-left: auto; color: #5a6b7b; font-weight: 500; }
+
+.mk-glance { padding: 22px 0 6px; }
+.mk-glance-title { font: 700 12px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: #5a6b7b; margin: 0 0 10px; }
+.mk-glance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.mk-glance-item {
+  display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 12px; text-decoration: none;
+  background: #fff; border: 1px solid #d8e1e6; transition: border-color 0.2s, transform 0.2s;
+}
+.mk-glance-item:hover { border-color: #00817d; transform: translateY(-2px); }
+.mk-glance-label { font-size: 12px; color: #5a6b7b; }
+.mk-glance-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #17255f; }
+.mk-glance-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: #5a6b7b; }
+.mk-glance-value.up { color: #d9463a; }
+.mk-glance-value.down { color: #1f9d6b; }
+.mk-glance-sub { font-size: 12px; color: #5a6b7b; }
+
+.mk-section { padding: 44px 0 28px; scroll-margin-top: 120px; }
+.mk-section--alt { background: var(--paper-dim); }
+.mk-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px; }
+.mk-head .mkt-page-title { margin: 0 0 4px; font-size: 30px; }
+.mk-head-icon {
+  flex: none; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  background: #17255f; color: #fff; font-size: 18px;
+}
+.mk-head-icon--power { background: #00817d; }
+.mk-head-icon--oil { background: #e8703a; }
+.mk-head-icon--sea { background: #2f6f8f; }
+.mk-head-icon--risk { background: #d9463a; }
+.mk-lead { margin: 0; font-size: 14px; color: #5a6b7b; max-width: 720px; }
+.mt-card, .mt-brent { scroll-margin-top: 120px; }
+
+.mk-power-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px; align-items: stretch; }
+.mk-power-grid .mkt-panel-card { margin-bottom: 0; }
+.mk-power-price .market-grid--detail { grid-template-columns: 1fr; }
+.mk-power-price .mkt-weekly { margin-top: 18px; }
+@media (max-width: 860px) { .mk-power-grid { grid-template-columns: 1fr; } }
+
+.mk-straits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
+.mk-strait {
+  display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 12px; text-decoration: none;
+  background: #fff; border: 1px solid #d8e1e6; border-top: 4px solid #a0aec0;
+}
+.mk-strait.fluide { border-top-color: #1f9d6b; }
+.mk-strait.partiel { border-top-color: #e8b33a; }
+.mk-strait.ferme { border-top-color: #d9463a; }
+.mk-strait:hover { border-color: #00817d; }
+.mk-strait-name { font: 600 13px 'Inter', sans-serif; color: #17255f; }
+.mk-strait-pct { font-family: 'JetBrains Mono', monospace; font-size: 26px; color: #17255f; }
+.mk-strait-sub { font-size: 12px; color: #5a6b7b; }
+.mk-strait-bar { height: 5px; background: #eef2f4; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.mk-strait-bar span { display: block; height: 100%; background: #17255f; border-radius: 3px; }
+@media (max-width: 640px) {
+  .mk-straits { grid-template-columns: 1fr; }
+  .mk-head .mkt-page-title { font-size: 26px; }
+}
+
+.mk-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.mk-sources div { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; background: #fff; border: 1px solid #d8e1e6; border-radius: 10px; }
+.mk-sources strong { font-size: 13px; color: #17255f; }
+.mk-sources span { font-size: 13px; color: #1a2733; }
+.mk-sources em { font-style: normal; font-size: 12px; color: #00817d; }
+
+/* ===== Accueil : « Le point marchés » ===== */
+.hm-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.hm-tile {
+  display: flex; flex-direction: column; gap: 6px; padding: 18px 18px 16px; border-radius: 14px; text-decoration: none; color: #fff;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 3px solid #a0aec0;
+  transition: background 0.2s, transform 0.2s;
+}
+.hm-tile:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+.hm-tile--power { border-top-color: #00817d; }
+.hm-tile--oil { border-top-color: #e8703a; }
+.hm-tile--gas { border-top-color: #e8b33a; }
+.hm-tile--sea { border-top-color: #4fd1c5; }
+.hm-tile-name { display: flex; align-items: center; gap: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.5px; }
+.hm-tile-name i { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
+.hm-tile-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; }
+.hm-tile-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.hm-tile-sub { font-size: 12px; color: rgba(255, 255, 255, 0.6); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.hm-tile-sub b { font-weight: 700; }
+.hm-tile-sub b.up { color: #ff6b5b; }
+.hm-tile-sub b.down { color: #3ddc97; }
+.hm-tile-sub .mt-badge { padding: 2px 8px; font-size: 11px; }
+.hm-alert {
+  display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 16px; border-radius: 10px;
+  background: rgba(255, 107, 91, 0.12); color: #ffd2cc; font-size: 13.5px; text-decoration: none;
+}
+.hm-alert:hover { background: rgba(255, 107, 91, 0.2); }
+.hm-alert i { color: #ff6b5b; }
