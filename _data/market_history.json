@@ -601,14 +601,14 @@
   {
     "date": "2026-09-27",
     "mix_shares": {
-      "nucleaire": 83.0,
-      "eolien": 8.1,
-      "solaire": 0.5,
-      "hydraulique": 5.3,
-      "gaz": 0.6,
-      "bioenergies": 2.5
+      "nucleaire": 71.6,
+      "eolien": 7.4,
+      "solaire": 14.1,
+      "hydraulique": 3.6,
+      "gaz": 1.1,
+      "bioenergies": 2.2
     },
     "spot_eur_mwh": 115.41,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "RTE"
   }
 ]

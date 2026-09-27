@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27T06:08:56.603640Z",
+  "updated_at": "2026-09-27T08:12:31.000211Z",
   "brent": {
     "price_usd": 104.38,
     "date": "2026-09-27",
@@ -13,22 +13,24 @@
     "source": "OilPriceAPI"
   },
   "mix_france": {
-    "date_heure": "2026-09-27T05:45:00+00:00",
+    "date_heure": "2026-09-27T07:45:00+00:00",
     "shares": {
-      "nucleaire": 83.0,
-      "eolien": 8.1,
-      "solaire": 0.5,
-      "hydraulique": 5.3,
-      "gaz": 0.6,
-      "bioenergies": 2.5
+      "nucleaire": 71.6,
+      "eolien": 7.4,
+      "solaire": 14.1,
+      "hydraulique": 3.6,
+      "gaz": 1.1,
+      "bioenergies": 2.2
     },
     "top_source": "nucleaire",
-    "top_share": 83.0,
+    "top_share": 71.6,
     "co2_intensity": 16
   },
   "spot_price_france": {
-    "price_eur_mwh": 153.85,
-    "date": "2026-09-27"
+    "price_eur_mwh": 115.41,
+    "date": "2026-09-27",
+    "unit": "EUR/MWh, moyenne journalière",
+    "source": "RTE"
   },
   "chokepoints": {
     "hormuz": {
