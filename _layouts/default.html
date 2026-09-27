@@ -116,6 +116,7 @@ if (navToggle) {
 <script>
 (function () {
   var chartInstances = {};
+  var cardDays = {};
 
   // Ne garde que les points renseignés de la série, sur les N derniers jours
   // avant son dernier point, pour que la courbe occupe toute la largeur
@@ -130,39 +131,86 @@ if (navToggle) {
       }
     });
     if (!labels.length) return { labels: labels, values: values, sources: sources };
-    var cutoff = new Date(labels[labels.length - 1]);
+    var cutoff = parseDay(labels[labels.length - 1]);
     cutoff.setDate(cutoff.getDate() - days);
     var start = 0;
-    while (start < labels.length - 1 && new Date(labels[start]) <= cutoff) start++;
+    while (start < labels.length - 1 && parseDay(labels[start]) <= cutoff) start++;
     return { labels: labels.slice(start), values: values.slice(start), sources: sources.slice(start) };
   }
 
-  function renderChart(key, days) {
-    var dataset = window.mktChartData && window.mktChartData[key];
-    if (!dataset) return;
-    var canvas = document.getElementById('chart-canvas-' + key);
-    if (!canvas || typeof Chart === 'undefined') return;
+  function parseDay(s) {
+    var p = s.split('-');
+    return new Date(+p[0], +p[1] - 1, +p[2]);
+  }
+  function fmtNum(v) {
+    return v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtDay(s) {
+    return parseDay(s).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  }
 
-    var win = seriesWindow(dataset, days);
-    var labels = win.labels;
-    var values = win.values;
+  // Moyenne des points des 7 derniers jours calendaires (jour inclus), calculée
+  // sur toute la série pour que le début de la période ait déjà une moyenne
+  function movingAverage(dataset, labels) {
+    var all = seriesWindow(dataset, 100000), byDay = {};
+    all.labels.forEach(function (d, i) {
+      var from = parseDay(d);
+      from.setDate(from.getDate() - 6);
+      var sum = 0, n = 0;
+      for (var j = i; j >= 0 && parseDay(all.labels[j]) >= from; j--) { sum += all.values[j]; n++; }
+      byDay[d] = Math.round(sum / n * 100) / 100;
+    });
+    return labels.map(function (d) { return byDay[d]; });
+  }
 
-    if (chartInstances[key]) chartInstances[key].destroy();
-    chartInstances[key] = new Chart(canvas.getContext('2d'), {
+  // Ligne verticale qui suit la souris
+  var crosshair = {
+    id: 'mktCrosshair',
+    afterDatasetsDraw: function (chart) {
+      var active = chart.tooltip && chart.tooltip.getActiveElements();
+      if (!active || !active.length) return;
+      var x = active[0].element.x, area = chart.chartArea, ctx = chart.ctx;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, area.top);
+      ctx.lineTo(x, area.bottom);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  function chartConfig(dataset, win, opts) {
+    opts = opts || {};
+    var datasets = [{
+      data: win.values,
+      borderColor: dataset.color,
+      backgroundColor: dataset.color + '22',
+      fill: true,
+      tension: 0.25,
+      spanGaps: true,
+      pointRadius: 0,
+      pointHoverRadius: opts.large ? 4 : 0,
+      borderWidth: opts.large ? 2.5 : 2,
+    }];
+    if (opts.ma) {
+      datasets.push({
+        data: opts.ma,
+        borderColor: 'rgba(255,255,255,0.7)',
+        borderDash: [5, 4],
+        borderWidth: 1.5,
+        fill: false,
+        tension: 0.25,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+      });
+    }
+    var tickColor = 'rgba(255,255,255,0.5)';
+    return {
       type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: values,
-          borderColor: dataset.color,
-          backgroundColor: dataset.color + '22',
-          fill: true,
-          tension: 0.25,
-          spanGaps: true,
-          pointRadius: 0,
-          borderWidth: 2,
-        }]
-      },
+      data: { labels: win.labels, datasets: datasets },
+      plugins: opts.large ? [crosshair] : [],
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -172,24 +220,164 @@ if (navToggle) {
           tooltip: {
             displayColors: false,
             callbacks: {
-              label: function (ctx) { return ctx.parsed.y + ' ' + (dataset.unit || ''); },
-              afterLabel: function (ctx) {
-                var src = win.sources[ctx.dataIndex];
+              title: function (items) { return items.length ? fmtDay(items[0].label) : ''; },
+              label: function (ctx) {
+                var txt = fmtNum(ctx.parsed.y) + ' ' + (dataset.unit || '');
+                return ctx.datasetIndex === 1 ? 'Moy. 7j : ' + txt : txt;
+              },
+              afterBody: function (items) {
+                var src = items.length && win.sources[items[0].dataIndex];
                 return src ? 'Source : ' + src : '';
               }
             }
           }
         },
         scales: {
-          x: { display: false },
-          y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+          x: opts.large
+            ? { ticks: { color: tickColor, font: { size: 11 }, maxTicksLimit: 8, maxRotation: 0,
+                         callback: function (v) { return fmtDay(this.getLabelForValue(v)); } },
+                grid: { display: false } }
+            : { display: false },
+          y: { ticks: { color: tickColor, font: { size: opts.large ? 11 : 9 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
         }
       }
+    };
+  }
+
+  function renderChart(key, days) {
+    var dataset = window.mktChartData && window.mktChartData[key];
+    if (!dataset) return;
+    var canvas = document.getElementById('chart-canvas-' + key);
+    if (!canvas || typeof Chart === 'undefined') return;
+    cardDays[key] = days;
+    if (chartInstances[key]) chartInstances[key].destroy();
+    chartInstances[key] = new Chart(canvas.getContext('2d'), chartConfig(dataset, seriesWindow(dataset, days)));
+  }
+
+  // ===== Vue agrandie =====
+  var modal = null, modalChart = null, modalState = {};
+
+  function buildModal() {
+    modal = document.createElement('div');
+    modal.className = 'mkt-modal';
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="mkt-modal-box" role="dialog" aria-modal="true" aria-labelledby="mkt-modal-title">' +
+        '<div class="mkt-modal-head">' +
+          '<h3 id="mkt-modal-title" class="mkt-commodity-name"></h3>' +
+          '<div class="mkt-modal-tools">' +
+            '<button type="button" class="period-btn mkt-ma-btn" aria-pressed="false">Moy. mobile 7j</button>' +
+            '<div class="mkt-period-btns">' +
+              '<button type="button" class="period-btn" data-period="7">7j</button>' +
+              '<button type="button" class="period-btn" data-period="30">30j</button>' +
+              '<button type="button" class="period-btn" data-period="60">60j</button>' +
+            '</div>' +
+            '<button type="button" class="mkt-modal-close" aria-label="Fermer">&#x2715;</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mkt-modal-chart"><canvas id="mkt-modal-canvas"></canvas></div>' +
+        '<div class="mkt-modal-stats"></div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    modal.querySelector('.mkt-modal-close').addEventListener('click', closeModal);
+    modal.querySelectorAll('[data-period]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        modalState.days = parseInt(btn.getAttribute('data-period'), 10);
+        renderModal();
+      });
     });
+    modal.querySelector('.mkt-ma-btn').addEventListener('click', function () {
+      modalState.ma = !modalState.ma;
+      renderModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
+  }
+
+  function stat(label, value, unit, extra, cls) {
+    return '<div class="mkt-modal-stat"><span class="mkt-weekly-label">' + label + '</span>' +
+      '<span class="mkt-weekly-value' + (cls ? ' ' + cls : '') + '">' + value +
+      (unit ? ' <small>' + unit + '</small>' : '') + '</span>' +
+      (extra ? '<span class="mkt-modal-stat-sub">' + extra + '</span>' : '') + '</div>';
+  }
+
+  function renderStats(dataset, win) {
+    var box = modal.querySelector('.mkt-modal-stats');
+    var v = win.values, n = v.length, unit = dataset.unit || '';
+    if (!n) { box.innerHTML = ''; return; }
+    var iMin = 0, iMax = 0, sum = 0;
+    v.forEach(function (x, i) { if (x < v[iMin]) iMin = i; if (x > v[iMax]) iMax = i; sum += x; });
+    var diff = v[n - 1] - v[0];
+    var pct = v[0] ? diff / Math.abs(v[0]) * 100 : 0;
+    var sign = diff > 0 ? '+' : '';
+    box.innerHTML =
+      stat('Dernier', fmtNum(v[n - 1]), unit,
+           fmtDay(win.labels[n - 1]) + (win.sources[n - 1] ? ' · ' + win.sources[n - 1] : '')) +
+      stat('Variation', sign + fmtNum(pct), '%',
+           sign + fmtNum(diff) + ' ' + unit + ' depuis le ' + fmtDay(win.labels[0]),
+           diff > 0 ? 'up' : (diff < 0 ? 'down' : '')) +
+      stat('Plus bas', fmtNum(v[iMin]), unit, fmtDay(win.labels[iMin])) +
+      stat('Plus haut', fmtNum(v[iMax]), unit, fmtDay(win.labels[iMax])) +
+      stat('Moyenne', fmtNum(sum / n), unit, n + ' jours de données');
+  }
+
+  function renderModal() {
+    var dataset = window.mktChartData[modalState.key];
+    var win = seriesWindow(dataset, modalState.days);
+    modal.querySelectorAll('[data-period]').forEach(function (b) {
+      b.classList.toggle('active', parseInt(b.getAttribute('data-period'), 10) === modalState.days);
+    });
+    var maBtn = modal.querySelector('.mkt-ma-btn');
+    maBtn.classList.toggle('active', !!modalState.ma);
+    maBtn.setAttribute('aria-pressed', modalState.ma ? 'true' : 'false');
+
+    if (modalChart) modalChart.destroy();
+    modalChart = new Chart(document.getElementById('mkt-modal-canvas').getContext('2d'),
+      chartConfig(dataset, win, { large: true, ma: modalState.ma ? movingAverage(dataset, win.labels) : null }));
+    renderStats(dataset, win);
+  }
+
+  function openModal(key, title, trigger) {
+    if (!window.mktChartData || !window.mktChartData[key] || typeof Chart === 'undefined') return;
+    if (!modal) buildModal();
+    modalState = { key: key, days: cardDays[key] || 30, ma: false, trigger: trigger };
+    modal.querySelector('#mkt-modal-title').textContent = title;
+    modal.querySelector('.mkt-modal-box').style.borderTopColor = window.mktChartData[key].color;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    renderModal();
+    modal.querySelector('.mkt-modal-close').focus();
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (modalChart) { modalChart.destroy(); modalChart = null; }
+    if (modalState.trigger) modalState.trigger.focus();
   }
 
   document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
     var key = card.getAttribute('data-chart');
+    var nameEl = card.querySelector('.mkt-commodity-name--sm');
+
+    // Bouton d'agrandissement ajouté à côté des boutons de période
+    var btns = card.querySelector('.mkt-flip-back .mkt-period-btns');
+    if (btns) {
+      var expand = document.createElement('button');
+      expand.type = 'button';
+      expand.className = 'period-btn mkt-expand-btn';
+      expand.setAttribute('aria-label', 'Agrandir le graphique');
+      expand.title = 'Agrandir';
+      expand.innerHTML = '&#x2922;';
+      expand.addEventListener('click', function (e) {
+        e.stopPropagation();
+        openModal(key, nameEl ? nameEl.textContent : '', expand);
+      });
+      btns.appendChild(expand);
+    }
 
     card.addEventListener('click', function (e) {
       if (e.target.closest('.period-btn')) return;
@@ -199,10 +387,10 @@ if (navToggle) {
       }
     });
 
-    card.querySelectorAll('.period-btn').forEach(function (btn) {
+    card.querySelectorAll('.period-btn[data-period]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
-        card.querySelectorAll('.period-btn').forEach(function (b) { b.classList.remove('active'); });
+        card.querySelectorAll('.period-btn[data-period]').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         renderChart(key, parseInt(btn.getAttribute('data-period'), 10));
       });

@@ -1851,3 +1851,86 @@ footer .socials a.footer-podcast-link:hover {
 .market-card--oil.mkt-flip-outer { border-top: 3px solid #e8703a; }
 .market-card--power.mkt-flip-outer { border-top: 3px solid #00817d; }
 .market-card--gas.mkt-flip-outer { border-top: 3px solid #e8b33a; }
+
+/* ===== Vue agrandie des graphiques marché ===== */
+.mkt-expand-btn { font-size: 13px; line-height: 1; padding: 4px 8px; }
+.mkt-ma-btn.active { background: #ffffff; border-color: #ffffff; color: #0d1638; }
+
+.mkt-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(6, 10, 28, 0.72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.mkt-modal[hidden] { display: none; }
+
+.mkt-modal-box {
+  width: min(1000px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 28px;
+  background: linear-gradient(160deg, #17255f, #0d1638);
+  border-top: 3px solid #00817d;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+.mkt-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mkt-modal-head .mkt-commodity-name { font-size: 30px; margin: 0; }
+.mkt-modal-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.mkt-modal-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.mkt-modal-close:hover { background: rgba(255, 255, 255, 0.2); }
+
+.mkt-modal-chart { position: relative; height: 420px; }
+.mkt-modal-chart canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
+.mkt-modal-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+.mkt-modal-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+.mkt-modal-stat .mkt-weekly-value { font-size: 18px; white-space: nowrap; }
+.mkt-modal-stat .mkt-weekly-value small { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255, 255, 255, 0.55); }
+.mkt-modal-stat-sub { font-size: 11px; color: rgba(255, 255, 255, 0.5); }
+
+@media (max-width: 640px) {
+  .mkt-modal { padding: 0; }
+  .mkt-modal-box { height: 100%; border-radius: 0; padding: 18px 16px; }
+  .mkt-modal-chart { height: auto; flex: 1; min-height: 260px; }
+  .mkt-modal-head .mkt-commodity-name { font-size: 24px; }
+}
