@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-27T10:08:37+00:00",
+ "updated_at": "2026-09-27T10:11:36+00:00",
  "items": [
   {
    "id": "UKMTO-2026-142",
@@ -10,7 +10,7 @@
    "lon": 56.3881,
    "place": "Strait of Hormuz",
    "vessel_type": "Cargo",
-   "vessel_name": "NO",
+   "vessel_name": "",
    "summary": "UKMTO has received a report of an incident within the Strait of Hormuz. The Company Security Officer of a cargo vessel reports being stuck by an unknown projectile."
   },
   {
@@ -406,7 +406,7 @@
    "lon": 56.6467,
    "place": "Strait of Hormuz",
    "vessel_type": "Other",
-   "vessel_name": "NA",
+   "vessel_name": "",
    "summary": "UKMTO has received a report of an incident 18NM east of Khasab, Oman. A verified source has reported that a vessel was struck by an unknown projectile which caused a fire that has been extinguished."
   },
   {
@@ -466,7 +466,7 @@
    "lon": 56.6103,
    "place": "Strait of Hormuz",
    "vessel_type": "Tanker",
-   "vessel_name": "NA",
+   "vessel_name": "",
    "summary": "UKMTO has received a report of an incident 20NM northeast of Khasab, Oman. The Master of a tanker reports hearing an explosion in close proximity of the vessel."
   },
   {
@@ -490,7 +490,7 @@
    "lon": 56.5108,
    "place": "Strait of Hormuz",
    "vessel_type": "Tanker",
-   "vessel_name": "N/A",
+   "vessel_name": "",
    "summary": "UKMTO has received a report of an incident 11NM northeast off Lima, Oman. The CSO of a tanker reports the vessel has been struck by an unknown projectile which has caused damage to the engine room."
   },
   {
@@ -598,7 +598,7 @@
    "lon": 49.6167,
    "place": "Northern Arabian Gulf",
    "vessel_type": "Other",
-   "vessel_name": "N/A",
+   "vessel_name": "",
    "summary": "UKMTO has received a report of an incident involving a merchant vessel and military forces in the Arabian Gulf. Reports indicate that the tanker was subject to interactions as part of ongoing military activity in the region."
   },
   {

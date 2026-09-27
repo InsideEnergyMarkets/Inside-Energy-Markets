@@ -125,7 +125,8 @@ def summarize(details):
 
 def clean(value):
     value = (value or "").strip()
-    return "" if value in ("..", ".", "-") else value
+    # Valeurs utilisées par l'UKMTO quand l'information n'est pas connue
+    return "" if value.upper() in ("..", ".", "-", "NO", "N/A", "NA", "UNKNOWN", "TBC") else value
 
 
 def update_incidents():
