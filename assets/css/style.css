@@ -1934,3 +1934,9 @@ footer .socials a.footer-podcast-link:hover {
   .mkt-modal-chart { height: auto; flex: 1; min-height: 260px; }
   .mkt-modal-head .mkt-commodity-name { font-size: 24px; }
 }
+.mkt-modal-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+}

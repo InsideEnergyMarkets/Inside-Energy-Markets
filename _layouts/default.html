@@ -266,6 +266,7 @@ if (navToggle) {
         '<div class="mkt-modal-head">' +
           '<h3 id="mkt-modal-title" class="mkt-commodity-name"></h3>' +
           '<div class="mkt-modal-tools">' +
+            '<button type="button" class="period-btn mkt-compare-btn" aria-pressed="false">Comparer (base 100)</button>' +
             '<button type="button" class="period-btn mkt-ma-btn" aria-pressed="false">Moy. mobile 7j</button>' +
             '<div class="mkt-period-btns">' +
               '<button type="button" class="period-btn" data-period="7">7j</button>' +
@@ -290,6 +291,10 @@ if (navToggle) {
     });
     modal.querySelector('.mkt-ma-btn').addEventListener('click', function () {
       modalState.ma = !modalState.ma;
+      renderModal();
+    });
+    modal.querySelector('.mkt-compare-btn').addEventListener('click', function () {
+      modalState.compare = !modalState.compare;
       renderModal();
     });
     document.addEventListener('keydown', function (e) {
@@ -324,6 +329,136 @@ if (navToggle) {
       stat('Moyenne', fmtNum(sum / n), unit, n + ' jours de données');
   }
 
+  // ===== Comparaison base 100 =====
+  // Chaque série est divisée par sa première valeur de la période (x 100) :
+  // 110 = +10 % depuis le début de la période, quelle que soit l'unité
+  var seriesNames = {};
+
+  // Ligne pointillée au niveau 100
+  var baseLine = {
+    id: 'mktBaseLine',
+    afterDatasetsDraw: function (chart) {
+      var y = chart.scales.y.getPixelForValue(100), area = chart.chartArea, ctx = chart.ctx;
+      if (y < area.top || y > area.bottom) return;
+      ctx.save();
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(area.left, y);
+      ctx.lineTo(area.right, y);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  function compareSeries(days) {
+    var keys = Object.keys(window.mktChartData);
+    var wins = {}, latest = null;
+    keys.forEach(function (k) {
+      wins[k] = seriesWindow(window.mktChartData[k], 100000);
+      var last = wins[k].labels[wins[k].labels.length - 1];
+      if (last && (!latest || last > latest)) latest = last;
+    });
+    // Même période calendaire pour toutes les séries, calée sur la date la plus récente
+    var cutoff = parseDay(latest);
+    cutoff.setDate(cutoff.getDate() - days);
+    var dates = {};
+    var series = keys.map(function (k) {
+      // On compare les moyennes mobiles 7 jours : sinon le résultat dépend
+      // surtout du jour de départ (un creux ou un pic isolé du spot, par ex.)
+      var w = wins[k], ma = movingAverage(window.mktChartData[k], w.labels);
+      var byDay = {}, first = null, lastDay = null;
+      w.labels.forEach(function (d, i) {
+        if (parseDay(d) <= cutoff) return;
+        if (first === null) first = i;
+        lastDay = i;
+        byDay[d] = { raw: w.values[i], index: ma[i] / ma[first] * 100 };
+        dates[d] = true;
+      });
+      return {
+        key: k, byDay: byDay, dataset: window.mktChartData[k],
+        name: seriesNames[k] || k,
+        start: first === null ? null : { day: w.labels[first], value: ma[first] },
+        end: lastDay === null ? null : { day: w.labels[lastDay], value: ma[lastDay] }
+      };
+    }).filter(function (s) { return s.start; });
+    return { labels: Object.keys(dates).sort(), series: series };
+  }
+
+  function compareConfig(cmp, focusKey) {
+    var tickColor = 'rgba(255,255,255,0.5)';
+    return {
+      type: 'line',
+      data: {
+        labels: cmp.labels,
+        datasets: cmp.series.map(function (s) {
+          var focus = s.key === focusKey;
+          return {
+            label: s.name,
+            data: cmp.labels.map(function (d) { return s.byDay[d] ? Math.round(s.byDay[d].index * 10) / 10 : null; }),
+            borderColor: s.dataset.color,
+            backgroundColor: s.dataset.color,
+            borderWidth: focus ? 3 : 1.8,
+            tension: 0.25,
+            spanGaps: true,
+            fill: false,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            order: focus ? 0 : 1,
+          };
+        })
+      },
+      plugins: [crosshair, baseLine],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'start',
+            labels: { color: '#e2e8f5', usePointStyle: true, pointStyle: 'line', boxWidth: 24, font: { size: 12 } }
+          },
+          tooltip: {
+            callbacks: {
+              title: function (items) { return items.length ? fmtDay(items[0].label) : ''; },
+              label: function (ctx) {
+                var s = cmp.series[ctx.datasetIndex], p = s.byDay[ctx.label];
+                if (!p) return s.name + ' : pas de cotation';
+                return s.name + ' : ' + ctx.parsed.y.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) +
+                  ' (' + fmtNum(p.raw) + ' ' + (s.dataset.unit || '') + ')';
+              }
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: tickColor, font: { size: 11 }, maxTicksLimit: 8, maxRotation: 0,
+                        callback: function (v) { return fmtDay(this.getLabelForValue(v)); } },
+               grid: { display: false } },
+          y: { ticks: { color: tickColor, font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+        }
+      }
+    };
+  }
+
+  function renderCompareStats(cmp) {
+    var ranked = cmp.series.map(function (s) {
+      return { s: s, pct: (s.end.value / s.start.value - 1) * 100 };
+    }).sort(function (a, b) { return b.pct - a.pct; });
+    modal.querySelector('.mkt-modal-stats').innerHTML = ranked.map(function (r, i) {
+      var sign = r.pct > 0 ? '+' : '', unit = r.s.dataset.unit || '';
+      return stat((i + 1) + '. ' + r.s.name, sign + fmtNum(r.pct), '%',
+        'Moy. 7j : ' + fmtNum(r.s.start.value) + ' → ' + fmtNum(r.s.end.value) + ' ' + unit +
+        '<br>du ' + fmtDay(r.s.start.day) + ' au ' + fmtDay(r.s.end.day),
+        r.pct > 0 ? 'up' : (r.pct < 0 ? 'down' : ''));
+    }).join('') +
+    '<p class="mkt-modal-note">Courbes lissées sur 7 jours, ramenées à 100 au début de la période : ' +
+    'une courbe à 110 a pris 10 %. Le lissage évite qu\'un seul jour de départ (un creux ou un pic) ' +
+    'fausse la comparaison. L\'infobulle donne le prix réel du jour.</p>';
+  }
+
   function renderModal() {
     var dataset = window.mktChartData[modalState.key];
     var win = seriesWindow(dataset, modalState.days);
@@ -333,9 +468,22 @@ if (navToggle) {
     var maBtn = modal.querySelector('.mkt-ma-btn');
     maBtn.classList.toggle('active', !!modalState.ma);
     maBtn.setAttribute('aria-pressed', modalState.ma ? 'true' : 'false');
+    maBtn.hidden = !!modalState.compare;
+    var cmpBtn = modal.querySelector('.mkt-compare-btn');
+    cmpBtn.classList.toggle('active', !!modalState.compare);
+    cmpBtn.setAttribute('aria-pressed', modalState.compare ? 'true' : 'false');
+    modal.querySelector('#mkt-modal-title').textContent =
+      modalState.compare ? 'Comparaison base 100' : modalState.title;
 
     if (modalChart) modalChart.destroy();
-    modalChart = new Chart(document.getElementById('mkt-modal-canvas').getContext('2d'),
+    var ctx = document.getElementById('mkt-modal-canvas').getContext('2d');
+    if (modalState.compare) {
+      var cmp = compareSeries(modalState.days);
+      modalChart = new Chart(ctx, compareConfig(cmp, modalState.key));
+      renderCompareStats(cmp);
+      return;
+    }
+    modalChart = new Chart(ctx,
       chartConfig(dataset, win, { large: true, ma: modalState.ma ? movingAverage(dataset, win.labels) : null }));
     renderStats(dataset, win);
   }
@@ -343,8 +491,7 @@ if (navToggle) {
   function openModal(key, title, trigger) {
     if (!window.mktChartData || !window.mktChartData[key] || typeof Chart === 'undefined') return;
     if (!modal) buildModal();
-    modalState = { key: key, days: cardDays[key] || 30, ma: false, trigger: trigger };
-    modal.querySelector('#mkt-modal-title').textContent = title;
+    modalState = { key: key, days: cardDays[key] || 30, ma: false, compare: false, title: title, trigger: trigger };
     modal.querySelector('.mkt-modal-box').style.borderTopColor = window.mktChartData[key].color;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -362,6 +509,7 @@ if (navToggle) {
   document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
     var key = card.getAttribute('data-chart');
     var nameEl = card.querySelector('.mkt-commodity-name--sm');
+    if (nameEl) seriesNames[key] = nameEl.textContent.trim();
 
     // Bouton d'agrandissement ajouté à côté des boutons de période
     var btns = card.querySelector('.mkt-flip-back .mkt-period-btns');
