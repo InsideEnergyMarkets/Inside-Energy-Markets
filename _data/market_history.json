@@ -603,12 +603,12 @@
   {
     "date": "2026-09-27",
     "mix_shares": {
-      "nucleaire": 57.1,
-      "eolien": 6.5,
-      "solaire": 29.7,
-      "hydraulique": 3.4,
-      "gaz": 1.1,
-      "bioenergies": 2.2
+      "nucleaire": 63.5,
+      "eolien": 3.3,
+      "solaire": 26.3,
+      "hydraulique": 3.8,
+      "gaz": 0.6,
+      "bioenergies": 2.4
     },
     "spot_eur_mwh": 115.41,
     "spot_source": "RTE"
