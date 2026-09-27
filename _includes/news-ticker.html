@@ -1,19 +1,25 @@
 {% comment %}
   Bandeau « Dernières infos » : titres repris des flux RSS (scripts/fetch_news.py).
-  La liste est écrite deux fois pour que le défilement boucle sans saut ;
-  la copie est masquée aux lecteurs d'écran et à la navigation clavier.
+  Un titre à la fois ; le script du layout passe au suivant toutes les 6 s en le faisant
+  glisser de bas en haut, et s'arrête au survol ou quand un titre a le focus.
 {% endcomment %}
 {% assign news = site.data.news.items %}
 {% if news and news.size > 0 %}
 <div class="nw-bar" role="region" aria-label="Dernières informations">
   <span class="nw-label">Dernières infos</span>
-  <div class="nw-viewport">
-    <div class="nw-track" style="animation-duration: {{ news.size | times: 7 }}s">
-      {% for n in news %}<a class="nw-item" href="{{ n.url | escape }}" target="_blank" rel="noopener"><span class="nw-src">{{ n.source | escape }}</span>{{ n.title | escape }}<span class="nw-time" data-date="{{ n.date }}"></span></a>{% endfor %}
-      {% for n in news %}<a class="nw-item" href="{{ n.url | escape }}" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><span class="nw-src">{{ n.source | escape }}</span>{{ n.title | escape }}<span class="nw-time" data-date="{{ n.date }}"></span></a>{% endfor %}
-    </div>
-  </div>
+  <ul class="nw-list">
+    {% for n in news %}
+    <li class="nw-slide{% if forloop.first %} is-active{% endif %}">
+      <a href="{{ n.url | escape }}" target="_blank" rel="noopener">
+        <span class="nw-src">{{ n.source | escape }}</span>
+        <span class="nw-title">{{ n.title | escape }}</span>
+        <span class="nw-time" data-date="{{ n.date }}"></span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <span class="nw-count" aria-hidden="true">1/{{ news.size }}</span>
 </div>
-<p class="nw-note">Titres et liens repris automatiquement des flux RSS publics des médias cités, mis à jour toutes les 2 heures.
-  Inside Energy Markets n'est pas l'auteur de ces contenus.</p>
+<p class="nw-note">Titres et liens repris automatiquement des flux RSS publics des médias cités (Al Jazeera, France 24, Le Monde, EIA, BBC),
+  mis à jour toutes les 2 heures. Inside Energy Markets n'est pas l'auteur de ces contenus.</p>
 {% endif %}

@@ -705,6 +705,31 @@ document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
     : 'il y a ' + Math.round(min / 1440) + ' j';
 });
 
+// ===== Bandeau d'actualités : un titre à la fois, le suivant arrive par le bas =====
+document.querySelectorAll('.nw-bar').forEach(function (bar) {
+  var slides = bar.querySelectorAll('.nw-slide'), count = bar.querySelector('.nw-count');
+  if (slides.length < 2) return;
+  var current = 0, paused = false;
+  slides.forEach(function (s, i) { if (i) s.querySelector('a').setAttribute('tabindex', '-1'); });
+  function next() {
+    if (paused || document.hidden) return;
+    var leaving = slides[current];
+    current = (current + 1) % slides.length;
+    leaving.classList.remove('is-active');
+    leaving.classList.add('is-leaving');
+    leaving.querySelector('a').setAttribute('tabindex', '-1');
+    slides[current].classList.add('is-active');
+    slides[current].querySelector('a').removeAttribute('tabindex');
+    setTimeout(function () { leaving.classList.remove('is-leaving'); }, 650);
+    if (count) count.textContent = (current + 1) + '/' + slides.length;
+  }
+  bar.addEventListener('mouseenter', function () { paused = true; });
+  bar.addEventListener('mouseleave', function () { paused = false; });
+  bar.addEventListener('focusin', function () { paused = true; });
+  bar.addEventListener('focusout', function () { paused = false; });
+  setInterval(next, 6000);
+});
+
 // ===== Carte des incidents UKMTO =====
 (function () {
   var box = document.getElementById('inc-map');

@@ -2,7 +2,7 @@
 Actualités et incidents maritimes, lancé toutes les 2 h par .github/workflows/update-news.yml.
 
 - _data/news.json : derniers titres liés à l'énergie et aux détroits, repris des flux RSS
-  publics des médias (titre, lien, média, date). Les flux RSS sont faits pour être repris ;
+  publics de 5 médias (Al Jazeera, France 24, Le Monde, EIA, BBC) (titre, lien, média, date). Les flux RSS sont faits pour être repris ;
   on n'affiche que le titre et le lien vers l'article.
 - _data/incidents.json : incidents signalés au UKMTO (centre maritime de la Royal Navy),
   via le flux qui alimente la carte de www.ukmto.org. Contenu publié sous Open Government
@@ -26,12 +26,9 @@ INCIDENTS_PATH = os.path.join(DATA_DIR, "incidents.json")
 HEADERS = {"User-Agent": "InsideEnergyMarkets/1.0 (+https://insideenergymarkets.github.io/Inside-Energy-Markets/)"}
 
 FEEDS = {
-    "gCaptain": "https://gcaptain.com/feed/",
-    "Splash247": "https://splash247.com/feed/",
     "Al Jazeera": "https://www.aljazeera.com/xml/rss/all.xml",
     "France 24": "https://www.france24.com/fr/moyen-orient/rss",
     "Le Monde": "https://www.lemonde.fr/international/rss_full.xml",
-    "OilPrice.com": "https://oilprice.com/rss/main",
     "EIA": "https://www.eia.gov/rss/todayinenergy.xml",
     "BBC": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
 }
