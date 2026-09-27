@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27T09:02:29.800580Z",
+  "updated_at": "2026-09-27T09:42:52.590178Z",
   "brent": {
     "price_usd": 104.38,
     "date": "2026-09-25",
@@ -15,17 +15,17 @@
     "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)"
   },
   "mix_france": {
-    "date_heure": "2026-09-27T08:45:00+00:00",
+    "date_heure": "2026-09-27T09:15:00+00:00",
     "shares": {
-      "nucleaire": 61.5,
-      "eolien": 6.2,
-      "solaire": 25.6,
+      "nucleaire": 57.1,
+      "eolien": 6.5,
+      "solaire": 29.7,
       "hydraulique": 3.4,
       "gaz": 1.1,
       "bioenergies": 2.2
     },
     "top_source": "nucleaire",
-    "top_share": 61.5,
+    "top_share": 57.1,
     "co2_intensity": 16
   },
   "spot_price_france": {
@@ -41,11 +41,17 @@
       "date": "2026-09-20",
       "age_days": 7,
       "period_start": "2026-09-16",
+      "days_averaged": 5,
       "n_tanker": 0.6,
       "n_total": 3.6,
-      "days_averaged": 5,
-      "tanker_avg": 53.5,
-      "total_avg": 89.0,
+      "capacity_tanker_mt": 0.0,
+      "ref_tanker": 57.4,
+      "ref_total": 95.6,
+      "ref_capacity_tanker_mt": 2.79,
+      "ref_period": "janv.-oct. 2023",
+      "pct_tanker": 1,
+      "pct_total": 4,
+      "pct_capacity": 0,
       "status": "ferme"
     },
     "bab_el_mandeb": {
@@ -53,23 +59,35 @@
       "date": "2026-09-20",
       "age_days": 7,
       "period_start": "2026-09-16",
+      "days_averaged": 5,
       "n_tanker": 6.4,
       "n_total": 24.8,
-      "days_averaged": 5,
-      "tanker_avg": 17.6,
-      "total_avg": 52.9,
-      "status": "partiel"
+      "capacity_tanker_mt": 0.28,
+      "ref_tanker": 26.2,
+      "ref_total": 74.6,
+      "ref_capacity_tanker_mt": 1.31,
+      "ref_period": "janv.-oct. 2023",
+      "pct_tanker": 24,
+      "pct_total": 33,
+      "pct_capacity": 21,
+      "status": "ferme"
     },
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-09-20",
       "age_days": 7,
       "period_start": "2026-09-16",
+      "days_averaged": 5,
       "n_tanker": 71.6,
       "n_total": 230.0,
-      "days_averaged": 5,
-      "tanker_avg": 75.3,
-      "total_avg": 195.8,
+      "capacity_tanker_mt": 2.3,
+      "ref_tanker": 83.5,
+      "ref_total": 219.0,
+      "ref_capacity_tanker_mt": 3.53,
+      "ref_period": "janv.-oct. 2023",
+      "pct_tanker": 86,
+      "pct_total": 105,
+      "pct_capacity": 65,
       "status": "fluide"
     }
   }
