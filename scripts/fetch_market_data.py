@@ -59,14 +59,17 @@ def label_quote(entry):
     """
     if not entry or not entry.get("date"):
         return entry
-    collected = datetime.date.fromisoformat(entry["date"][:10])
     trading = last_trading_day(entry["date"])
     entry["date"] = trading.isoformat()
+    today = datetime.datetime.now(PARIS).date()
     day = f"{JOURS[trading.weekday()]} {trading:%d/%m}"
-    entry["date_label"] = (
-        f"Clôture du {day} (bourse fermée le week-end)" if trading != collected
-        else f"Cours du {day}"
-    )
+    if trading >= today:
+        entry["date_label"] = f"Cours du {day}"
+    elif trading == last_trading_day(today.isoformat()):
+        entry["date_label"] = f"Clôture du {day} (bourse fermée le week-end)"
+    else:
+        # En semaine, un prix qui n'est pas du jour : source en retard ou en panne
+        entry["date_label"] = f"Dernier cours connu : {day}"
     return entry
 
 
