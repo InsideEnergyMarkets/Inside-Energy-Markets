@@ -12,6 +12,13 @@ permalink: /marches/
   </div>
 </section>
 
+<section class="nw-section">
+  <div class="wrap">
+    {% include news-ticker.html %}
+  </div>
+</section>
+
+
 {% assign hist = site.data.market_history %}
 {% assign hist_size = hist.size %}
 {% assign last_i = hist_size | minus: 1 %}
@@ -201,5 +208,12 @@ permalink: /marches/
     {% if site.data.market.updated_at %}
     <p class="mkt-updated-footer mkt-updated-footer--light"><span class="live-dot"></span>Données marché mises à jour le {{ site.data.market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
     {% endif %}
+  </div>
+</section>
+
+<!-- ===== INCIDENTS ===== -->
+<section class="block mkt-block">
+  <div class="wrap">
+    {% include incidents.html %}
   </div>
 </section>

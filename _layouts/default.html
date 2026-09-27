@@ -695,5 +695,78 @@ if (navToggle) {
   }
 })();
 </script>
+<script>
+// ===== Bandeau d'actualités : ancienneté de chaque titre, calculée à l'affichage =====
+document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
+  var min = Math.round((Date.now() - new Date(el.getAttribute('data-date'))) / 60000);
+  if (isNaN(min)) return;
+  el.textContent = min < 60 ? 'il y a ' + Math.max(min, 1) + ' min'
+    : min < 1440 ? 'il y a ' + Math.round(min / 60) + ' h'
+    : 'il y a ' + Math.round(min / 1440) + ' j';
+});
+
+// ===== Carte des incidents UKMTO =====
+(function () {
+  var box = document.getElementById('inc-map');
+  if (!box || typeof L === 'undefined' || !window.mktIncidents) return;
+
+  var TYPES = {
+    'Attack': { label: 'Attaque', color: '#ff6b5b' },
+    'Hijack': { label: 'Détournement', color: '#e8703a' },
+    'Suspicious Activity': { label: 'Activité suspecte', color: '#e8b33a' },
+    'Advisory': { label: 'Avis', color: '#4fd1c5' }
+  };
+  var OTHER = { label: 'Autre', color: '#a0aec0' };
+  function kind(t) { return TYPES[t] || OTHER; }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function when(iso) {
+    return new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  var cutoff = Date.now() - 90 * 86400000;
+  var items = window.mktIncidents.filter(function (i) { return new Date(i.date) >= cutoff; });
+
+  var map = L.map(box, { scrollWheelZoom: false }).setView([20, 50], 5);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 10, className: 'inc-tiles', attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  var groups = {};
+  items.slice().reverse().forEach(function (i) { // les plus récents dessinés au-dessus
+    var k = kind(i.type);
+    var vessel = [i.vessel_type, i.vessel_name].filter(Boolean).join(' ');
+    var marker = L.circleMarker([i.lat, i.lon], { radius: 7, color: '#fff', weight: 1.5, fillColor: k.color, fillOpacity: 0.9 })
+      .bindPopup('<strong>' + k.label + ' · ' + esc(i.place) + '</strong><br>' + when(i.date) +
+                 (vessel ? ' · ' + esc(vessel) : '') + '<br>' + esc(i.summary) +
+                 '<br><em>Source : UKMTO n° ' + esc(String(i.number)) + '</em>');
+    (groups[k.label] = groups[k.label] || { color: k.color, layer: L.layerGroup().addTo(map), n: 0 }).layer.addLayer(marker);
+    groups[k.label].n++;
+  });
+  if (items.length) map.fitBounds(L.latLngBounds(items.map(function (i) { return [i.lat, i.lon]; })).pad(0.15));
+
+  var filters = document.getElementById('inc-filters');
+  Object.keys(groups).forEach(function (label) {
+    var g = groups[label], b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'inc-chip active';
+    b.style.setProperty('--c', g.color);
+    b.setAttribute('aria-pressed', 'true');
+    b.textContent = label + ' (' + g.n + ')';
+    b.addEventListener('click', function () {
+      var on = b.classList.toggle('active');
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on) g.layer.addTo(map); else map.removeLayer(g.layer);
+    });
+    filters.appendChild(b);
+  });
+
+  document.getElementById('inc-list').innerHTML = items.slice(0, 8).map(function (i) {
+    var k = kind(i.type), vessel = [i.vessel_type, i.vessel_name].filter(Boolean).join(' ');
+    return '<li style="--c:' + k.color + '"><time>' + when(i.date) + '</time><span class="inc-tag">' + k.label + '</span>' +
+           '<span class="inc-tag">' + esc(i.place) + '</span>' + (vessel ? '<span class="inc-vessel">' + esc(vessel) + '</span>' : '') +
+           '<br>' + esc(i.summary) + '</li>';
+  }).join('');
+})();
+</script>
 </body>
 </html>

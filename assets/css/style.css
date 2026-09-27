@@ -2013,3 +2013,60 @@ footer .socials a.footer-podcast-link:hover {
   .mt-card .mkt-commodity-name { font-size: 22px; }
   .mt-kpi-value { font-size: 20px; }
 }
+
+/* ===== Bandeau « Dernières infos » ===== */
+.nw-section { padding: 18px 0 0; }
+.nw-bar { display: flex; align-items: stretch; background: #0d1638; border-radius: 10px; overflow: hidden; color: #fff; }
+.nw-label {
+  flex: none; display: flex; align-items: center; gap: 8px; background: #e8703a; padding: 0 14px;
+  font: 700 12px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; white-space: nowrap;
+}
+.nw-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: nw-pulse 1.4s infinite; }
+@keyframes nw-pulse { 50% { opacity: 0.25; } }
+.nw-viewport { flex: 1; overflow: hidden; }
+.nw-track { display: flex; width: max-content; animation: nw-scroll 120s linear infinite; }
+.nw-bar:hover .nw-track, .nw-bar:focus-within .nw-track { animation-play-state: paused; }
+@keyframes nw-scroll { to { transform: translateX(-50%); } }
+.nw-item {
+  display: flex; align-items: center; gap: 8px; padding: 11px 22px; white-space: nowrap; color: #fff;
+  text-decoration: none; font-size: 13.5px; border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+.nw-item:hover, .nw-item:focus { color: #4fd1c5; }
+.nw-src { font-weight: 700; color: #4fd1c5; font-size: 12px; }
+.nw-time { color: rgba(255, 255, 255, 0.5); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+.nw-note { font-size: 11px; color: #5a6b7b; margin: 6px 0 0; }
+@media (prefers-reduced-motion: reduce) {
+  .nw-track { animation: none; }
+  .nw-viewport { overflow-x: auto; }
+}
+@media (max-width: 640px) {
+  .nw-label { padding: 0 10px; font-size: 11px; }
+  .nw-item { font-size: 13px; padding: 10px 16px; }
+}
+
+/* ===== Incidents : alertes officielles et carte ===== */
+.al-box { background: #fff; border: 1px solid #d8e1e6; border-left: 4px solid #ff6b5b; border-radius: 12px; padding: 18px 20px; margin-bottom: 22px; }
+.al-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; margin: 0 0 4px; color: #17255f; letter-spacing: 0.5px; }
+.al-box p { margin: 0 0 12px; font-size: 13px; color: #5a6b7b; }
+.al-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+.al-links a { display: block; padding: 10px 12px; border-radius: 8px; background: #f7f9fa; border: 1px solid #eef2f4; color: #17255f; text-decoration: none; font-size: 13px; }
+.al-links a strong { display: block; color: #00817d; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
+.al-links a:hover { border-color: #00817d; }
+
+.inc-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.inc-chip {
+  font: 700 12px 'Inter', sans-serif; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--c); background: transparent; color: var(--c);
+}
+.inc-chip.active { background: var(--c); color: #0d1638; }
+#inc-map { height: 440px; border-radius: 10px; background: #0d1638; }
+.inc-tiles { filter: invert(1) hue-rotate(200deg) brightness(0.9) contrast(0.85) saturate(0.6); }
+.inc-list-title { font: 700 13px 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.4px; color: rgba(255, 255, 255, 0.6); margin: 20px 0 10px; }
+.inc-list { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 2px solid rgba(255, 255, 255, 0.15); }
+.inc-list li { position: relative; padding: 0 0 14px 10px; font-size: 13px; color: rgba(255, 255, 255, 0.85); }
+.inc-list li::before { content: ''; position: absolute; left: -25px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 3px #0d1638; }
+.inc-list time { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255, 255, 255, 0.55); margin-right: 6px; }
+.inc-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); margin-right: 4px; }
+.inc-vessel { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.inc-card .leaflet-popup-content { font: 13px/1.4 'Inter', sans-serif; }
+@media (max-width: 640px) { #inc-map { height: 340px; } }

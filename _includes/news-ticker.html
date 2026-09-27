@@ -1,0 +1,19 @@
+{% comment %}
+  Bandeau « Dernières infos » : titres repris des flux RSS (scripts/fetch_news.py).
+  La liste est écrite deux fois pour que le défilement boucle sans saut ;
+  la copie est masquée aux lecteurs d'écran et à la navigation clavier.
+{% endcomment %}
+{% assign news = site.data.news.items %}
+{% if news and news.size > 0 %}
+<div class="nw-bar" role="region" aria-label="Dernières informations">
+  <span class="nw-label">Dernières infos</span>
+  <div class="nw-viewport">
+    <div class="nw-track" style="animation-duration: {{ news.size | times: 7 }}s">
+      {% for n in news %}<a class="nw-item" href="{{ n.url | escape }}" target="_blank" rel="noopener"><span class="nw-src">{{ n.source | escape }}</span>{{ n.title | escape }}<span class="nw-time" data-date="{{ n.date }}"></span></a>{% endfor %}
+      {% for n in news %}<a class="nw-item" href="{{ n.url | escape }}" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1"><span class="nw-src">{{ n.source | escape }}</span>{{ n.title | escape }}<span class="nw-time" data-date="{{ n.date }}"></span></a>{% endfor %}
+    </div>
+  </div>
+</div>
+<p class="nw-note">Titres et liens repris automatiquement des flux RSS publics des médias cités, mis à jour toutes les 2 heures.
+  Inside Energy Markets n'est pas l'auteur de ces contenus.</p>
+{% endif %}
