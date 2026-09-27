@@ -120,17 +120,21 @@ if (navToggle) {
   // Ne garde que les points renseignés de la série, sur les N derniers jours
   // avant son dernier point, pour que la courbe occupe toute la largeur
   function seriesWindow(dataset, days) {
-    var labels = [], values = [];
+    var labels = [], values = [], sources = [];
     (dataset.labels || []).forEach(function (d, i) {
       var v = dataset.values && dataset.values[i];
-      if (v !== null && v !== undefined) { labels.push(d); values.push(v); }
+      if (v !== null && v !== undefined) {
+        labels.push(d);
+        values.push(v);
+        sources.push((dataset.sources && dataset.sources[i]) || null);
+      }
     });
-    if (!labels.length) return { labels: labels, values: values };
+    if (!labels.length) return { labels: labels, values: values, sources: sources };
     var cutoff = new Date(labels[labels.length - 1]);
     cutoff.setDate(cutoff.getDate() - days);
     var start = 0;
     while (start < labels.length - 1 && new Date(labels[start]) <= cutoff) start++;
-    return { labels: labels.slice(start), values: values.slice(start) };
+    return { labels: labels.slice(start), values: values.slice(start), sources: sources.slice(start) };
   }
 
   function renderChart(key, days) {
@@ -162,7 +166,20 @@ if (navToggle) {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            displayColors: false,
+            callbacks: {
+              label: function (ctx) { return ctx.parsed.y + ' ' + (dataset.unit || ''); },
+              afterLabel: function (ctx) {
+                var src = win.sources[ctx.dataIndex];
+                return src ? 'Source : ' + src : '';
+              }
+            }
+          }
+        },
         scales: {
           x: { display: false },
           y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.06)' } }

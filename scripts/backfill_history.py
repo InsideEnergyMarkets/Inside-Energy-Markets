@@ -1,134 +1,119 @@
 """
-Script à lancer UNE SEULE FOIS pour remplir rétroactivement l'historique
-(Brent, Henry Hub, Spot électricité France) sur les 60 derniers jours,
-à partir des vraies données historiques de l'EIA et de RTE.
+Script à lancer ponctuellement (workflow_dispatch) pour reconstruire l'historique
+(Brent, Henry Hub, Spot électricité France) sur les 60 derniers jours :
+- Brent et Henry Hub : EIA (valeurs journalières officielles, quelques jours de retard)
+- Spot France : Energy-Charts (Fraunhofer ISE, données SMARD, CC BY 4.0), moyenne
+  journalière des prix day-ahead. L'API RTE ne renvoie que le jour en cours.
+
+Les valeurs officielles écrasent celles déjà présentes : c'est ce qui corrige les
+anciens jours où le cron rangeait un prix à la date du run au lieu de la date du prix.
+Si une source ne répond pas, ses valeurs existantes ne sont pas touchées.
 """
 import json
 import os
 import datetime
 import requests
 
-EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
-RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")
+from fetch_market_data import EIA_API_KEY, PARIS, SOURCE_FIELDS, fetch_eia_series
+
 HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "market_history.json")
 HISTORY_MAX_DAYS = 60
+SPOT_SOURCE = "Energy-Charts / SMARD"
 
 
-def fetch_eia_history(series_code):
-    """Retourne un dict {date: valeur} pour une série EIA donnée, sur ~90 jours."""
-    url = (
-        "https://api.eia.gov/v2/petroleum/pri/spt/data/"
-        if series_code == "RBRTE"
-        else "https://api.eia.gov/v2/natural-gas/pri/fut/data/"
-    )
-    url += (
-        f"?api_key={EIA_API_KEY}&frequency=daily&data[0]=value"
-        f"&facets[series][]={series_code}&sort[0][column]=period&sort[0][direction]=desc&length=90"
-    )
-    r = requests.get(url, timeout=20)
-    r.raise_for_status()
-    rows = r.json()["response"]["data"]
-    return {row["period"]: round(float(row["value"]), 2) for row in rows}
-
-
-def get_rte_token():
-    r = requests.post(
-        "https://digital.iservices.rte-france.com/token/oauth/",
-        headers={"Authorization": f"Basic {RTE_BASE64_KEY}"},
-        timeout=20,
-    )
-    r.raise_for_status()
-    return r.json()["access_token"]
-
-
-def fetch_rte_spot_history():
-    """Retourne un dict {date: prix} pour le spot électricité France, sur 60 jours."""
-    if not RTE_BASE64_KEY:
-        print("RTE_BASE64_KEY manquant, spot électricité non rattrapé.")
-        return {}
-    token = get_rte_token()
-    now = datetime.datetime.utcnow()
-    start = (now - datetime.timedelta(days=HISTORY_MAX_DAYS)).strftime("%Y-%m-%dT00:00:00+00:00")
-    end = now.strftime("%Y-%m-%dT00:00:00+00:00")
-
-    url = "https://digital.iservices.rte-france.com/open_api/wholesale_market/v3/france_power_exchanges"
+def fetch_spot_history():
+    """{date: moyenne des prix day-ahead du jour} pour la zone France, sur 60 jours."""
+    today = datetime.datetime.now(PARIS).date()
+    start = today - datetime.timedelta(days=HISTORY_MAX_DAYS)
     r = requests.get(
-        url,
-        headers={"Authorization": f"Bearer {token}"},
-        params={"start_date": start, "end_date": end},
-        timeout=30,
+        "https://api.energy-charts.info/price",
+        params={"bzn": "FR", "start": start.isoformat(), "end": today.isoformat()},
+        timeout=60,
     )
     r.raise_for_status()
-    periods = r.json().get("france_power_exchanges") or []
+    payload = r.json()
 
-    result = {}
-    for period in periods:
-        values = period.get("values") or []
-        for v in values:
-            date_label = (v.get("start_date") or "")[:10]
-            price = v.get("price") or v.get("value") or v.get("spot_price")
-            if date_label and price is not None:
-                result[date_label] = round(float(price), 2)  # garde la dernière valeur du jour
-        if not values:
-            date_label = (period.get("start_date") or "")[:10]
-            price = period.get("base_load")
-            if date_label and price is not None:
-                result[date_label] = round(float(price), 2)
+    by_day = {}
+    for ts, price in zip(payload.get("unix_seconds") or [], payload.get("price") or []):
+        if price is None:
+            continue
+        day = datetime.datetime.fromtimestamp(ts, PARIS).date().isoformat()
+        by_day.setdefault(day, []).append(float(price))
+
+    if not by_day:
+        return {}
+    # On écarte les journées incomplètes (ex. le jour en cours si pas encore publié)
+    full = max(len(p) for p in by_day.values())
+    return {
+        day: round(sum(p) / len(p), 2)
+        for day, p in by_day.items()
+        if len(p) >= 0.9 * full and day <= today.isoformat()
+    }
+
+
+def safe_fetch(label, fn, *args):
+    print(f"Récupération {label}...")
+    try:
+        result = fn(*args)
+    except Exception as e:
+        print(f"  Erreur : {e}")
+        return {}
+    if result:
+        print(f"  {len(result)} jours trouvés ({min(result)} -> {max(result)}).")
+    else:
+        print("  aucun jour trouvé.")
     return result
+
+
+def apply_official(history, field, official, source):
+    """Écrase `field` avec les valeurs officielles sur la plage qu'elles couvrent.
+
+    Sur cette plage, un jour absent de la source (week-end, jour férié) est vidé :
+    l'ancienne valeur y était une valeur répétée. Après la plage (retard de
+    publication de l'EIA), on ne garde que les valeurs déjà marquées d'une source.
+    """
+    if not official:
+        return 0
+    first, last = min(official), max(official)
+    source_key = SOURCE_FIELDS[field]
+    for entry in history.values():
+        d = entry["date"]
+        if first <= d <= last or (d > last and not entry.get(source_key)):
+            entry.pop(field, None)
+            entry.pop(source_key, None)
+    for d, value in official.items():
+        entry = history.setdefault(d, {"date": d})
+        entry[field] = value
+        entry[source_key] = source
+    return len(official)
 
 
 def main():
     with open(HISTORY_PATH, "r", encoding="utf-8") as f:
-        history = json.load(f)
+        history = {h["date"]: h for h in json.load(f)}
 
-    existing_dates = {h["date"]: h for h in history}
+    if EIA_API_KEY:
+        brent = safe_fetch("Brent (EIA)", fetch_eia_series, "RBRTE", 90)
+        henry = safe_fetch("Henry Hub (EIA)", fetch_eia_series, "RNGWHHD", 90)
+    else:
+        print("EIA_API_KEY manquant, Brent et Henry Hub non rattrapés.")
+        brent = henry = {}
+    spot = safe_fetch("spot électricité France (Energy-Charts)", fetch_spot_history)
 
-    print("Récupération historique Brent (EIA)...")
-    brent_hist = fetch_eia_history("RBRTE") if EIA_API_KEY else {}
-    print(f"  {len(brent_hist)} jours trouvés.")
+    n_brent = apply_official(history, "brent_usd", brent, "EIA")
+    n_henry = apply_official(history, "henry_hub_usd_mmbtu", henry, "EIA")
+    n_spot = apply_official(history, "spot_eur_mwh", spot, SPOT_SOURCE)
 
-    print("Récupération historique Henry Hub (EIA)...")
-    henry_hist = fetch_eia_history("RNGWHHD") if EIA_API_KEY else {}
-    print(f"  {len(henry_hist)} jours trouvés.")
-
-    print("Récupération historique spot électricité France (RTE)...")
-    try:
-        spot_hist = fetch_rte_spot_history()
-    except Exception as e:
-        print(f"Erreur spot RTE: {e}")
-        spot_hist = {}
-    print(f"  {len(spot_hist)} jours trouvés.")
-
-    all_dates = set(brent_hist) | set(henry_hist) | set(spot_hist) | set(existing_dates)
     cutoff = (datetime.date.today() - datetime.timedelta(days=HISTORY_MAX_DAYS)).isoformat()
-    all_dates = {d for d in all_dates if d >= cutoff}
-
-    filled_brent = filled_henry = filled_spot = 0
-
-    for date in all_dates:
-        entry = existing_dates.get(date, {"date": date})
-
-        if not entry.get("brent_usd") and date in brent_hist:
-            entry["brent_usd"] = brent_hist[date]
-            filled_brent += 1
-
-        if not entry.get("henry_hub_usd_mmbtu") and date in henry_hist:
-            entry["henry_hub_usd_mmbtu"] = henry_hist[date]
-            filled_henry += 1
-
-        if not entry.get("spot_eur_mwh") and date in spot_hist:
-            entry["spot_eur_mwh"] = spot_hist[date]
-            filled_spot += 1
-
-        existing_dates[date] = entry
-
-    new_history = sorted(existing_dates.values(), key=lambda h: h["date"])
-    new_history = new_history[-HISTORY_MAX_DAYS:]
+    new_history = sorted(
+        (h for h in history.values() if h["date"] >= cutoff and len(h) > 1),
+        key=lambda h: h["date"],
+    )
 
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:
         json.dump(new_history, f, ensure_ascii=False, indent=2)
 
-    print(f"\nRempli : {filled_brent} jours Brent, {filled_henry} jours Henry Hub, {filled_spot} jours Spot FR.")
+    print(f"\nÉcrit : {n_brent} jours Brent, {n_henry} jours Henry Hub, {n_spot} jours Spot FR.")
     print(f"Historique total : {len(new_history)} jours.")
 
 
