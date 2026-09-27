@@ -20,6 +20,7 @@ jobs:
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           RTE_BASE64_KEY: ${{ secrets.RTE_BASE64_KEY }}
+          OILPRICEAPI_KEY: ${{ secrets.OILPRICEAPI_KEY }}
         run: python scripts/backfill_history.py
       - name: Commit result
         run: |
