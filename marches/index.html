@@ -193,8 +193,9 @@ permalink: /marches/
       {% assign straits = "hormuz|Ormuz,bab_el_mandeb|Bab-el-Mandeb,malacca|Malacca" | split: "," %}
       {% for s in straits %}
       {% assign parts = s | split: "|" %}
-      {% assign cp = market.chokepoints[parts[0]] %}
-      <a class="mk-strait {{ cp.status }}" href="#detroit-{{ parts[0] }}">
+      {% assign cp_key = parts[0] %}
+      {% assign cp = market.chokepoints[cp_key] %}
+      <a class="mk-strait {{ cp.status }}" href="#detroit-{{ cp_key }}">
         <span class="mk-strait-name">{{ parts[1] }}</span>
         <span class="mk-strait-pct">{% if cp.pct_total != nil %}{{ cp.pct_total }} %{% else %}-{% endif %}</span>
         <span class="mk-strait-sub">du trafic normal</span>
