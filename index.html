@@ -38,7 +38,7 @@ title: Accueil
           <div class="hero-latest">
             <p class="ep-back-kicker">Dernier épisode · EP {{ latest.number }}</p>
             <p class="hero-latest-title">{{ latest.title }}</p>
-            <button type="button" class="ep-link ep-link--here" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest.title | escape }}" data-duration="{{ latest_pod.duration }}"><i class="fa-solid fa-play" aria-hidden="true"></i><span>Écouter ici</span><b>{{ l_min }}:{{ l_sec }}</b></button>
+            <button type="button" class="ep-link ep-link--here" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest.title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" data-apple="{{ latest.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" data-linkedin="{{ latest.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}"><i class="fa-solid fa-play" aria-hidden="true"></i><span>Écouter ici</span><b>{{ l_min }}:{{ l_sec }}</b></button>
           </div>
           {% endif %}
           <button type="button" class="ep-back-close" data-unflip><span aria-hidden="true">←</span> Retour</button>
