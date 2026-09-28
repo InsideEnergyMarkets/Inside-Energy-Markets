@@ -22,7 +22,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   (`#4fd1c5` sur fond sombre), orange = « en direct » et sélection, rouge / vert = hausse / baisse seulement.
   Boutons pilule : `.btn-primary` (sarcelle plein), `.btn-ghost` (contour), `.btn-listen` (petit, cartes).
   Liens d'action « … → » : petite pilule avec la flèche dans un `<span>` (`.section-head a`, `.mk-open`, `.inc-all`).
-  Chiffres et dates en français (`| replace: ".", ","`, `{% include date-fr.html date=… %}`).
+  Chiffres et dates dans la langue de la page (`| replace: ".", dec`, `{% include date.html date=… %}`).
 - TTF et JKM quotidiens : payants chez OilPriceAPI (offre Developer, 19 $/mois ; l'offre gratuite ne couvre que
   WTI, Brent, Henry Hub, Waha). Absents tant que Tom n'a pas pris l'offre. Le PEG (France) est exclu : non fiable.
 
@@ -42,6 +42,24 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Pièges vus : dans Bash, utiliser des heredocs (`git commit -F - <<'EOF'`), pas la syntaxe
   PowerShell `@'...'@` ; PowerShell 5.1 lit les .ps1 sans BOM en ANSI (accents cassés) ;
   `Remove-Item` sur un chemin contenant `/marches/` est bloqué (passer par Bash `rm -rf`).
+
+## Deux langues (FR à la racine, EN sous /en/)
+
+- Chaque page = un fichier court par langue (`index.html` / `en/index.html`, `marches/` / `en/markets/`,
+  `episodes/`, `blog/`, `about/`) qui inclut le même gabarit `_includes/pages/<page>.html`.
+  Front matter : `ref` (relie les deux versions pour le sélecteur FR | EN et les `hreflang`), `lang` via
+  les `defaults` de `_config.yml` (tout ce qui est sous `en/` est en anglais).
+- Textes : `_data/i18n.yml` (sections `fr` et `en`, mêmes clés ; `js:` pour les scripts du layout, lus via
+  `window.iemT`). Chaque gabarit commence par `{% include i18n.html %}` : `lang`, `t`, `u` (adresses des pages),
+  `dec` (séparateur décimal : `| replace: ".", dec`). Marqueurs à remplacer : `%n`, `%m`, `%y`
+  (jamais `{n}` : les accolades cassent Liquid dans `{{ }}`).
+- Ancres de /marches/ traduites (`t.ids.*` : `#electricite` / `#electricity`...).
+- Données : `date_label_en` (Brent, HH, spot), `place_en` / `vessel_type_en` (incidents), `lang` (actus :
+  la version anglaise n'affiche que les titres en anglais), `title_en` / `description_en` (episodes.yml),
+  `value_en` / `text_en` (chokepoints_context.yml).
+- Articles : un fichier par langue (`_posts/` et `en/_posts/`), même `ref`. Un nouvel article doit avoir sa
+  traduction, sinon le sélecteur renvoie vers l'accueil de l'autre langue.
+- Le podcast est en français : mention sur les pages anglaises (épisodes, accueil, bloc « Listen »).
 
 ## Structure
 
@@ -73,7 +91,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   en base64, reconstituée au clic par le script du layout.
 - `_includes/` : `episode-card.html` (carte épisode retournable : « Écouter » montre les liens au dos ;
   utilisée sur l'accueil, /episodes/ et dans les articles ; la carte prend la hauteur de sa plus grande face,
-  fondu au lieu de la rotation 3D sur écran tactile), `date-fr.html`, `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
+  fondu au lieu de la rotation 3D sur écran tactile), `date.html`, `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
   précédent), `chokepoint.html` (fiche compacte + fenêtre de détail) + `chokepoint-kpi.html`, `incidents.html`,
   `news-ticker.html`.
 - `assets/css/style.css` : fichier unique et long. Après chaque modification, vérifier que les
