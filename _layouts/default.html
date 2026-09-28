@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="{{ '/assets/img/hero.png' | relative_url }}">
   {% seo %}
+  {% feed_meta %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -176,6 +177,23 @@ document.addEventListener('click', function (e) {
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && player) player.expand(false);
   if (e.key === 'Escape') document.querySelectorAll('.ep-flip.flipped').forEach(function (c) { epFlip(c, false); });
+});
+
+// « Me contacter » : l'adresse est stockée encodée et à l'envers, reconstituée seulement au clic
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-contact]');
+  if (!btn) return;
+  try { location.href = 'mailto:' + atob(btn.getAttribute('data-contact')).split('').reverse().join(''); } catch (err) {}
+});
+// Article : copier le lien
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-copy-link]');
+  if (!btn || !navigator.clipboard) return;
+  navigator.clipboard.writeText(location.href).then(function () {
+    var label = btn.querySelector('span');
+    label.textContent = 'Lien copié';
+    setTimeout(function () { label.textContent = 'Copier le lien'; }, 2000);
+  });
 });
 
 // Statistiques : GoatCounter compte le premier chargement, puis chaque page ouverte via Turbo

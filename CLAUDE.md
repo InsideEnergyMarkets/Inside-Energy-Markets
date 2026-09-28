@@ -63,6 +63,12 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
+- Blog : article le plus récent « à la une », étiquettes (`tags:` dans le front matter), temps de lecture
+  (`reading-time.html`), partage LinkedIn, encadré auteur, article précédent / suivant. Flux RSS `/feed.xml`
+  (jekyll-feed) gardé sans bouton visible (Tom n'en veut pas).
+- À propos : chiffres du podcast calculés depuis `podcast.json`, parcours sans dates (à compléter par Tom),
+  sujets, blocs « Écouter » et « Invité ». Adresse e-mail jamais en clair : `data-contact` = adresse à l'envers
+  en base64, reconstituée au clic par le script du layout.
 - `_includes/` : `episode-card.html` (carte épisode retournable : « Écouter » montre les liens au dos ;
   utilisée sur l'accueil, /episodes/ et dans les articles ; la carte prend la hauteur de sa plus grande face,
   fondu au lieu de la rotation 3D sur écran tactile), `date-fr.html`, `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours

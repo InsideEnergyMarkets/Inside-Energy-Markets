@@ -1,0 +1,4 @@
+{%- comment -%}Temps de lecture d'un article (220 mots par minute). Paramètre : content.{%- endcomment -%}
+{%- assign rt_words = include.content | strip_html | number_of_words -%}
+{%- assign rt_min = rt_words | divided_by: 220 | plus: 1 -%}
+{{ rt_min }} min de lecture
