@@ -14,8 +14,36 @@ title: Accueil
         <a class="btn btn-ghost" href="{{ '/marches/' | relative_url }}"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>Voir les marchés</a>
       </div>
     </div>
-    <div class="hero-art">
-      <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Éoliennes offshore, Inside Energy Markets">
+    {% comment %}Dernier épisode écoutable sur le site (présent dans le flux RSS du podcast){% endcomment %}
+    {% assign eps_desc = site.data.episodes | sort: "number" | reverse %}
+    {% for e in eps_desc %}{% assign k = e.number | append: "" %}{% if site.data.podcast.episodes[k] %}{% assign latest = e %}{% assign latest_pod = site.data.podcast.episodes[k] %}{% break %}{% endif %}{% endfor %}
+    <div class="ep-flip hero-flip">
+      <div class="ep-flip-inner">
+        <div class="ep-front hero-art">
+          <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Éoliennes offshore, Inside Energy Markets">
+          <button type="button" class="hero-flip-btn" data-flip aria-label="Écouter le podcast : choisir la plateforme">
+            <span class="hero-flip-pill"><i class="fa-solid fa-headphones" aria-hidden="true"></i>Écouter le podcast</span>
+          </button>
+        </div>
+        <div class="ep-back hero-back" inert style="--cover: url('{{ '/assets/img/hero.png' | relative_url }}')">
+          <p class="ep-back-kicker">Inside Energy Markets</p>
+          <p class="ep-back-title">Écouter le podcast</p>
+          <div class="hero-platforms">
+            <a class="ep-link ep-link--spotify" href="https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i><span>Spotify</span></a>
+            <a class="ep-link ep-link--apple" href="https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i><span>Apple Podcasts</span></a>
+            <a class="ep-link ep-link--linkedin" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>
+          </div>
+          {% if latest %}
+          {% assign l_min = latest_pod.duration | divided_by: 60 %}{% assign l_sec = latest_pod.duration | modulo: 60 %}{% if l_sec < 10 %}{% assign l_sec = l_sec | prepend: "0" %}{% endif %}
+          <div class="hero-latest">
+            <p class="ep-back-kicker">Dernier épisode · EP {{ latest.number }}</p>
+            <p class="hero-latest-title">{{ latest.title }}</p>
+            <button type="button" class="ep-link ep-link--here" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest.title | escape }}" data-duration="{{ latest_pod.duration }}"><i class="fa-solid fa-play" aria-hidden="true"></i><span>Écouter ici</span><b>{{ l_min }}:{{ l_sec }}</b></button>
+          </div>
+          {% endif %}
+          <button type="button" class="ep-back-close" data-unflip><span aria-hidden="true">←</span> Retour</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
