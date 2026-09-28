@@ -2493,10 +2493,10 @@ body.has-player { padding-bottom: 96px; }
   .ep-front.card--featured .card-thumb { margin: -1px -1px 0; border-radius: 10px 10px 0 0; }
 }
 
-/* Pochette du hero : la zone garde la taille de la pochette ; le dos ne l'agrandit
-   qu'une fois la carte retournée (sinon grand vide sous la pochette sur téléphone) */
-.hero-flip .ep-back { position: absolute; top: 0; left: 0; right: 0; min-height: 100%; }
-.hero-flip.flipped .ep-back { position: relative; }
+/* Cartes retournables (pochette du hero et épisodes) : la carte garde la taille de sa face avant ;
+   le dos ne l'agrandit qu'une fois retournée (sinon vide sous la pochette ou dans les cartes) */
+.ep-flip .ep-back { position: absolute; top: 0; left: 0; right: 0; min-height: 100%; }
+.ep-flip.flipped .ep-back { position: relative; }
 @media (max-width: 760px) {
   .hero { padding: 64px 0 32px; }
   .hero .wrap { gap: 36px; }
