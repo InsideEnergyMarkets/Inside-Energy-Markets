@@ -15,21 +15,54 @@ permalink: /blog/
 
 <section class="block">
   <div class="wrap">
+    {% assign posts = site.posts %}
+    {% if posts.size > 0 %}
+    {% assign featured = posts | first %}
+    <a class="bl-featured" href="{{ featured.url | relative_url }}">
+      <div class="bl-featured-img">
+        <img src="{{ featured.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ featured.title }}">
+      </div>
+      <div class="bl-featured-body">
+        <p class="bl-tags"><span class="bl-tag bl-tag--new">À la une</span>{% for t in featured.tags %}<span class="bl-tag">{{ t }}</span>{% endfor %}</p>
+        <h2>{{ featured.title }}</h2>
+        <p class="bl-meta">{% include date-fr.html date=featured.date %} · {% include reading-time.html content=featured.content %}</p>
+        <p class="bl-excerpt">{{ featured.excerpt | strip_html | truncatewords: 40 }}</p>
+        <span class="bl-read">Lire l'article <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    {% if posts.size > 1 %}
+    <div class="section-head bl-more-head"><h2>Tous les articles</h2></div>
     <div class="card-grid card-grid--blog">
-      {% for post in site.posts %}
+      {% for post in posts offset: 1 %}
       <a class="card card--episode card--post" href="{{ post.url | relative_url }}">
         <div class="card-thumb">
           <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
         </div>
         <div class="card-body">
-          <p class="post-card-date">{% include date-fr.html date=post.date %}</p>
+          {% if post.tags.size > 0 %}<p class="bl-tags">{% for t in post.tags %}<span class="bl-tag">{{ t }}</span>{% endfor %}</p>{% endif %}
           <h3>{{ post.title }}</h3>
+          <p class="post-card-date">{% include date-fr.html date=post.date %} · {% include reading-time.html content=post.content %}</p>
           <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
         </div>
       </a>
-      {% else %}
-      <p>Le premier article arrive bientôt.</p>
       {% endfor %}
     </div>
+    {% endif %}
+    {% else %}
+    <p>Le premier article arrive bientôt.</p>
+    {% endif %}
+
+    <aside class="bl-follow">
+      <div>
+        <p class="bl-follow-title">Suivre les prochaines analyses</p>
+        <p class="bl-follow-text">Un nouvel article à chaque grand mouvement de marché, et un épisode du podcast pour aller plus loin.</p>
+      </div>
+      <div class="bl-follow-links">
+        <a class="btn btn-ghost" href="{{ '/feed.xml' | relative_url }}"><i class="fa-solid fa-rss" aria-hidden="true"></i>Flux RSS</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+        <a class="btn btn-primary" href="{{ '/episodes/' | relative_url }}"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter le podcast</a>
+      </div>
+    </aside>
   </div>
 </section>

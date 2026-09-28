@@ -6,7 +6,10 @@ layout: default
     <div class="wrap prose">
       <p class="eyebrow">ARTICLE</p>
       <h1>{{ page.title }}</h1>
-      <p class="lead-sm">{% include date-fr.html date=page.date %}</p>
+      <p class="bl-post-meta">
+        {% for t in page.tags %}<span class="bl-tag bl-tag--dark">{{ t }}</span>{% endfor %}
+        <span>{% include date-fr.html date=page.date %}</span><span aria-hidden="true">·</span><span>{% include reading-time.html content=content %}</span><span aria-hidden="true">·</span><span>Tom Moulard</span>
+      </p>
     </div>
   </header>
   {% if page.image %}
@@ -17,6 +20,29 @@ layout: default
   <div class="post-body">
     <div class="wrap prose">
       {{ content }}
+
+      <div class="bl-share">
+        <span class="bl-share-label">Partager cet article</span>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+        <button type="button" class="btn btn-ghost" data-copy-link><i class="fa-solid fa-link" aria-hidden="true"></i><span>Copier le lien</span></button>
+      </div>
+
+      <aside class="bl-author">
+        <img src="{{ '/assets/img/tom.jpg' | relative_url }}" alt="Tom Moulard">
+        <div>
+          <p class="bl-author-name">Tom Moulard</p>
+          <p class="bl-author-bio">Passé par ENGIE, entre vente B2B et marchés de l'énergie. Je décrypte les marchés de l'énergie dans le podcast <em>Inside Energy Markets</em> et sur ce blog.</p>
+          <p class="bl-author-links"><a href="{{ '/about/' | relative_url }}">À propos <span aria-hidden="true">→</span></a><a href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></p>
+        </div>
+      </aside>
+
+      {% if page.previous or page.next %}
+      <nav class="bl-pager" aria-label="Autres articles">
+        {% if page.previous %}<a class="bl-pager-prev" href="{{ page.previous.url | relative_url }}"><span>← Article précédent</span><strong>{{ page.previous.title }}</strong></a>{% endif %}
+        {% if page.next %}<a class="bl-pager-next" href="{{ page.next.url | relative_url }}"><span>Article suivant →</span><strong>{{ page.next.title }}</strong></a>{% endif %}
+      </nav>
+      {% endif %}
+      <p class="bl-back"><a href="{{ '/blog/' | relative_url }}">← Tous les articles</a></p>
     </div>
   </div>
 </article>

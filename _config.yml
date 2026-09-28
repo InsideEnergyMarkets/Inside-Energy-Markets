@@ -36,6 +36,7 @@ exclude:
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-feed
 
 logo: /assets/img/hero.png
 twitter:

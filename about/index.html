@@ -20,7 +20,8 @@ permalink: /about/
     <img src="{{ '/assets/img/tom.jpg' | relative_url }}" alt="Tom Moulard">
   </div>
   <div class="about-contact">
-    <a class="btn btn-primary" href="mailto:tom.moulard@kedgebs.com">Me contacter</a>
+    {% comment %}Adresse e-mail encodée : reconstituée au clic par le script du layout, jamais écrite en clair dans la page{% endcomment %}
+    <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q=">Me contacter</button>
     <a class="about-contact-icon linkedin" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
   </div>
 </div>
@@ -29,6 +30,73 @@ permalink: /about/
   <p>Je m'intéresse aux marchés de l'énergie sous toutes leurs facettes : formation des prix, géopolitique, stratégies d'achat des entreprises. C'est ce que j'explore dans <em>Inside Energy Markets</em>, mon podcast, et dans les analyses que je publie ici.</p>
   <p>Si vous souhaitez échanger avec moi ou passer sur l'un de mes podcasts, n'hésitez pas à me contacter.</p>
 </div>
+    </div>
+  </div>
+</section>
+
+{% comment %}Chiffres du podcast, calculés depuis le flux RSS (_data/podcast.json){% endcomment %}
+{% assign pod_eps = site.data.podcast.episodes %}
+{% assign ab_n = 0 %}{% assign ab_secs = 0 %}{% assign ab_first = "9999" %}
+{% for pair in pod_eps %}{% assign ab_n = ab_n | plus: 1 %}{% assign ab_secs = ab_secs | plus: pair[1].duration %}{% if pair[1].date < ab_first %}{% assign ab_first = pair[1].date %}{% endif %}{% endfor %}
+{% assign ab_min = ab_secs | divided_by: 60 %}
+{% if ab_n > 0 %}{% assign ab_avg = ab_secs | divided_by: ab_n | divided_by: 60.0 | round %}{% endif %}
+{% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
+{% assign ab_m = ab_first | slice: 5, 2 | plus: 0 | minus: 1 %}
+
+<section class="block alt ab-section">
+  <div class="wrap">
+    <div class="ab-grid">
+      {% if ab_n > 0 %}
+      <div class="ab-card">
+        <p class="ab-kicker">Le podcast en chiffres</p>
+        <div class="ab-stats">
+          <div><strong>{{ ab_n }}</strong><span>épisodes publiés</span></div>
+          <div><strong>{{ ab_min }}</strong><span>minutes d'écoute</span></div>
+          <div><strong>{{ mois[ab_m] | capitalize }}</strong><span>{{ ab_first | slice: 0, 4 }}, premier épisode</span></div>
+        </div>
+        <p class="ab-note">Des épisodes courts, {{ ab_avg }} minutes en moyenne, pour comprendre un sujet de marché d'un coup.</p>
+      </div>
+      {% endif %}
+      <div class="ab-card">
+        <p class="ab-kicker">Parcours</p>
+        <ol class="ab-path">
+          <li><strong>KEDGE Business School</strong><span>Programme Grande École, spécialisation Finance.</span></li>
+          <li><strong>ENGIE</strong><span>Deux ans à l'interface entre la vente B2B et les marchés de l'énergie.</span></li>
+          <li><strong>Inside Energy Markets</strong><span>Le podcast{% if ab_n > 0 %}, lancé en {{ mois[ab_m] }} {{ ab_first | slice: 0, 4 }}{% endif %}, puis ce site : analyses et données de marché en direct.</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ab-themes">
+      <p class="ab-kicker">Les sujets du podcast</p>
+      <p class="ab-chips">
+        {% assign themes = "Mix électrique français,Réseaux,Renouvelables et intermittence,Gaz naturel et GNL,Taxes et fiscalité,Formation des prix,Marchés spot et à terme,Volatilité,Couverture et instruments financiers,Stratégies d'achat" | split: "," %}
+        {% for t in themes %}<a class="ab-chip" href="{{ '/episodes/' | relative_url }}">{{ t }}</a>{% endfor %}
+      </p>
+    </div>
+
+    {% include latest-episode.html %}
+    <div class="ab-cta-grid">
+      <div class="ab-cta ab-cta--dark">
+        <p class="ab-kicker">Écouter le podcast</p>
+        {% if latest %}
+        <p class="ab-cta-text">Dernier épisode : <strong>{{ latest.title }}</strong></p>
+        <button type="button" class="btn btn-primary" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest.title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify }}" data-apple="{{ latest.apple }}" data-linkedin="{{ latest.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter ici · {{ l_min }}:{{ l_sec }}</button>
+        {% endif %}
+        <p class="ab-platforms">
+          <a href="https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i>Spotify</a>
+          <a href="https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i>Apple Podcasts</a>
+          <a href="{{ '/episodes/' | relative_url }}"><i class="fa-solid fa-list" aria-hidden="true"></i>Tous les épisodes</a>
+        </p>
+      </div>
+      <div class="ab-cta">
+        <p class="ab-kicker">Venir en invité, proposer un sujet</p>
+        <p class="ab-cta-text">Vous travaillez sur les marchés de l'énergie (trading, achat, production, régulation) et vous avez un regard à partager ? Écrivez-moi.</p>
+        <div class="ab-cta-actions">
+          <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q="><i class="fa-solid fa-envelope" aria-hidden="true"></i>Me contacter</button>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>

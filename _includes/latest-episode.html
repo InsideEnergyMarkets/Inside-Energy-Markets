@@ -1,0 +1,8 @@
+{%- comment -%}
+  Dernier épisode écoutable sur le site (présent dans le flux RSS du podcast).
+  Définit latest, latest_pod, l_min, l_sec pour la page qui l'inclut.
+{%- endcomment -%}
+{%- assign latest = nil -%}
+{%- assign eps_desc = site.data.episodes | sort: "number" | reverse -%}
+{%- for e in eps_desc -%}{%- assign k = e.number | append: "" -%}{%- if site.data.podcast.episodes[k] -%}{%- assign latest = e -%}{%- assign latest_pod = site.data.podcast.episodes[k] -%}{%- break -%}{%- endif -%}{%- endfor -%}
+{%- if latest -%}{%- assign l_min = latest_pod.duration | divided_by: 60 -%}{%- assign l_sec = latest_pod.duration | modulo: 60 -%}{%- if l_sec < 10 -%}{%- assign l_sec = l_sec | prepend: "0" -%}{%- endif -%}{%- endif -%}
