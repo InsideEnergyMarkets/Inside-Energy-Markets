@@ -119,15 +119,5 @@
     "prev_value": 25.72,
     "prev_date": "2026-09-24",
     "change_pct": 0.3
-  },
-  "peg": {
-    "price": 81.96,
-    "date": "2026-09-14",
-    "unit": "EUR/MWh",
-    "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : lun. 14/09",
-    "prev_value": 81.99,
-    "prev_date": "2026-09-11",
-    "change_pct": 0.0
   }
 }

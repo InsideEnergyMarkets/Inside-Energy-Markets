@@ -9,7 +9,7 @@ Récupère les données marché et les écrit dans _data/market.json :
   avec historique 90 jours dans _data/chokepoints_history.json
 - Brent sur 12 mois (EIA) pour le graphique Ormuz / Brent : _data/brent_year.json
 - Exportations mensuelles de GNL des États-Unis (EIA) : _data/lng_exports.json
-- Gaz : TTF, JKM, PEG (OilPriceAPI) et historique quotidien TTF / JKM / PEG / Henry Hub
+- Gaz : TTF, JKM (OilPriceAPI) et historique quotidien TTF / JKM / Henry Hub
   avec le taux euro-dollar de la BCE : _data/gas_history.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
@@ -385,10 +385,9 @@ GAS_HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "gas_h
 GAS_QUOTES = {
     "ttf": ("DUTCH_TTF_EUR", "EUR/MWh"),
     "jkm": ("JKM_LNG_USD", "USD/MMBtu"),
-    "peg": ("NATURAL_GAS_PEG_EUR", "EUR/MWh"),
 }
 # Séries gardées dans l'historique du gaz (le Henry Hub pour la comparaison en €/MWh)
-GAS_HISTORY_CODES = {"ttf": "DUTCH_TTF_EUR", "jkm": "JKM_LNG_USD", "peg": "NATURAL_GAS_PEG_EUR", "hh": "NATURAL_GAS_USD"}
+GAS_HISTORY_CODES = {"ttf": "DUTCH_TTF_EUR", "jkm": "JKM_LNG_USD", "hh": "NATURAL_GAS_USD"}
 GAS_HISTORY_DAYS = 400
 TRAFFIC_FIELDS = ("n_tanker", "n_total", "capacity_tanker")
 CHOKEPOINT_HISTORY_DAYS = 90
@@ -580,7 +579,7 @@ def oilpriceapi_get(path):
 
 
 def fetch_gas_quotes(existing):
-    """Dernier prix du TTF, du JKM et du PEG (OilPriceAPI) ; repli sur la valeur précédente."""
+    """Dernier prix du TTF et du JKM (OilPriceAPI) ; repli sur la valeur précédente."""
     quotes = {}
     for key, (code, unit) in GAS_QUOTES.items():
         quotes[key] = existing.get(key)
@@ -601,7 +600,7 @@ def fetch_gas_quotes(existing):
 
 def update_gas_history(quotes):
     """Historique quotidien du gaz : moyennes journalières OilPriceAPI des 30 derniers jours
-    (une seule requête pour les 4 séries), prix du jour, taux euro-dollar de la BCE.
+    (une seule requête pour les 3 séries), prix du jour, taux euro-dollar de la BCE.
     Ajoute et corrige des points, n'en supprime jamais (sauf au-delà de 400 jours)."""
     hist = load_json(GAS_HISTORY_PATH, {})
     series = {k: {p["date"]: p["v"] for p in hist.get(k, [])} for k in list(GAS_HISTORY_CODES) + ["eurusd"]}

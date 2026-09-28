@@ -763,7 +763,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
-// ===== Gaz : les quatre prix de référence en €/MWh =====
+// ===== Gaz : les trois prix de référence en €/MWh =====
 // $/MMBtu -> €/MWh : 1 MMBtu = 0,293071 MWh, taux euro-dollar BCE du jour (ou le dernier connu)
 (function () {
   var gas = window.mktGas;
@@ -794,7 +794,6 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   if (!canvas || typeof Chart === 'undefined') return;
   var SERIES = [
     { key: 'ttf', name: 'TTF', color: '#4fd1c5', usd: false },
-    { key: 'peg', name: 'PEG', color: '#8b7cf6', usd: false },
     { key: 'jkm', name: 'JKM', color: '#f472b6', usd: true },
     { key: 'hh', name: 'Henry Hub', color: '#e8b33a', usd: true }
   ];
