@@ -51,7 +51,7 @@ function epFlip(card, on) {
   if (target) setTimeout(function () { target.focus({ preventScroll: true }); }, on ? 350 : 0);
 }
 document.addEventListener('click', function (e) {
-  var open = e.target.closest('[data-flip]');
+  var open = e.target.closest('[data-flip]') || (!e.target.closest('a, button') && e.target.closest('.ep-front'));
   if (open) {
     var card = open.closest('.ep-flip');
     document.querySelectorAll('.ep-flip.flipped').forEach(function (c) { if (c !== card) epFlip(c, false); });

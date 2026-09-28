@@ -2482,3 +2482,22 @@ body.has-player { padding-bottom: 96px; }
   .pl-bar.is-expanded { flex-wrap: wrap; }
   .pl-bar.is-expanded .pl-progress { order: 3; flex-basis: 100%; }
 }
+
+/* Carte épisode cliquable en entier */
+.ep-front { cursor: pointer; }
+
+/* Vignette : elle recouvre la bordure de 1 px de la carte (sinon liseré clair sur mobile) */
+.ep-front .card-thumb { margin: -1px -1px 0; border-radius: 10px 10px 0 0; }
+.ep-front.card--featured .card-thumb { margin: -1px 0 -1px -1px; border-radius: 10px 0 0 10px; }
+@media (max-width: 760px) {
+  .ep-front.card--featured .card-thumb { margin: -1px -1px 0; border-radius: 10px 10px 0 0; }
+}
+
+/* Pochette du hero : la zone garde la taille de la pochette ; le dos ne l'agrandit
+   qu'une fois la carte retournée (sinon grand vide sous la pochette sur téléphone) */
+.hero-flip .ep-back { position: absolute; top: 0; left: 0; right: 0; min-height: 100%; }
+.hero-flip.flipped .ep-back { position: relative; }
+@media (max-width: 760px) {
+  .hero { padding: 64px 0 32px; }
+  .hero .wrap { gap: 36px; }
+}
