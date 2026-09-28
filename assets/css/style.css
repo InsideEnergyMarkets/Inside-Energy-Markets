@@ -2617,7 +2617,7 @@ html.has-player body { padding-bottom: 96px; }
 .ab-chip { padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font: 600 13px 'Inter', sans-serif; color: var(--deep); text-decoration: none; transition: border-color 0.15s ease, color 0.15s ease; }
 .ab-chip:hover { border-color: var(--teal); color: var(--teal); text-decoration: none; }
 .ab-cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.ab-cta-grid--spaced { margin-top: 48px; }
+.home-cta .ab-cta:not(.ab-cta--dark) { background: #f4f7f9; }
 .ab-cta { border-radius: 16px; padding: 24px 26px; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .ab-cta .ab-kicker { margin: 0; }
 .ab-cta-text { margin: 0; font-size: 15px; line-height: 1.55; color: #47555f; }
