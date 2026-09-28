@@ -18,7 +18,8 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Montrer un aperçu avant de commiter sur `main` (sauf petits changements quand Tom dit
   « pousse directement »). Regrouper les vérifications, éviter les allers-retours inutiles.
 - Code couleur des variations de prix : hausse en rouge, baisse en vert.
-- JKM et TTF : pas de source gratuite fiable, volontairement absents (ne pas y revenir sans vraie source).
+- TTF et JKM quotidiens : payants chez OilPriceAPI (offre Developer, 19 $/mois ; l'offre gratuite ne couvre que
+  WTI, Brent, Henry Hub, Waha). Absents tant que Tom n'a pas pris l'offre. Le PEG (France) est exclu : non fiable.
 
 ## Environnement local (Windows)
 
@@ -42,10 +43,13 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `index.html` : accueil (hero podcast, bandeau d'actus, derniers épisodes, « Le point marchés »
   en 4 tuiles liées aux rubriques de /marches/, bandeau incidents 30 j, derniers articles).
 - `marches/index.html` (option C : tableau de bord + détail en fenêtre `<dialog class="mk-dialog">`
-  ouverte par `[data-dialog]`) : sommaire collant, rubriques `#electricite` (carte prix + mix),
-  `#petrole-gaz` (carte Brent / Henry Hub même style, tuiles Ormuz-Brent 12 mois et exportations
-  GNL en fenêtre, emplacement « À venir » TTF/JKM), `#routes-maritimes` (3 fiches compactes avec
-  carte MarineTraffic, détail 90 j en fenêtre), `#securite` (carte des incidents + chiffres 30 j).
+  ouverte par `[data-dialog]`) : sommaire collant, rubriques dans cet ordre :
+  `#electricite` (carte prix + mix), `#gaz` (Henry Hub quotidien + stocks de gaz UE/France ; tuiles
+  « Le gaz dans le monde sur 10 ans » et « Exportations de GNL » en fenêtre), `#petrole` (Brent +
+  graphique Ormuz / Brent 12 mois), `#routes-maritimes` (3 fiches compactes avec carte MarineTraffic,
+  détail 90 j en fenêtre), `#securite` (carte des incidents + chiffres 30 j).
+  Règle de cohérence : à l'écran, seulement des données récentes ; les séries mensuelles en retard
+  (FMI, EIA) vont dans une fenêtre, présentées comme tendance de fond.
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
@@ -71,7 +75,12 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `market_history.json` : 60 j, chaque prix à sa date de cotation avec sa source ; pas de
   Brent/HH le week-end ; l'EIA comble les trous (15 derniers jours, sans écraser).
 - `chokepoints_history.json` (90 j par détroit + `hormuz_year`), `brent_year.json` (EIA 12 mois),
-  `weekly_summary.json`, `lng_exports.json` (EIA N9133US2, 25 mois, en Bcf/j), `chokepoints_context.yml` (chiffres EIA fixes, mis à jour à la main).
+  `weekly_summary.json`, `lng_exports.json` (EIA N9133US2, 25 mois, en Bcf/j),
+  `gas_world.json` (FMI via FRED, CSV officiel fredgraph.csv sans clé : PNGASEUUSDM Europe, PNGASJPUSDM
+  Asie, PNGASUSUSDM États-Unis, 10 ans, $/MMBtu, ~2 mois de retard ; citer « FMI via FRED »),
+  `gas_storage.json` (GIE AGSI+, secret GIE_API_KEY en en-tête `x-key` : remplissage UE et France depuis
+  le 1er janvier de l'an dernier ; compte GIE « All platforms », donc ALSI et IIP aussi accessibles),
+  `chokepoints_context.yml` (chiffres EIA fixes, mis à jour à la main).
 
 `scripts/fetch_news.py` (workflow `update-news.yml`, toutes les 2 h à la demi-heure) :
 - `news.json` : titres RSS d'Al Jazeera, France 24, Le Monde, EIA, BBC filtrés sur le titre
@@ -83,7 +92,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 `scripts/backfill_history.py` (workflow manuel) : EIA pour Brent/HH, Energy-Charts (SMARD) pour
 l'historique du spot.
 
-Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY (+ RTE_CLIENT_ID/SECRET, AISSTREAM_API_KEY inutilisé).
+Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY, GIE_API_KEY (+ RTE_CLIENT_ID/SECRET, AISSTREAM_API_KEY inutilisé).
 
 ## Pistes étudiées et écartées
 
@@ -92,10 +101,16 @@ Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY (+ RTE_CLIENT_ID/S
 - GDELT (429 depuis GitHub, bruité), NGA ASAM (API 404), ACLED (événements à 12 mois de retard
   en gratuit, republication interdite), fond de carte CARTO (clé requise ; on garde OSM filtré).
 - Cartes MarineTraffic : intérieur non personnalisable (iframe) ; seul le cadrage et l'habillage.
+- OilPriceAPI TTF/JKM/PEG : codes `DUTCH_TTF_EUR`, `JKM_LNG_USD`, `NATURAL_GAS_PEG_EUR` ; historique quotidien via
+  `past_month|past_year?by_code=A,B&interval=daily` (une requête pour plusieurs codes). Testé pendant l'essai
+  « professional » (fin vers le 04/10/2026), payant ensuite. Le code complet est dans l'historique git
+  (branche apercu-gaz, commit « rubriques Pétrole et Gaz séparées, TTF en référence »).
 
 ## En cours / à venir
 
-- Chercher une vraie source pour TTF et JKM (important pour le gaz), et éventuellement les
-  capacités de liquéfaction (pas d'API EIA, fichier Excel).
+- TTF quotidien si Tom prend l'offre OilPriceAPI Developer (question posée à leur support) : il irait en tête
+  de la rubrique Gaz, au-dessus des stocks.
+- Pistes GIE : ALSI (terminaux GNL européens), IIP (indisponibilités, pour les signaux).
+- Capacités de liquéfaction : pas d'API EIA (fichier Excel).
 - Plus tard : système de signaux (détroit fermé / mouvement de prix), `analyze_history.py`,
   note hebdo `generate_note.py`, ajout du WTI (spread Brent-WTI), paper trading (mis de côté).
