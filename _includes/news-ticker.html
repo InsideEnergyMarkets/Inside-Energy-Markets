@@ -3,10 +3,14 @@
   Un titre à la fois ; le script du layout passe au suivant toutes les 6 s en le faisant
   glisser de bas en haut, et s'arrête au survol ou quand un titre a le focus.
 {% endcomment %}
-{% assign news = site.data.news.items %}
-{% if news and news.size > 0 %}
-<div class="nw-bar" role="region" aria-label="Dernières informations">
-  <span class="nw-label"><span><span class="nw-label-long">Dernières </span>infos</span></span>
+{% include i18n.html %}
+{% assign news_all = site.data.news.items %}
+{% comment %}Version anglaise : seulement les titres en anglais (champ lang, sinon d'après le média){% endcomment %}
+{% assign news = "" | split: "" %}
+{% for n in news_all %}{% assign n_lang = n.lang %}{% unless n_lang %}{% if n.source == "Le Monde" or n.source == "France 24" %}{% assign n_lang = "fr" %}{% else %}{% assign n_lang = "en" %}{% endif %}{% endunless %}{% if lang == "en" and n_lang != "en" %}{% continue %}{% endif %}{% assign news = news | push: n %}{% endfor %}
+{% if news.size > 0 %}
+<div class="nw-bar" role="region" aria-label="{{ t.news.aria }}">
+  <span class="nw-label"><span><span class="nw-label-long">{{ t.news.label_long }}</span>{{ t.news.label }}</span></span>
   <ul class="nw-list">
     {% for n in news %}
     <li class="nw-slide{% if forloop.first %} is-active{% endif %}">

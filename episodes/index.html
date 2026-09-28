@@ -1,35 +1,8 @@
 ---
 layout: default
 title: Épisodes
+ref: episodes
 description: "Tous les épisodes du podcast Inside Energy Markets, à écouter directement sur le site : électricité, gaz, formation des prix, couverture."
 permalink: /episodes/
 ---
-
-<section class="episodes-header">
-  <div class="wrap">
-    <p class="eyebrow">TOUS LES ÉPISODES</p>
-    <h1>Le podcast, épisode par épisode</h1>
-    <p class="lead-sm">Retrouvez chaque épisode d'Inside Energy Markets, avec les liens directs vers Spotify, Apple Podcasts et LinkedIn.</p>
-  </div>
-</section>
-
-<section class="block">
-  <div class="wrap">
-    {% assign all_episodes = site.data.episodes | reverse %}
-
-    {% assign featured = all_episodes | first %}
-    {% include episode-card.html ep=featured featured=true %}
-
-    <div class="card-grid card-grid--episodes card-grid--rest">
-      {% for ep in all_episodes offset: 1 %}
-      {% include episode-card.html ep=ep %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="block alt">
-  <div class="wrap">
-    {% include podcast-cta.html hide_all=true %}
-  </div>
-</section>
+{% include pages/episodes.html %}

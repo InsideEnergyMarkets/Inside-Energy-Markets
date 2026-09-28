@@ -1,14 +1,19 @@
 ---
 layout: default
 ---
+{% include i18n.html %}
+{% comment %}Article précédent / suivant parmi les articles de la même langue (du plus récent au plus ancien){% endcomment %}
+{% assign lposts = site.posts | where: "lang", lang %}
+{% assign newer = nil %}{% assign older = nil %}
+{% for p in lposts %}{% if p.url == page.url %}{% assign i_new = forloop.index0 | minus: 1 %}{% assign i_old = forloop.index0 | plus: 1 %}{% if i_new >= 0 %}{% assign newer = lposts[i_new] %}{% endif %}{% assign older = lposts[i_old] %}{% break %}{% endif %}{% endfor %}
 <article>
   <header class="episodes-header post-header-banner">
     <div class="wrap prose">
-      <p class="eyebrow">ARTICLE</p>
+      <p class="eyebrow">{{ t.blog.article }}</p>
       <h1>{{ page.title }}</h1>
       <p class="bl-post-meta">
-        {% for t in page.tags %}<span class="bl-tag bl-tag--dark">{{ t }}</span>{% endfor %}
-        <span>{% include date-fr.html date=page.date %}</span><span aria-hidden="true">·</span><span>{% include reading-time.html content=content %}</span><span aria-hidden="true">·</span><span>Tom Moulard</span>
+        {% for tg in page.tags %}<span class="bl-tag bl-tag--dark">{{ tg }}</span>{% endfor %}
+        <span>{% include date.html date=page.date %}</span><span aria-hidden="true">·</span><span>{% include reading-time.html content=content %}</span><span aria-hidden="true">·</span><span>Tom Moulard</span>
       </p>
     </div>
   </header>
@@ -22,27 +27,27 @@ layout: default
       {{ content }}
 
       <div class="bl-share">
-        <span class="bl-share-label">Partager cet article</span>
+        <span class="bl-share-label">{{ t.blog.share }}</span>
         <a class="btn btn-ghost" href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
-        <button type="button" class="btn btn-ghost" data-copy-link><i class="fa-solid fa-link" aria-hidden="true"></i><span>Copier le lien</span></button>
+        <button type="button" class="btn btn-ghost" data-copy-link><i class="fa-solid fa-link" aria-hidden="true"></i><span>{{ t.js.copy }}</span></button>
       </div>
 
       <aside class="bl-author">
         <img src="{{ '/assets/img/tom.jpg' | relative_url }}" alt="Tom Moulard">
         <div>
           <p class="bl-author-name">Tom Moulard</p>
-          <p class="bl-author-bio">Passé par ENGIE, entre vente B2B et marchés de l'énergie. Je décrypte les marchés de l'énergie dans le podcast <em>Inside Energy Markets</em> et sur ce blog.</p>
-          <p class="bl-author-links"><a href="{{ '/about/' | relative_url }}">À propos <span aria-hidden="true">→</span></a><a href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></p>
+          <p class="bl-author-bio">{{ t.blog.author_bio }}</p>
+          <p class="bl-author-links"><a href="{{ u.about | relative_url }}">{{ t.nav.about }} <span aria-hidden="true">→</span></a><a href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></p>
         </div>
       </aside>
 
-      {% if page.previous or page.next %}
-      <nav class="bl-pager" aria-label="Autres articles">
-        {% if page.previous %}<a class="bl-pager-prev" href="{{ page.previous.url | relative_url }}"><span>← Article précédent</span><strong>{{ page.previous.title }}</strong></a>{% endif %}
-        {% if page.next %}<a class="bl-pager-next" href="{{ page.next.url | relative_url }}"><span>Article suivant →</span><strong>{{ page.next.title }}</strong></a>{% endif %}
+      {% if older or newer %}
+      <nav class="bl-pager" aria-label="{{ t.blog.other_posts }}">
+        {% if older %}<a class="bl-pager-prev" href="{{ older.url | relative_url }}"><span>← {{ t.blog.prev }}</span><strong>{{ older.title }}</strong></a>{% endif %}
+        {% if newer %}<a class="bl-pager-next" href="{{ newer.url | relative_url }}"><span>{{ t.blog.next }} →</span><strong>{{ newer.title }}</strong></a>{% endif %}
       </nav>
       {% endif %}
-      <p class="bl-back"><a href="{{ '/blog/' | relative_url }}">← Tous les articles</a></p>
+      <p class="bl-back"><a href="{{ u.blog | relative_url }}">← {{ t.blog.all_posts }}</a></p>
     </div>
   </div>
 </article>

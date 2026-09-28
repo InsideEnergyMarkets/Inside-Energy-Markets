@@ -1,0 +1,4 @@
+{%- comment -%}Date en toutes lettres dans la langue de la page : « 9 septembre 2026 » / « 9 September 2026 ». Paramètre : date.{%- endcomment -%}
+{%- include i18n.html -%}
+{%- assign m = include.date | date: "%-m" | minus: 1 -%}
+{{ include.date | date: "%-d" }} {{ t.months[m] }} {{ include.date | date: "%Y" }}

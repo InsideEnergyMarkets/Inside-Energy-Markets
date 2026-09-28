@@ -2,25 +2,27 @@
   Bloc « Écouter le podcast » + « Venir en invité » (À propos, accueil, épisodes).
   Paramètres : class (classe en plus sur la grille), hide_all (masque le lien « Tous les épisodes »).
 {% endcomment %}
+{% include i18n.html %}
 {% include latest-episode.html %}
+{% if lang == "en" %}{% assign latest_title = latest.title_en | default: latest.title %}{% else %}{% assign latest_title = latest.title %}{% endif %}
     <div class="ab-cta-grid{% if include.class %} {{ include.class }}{% endif %}">
       <div class="ab-cta ab-cta--dark">
-        <p class="ab-kicker">Écouter le podcast</p>
+        <p class="ab-kicker">{{ t.cta.listen_kicker }}</p>
         {% if latest %}
-        <p class="ab-cta-text">Dernier épisode : <strong>{{ latest.title }}</strong></p>
-        <button type="button" class="btn btn-primary" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest.title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify }}" data-apple="{{ latest.apple }}" data-linkedin="{{ latest.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter ici · {{ l_min }}:{{ l_sec }}</button>
+        <p class="ab-cta-text">{{ t.cta.latest }}{{ t.colon }}<strong>{{ latest_title }}</strong>{% if lang == "en" %} <span class="ab-lang-note">({{ t.cta.in_french }})</span>{% endif %}</p>
+        <button type="button" class="btn btn-primary" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest_title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify }}" data-apple="{{ latest.apple }}" data-linkedin="{{ latest.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.ep.listen_here }} · {{ l_min }}:{{ l_sec }}</button>
         {% endif %}
         <p class="ab-platforms">
           <a href="https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i>Spotify</a>
           <a href="https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i>Apple Podcasts</a>
-          {% unless include.hide_all %}<a href="{{ '/episodes/' | relative_url }}"><i class="fa-solid fa-list" aria-hidden="true"></i>Tous les épisodes</a>{% endunless %}
+          {% unless include.hide_all %}<a href="{{ u.episodes | relative_url }}"><i class="fa-solid fa-list" aria-hidden="true"></i>{{ t.cta.all_episodes }}</a>{% endunless %}
         </p>
       </div>
       <div class="ab-cta">
-        <p class="ab-kicker">Venir en invité, proposer un sujet</p>
-        <p class="ab-cta-text">Vous travaillez sur les marchés de l'énergie (trading, achat, production, régulation) et vous avez un regard à partager ? Écrivez-moi.</p>
+        <p class="ab-kicker">{{ t.cta.guest_kicker }}</p>
+        <p class="ab-cta-text">{{ t.cta.guest_text }}</p>
         <div class="ab-cta-actions">
-          <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q="><i class="fa-solid fa-envelope" aria-hidden="true"></i>Me contacter</button>
+          <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q="><i class="fa-solid fa-envelope" aria-hidden="true"></i>{{ t.contact }}</button>
           <a class="btn btn-ghost" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
         </div>
       </div>

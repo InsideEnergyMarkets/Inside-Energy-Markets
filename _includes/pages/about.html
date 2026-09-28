@@ -1,0 +1,75 @@
+{% comment %}Page À propos (about/index.html en français, en/about/index.html en anglais).{% endcomment %}
+{% include i18n.html %}
+{% assign ab = t.about %}
+<section class="episodes-header about-banner">
+  <div class="wrap">
+    <p class="eyebrow">{{ ab.eyebrow }}</p>
+    <h1>Tom Moulard</h1>
+    <p class="lead-sm">{{ ab.lead }}</p>
+  </div>
+</section>
+
+<section class="about-block">
+  <div class="wrap">
+<div class="about-side">
+  <div class="about-photo">
+    <img src="{{ '/assets/img/tom.jpg' | relative_url }}" alt="Tom Moulard">
+  </div>
+  <div class="about-contact">
+    {% comment %}Adresse e-mail encodée : reconstituée au clic par le script du layout, jamais écrite en clair dans la page{% endcomment %}
+    <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q=">{{ t.contact }}</button>
+    <a class="about-contact-icon linkedin" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+  </div>
+</div>
+<div class="prose">
+  {% for para in ab.bio %}<p>{{ para }}</p>
+  {% endfor %}
+</div>
+    </div>
+  </div>
+</section>
+
+{% comment %}Chiffres du podcast, calculés depuis le flux RSS (_data/podcast.json){% endcomment %}
+{% assign pod_eps = site.data.podcast.episodes %}
+{% assign ab_n = 0 %}{% assign ab_secs = 0 %}{% assign ab_first = "9999" %}
+{% for pair in pod_eps %}{% assign ab_n = ab_n | plus: 1 %}{% assign ab_secs = ab_secs | plus: pair[1].duration %}{% if pair[1].date < ab_first %}{% assign ab_first = pair[1].date %}{% endif %}{% endfor %}
+{% assign ab_min = ab_secs | divided_by: 60 %}
+{% if ab_n > 0 %}{% assign ab_avg = ab_secs | divided_by: ab_n | divided_by: 60.0 | round %}{% endif %}
+{% assign ab_m = ab_first | slice: 5, 2 | plus: 0 | minus: 1 %}
+{% assign ab_month_lc = t.months[ab_m] %}{% assign ab_month = ab_month_lc | capitalize %}
+{% assign ab_year = ab_first | slice: 0, 4 %}
+
+<section class="block alt ab-section">
+  <div class="wrap">
+    <div class="ab-grid">
+      {% if ab_n > 0 %}
+      <div class="ab-card">
+        <p class="ab-kicker">{{ ab.stats_kicker }}</p>
+        <div class="ab-stats">
+          <div><strong>{{ ab_n }}</strong><span>{{ ab.stats_eps }}</span></div>
+          <div><strong>{{ ab_min }}</strong><span>{{ ab.stats_min }}</span></div>
+          <div><strong>{{ ab_month }}</strong><span>{{ ab_year }}{{ ab.stats_first }}</span></div>
+        </div>
+        <p class="ab-note">{{ ab.stats_note | replace: '%n', ab_avg }}</p>
+      </div>
+      {% endif %}
+      <div class="ab-card">
+        <p class="ab-kicker">{{ ab.path_kicker }}</p>
+        <ol class="ab-path">
+          <li><strong>KEDGE Business School</strong><span>{{ ab.path_kedge }}</span></li>
+          <li><strong>ENGIE</strong><span>{{ ab.path_engie }}</span></li>
+          <li><strong>Inside Energy Markets</strong><span>{% if ab_n > 0 %}{{ ab.path_iem_launched | replace: '%m', ab_month_lc | replace: '%y', ab_year }}{% else %}{{ ab.path_iem }}{% endif %}</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ab-themes">
+      <p class="ab-kicker">{{ ab.themes_kicker }}</p>
+      <p class="ab-chips">
+        {% for th in ab.themes %}<a class="ab-chip" href="{{ u.episodes | relative_url }}">{{ th }}</a>{% endfor %}
+      </p>
+    </div>
+
+    {% include podcast-cta.html %}
+  </div>
+</section>

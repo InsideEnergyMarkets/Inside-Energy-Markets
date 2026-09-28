@@ -35,6 +35,8 @@ FEEDS = {
     "EIA": "https://www.eia.gov/rss/todayinenergy.xml",
     "BBC": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
 }
+# Langue des titres : la version anglaise du site ne montre que les titres en anglais
+FEED_LANG = {"France 24": "fr", "Le Monde": "fr"}
 NEWS_MAX = 20
 NEWS_MAX_AGE_DAYS = 3
 
@@ -90,7 +92,8 @@ def fetch_feed(source, url):
             when = parsedate_to_datetime(it.findtext("pubDate")).astimezone(datetime.timezone.utc)
         except Exception:
             continue
-        items.append({"title": title, "url": link, "source": source, "date": when.isoformat(timespec="seconds")})
+        items.append({"title": title, "url": link, "source": source, "lang": FEED_LANG.get(source, "en"),
+                      "date": when.isoformat(timespec="seconds")})
     return items
 
 
@@ -143,6 +146,17 @@ VESSELS_FR = {
 }
 
 
+def place_en(value):
+    """Nom anglais d'une zone, harmonisé comme la version française (UKMTO VRA = océan Indien)."""
+    if not value:
+        return value
+    if value.lower() in ("ukmto vra", "indian ocean basin"):
+        return "Indian Ocean"
+    if value.lower() == "arabian gulf":
+        return "Persian Gulf"
+    return value.title().replace(" Of ", " of ").replace("Bab El Mandeb", "Bab el-Mandeb")
+
+
 def translate(value, table):
     return table.get(value.lower(), value) if value else value
 
@@ -175,7 +189,9 @@ def update_incidents():
             "lat": round(float(x["locationLatitude"]), 4),
             "lon": round(float(x["locationLongitude"]), 4),
             "place": translate(clean(x.get("place")), PLACES_FR),
+            "place_en": place_en(clean(x.get("place"))),
             "vessel_type": translate(clean(x.get("vesselType")), VESSELS_FR),
+            "vessel_type_en": "" if clean(x.get("vesselType")).lower() == "other" else clean(x.get("vesselType")).title(),
             "vessel_name": clean(x.get("vesselName")),
             "summary": summarize(x.get("otherDetails")),
         }
@@ -186,10 +202,12 @@ def update_incidents():
     since = (now_utc() - datetime.timedelta(days=30)).isoformat()
     recent = [i for i in items if i["date"] >= since]
     places = collections.Counter(i["place"] for i in recent if i["place"])
+    # Ancien stockage sans nom anglais : on le recalcule à partir du nom d'origine si besoin
+    names_en = {i["place"]: i.get("place_en") or i["place"] for i in recent if i["place"]}
     stats = {
         "total_30d": len(recent),
         "attacks_30d": sum(1 for i in recent if i["type"] == "Attack"),
-        "top_places": [{"place": p, "n": n} for p, n in places.most_common(3)],
+        "top_places": [{"place": p, "place_en": names_en[p], "n": n} for p, n in places.most_common(3)],
     }
     write_json(INCIDENTS_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "stats": stats, "items": items})
     print(f"Incidents UKMTO : {len(raw)} dans le flux, {len(items)} conservés")
