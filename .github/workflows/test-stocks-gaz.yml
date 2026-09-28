@@ -1,0 +1,26 @@
+name: Test stocks de gaz (temporaire)
+
+on:
+  push:
+    branches: [apercu-gaz-fred]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests
+      - name: Stocks AGSI+
+        env:
+          GIE_API_KEY: ${{ secrets.GIE_API_KEY }}
+        run: |
+          cd scripts
+          python -c "import fetch_market_data as f; f.update_gas_storage()"
+          python -c "
+          import json; d=json.load(open('../_data/gas_storage.json'))
+          for k,v in d.items(): print(k, len(v), v[0], v[-1])
+          "
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stocks
+          path: _data/gas_storage.json
