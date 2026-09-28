@@ -11,7 +11,7 @@ title: Accueil
       <p class="lead">Les coulisses des marchés de l'énergie, racontées par Tom Moulard et ses invités.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="{{ '/episodes/' | relative_url }}"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter les épisodes</a>
-        <a class="btn btn-ghost" href="{{ '/blog/' | relative_url }}">Lire le blog</a>
+        <a class="btn btn-ghost" href="{{ '/marches/' | relative_url }}"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>Voir les marchés</a>
       </div>
     </div>
     <div class="hero-art">
@@ -36,24 +36,7 @@ title: Accueil
 <div class="card-grid card-grid--episodes">
   {% assign latest_episodes = site.data.episodes | reverse %}
   {% for ep in latest_episodes limit: 3 %}
-  <div class="card card--episode">
-    <div class="card-thumb">
-      <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep.title }}">
-      <span class="card-thumb-badge">EP {{ ep.number }}</span>
-    </div>
-    <div class="card-body">
-      <h3>{{ ep.title }}</h3>
-      <p>{{ ep.description }}</p>
-      <div class="listen-cta-wrap">
-        <button type="button" class="btn-listen" aria-expanded="false"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter</button>
-        <div class="listen-dropdown">
-          <a class="spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
-          <a class="apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
-          <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% include episode-card.html ep=ep %}
   {% endfor %}
 </div>
   </div>

@@ -42,27 +42,27 @@
   </footer>
 
 <script>
+// Cartes épisodes : « Écouter » retourne la carte, « Retour » ou Échap la remet à l'endroit
+function epFlip(card, on) {
+  card.classList.toggle('flipped', on);
+  card.querySelector('.ep-front').inert = on;
+  card.querySelector('.ep-back').inert = !on;
+  var target = on ? card.querySelector('.ep-link') : card.querySelector('[data-flip]');
+  if (target) setTimeout(function () { target.focus({ preventScroll: true }); }, on ? 350 : 0);
+}
 document.addEventListener('click', function (e) {
-  var btn = e.target.closest('.btn-listen');
-
-  document.querySelectorAll('.listen-dropdown.open').forEach(function (d) {
-    if (!btn || d !== btn.nextElementSibling) d.classList.remove('open');
-  });
-  document.querySelectorAll('.btn-listen[aria-expanded="true"]').forEach(function (b) {
-    if (b !== btn) b.setAttribute('aria-expanded', 'false');
-  });
-  document.querySelectorAll('.card.dropdown-active').forEach(function (c) {
-    if (!btn || c !== btn.closest('.card')) c.classList.remove('dropdown-active');
-  });
-
-  if (btn) {
-    var dropdown = btn.nextElementSibling;
-    var isOpen = dropdown.classList.toggle('open');
-    btn.setAttribute('aria-expanded', isOpen);
-    var card = btn.closest('.card');
-    if (card) card.classList.toggle('dropdown-active', isOpen);
-    e.stopPropagation();
+  var open = e.target.closest('[data-flip]');
+  if (open) {
+    var card = open.closest('.ep-flip');
+    document.querySelectorAll('.ep-flip.flipped').forEach(function (c) { if (c !== card) epFlip(c, false); });
+    epFlip(card, true);
+    return;
   }
+  var close = e.target.closest('[data-unflip]');
+  if (close) epFlip(close.closest('.ep-flip'), false);
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') document.querySelectorAll('.ep-flip.flipped').forEach(function (c) { epFlip(c, false); });
 });
 </script>
 
