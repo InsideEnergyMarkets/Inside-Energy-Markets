@@ -2341,8 +2341,76 @@ footer .socials a.footer-podcast-link { margin-left: 6px; }
 @media (max-width: 760px) {
   .ep-front.card--featured { flex-direction: column; }
   .ep-flip--featured .ep-back-links { flex-direction: column; }
+  /* en colonne, la base de 180 px devenait une hauteur : boutons géants sur téléphone */
+  .ep-flip--featured .ep-link { flex: none; }
   .ep-flip--featured .ep-back { padding: 24px 22px; }
+  .ep-flip--featured .ep-back-title { font-size: 18px; }
 }
+/* Écran tactile : le dos apparaît en fondu (la rotation 3D est capricieuse sur mobile, Safari surtout) */
+@media (hover: none) {
+  .ep-flip.flipped .ep-flip-inner { transform: none; }
+  .ep-flip-inner { transition: none; }
+  .ep-back { transform: none; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+  .ep-flip.flipped .ep-back { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+  .card:hover, .card--episode:hover .card-thumb img { transform: none; }
+}
+.ep-flip .card-thumb-badge { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(23, 37, 95, 0.9); }
 @media (prefers-reduced-motion: reduce) {
   .ep-flip-inner { transition: none; }
+}
+
+/* Durée de l'épisode à côté du bouton « Écouter » */
+.ep-actions { margin-top: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ep-front .card-body .ep-actions .btn-listen { margin-top: 0; }
+.ep-front.card--featured .card-body .ep-actions { margin-top: 0; }
+.ep-duration { display: inline-flex; align-items: center; gap: 6px; font: 500 13px 'Inter', sans-serif; color: var(--muted, #5a6b7b); }
+.ep-duration i { color: var(--teal); font-size: 12px; }
+
+/* « Écouter ici » : premier choix au dos de la carte, en sarcelle */
+.ep-link--here { width: 100%; cursor: pointer; text-align: left; background: var(--teal); border-color: var(--teal); }
+.ep-link--here i { color: var(--teal); font-size: 12px; }
+.ep-link--here b { color: rgba(255, 255, 255, 0.85); font: 500 12.5px 'JetBrains Mono', monospace; }
+.ep-link--here:hover { background: var(--teal-deep); border-color: #4fd1c5; }
+
+/* ================================================================
+   LECTEUR DU PODCAST (barre fixée en bas)
+   ================================================================ */
+.pl-bar {
+  position: fixed; left: 50%; bottom: 16px; z-index: 900; width: min(760px, calc(100% - 24px));
+  display: none; align-items: center; gap: 12px; padding: 10px 14px 10px 10px;
+  background: linear-gradient(160deg, #17255f, #0d1638); color: #fff; border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 18px 40px rgba(6, 10, 28, 0.45);
+  transform: translateX(-50%);
+}
+.pl-bar.is-open { display: flex; animation: pl-in 0.25s ease; }
+@keyframes pl-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+body.has-player { padding-bottom: 96px; }
+.pl-cover { width: 46px; height: 46px; border-radius: 10px; object-fit: cover; flex: none; }
+.pl-info { display: flex; flex-direction: column; min-width: 0; width: 190px; flex: none; }
+.pl-kicker { font: 700 10.5px 'Inter', sans-serif; letter-spacing: 0.7px; text-transform: uppercase; color: #4fd1c5; }
+.pl-title { font: 600 13.5px 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-btn {
+  flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); color: #fff;
+  font: 600 11px 'Inter', sans-serif;
+}
+.pl-btn:hover { border-color: #4fd1c5; }
+.pl-toggle { width: 42px; height: 42px; background: var(--teal); border-color: var(--teal); font-size: 14px; box-shadow: 0 6px 16px rgba(0, 129, 125, 0.35); }
+.pl-toggle:hover { background: var(--teal-deep); }
+.pl-progress { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
+.pl-time, .pl-dur { font: 500 12px 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.7); flex: none; }
+.pl-seek {
+  --p: 0%; flex: 1; min-width: 0; height: 5px; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none;
+  border-radius: 3px; background: linear-gradient(90deg, #4fd1c5 var(--p), rgba(255, 255, 255, 0.18) var(--p));
+}
+.pl-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.35); }
+.pl-seek::-moz-range-thumb { width: 14px; height: 14px; border: none; border-radius: 50%; background: #fff; }
+.pl-close { flex: none; background: none; border: none; color: rgba(255, 255, 255, 0.55); font-size: 15px; cursor: pointer; padding: 6px; }
+.pl-close:hover { color: #fff; }
+@media (max-width: 640px) {
+  .pl-bar { flex-wrap: wrap; bottom: 10px; gap: 8px 10px; padding: 10px 12px; }
+  .pl-info { flex: 1; width: auto; }
+  .pl-back, .pl-fwd { display: none; }
+  .pl-progress { order: 5; flex-basis: 100%; }
+  body.has-player { padding-bottom: 130px; }
 }
