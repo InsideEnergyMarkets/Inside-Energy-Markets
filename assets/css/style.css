@@ -2375,3 +2375,6 @@ footer .socials a.footer-podcast-link:hover {
   .gz-row { grid-template-columns: 1fr; }
   .gz-price { text-align: left; }
 }
+.gz-price .px-change small { display: none; }
+.gz-name { overflow: hidden; }
+.gz-name span { overflow: hidden; text-overflow: ellipsis; }
