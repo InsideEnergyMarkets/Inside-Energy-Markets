@@ -8,6 +8,7 @@ Récupère les données marché et les écrit dans _data/market.json :
 - Trafic maritime par détroit stratégique (IMF PortWatch, AIS, aucune clé requise),
   avec historique 90 jours dans _data/chokepoints_history.json
 - Brent sur 12 mois (EIA) pour le graphique Ormuz / Brent : _data/brent_year.json
+- Exportations mensuelles de GNL des États-Unis (EIA) : _data/lng_exports.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
 un résumé hebdomadaire (_data/weekly_summary.json). Chaque prix de l'historique est
@@ -376,6 +377,7 @@ PORTWATCH_DAILY_URL = (
 )
 CHOKEPOINTS_HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "chokepoints_history.json")
 BRENT_YEAR_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "brent_year.json")
+LNG_EXPORTS_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "lng_exports.json")
 TRAFFIC_FIELDS = ("n_tanker", "n_total", "capacity_tanker")
 CHOKEPOINT_HISTORY_DAYS = 90
 
@@ -525,6 +527,37 @@ def update_brent_year():
     rows = [{"date": d, "v": v} for d, v in sorted(series.items())]
     with open(BRENT_YEAR_PATH, "w", encoding="utf-8") as f:
         json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def update_lng_exports():
+    """Exportations mensuelles de GNL des États-Unis sur 25 mois (EIA, série N9133US2),
+    converties de millions de pieds cubes par mois en milliards de pieds cubes par jour."""
+    if not EIA_API_KEY:
+        print("EIA_API_KEY manquant, exportations de GNL non mises à jour.")
+        return
+    try:
+        r = requests.get(
+            "https://api.eia.gov/v2/natural-gas/move/expc/data/"
+            f"?api_key={EIA_API_KEY}&frequency=monthly&data[0]=value&facets[series][]=N9133US2"
+            "&sort[0][column]=period&sort[0][direction]=desc&length=25",
+            timeout=20,
+        )
+        r.raise_for_status()
+        rows = r.json()["response"]["data"]
+    except Exception as e:
+        print(f"Erreur exportations de GNL (EIA): {e}")
+        return
+    out = []
+    for row in sorted(rows, key=lambda x: x["period"]):
+        if row.get("value") in (None, ""):
+            continue
+        year, month = map(int, row["period"].split("-"))
+        nxt = datetime.date(year + month // 12, month % 12 + 1, 1)
+        days = (nxt - datetime.date(year, month, 1)).days
+        out.append({"month": row["period"], "bcfd": round(float(row["value"]) / days / 1000, 2)})
+    if out:
+        with open(LNG_EXPORTS_PATH, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def load_history():
@@ -700,6 +733,7 @@ def main():
         "chokepoints": fetch_chokepoint_traffic(existing),
     }
     update_brent_year()
+    update_lng_exports()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:

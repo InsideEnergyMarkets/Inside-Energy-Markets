@@ -41,14 +41,16 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 
 - `index.html` : accueil (hero podcast, bandeau d'actus, derniers épisodes, « Le point marchés »
   en 4 tuiles liées aux rubriques de /marches/, bandeau incidents 30 j, derniers articles).
-- `marches/index.html` : sommaire collant, « À retenir » (4 chiffres), rubriques
-  `#electricite`, `#petrole-gaz` (+ graphique Ormuz / Brent 12 mois), `#routes-maritimes`
-  (bandeau comparatif + 3 fiches détroit), `#securite` (carte des incidents).
+- `marches/index.html` (option C : tableau de bord + détail en fenêtre `<dialog class="mk-dialog">`
+  ouverte par `[data-dialog]`) : sommaire collant, rubriques `#electricite` (carte prix + mix),
+  `#petrole-gaz` (carte Brent / Henry Hub même style, tuiles Ormuz-Brent 12 mois et exportations
+  GNL en fenêtre, emplacement « À venir » TTF/JKM), `#routes-maritimes` (3 fiches compactes avec
+  carte MarineTraffic, détail 90 j en fenêtre), `#securite` (carte des incidents + chiffres 30 j).
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
 - `_includes/` : `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
-  précédent), `chokepoint.html` + `chokepoint-kpi.html` (fiche détroit), `incidents.html`,
+  précédent), `chokepoint.html` (fiche compacte + fenêtre de détail) + `chokepoint-kpi.html`, `incidents.html`,
   `news-ticker.html`.
 - `assets/css/style.css` : fichier unique et long. Après chaque modification, vérifier que les
   accolades sont équilibrées (une `}` manquante a déjà cassé tout le CSS sans erreur visible).
@@ -69,7 +71,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `market_history.json` : 60 j, chaque prix à sa date de cotation avec sa source ; pas de
   Brent/HH le week-end ; l'EIA comble les trous (15 derniers jours, sans écraser).
 - `chokepoints_history.json` (90 j par détroit + `hormuz_year`), `brent_year.json` (EIA 12 mois),
-  `weekly_summary.json`, `chokepoints_context.yml` (chiffres EIA fixes, mis à jour à la main).
+  `weekly_summary.json`, `lng_exports.json` (EIA N9133US2, 25 mois, en Bcf/j), `chokepoints_context.yml` (chiffres EIA fixes, mis à jour à la main).
 
 `scripts/fetch_news.py` (workflow `update-news.yml`, toutes les 2 h à la demi-heure) :
 - `news.json` : titres RSS d'Al Jazeera, France 24, Le Monde, EIA, BBC filtrés sur le titre
@@ -93,8 +95,7 @@ Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY (+ RTE_CLIENT_ID/S
 
 ## En cours / à venir
 
-- Prochaine étape : alléger `/marches/` (trop d'infos à l'écran). Options proposées :
-  A volets dépliables par rubrique (recommandé), B onglets, C tableau de bord + détail en fenêtre,
-  D synthèse + sous-pages par rubrique. Tom doit choisir.
+- Chercher une vraie source pour TTF et JKM (important pour le gaz), et éventuellement les
+  capacités de liquéfaction (pas d'API EIA, fichier Excel).
 - Plus tard : système de signaux (détroit fermé / mouvement de prix), `analyze_history.py`,
   note hebdo `generate_note.py`, ajout du WTI (spread Brent-WTI), paper trading (mis de côté).
