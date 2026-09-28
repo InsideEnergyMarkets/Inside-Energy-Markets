@@ -59,7 +59,8 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
 - `_includes/` : `episode-card.html` (carte épisode retournable : « Écouter » montre les liens au dos ;
-  utilisée sur l'accueil, /episodes/ et dans les articles), `date-fr.html`, `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
+  utilisée sur l'accueil, /episodes/ et dans les articles ; la carte prend la hauteur de sa plus grande face,
+  fondu au lieu de la rotation 3D sur écran tactile), `date-fr.html`, `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
   précédent), `chokepoint.html` (fiche compacte + fenêtre de détail) + `chokepoint-kpi.html`, `incidents.html`,
   `news-ticker.html`.
 - `assets/css/style.css` : fichier unique et long. Après chaque modification, vérifier que les
@@ -89,6 +90,11 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   `chokepoints_context.yml` (chiffres EIA fixes, mis à jour à la main).
 
 `scripts/fetch_news.py` (workflow `update-news.yml`, toutes les 2 h à la demi-heure) :
+- `podcast.json` : flux RSS public du podcast `https://anchor.fm/s/10edf0868/podcast/rss` (Spotify for Creators,
+  trouvé via l'API iTunes lookup id 6807057201) : lien audio, durée, date par numéro d'épisode. Alimente le lecteur
+  intégré (barre en bas + grande vue, script dans `_layouts/default.html`, boutons `[data-play]` au dos des cartes
+  et de la pochette du hero, qui prend le dernier épisode présent dans le flux). Un épisode absent du flux
+  (ex. EP 10 en attente) n'a ni durée ni « Écouter ici ». Les écoutes passent par Spotify for Creators (stats).
 - `news.json` : titres RSS d'Al Jazeera, France 24, Le Monde, EIA, BBC filtrés sur le titre
   (« Iran » seul exige un terme énergie/maritime), 3 derniers jours.
 - `incidents.json` : flux UKMTO `https://sccd.royalnavy.mod.uk/api/ukmto/all` (celui de leur
