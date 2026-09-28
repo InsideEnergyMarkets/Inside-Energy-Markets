@@ -1138,7 +1138,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var items = window.mktIncidents.filter(function (i) { return new Date(i.date) >= cutoff; });
 
   var map = L.map(box, { scrollWheelZoom: false }).setView([20, 50], 5);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/%y.png', {
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 10, className: 'inc-tiles', attribution: '© OpenStreetMap'
   }).addTo(map);
 
