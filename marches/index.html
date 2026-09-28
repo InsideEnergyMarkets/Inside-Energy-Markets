@@ -211,12 +211,12 @@ permalink: /marches/
             <button type="button" class="period-btn" data-period="365">1 an</button>
           </div>
         </div>
-        <div class="pw-chart"><canvas id="chart-canvas-ttf" aria-label="TTF, historique"></canvas></div>
+        <div class="pw-chart pw-chart--tall"><canvas id="chart-canvas-ttf" aria-label="TTF, historique"></canvas></div>
       </div>
 
       <div class="pw-mix">
         <p class="pw-label">Les autres prix de référence</p>
-        {% assign gas_rows = "peg|PEG|France|€/MWh;jkm|JKM|Asie, GNL livré|$/MMBtu;henry_hub|Henry Hub|États-Unis|$/MMBtu" | split: ";" %}
+        {% assign gas_rows = "peg|PEG|France|€/MWh;jkm|JKM|Asie (GNL)|$/MMBtu;henry_hub|Henry Hub|États-Unis|$/MMBtu" | split: ";" %}
         <ul class="gz-list">
           {% for g in gas_rows %}
           {% assign f = g | split: "|" %}

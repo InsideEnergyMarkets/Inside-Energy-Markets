@@ -2357,7 +2357,7 @@ footer .socials a.footer-podcast-link:hover {
   display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px;
   background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 10px 14px;
 }
-.gz-name { display: flex; align-items: baseline; gap: 8px; }
+.gz-name { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; min-width: 0; }
 .gz-name i { width: 10px; height: 10px; border-radius: 3px; flex: none; align-self: center; }
 .gz-name strong { font-size: 15px; }
 .gz-name span { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
