@@ -856,9 +856,9 @@ if (navToggle) {
 document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
   var min = Math.round((Date.now() - new Date(el.getAttribute('data-date'))) / 60000);
   if (isNaN(min)) return;
-  el.textContent = min < 60 ? iemT.ago_min.replace('{n}', Math.max(min, 1))
-    : min < 1440 ? iemT.ago_h.replace('{n}', Math.round(min / 60))
-    : iemT.ago_d.replace('{n}', Math.round(min / 1440));
+  el.textContent = min < 60 ? iemT.ago_min.replace('%n', Math.max(min, 1))
+    : min < 1440 ? iemT.ago_h.replace('%n', Math.round(min / 60))
+    : iemT.ago_d.replace('%n', Math.round(min / 1440));
 });
 
 // ===== Bandeau d'actualités : un titre à la fois, le suivant arrive par le bas =====
@@ -1138,7 +1138,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var items = window.mktIncidents.filter(function (i) { return new Date(i.date) >= cutoff; });
 
   var map = L.map(box, { scrollWheelZoom: false }).setView([20, 50], 5);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/%y.png', {
     maxZoom: 10, className: 'inc-tiles', attribution: '© OpenStreetMap'
   }).addTo(map);
 

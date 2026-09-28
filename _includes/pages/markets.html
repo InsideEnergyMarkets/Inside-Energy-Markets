@@ -172,7 +172,7 @@
         {% assign fr_ly = st.fr | where: "date", ly_date | first %}
         <div class="pw-co2 gs-level">
           <span class="pw-co2-value">{{ eu.full | round: 1 | replace: ".", dec }}<small>%</small></span>
-          <span class="pw-co2-text"><strong>{{ mk.storage_full }}</strong>{% assign twh = eu.twh | round: 0 %}{{ mk.storage_twh | replace: '{n}', twh }}</span>
+          <span class="pw-co2-text"><strong>{{ mk.storage_full }}</strong>{% assign twh = eu.twh | round: 0 %}{{ mk.storage_twh | replace: '%n', twh }}</span>
         </div>
         <div class="gs-bar" role="img" aria-label="{{ mk.storage_aria }} {{ eu.full | round: 1 }} %{% if eu_ly %}, {{ mk.vs_last_year_aria }} {{ eu_ly.full | round: 1 }} %{% endif %}">
           <span style="width: {{ eu.full }}%"></span>
@@ -215,7 +215,7 @@
       {% assign ratio = gw_eu.v | divided_by: gw_us.v | round: 1 | replace: '.', dec %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-gw">
         <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
-        <span><strong>{{ mk.gw_tile }}</strong>{{ mk.gw_tile_sub | replace: '{n}', ratio }}</span>
+        <span><strong>{{ mk.gw_tile }}</strong>{{ mk.gw_tile_sub | replace: '%n', ratio }}</span>
         <b aria-hidden="true">↗</b>
       </button>
       {% endif %}
@@ -245,7 +245,7 @@
       <div class="mt-kpis">
         <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.europe }}</div><div class="mt-kpi-value">{{ gw_eu.v | replace: ".", dec }} <small>$/MMBtu</small></div></div>
         <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.asia }}</div><div class="mt-kpi-value">{{ gw_as.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", dec }} $ {{ mk.vs_europe }}</div></div>
-        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.usa }}</div><div class="mt-kpi-value">{{ gw_us.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{{ mk.europe_pays | replace: '{n}', ratio }}</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.usa }}</div><div class="mt-kpi-value">{{ gw_us.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{{ mk.europe_pays | replace: '%n', ratio }}</div></div>
       </div>
       <div class="pw-chart-head">
         <span></span>

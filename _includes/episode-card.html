@@ -23,7 +23,7 @@
         <h3>{{ ep_title }}</h3>
         <p>{{ ep_desc }}</p>
         <div class="ep-actions">
-          <button type="button" class="btn-listen" data-flip aria-label="{{ t.ep.listen_aria | replace: '{n}', ep.number }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.ep.listen }}</button>
+          <button type="button" class="btn-listen" data-flip aria-label="{{ t.ep.listen_aria | replace: '%n', ep.number }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.ep.listen }}</button>
           {% if pod.duration %}<span class="ep-duration"><i class="fa-regular fa-clock" aria-hidden="true"></i>{{ ep_min }} min {{ ep_sec }}</span>{% endif %}
         </div>
       </div>

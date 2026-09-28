@@ -15,5 +15,5 @@
 {% assign last_i = vals.size | minus: 1 | times: 1.0 %}
 {% capture pts %}{% for v in vals %}{% assign x = forloop.index0 | times: 108.0 | divided_by: last_i | plus: 3 | round: 1 %}{% assign y = v | minus: mn | divided_by: rng | times: 26 | minus: 29 | times: -1 | round: 1 %}{{ x }},{{ y }} {% endfor %}{% endcapture %}
 {% assign lx = 111 %}{% assign ly = vals.last | minus: mn | divided_by: rng | times: 26 | minus: 29 | times: -1 | round: 1 %}
-<svg class="hq-spark" viewBox="0 0 114 32" width="114" height="32" role="img" aria-label="{{ t.home.spark_aria | replace: '{n}', days }}"><polyline points="{{ pts | strip }}"/><circle cx="{{ lx }}" cy="{{ ly }}" r="2.6"/></svg>
+<svg class="hq-spark" viewBox="0 0 114 32" width="114" height="32" role="img" aria-label="{{ t.home.spark_aria | replace: '%n', days }}"><polyline points="{{ pts | strip }}"/><circle cx="{{ lx }}" cy="{{ ly }}" r="2.6"/></svg>
 {% endif %}

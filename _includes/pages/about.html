@@ -36,7 +36,7 @@
 {% assign ab_min = ab_secs | divided_by: 60 %}
 {% if ab_n > 0 %}{% assign ab_avg = ab_secs | divided_by: ab_n | divided_by: 60.0 | round %}{% endif %}
 {% assign ab_m = ab_first | slice: 5, 2 | plus: 0 | minus: 1 %}
-{% assign ab_month = t.months[ab_m] | capitalize %}
+{% assign ab_month_lc = t.months[ab_m] %}{% assign ab_month = ab_month_lc | capitalize %}
 {% assign ab_year = ab_first | slice: 0, 4 %}
 
 <section class="block alt ab-section">
@@ -50,7 +50,7 @@
           <div><strong>{{ ab_min }}</strong><span>{{ ab.stats_min }}</span></div>
           <div><strong>{{ ab_month }}</strong><span>{{ ab_year }}{{ ab.stats_first }}</span></div>
         </div>
-        <p class="ab-note">{{ ab.stats_note | replace: '{n}', ab_avg }}</p>
+        <p class="ab-note">{{ ab.stats_note | replace: '%n', ab_avg }}</p>
       </div>
       {% endif %}
       <div class="ab-card">
@@ -58,7 +58,7 @@
         <ol class="ab-path">
           <li><strong>KEDGE Business School</strong><span>{{ ab.path_kedge }}</span></li>
           <li><strong>ENGIE</strong><span>{{ ab.path_engie }}</span></li>
-          <li><strong>Inside Energy Markets</strong><span>{% if ab_n > 0 %}{{ ab.path_iem_launched | replace: '{m}', t.months[ab_m] | replace: '{y}', ab_year }}{% else %}{{ ab.path_iem }}{% endif %}</span></li>
+          <li><strong>Inside Energy Markets</strong><span>{% if ab_n > 0 %}{{ ab.path_iem_launched | replace: '%m', ab_month_lc | replace: '%y', ab_year }}{% else %}{{ ab.path_iem }}{% endif %}</span></li>
         </ol>
       </div>
     </div>
