@@ -2504,3 +2504,11 @@ html.has-player body { padding-bottom: 96px; }
 
 /* Barre de chargement de Turbo entre deux pages */
 .turbo-progress-bar { height: 3px; background: var(--teal); }
+
+/* Vignettes des cartes épisodes : hauteur fixe. Avec « aspect-ratio 16/9 + max-height », Safari (iPhone)
+   réduisait la largeur quand la hauteur était plafonnée : vide à droite de l'image sur les téléphones larges */
+.ep-front .card-thumb { aspect-ratio: auto; height: 180px; max-height: none; }
+.ep-front.card--featured .card-thumb { height: auto; }
+@media (max-width: 760px) {
+  .ep-front.card--featured .card-thumb { width: auto; height: 200px; }
+}
