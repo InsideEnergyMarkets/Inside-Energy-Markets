@@ -271,7 +271,7 @@ if (navToggle) {
                 return ctx.datasetIndex === 1 ? 'Moy. 7j : ' + txt : txt;
               },
               afterBody: function (items) {
-                var src = items.length && win.sources[items[0].dataIndex];
+                var src = items.length && (win.sources[items[0].dataIndex] || dataset.source);
                 return src ? 'Source : ' + src : '';
               }
             }
@@ -377,7 +377,7 @@ if (navToggle) {
   // ===== Comparaison base 100 =====
   // Chaque série est divisée par sa première valeur de la période (x 100) :
   // 110 = +10 % depuis le début de la période, quelle que soit l'unité
-  var seriesNames = {};
+  var seriesNames = { spot: 'Électricité FR', brent: 'Brent', henryhub: 'Henry Hub', ttf: 'TTF' };
 
   // Ligne pointillée au niveau 100
   var baseLine = {
@@ -763,12 +763,94 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
+// ===== Gaz : les quatre prix de référence en €/MWh =====
+// $/MMBtu -> €/MWh : 1 MMBtu = 0,293071 MWh, taux euro-dollar BCE du jour (ou le dernier connu)
+(function () {
+  var gas = window.mktGas;
+  if (!gas || !gas.ttf) return;
+  var MWH_PER_MMBTU = 0.293071;
+  var fx = gas.eurusd || [];
+  function rateAt(day) {
+    var r = null;
+    for (var i = 0; i < fx.length && fx[i].date <= day; i++) r = fx[i].v;
+    return r || (fx.length ? fx[0].v : null);
+  }
+  function toEurMwh(v, day, usd) { return usd ? v / rateAt(day) / MWH_PER_MMBTU : v; }
+  function fmt(v) { return v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+
+  // Équivalent en €/MWh et écart avec le TTF sous chaque prix
+  var ttfNow = gas.ttf[gas.ttf.length - 1].v, lastFx = fx.length ? fx[fx.length - 1] : null;
+  document.querySelectorAll('.gz-row[data-conv]').forEach(function (row) {
+    var v = parseFloat(row.getAttribute('data-conv')), out = row.querySelector('[data-conv-out]');
+    if (isNaN(v) || !out) return;
+    var usd = row.getAttribute('data-unit').indexOf('$') === 0;
+    if (usd && !lastFx) return;
+    var eur = usd ? v / lastFx.v / MWH_PER_MMBTU : v, gap = eur - ttfNow;
+    out.textContent = (usd ? '≈ ' + fmt(eur) + ' €/MWh, ' : '') +
+      (gap >= 0 ? '+' : '') + fmt(gap) + ' €/MWh vs TTF · ';
+  });
+
+  var canvas = document.getElementById('gz-cmp');
+  if (!canvas || typeof Chart === 'undefined') return;
+  var SERIES = [
+    { key: 'ttf', name: 'TTF', color: '#4fd1c5', usd: false },
+    { key: 'peg', name: 'PEG', color: '#8b7cf6', usd: false },
+    { key: 'jkm', name: 'JKM', color: '#f472b6', usd: true },
+    { key: 'hh', name: 'Henry Hub', color: '#e8b33a', usd: true }
+  ];
+  function day(s) {
+    var p = s.split('-');
+    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  }
+  var chart = null;
+  function render(days) {
+    var last = gas.ttf[gas.ttf.length - 1].date, from = new Date(last);
+    from.setDate(from.getDate() - days);
+    var start = from.toISOString().slice(0, 10), dates = {};
+    SERIES.forEach(function (s) { (gas[s.key] || []).forEach(function (p) { if (p.date >= start) dates[p.date] = 1; }); });
+    var labels = Object.keys(dates).sort();
+    var datasets = SERIES.map(function (s) {
+      var by = {};
+      (gas[s.key] || []).forEach(function (p) { by[p.date] = Math.round(toEurMwh(p.v, p.date, s.usd) * 10) / 10; });
+      return { label: s.name, data: labels.map(function (d) { return d in by ? by[d] : null; }), borderColor: s.color,
+               backgroundColor: s.color, borderWidth: s.key === 'ttf' ? 2.5 : 1.6, pointRadius: 0, pointHoverRadius: 3,
+               tension: 0.25, spanGaps: true };
+    });
+    if (chart) chart.destroy();
+    chart = new Chart(canvas, {
+      type: 'line', data: { labels: labels, datasets: datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (items) { return day(items[0].label); },
+          label: function (c) { return c.parsed.y === null ? null : c.dataset.label + ' : ' + fmt(c.parsed.y) + ' €/MWh'; },
+          afterBody: function () { return 'Source : OilPriceAPI, taux BCE'; } } } },
+        scales: {
+          x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 6, maxRotation: 0,
+                        callback: function (v) { return day(this.getLabelForValue(v)); } }, grid: { display: false } },
+          y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+        }
+      }
+    });
+  }
+  render(90);
+  var btns = document.querySelectorAll('#gz-cmp-btns [data-period]');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      btns.forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      render(parseInt(b.getAttribute('data-period'), 10));
+    });
+  });
+})();
+
 // ===== Graphiques toujours visibles (bloc Électricité) : périodes et agrandissement =====
 (function () {
   if (!window.mktCharts) return;
   document.querySelectorAll('[data-chart-controls]').forEach(function (box) {
     var key = box.getAttribute('data-chart-controls');
-    window.mktCharts.render(key, 30);
+    var active = box.querySelector('.period-btn.active');
+    window.mktCharts.render(key, active ? parseInt(active.getAttribute('data-period'), 10) : 30);
     box.querySelectorAll('[data-period]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         box.querySelectorAll('[data-period]').forEach(function (b) { b.classList.remove('active'); });
