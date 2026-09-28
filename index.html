@@ -121,7 +121,7 @@ description: "Inside Energy Markets, le podcast de Tom Moulard sur les coulisses
       {% if inc.stats %}
       <div class="hq-row hq-incidents">
         <span class="hq-name"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Incidents en mer<small>UKMTO · 30 derniers jours</small></span>
-        <span class="hq-inc-text"><b>{{ inc.stats.total_30d }}</b> signalés, dont {{ inc.stats.attacks_30d }} attaques{% if inc.stats.top_places.size > 0 %}<small>{% for tp in inc.stats.top_places %}{{ tp.place }} ({{ tp.n }}){% unless forloop.last %} · {% endunless %}{% endfor %}</small>{% endif %}</span>
+        <span class="hq-inc-text"><span><b>{{ inc.stats.total_30d }}</b> signalés, dont {{ inc.stats.attacks_30d }} attaques</span>{% if inc.stats.top_places.size > 0 %}<small>{% for tp in inc.stats.top_places %}{{ tp.place }} ({{ tp.n }}){% unless forloop.last %} · {% endunless %}{% endfor %}</small>{% endif %}</span>
         <a class="inc-all" href="{{ marches }}#securite">Voir la carte <span aria-hidden="true">→</span></a>
       </div>
       {% endif %}

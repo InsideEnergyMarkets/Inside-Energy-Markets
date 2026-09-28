@@ -1991,7 +1991,6 @@ footer .socials a:hover {
 .mk-sources em { font-style: normal; font-size: 12px; color: #00817d; }
 
 /* ===== Accueil : « Le point marchés » ===== */
-.hq-board { border-top: 1px solid rgba(255, 255, 255, 0.12); }
 .hq-row {
   display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) 150px 130px; align-items: center; gap: 16px;
   padding: 14px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); color: #fff; text-decoration: none;
@@ -2018,7 +2017,7 @@ a.hq-row:hover { background: rgba(255, 255, 255, 0.05); color: #fff; text-decora
 .hq-incidents .hq-name { display: block; }
 .hq-incidents .hq-name small { display: block; margin-top: 2px; }
 .hq-inc-text { display: flex; flex-direction: column; gap: 2px; font-size: 14px; color: rgba(255, 255, 255, 0.85); }
-.hq-inc-text b { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 18px; color: #fff; }
+.hq-inc-text b { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 18px; color: #fff; margin-right: 4px; }
 .hq-incidents .inc-all { margin: 0; justify-self: end; align-self: center; }
 @media (max-width: 760px) {
   .hq-head { display: none; }
