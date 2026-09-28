@@ -9,8 +9,7 @@ Récupère les données marché et les écrit dans _data/market.json :
   avec historique 90 jours dans _data/chokepoints_history.json
 - Brent sur 12 mois (EIA) pour le graphique Ormuz / Brent : _data/brent_year.json
 - Exportations mensuelles de GNL des États-Unis (EIA) : _data/lng_exports.json
-- Gaz : TTF, JKM (OilPriceAPI) et historique quotidien TTF / JKM / Henry Hub
-  avec le taux euro-dollar de la BCE : _data/gas_history.json
+- Prix mondiaux du gaz par mois (FMI via la FRED) : Europe, Asie, États-Unis : _data/gas_world.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
 un résumé hebdomadaire (_data/weekly_summary.json). Chaque prix de l'historique est
@@ -380,15 +379,10 @@ PORTWATCH_DAILY_URL = (
 CHOKEPOINTS_HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "chokepoints_history.json")
 BRENT_YEAR_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "brent_year.json")
 LNG_EXPORTS_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "lng_exports.json")
-GAS_HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "gas_history.json")
-# Prix du gaz affichés (clé dans market.json -> code OilPriceAPI, unité)
-GAS_QUOTES = {
-    "ttf": ("DUTCH_TTF_EUR", "EUR/MWh"),
-    "jkm": ("JKM_LNG_USD", "USD/MMBtu"),
-}
-# Séries gardées dans l'historique du gaz (le Henry Hub pour la comparaison en €/MWh)
-GAS_HISTORY_CODES = {"ttf": "DUTCH_TTF_EUR", "jkm": "JKM_LNG_USD", "hh": "NATURAL_GAS_USD"}
-GAS_HISTORY_DAYS = 400
+GAS_WORLD_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "gas_world.json")
+# Séries FRED (FMI, moyennes mensuelles en $/MMBtu)
+GAS_WORLD_SERIES = {"europe": "PNGASEUUSDM", "asie": "PNGASJPUSDM", "usa": "PNGASUSUSDM"}
+GAS_WORLD_MONTHS = 120
 TRAFFIC_FIELDS = ("n_tanker", "n_total", "capacity_tanker")
 CHOKEPOINT_HISTORY_DAYS = 90
 
@@ -571,81 +565,30 @@ def update_lng_exports():
             json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
 
 
-def oilpriceapi_get(path):
-    r = requests.get(f"https://api.oilpriceapi.com/v1/{path}",
-                     headers={"Authorization": f"Token {OILPRICEAPI_KEY}"}, timeout=20)
+def fetch_fred_monthly(series_id, months):
+    """Série mensuelle de la FRED (fichier CSV officiel), {mois 'AAAA-MM': valeur}."""
+    r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}", timeout=30)
     r.raise_for_status()
-    return r.json().get("data") or {}
+    out = {}
+    for line in r.text.strip().splitlines()[1:]:
+        day, _, value = line.partition(",")
+        if value and value != ".":
+            out[day[:7]] = round(float(value), 2)
+    return dict(sorted(out.items())[-months:])
 
 
-def fetch_gas_quotes(existing):
-    """Dernier prix du TTF et du JKM (OilPriceAPI) ; repli sur la valeur précédente."""
-    quotes = {}
-    for key, (code, unit) in GAS_QUOTES.items():
-        quotes[key] = existing.get(key)
-        if not OILPRICEAPI_KEY:
-            continue
-        try:
-            row = oilpriceapi_get(f"prices/latest?by_code={code}")
-            quotes[key] = label_quote({
-                "price": round(float(row["price"]), 2),
-                "date": (oilpriceapi_date(row) or "")[:10],
-                "unit": unit,
-                "source": "OilPriceAPI",
-            })
-        except Exception as e:
-            print(f"Erreur {code} (OilPriceAPI), on garde l'ancienne valeur: {e}")
-    return quotes
-
-
-def update_gas_history(quotes):
-    """Historique quotidien du gaz : moyennes journalières OilPriceAPI des 30 derniers jours
-    (une seule requête pour les 3 séries), prix du jour, taux euro-dollar de la BCE.
-    Ajoute et corrige des points, n'en supprime jamais (sauf au-delà de 400 jours)."""
-    hist = load_json(GAS_HISTORY_PATH, {})
-    series = {k: {p["date"]: p["v"] for p in hist.get(k, [])} for k in list(GAS_HISTORY_CODES) + ["eurusd"]}
-    by_code = {code: key for key, code in GAS_HISTORY_CODES.items()}
-
-    if OILPRICEAPI_KEY:
-        try:
-            data = oilpriceapi_get("prices/past_month?by_code=" + ",".join(GAS_HISTORY_CODES.values())
-                                   + "&interval=daily&per_page=500")
-            for row in data.get("prices", []):
-                key, day = by_code.get(row.get("code")), (row.get("created_at") or "")[:10]
-                if key and day and datetime.date.fromisoformat(day).weekday() < 5:
-                    series[key][day] = round(float(row["price"]), 2)
-        except Exception as e:
-            print(f"Erreur historique gaz (OilPriceAPI): {e}")
-    # Le prix du jour complète la courbe ; la moyenne journalière le remplacera le lendemain
-    for key, entry in quotes.items():
-        if entry and entry.get("date") and entry.get("price") is not None:
-            series[key][entry["date"]] = entry["price"]
-
+def update_gas_world():
+    """Prix mondiaux du gaz, moyennes mensuelles du FMI (Primary Commodity Prices) via la FRED :
+    Europe (TTF), Asie (GNL livré au Japon), États-Unis (Henry Hub), en $/MMBtu, sur 10 ans.
+    En cas d'erreur, on garde le fichier existant."""
     try:
-        r = requests.get("https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A"
-                         "?lastNObservations=30&format=jsondata", timeout=20)
-        r.raise_for_status()
-        payload = r.json()
-        dates = [v["id"] for v in payload["structure"]["dimensions"]["observation"][0]["values"]]
-        obs = next(iter(payload["dataSets"][0]["series"].values()))["observations"]
-        for i, val in obs.items():
-            series["eurusd"][dates[int(i)]] = val[0]
+        data = {key: [{"month": m, "v": v} for m, v in fetch_fred_monthly(sid, GAS_WORLD_MONTHS).items()]
+                for key, sid in GAS_WORLD_SERIES.items()}
     except Exception as e:
-        print(f"Erreur taux euro-dollar (BCE): {e}")
-
-    cutoff = (datetime.date.today() - datetime.timedelta(days=GAS_HISTORY_DAYS)).isoformat()
-    out = {k: [{"date": d, "v": v} for d, v in sorted(pts.items()) if d >= cutoff] for k, pts in series.items()}
-    with open(GAS_HISTORY_PATH, "w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
-
-    # Variation par rapport au cours précédent connu
-    for key, entry in quotes.items():
-        if not entry or entry.get("price") is None:
-            continue
-        prev = [p for p in out.get(key, []) if p["date"] < entry["date"]]
-        if prev and prev[-1]["v"]:
-            entry["prev_value"], entry["prev_date"] = prev[-1]["v"], prev[-1]["date"]
-            entry["change_pct"] = round((entry["price"] - prev[-1]["v"]) / prev[-1]["v"] * 100, 1) + 0.0
+        print(f"Erreur prix mondiaux du gaz (FRED): {e}")
+        return
+    with open(GAS_WORLD_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def load_history():
@@ -820,11 +763,9 @@ def main():
         "spot_price_france": spot,
         "chokepoints": fetch_chokepoint_traffic(existing),
     }
-    gas = fetch_gas_quotes(existing)
-    update_gas_history(gas)
-    data.update(gas)
     update_brent_year()
     update_lng_exports()
+    update_gas_world()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:

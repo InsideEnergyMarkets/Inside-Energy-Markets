@@ -99,25 +99,5 @@
       "pct_capacity": 65,
       "status": "fluide"
     }
-  },
-  "ttf": {
-    "price": 73.47,
-    "date": "2026-09-28",
-    "unit": "EUR/MWh",
-    "source": "OilPriceAPI",
-    "date_label": "Cours du lun. 28/09",
-    "prev_value": 72.67,
-    "prev_date": "2026-09-25",
-    "change_pct": 1.1
-  },
-  "jkm": {
-    "price": 25.81,
-    "date": "2026-09-25",
-    "unit": "USD/MMBtu",
-    "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : ven. 25/09",
-    "prev_value": 25.72,
-    "prev_date": "2026-09-24",
-    "change_pct": 0.3
   }
 }

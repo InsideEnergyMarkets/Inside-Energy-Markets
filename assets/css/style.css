@@ -2366,9 +2366,10 @@ footer .socials a.footer-podcast-link:hover {
 .gz-price small { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255, 255, 255, 0.55); }
 .gz-price .px-change { margin-left: 8px; font-size: 11.5px; }
 .gz-sub { grid-column: 1 / -1; font-size: 11.5px; color: rgba(255, 255, 255, 0.5); }
-.gz-row--jkm .gz-name i, .gz-sw--jkm { background: #f472b6; }
-.gz-row--henry_hub .gz-name i, .gz-sw--hh { background: #e8b33a; }
-.gz-sw--ttf { background: #4fd1c5; }
+.gz-row--europe .gz-name i, .gz-sw--europe { background: #4fd1c5; }
+.gz-row--asie .gz-name i, .gz-sw--asie { background: #f472b6; }
+.gz-row--usa .gz-name i, .gz-sw--usa { background: #e8b33a; }
+.gz-spreads { margin: 0 0 16px; }
 .gz-sw { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: -8px; vertical-align: middle; }
 .gz-legend { margin: 8px 0 0; }
 @media (max-width: 480px) {

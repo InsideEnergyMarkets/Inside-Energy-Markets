@@ -377,7 +377,7 @@ if (navToggle) {
   // ===== Comparaison base 100 =====
   // Chaque série est divisée par sa première valeur de la période (x 100) :
   // 110 = +10 % depuis le début de la période, quelle que soit l'unité
-  var seriesNames = { spot: 'Électricité FR', brent: 'Brent', henryhub: 'Henry Hub', ttf: 'TTF' };
+  var seriesNames = { spot: 'Électricité FR', brent: 'Brent', henryhub: 'Henry Hub' };
 
   // Ligne pointillée au niveau 100
   var baseLine = {
@@ -763,57 +763,27 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
-// ===== Gaz : les trois prix de référence en €/MWh =====
-// $/MMBtu -> €/MWh : 1 MMBtu = 0,293071 MWh, taux euro-dollar BCE du jour (ou le dernier connu)
+// ===== Gaz dans le monde : moyennes mensuelles FMI (via FRED) =====
 (function () {
-  var gas = window.mktGas;
-  if (!gas || !gas.ttf) return;
-  var MWH_PER_MMBTU = 0.293071;
-  var fx = gas.eurusd || [];
-  function rateAt(day) {
-    var r = null;
-    for (var i = 0; i < fx.length && fx[i].date <= day; i++) r = fx[i].v;
-    return r || (fx.length ? fx[0].v : null);
-  }
-  function toEurMwh(v, day, usd) { return usd ? v / rateAt(day) / MWH_PER_MMBTU : v; }
-  function fmt(v) { return v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
-
-  // Équivalent en €/MWh et écart avec le TTF sous chaque prix
-  var ttfNow = gas.ttf[gas.ttf.length - 1].v, lastFx = fx.length ? fx[fx.length - 1] : null;
-  document.querySelectorAll('.gz-row[data-conv]').forEach(function (row) {
-    var v = parseFloat(row.getAttribute('data-conv')), out = row.querySelector('[data-conv-out]');
-    if (isNaN(v) || !out) return;
-    var usd = row.getAttribute('data-unit').indexOf('$') === 0;
-    if (usd && !lastFx) return;
-    var eur = usd ? v / lastFx.v / MWH_PER_MMBTU : v, gap = eur - ttfNow;
-    out.textContent = (usd ? '≈ ' + fmt(eur) + ' €/MWh, ' : '') +
-      (gap >= 0 ? '+' : '') + fmt(gap) + ' €/MWh vs TTF · ';
-  });
-
-  var canvas = document.getElementById('gz-cmp');
-  if (!canvas || typeof Chart === 'undefined') return;
+  var gw = window.mktGasWorld, canvas = document.getElementById('gw-chart');
+  if (!gw || !canvas || typeof Chart === 'undefined') return;
   var SERIES = [
-    { key: 'ttf', name: 'TTF', color: '#4fd1c5', usd: false },
-    { key: 'jkm', name: 'JKM', color: '#f472b6', usd: true },
-    { key: 'hh', name: 'Henry Hub', color: '#e8b33a', usd: true }
+    { key: 'europe', name: 'Europe', color: '#4fd1c5' },
+    { key: 'asie', name: 'Asie', color: '#f472b6' },
+    { key: 'usa', name: 'États-Unis', color: '#e8b33a' }
   ];
-  function day(s) {
-    var p = s.split('-');
-    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  function month(m, long) {
+    var p = m.split('-');
+    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString('fr-FR', { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
   }
   var chart = null;
-  function render(days) {
-    var last = gas.ttf[gas.ttf.length - 1].date, from = new Date(last);
-    from.setDate(from.getDate() - days);
-    var start = from.toISOString().slice(0, 10), dates = {};
-    SERIES.forEach(function (s) { (gas[s.key] || []).forEach(function (p) { if (p.date >= start) dates[p.date] = 1; }); });
-    var labels = Object.keys(dates).sort();
+  function render(n) {
+    var labels = gw.europe.slice(-n).map(function (r) { return r.month; });
     var datasets = SERIES.map(function (s) {
       var by = {};
-      (gas[s.key] || []).forEach(function (p) { by[p.date] = Math.round(toEurMwh(p.v, p.date, s.usd) * 10) / 10; });
-      return { label: s.name, data: labels.map(function (d) { return d in by ? by[d] : null; }), borderColor: s.color,
-               backgroundColor: s.color, borderWidth: s.key === 'ttf' ? 2.5 : 1.6, pointRadius: 0, pointHoverRadius: 3,
-               tension: 0.25, spanGaps: true };
+      (gw[s.key] || []).forEach(function (r) { by[r.month] = r.v; });
+      return { label: s.name, data: labels.map(function (m) { return m in by ? by[m] : null; }), borderColor: s.color,
+               backgroundColor: s.color, borderWidth: 2, pointRadius: 0, pointHoverRadius: 3, tension: 0.25, spanGaps: true };
     });
     if (chart) chart.destroy();
     chart = new Chart(canvas, {
@@ -821,19 +791,19 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       options: {
         responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { callbacks: {
-          title: function (items) { return day(items[0].label); },
-          label: function (c) { return c.parsed.y === null ? null : c.dataset.label + ' : ' + fmt(c.parsed.y) + ' €/MWh'; },
-          afterBody: function () { return 'Source : OilPriceAPI, taux BCE'; } } } },
+          title: function (items) { return month(items[0].label, true); },
+          label: function (c) { return c.dataset.label + ' : ' + c.parsed.y.toLocaleString('fr-FR') + ' $/MMBtu'; },
+          afterBody: function () { return 'Source : FMI via FRED'; } } } },
         scales: {
           x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 6, maxRotation: 0,
-                        callback: function (v) { return day(this.getLabelForValue(v)); } }, grid: { display: false } },
-          y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+                        callback: function (v) { return month(this.getLabelForValue(v)); } }, grid: { display: false } },
+          y: { beginAtZero: true, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
         }
       }
     });
   }
-  render(90);
-  var btns = document.querySelectorAll('#gz-cmp-btns [data-period]');
+  render(24);
+  var btns = document.querySelectorAll('#gw-btns [data-period]');
   btns.forEach(function (b) {
     b.addEventListener('click', function () {
       btns.forEach(function (x) { x.classList.remove('active'); });

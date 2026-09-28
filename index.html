@@ -80,11 +80,11 @@ title: Accueil
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
       </a>
       <a class="hm-tile hm-tile--gas" href="{{ marches }}#gaz">
-        <span class="hm-tile-name"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>Gaz TTF (Europe)</span>
-        {% if market.ttf %}
-        <span class="hm-tile-value">{{ market.ttf.price | replace: ".", "," }} <small>€/MWh</small></span>
-        {% include price-change.html entry=market.ttf %}
-        <span class="hm-tile-sub">{{ market.ttf.date_label | default: market.ttf.date }} · {{ market.ttf.source }}</span>
+        <span class="hm-tile-name"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>Henry Hub</span>
+        {% if market.henry_hub %}
+        <span class="hm-tile-value">{{ market.henry_hub.price_usd_mmbtu }} <small>$/MMBtu</small></span>
+        {% include price-change.html entry=market.henry_hub %}
+        <span class="hm-tile-sub">{{ market.henry_hub.date_label | default: market.henry_hub.date }} · {{ market.henry_hub.source }}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
       </a>
       <a class="hm-tile hm-tile--oil" href="{{ marches }}#petrole">
