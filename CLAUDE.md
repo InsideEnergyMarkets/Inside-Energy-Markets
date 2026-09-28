@@ -61,6 +61,14 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   traduction, sinon le sélecteur renvoie vers l'accueil de l'autre langue.
 - Le podcast est en français : mention sur les pages anglaises (épisodes, accueil, bloc « Listen »).
 
+## Référencement
+
+- Titre de l'accueil orienté recherche (« Le podcast de Tom Moulard sur les marchés de l'énergie »).
+- Google Search Console et Bing Webmaster Tools (importé depuis la Search Console) : gérés par Tom.
+- IndexNow (Bing, Yandex...) : clé `ba5fdc11ee8578d5540c332e9933f73f.txt` à la racine (hors sitemap). Après un
+  nouvel article ou une nouvelle page, envoyer les adresses du sitemap en POST à `https://api.indexnow.org/indexnow`
+  (`host`, `key`, `keyLocation` = URL complète du fichier clé, `urlList`) ; réponse 200 ou 202 = accepté.
+
 ## Structure
 
 - `index.html` : accueil (hero podcast, bandeau d'actus, derniers épisodes, « Le point marchés »
