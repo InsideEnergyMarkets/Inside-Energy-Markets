@@ -2379,3 +2379,17 @@ footer .socials a.footer-podcast-link:hover {
 .gz-price .px-change small { display: none; }
 .gz-name { overflow: hidden; }
 .gz-name span { overflow: hidden; text-overflow: ellipsis; }
+
+/* ===== Gaz : stocks européens ===== */
+.gs-level .pw-co2-value { color: #4fd1c5; }
+.gs-level .pw-co2-value small { font-size: 22px; margin-left: 2px; }
+.gs-level strong { color: #fff; }
+.gs-bar { position: relative; height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.08); overflow: visible; }
+.gs-bar span { display: block; height: 100%; border-radius: 7px; background: linear-gradient(90deg, #00817d, #4fd1c5); }
+.gs-bar i { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: #fff; border-radius: 1px; }
+.gs-bar-legend { display: flex; justify-content: space-between; margin: 5px 0 16px; font-size: 11px; color: rgba(255, 255, 255, 0.45); }
+.gs-bar-legend { position: relative; }
+.gs-ly-mark { position: absolute; transform: translateX(-50%); color: rgba(255, 255, 255, 0.7); white-space: nowrap; }
+.gs-down { color: #ff6b5b; }
+.gs-up { color: #3ddc97; }
+.gz-sw--ly { background: rgba(255, 255, 255, 0.55); }

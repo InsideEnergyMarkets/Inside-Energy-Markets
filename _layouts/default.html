@@ -789,7 +789,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     chart = new Chart(canvas, {
       type: 'line', data: { labels: labels, datasets: datasets },
       options: {
-        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { callbacks: {
           title: function (items) { return month(items[0].label, true); },
           label: function (c) { return c.dataset.label + ' : ' + c.parsed.y.toLocaleString('fr-FR') + ' $/MMBtu'; },
@@ -809,6 +809,63 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       btns.forEach(function (x) { x.classList.remove('active'); });
       b.classList.add('active');
       render(parseInt(b.getAttribute('data-period'), 10));
+    });
+  });
+})();
+
+// ===== Stocks de gaz (GIE AGSI+) : remplissage cette année face à l'an dernier =====
+(function () {
+  var st = window.mktGasStorage, canvas = document.getElementById('gs-chart');
+  if (!st || !canvas || typeof Chart === 'undefined') return;
+  function fmt(v) { return v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+  function dayLabel(md) {
+    var p = md.split('-');
+    return new Date(2001, +p[0] - 1, +p[1]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  }
+  var chart = null;
+  function render(zone) {
+    var rows = st[zone] || [];
+    if (!rows.length) return;
+    var year = rows[rows.length - 1].date.slice(0, 4), prev = String(+year - 1);
+    var cur = {}, old = {}, days = {};
+    rows.forEach(function (r) {
+      var md = r.date.slice(5), y = r.date.slice(0, 4);
+      if (md === '02-29') return;
+      if (y === year) cur[md] = r.full; else if (y === prev) old[md] = r.full;
+      if (y === year || y === prev) days[md] = 1;
+    });
+    var labels = Object.keys(days).sort();
+    if (chart) chart.destroy();
+    chart = new Chart(canvas, {
+      type: 'line',
+      data: { labels: labels, datasets: [
+        { label: year, data: labels.map(function (d) { return d in cur ? cur[d] : null; }), borderColor: '#4fd1c5',
+          backgroundColor: '#4fd1c522', fill: true, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 3, tension: 0.2 },
+        { label: prev, data: labels.map(function (d) { return d in old ? old[d] : null; }), borderColor: 'rgba(255,255,255,0.55)',
+          borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 3, tension: 0.2 }
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (items) { return dayLabel(items[0].label); },
+          label: function (c) { return c.parsed.y === null ? null : c.dataset.label + ' : ' + fmt(c.parsed.y) + ' %'; },
+          afterBody: function () { return 'Source : GIE AGSI+'; } } } },
+        scales: {
+          x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 7, maxRotation: 0,
+                        callback: function (v) { return dayLabel(this.getLabelForValue(v)); } }, grid: { display: false } },
+          y: { min: 0, max: 100, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, callback: function (v) { return v + ' %'; } },
+               grid: { color: 'rgba(255,255,255,0.06)' } }
+        }
+      }
+    });
+  }
+  render('eu');
+  var btns = document.querySelectorAll('#gs-btns [data-zone]');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      btns.forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      render(b.getAttribute('data-zone'));
     });
   });
 })();

@@ -130,12 +130,12 @@ permalink: /marches/
       <span class="mk-head-icon mk-head-icon--gas"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i></span>
       <div>
         <h2 class="mkt-page-title">Gaz</h2>
-        <p class="mk-lead">Le Henry Hub au jour le jour, et les grands marchés du gaz dans le monde.</p>
+        <p class="mk-lead">Le prix de référence américain et le niveau des stocks européens, au jour le jour.</p>
       </div>
     </header>
 
     {% assign e = market.henry_hub %}
-    {% assign gw = site.data.gas_world %}
+    {% assign st = site.data.gas_storage %}
     <div class="pw-card">
       <div class="pw-price">
         <div class="pw-top">
@@ -163,69 +163,108 @@ permalink: /marches/
       </div>
 
       <div class="pw-mix">
-        {% if gw and gw.europe %}
-        {% assign eu = gw.europe | last %}
-        {% assign asia = gw.asie | last %}
-        {% assign us = gw.usa | last %}
-        {% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
-        {% assign m_idx = eu.month | split: "-" | last | plus: 0 | minus: 1 %}
-        <p class="pw-label">Le gaz dans le monde, moyenne de {{ mois[m_idx] }} {{ eu.month | slice: 0, 4 }}</p>
-        {% assign rows = "europe|Europe|TTF;asie|Asie|GNL livré au Japon;usa|États-Unis|Henry Hub" | split: ";" %}
-        <ul class="gz-list">
-          {% for r in rows %}
-          {% assign f = r | split: "|" %}
-          {% assign k = f[0] %}
-          {% assign serie = gw[k] %}
-          {% assign lastp = serie | last %}
-          {% assign prev_idx = serie.size | minus: 2 %}
-          {% assign prev = serie[prev_idx] %}
-          {% assign chg = lastp.v | minus: prev.v | times: 100.0 | divided_by: prev.v | round: 1 %}
-          {% if chg > 0 %}{% assign dir = "up" %}{% assign arrow = "▲" %}{% assign sign = "+" %}{% elsif chg < 0 %}{% assign dir = "down" %}{% assign arrow = "▼" %}{% assign sign = "" %}{% else %}{% assign dir = "flat" %}{% assign arrow = "=" %}{% assign sign = "" %}{% endif %}
-          <li class="gz-row gz-row--{{ k }}">
-            <div class="gz-name"><i aria-hidden="true"></i><strong>{{ f[1] }}</strong><span>{{ f[2] }}</span></div>
-            <div class="gz-price">{{ lastp.v | replace: ".", "," }} <small>$/MMBtu</small><span class="px-change px-change--{{ dir }}" title="Mois précédent : {{ prev.v }}"><span aria-hidden="true">{{ arrow }}</span> {{ sign }}{{ chg | replace: ".", "," }} %</span></div>
-          </li>
-          {% endfor %}
-        </ul>
-        {% assign ratio = eu.v | divided_by: us.v | round: 1 %}
-        {% assign gap = asia.v | minus: eu.v | round: 2 %}
-        <div class="pw-stats pw-stats--mix gz-spreads">
-          <div><span>Europe / États-Unis</span><strong>× {{ ratio | replace: ".", "," }}</strong></div>
-          <div><span>Écart Asie - Europe</span><strong>{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", "," }} $</strong></div>
+        <p class="pw-label">Stocks de gaz en Europe</p>
+        {% if st and st.eu and st.eu.size > 0 %}
+        {% assign eu = st.eu | last %}
+        {% assign fr = st.fr | last %}
+        {% assign y = eu.date | slice: 0, 4 | plus: 0 | minus: 1 %}
+        {% assign ly_date = eu.date | slice: 4, 6 | prepend: y %}
+        {% assign eu_ly = st.eu | where: "date", ly_date | first %}
+        {% assign fr_ly = st.fr | where: "date", ly_date | first %}
+        <div class="pw-co2 gs-level">
+          <span class="pw-co2-value">{{ eu.full | round: 1 | replace: ".", "," }}<small>%</small></span>
+          <span class="pw-co2-text"><strong>des stockages remplis</strong>{{ eu.twh | round: 0 }} TWh de gaz stockés dans l'UE</span>
+        </div>
+        <div class="gs-bar" role="img" aria-label="Taux de remplissage des stockages de l'UE : {{ eu.full | round: 1 }} %{% if eu_ly %}, contre {{ eu_ly.full | round: 1 }} % l'an dernier{% endif %}">
+          <span style="width: {{ eu.full }}%"></span>
+          {% if eu_ly %}<i style="left: {{ eu_ly.full }}%" title="L'an dernier à la même date"></i>{% endif %}
+        </div>
+        <p class="gs-bar-legend"><span>0 %</span>{% if eu_ly %}<span class="gs-ly-mark" style="left: {{ eu_ly.full }}%">▲ an dernier</span>{% endif %}<span>100 %</span></p>
+        <div class="pw-stats pw-stats--mix">
+          {% if eu_ly %}
+          {% assign d_eu = eu.full | minus: eu_ly.full | round: 1 %}
+          <div><span>UE, vs l'an dernier</span><strong class="{% if d_eu < 0 %}gs-down{% else %}gs-up{% endif %}">{% if d_eu > 0 %}+{% endif %}{{ d_eu | replace: ".", "," }} pts</strong></div>
+          {% endif %}
+          {% if fr %}
+          <div><span>France{% if fr_ly %} (an dernier : {{ fr_ly.full | round: 0 }} %){% endif %}</span><strong>{{ fr.full | round: 1 | replace: ".", "," }} %</strong></div>
+          {% endif %}
         </div>
         <div class="pw-chart-head">
-          <span>Moyennes mensuelles, $/MMBtu</span>
-          <div class="mkt-period-btns" id="gw-btns">
-            <button type="button" class="period-btn active" data-period="24">2 ans</button>
-            <button type="button" class="period-btn" data-period="60">5 ans</button>
-            <button type="button" class="period-btn" data-period="120">10 ans</button>
+          <span>Remplissage, cette année et l'an dernier</span>
+          <div class="mkt-period-btns" id="gs-btns">
+            <button type="button" class="period-btn active" data-zone="eu">UE</button>
+            <button type="button" class="period-btn" data-zone="fr">France</button>
           </div>
         </div>
-        <div class="pw-chart pw-chart--tall"><canvas id="gw-chart" aria-label="Prix du gaz en Europe, en Asie et aux États-Unis, moyennes mensuelles"></canvas></div>
-        <p class="mt-legend gz-legend"><span class="gz-sw gz-sw--europe"></span>Europe <span class="gz-sw gz-sw--asie"></span>Asie <span class="gz-sw gz-sw--usa"></span>États-Unis</p>
-        <p class="pw-sub">FMI (Primary Commodity Prices) via FRED</p>
-        <script>window.mktGasWorld = {{ gw | jsonify }};</script>
+        <div class="pw-chart pw-chart--tall"><canvas id="gs-chart" aria-label="Taux de remplissage des stockages de gaz, cette année et l'an dernier"></canvas></div>
+        <p class="mt-legend gz-legend"><span class="gz-sw gz-sw--europe"></span>{{ eu.date | slice: 0, 4 }} <span class="gz-sw gz-sw--ly"></span>{{ y }}</p>
+        <p class="pw-sub">Relevé du {{ eu.date | date: "%d/%m" }} · GIE AGSI+</p>
+        <script>window.mktGasStorage = {{ st | jsonify }};</script>
         {% else %}
         <p class="pw-sub">Donnée à venir</p>
         {% endif %}
       </div>
     </div>
 
-    {% assign lng = site.data.lng_exports %}
-    {% if lng and lng.size > 12 %}
-    {% assign lng_last = lng | last %}
-    {% assign lng_prev_idx = lng.size | minus: 13 %}
-    {% assign lng_prev = lng[lng_prev_idx] %}
-    {% assign lng_yoy = lng_last.bcfd | minus: lng_prev.bcfd | times: 100.0 | divided_by: lng_prev.bcfd | round: 0 %}
-    {% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
-    {% assign m_idx = lng_last.month | split: "-" | last | plus: 0 | minus: 1 %}
     <div class="mk-more-row">
+      {% assign gw = site.data.gas_world %}
+      {% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
+      {% if gw and gw.europe %}
+      {% assign gw_eu = gw.europe | last %}
+      {% assign gw_us = gw.usa | last %}
+      {% assign gw_as = gw.asie | last %}
+      {% assign gw_m = gw_eu.month | split: "-" | last | plus: 0 | minus: 1 %}
+      {% assign ratio = gw_eu.v | divided_by: gw_us.v | round: 1 %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-gw">
+        <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
+        <span><strong>Le gaz dans le monde sur 10 ans</strong>Europe, Asie, États-Unis : l'Europe paie son gaz {{ ratio | replace: ".", "," }} fois le prix américain</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
+      {% assign lng = site.data.lng_exports %}
+      {% if lng and lng.size > 12 %}
+      {% assign lng_last = lng | last %}
+      {% assign lng_prev_idx = lng.size | minus: 13 %}
+      {% assign lng_prev = lng[lng_prev_idx] %}
+      {% assign lng_yoy = lng_last.bcfd | minus: lng_prev.bcfd | times: 100.0 | divided_by: lng_prev.bcfd | round: 0 %}
+      {% assign m_idx = lng_last.month | split: "-" | last | plus: 0 | minus: 1 %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-lng">
         <i class="fa-solid fa-ship" aria-hidden="true"></i>
         <span><strong>Exportations de GNL des États-Unis</strong>{{ lng_last.bcfd | replace: ".", "," }} Bcf/j en {{ mois[m_idx] }} {{ lng_last.month | slice: 0, 4 }} · {% if lng_yoy > 0 %}+{% endif %}{{ lng_yoy }} % sur un an</span>
         <b aria-hidden="true">↗</b>
       </button>
+      {% endif %}
     </div>
+
+    {% if gw and gw.europe %}
+    <dialog class="mk-dialog" id="dlg-gw" aria-labelledby="dlg-gw-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-gw-title">Le gaz dans le monde</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="Fermer">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">Moyennes mensuelles en $/MMBtu : Europe (TTF), Asie (GNL livré au Japon), États-Unis (Henry Hub). Tendance de fond, publiée avec environ deux mois de décalage : dernier mois connu, {{ mois[gw_m] }} {{ gw_eu.month | slice: 0, 4 }}.</p>
+      {% assign gap = gw_as.v | minus: gw_eu.v | round: 2 %}
+      <div class="mt-kpis">
+        <div class="mt-kpi"><div class="mt-kpi-label">Europe</div><div class="mt-kpi-value">{{ gw_eu.v | replace: ".", "," }} <small>$/MMBtu</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">Asie</div><div class="mt-kpi-value">{{ gw_as.v | replace: ".", "," }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", "," }} $ par rapport à l'Europe</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">États-Unis</div><div class="mt-kpi-value">{{ gw_us.v | replace: ".", "," }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">l'Europe paie {{ ratio | replace: ".", "," }} fois plus</div></div>
+      </div>
+      <div class="pw-chart-head">
+        <span></span>
+        <div class="mkt-period-btns" id="gw-btns">
+          <button type="button" class="period-btn active" data-period="24">2 ans</button>
+          <button type="button" class="period-btn" data-period="60">5 ans</button>
+          <button type="button" class="period-btn" data-period="120">10 ans</button>
+        </div>
+      </div>
+      <div class="mt-chart mt-chart--tall"><canvas id="gw-chart" aria-label="Prix du gaz en Europe, en Asie et aux États-Unis, moyennes mensuelles"></canvas></div>
+      <p class="mt-legend"><span class="gz-sw gz-sw--europe"></span>Europe <span class="gz-sw gz-sw--asie"></span>Asie <span class="gz-sw gz-sw--usa"></span>États-Unis</p>
+      <p class="mt-src">Source : FMI (Primary Commodity Prices) via FRED</p>
+    </dialog>
+    <script>window.mktGasWorld = {{ gw | jsonify }};</script>
+    {% endif %}
+
+    {% if lng and lng.size > 12 %}
     <dialog class="mk-dialog" id="dlg-lng" aria-labelledby="dlg-lng-title">
       <header class="mt-head">
         <h3 class="mkt-commodity-name" id="dlg-lng-title">Exportations de GNL des États-Unis</h3>
