@@ -1,37 +1,38 @@
 {
-  "updated_at": "2026-09-28T00:10:30.099473Z",
+  "updated_at": "2026-09-28T06:09:49.919026Z",
   "brent": {
-    "price_usd": 105.99,
-    "date": "2026-09-25",
+    "price_usd": 107.51,
+    "date": "2026-09-28",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : ven. 25/09",
-    "prev_value": 114.89,
-    "prev_date": "2026-09-22",
-    "change_pct": -7.7
+    "date_label": "Cours du lun. 28/09",
+    "prev_value": 105.99,
+    "prev_date": "2026-09-25",
+    "change_pct": 1.4
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.05,
+    "price_usd_mmbtu": 3.07,
     "date": "2026-09-28",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du lun. 28/09",
     "prev_value": 3.16,
     "prev_date": "2026-09-25",
-    "change_pct": -3.5
+    "change_pct": -2.8
   },
   "mix_france": {
-    "date_heure": "2026-09-27T23:45:00+00:00",
+    "date_heure": "2026-09-28T05:45:00+00:00",
     "shares": {
-      "nucleaire": 82.2,
-      "eolien": 6.2,
-      "hydraulique": 5.9,
-      "gaz": 3.2,
-      "bioenergies": 2.5
+      "nucleaire": 70.1,
+      "hydraulique": 13.3,
+      "gaz": 8.1,
+      "eolien": 6.1,
+      "bioenergies": 2.0,
+      "solaire": 0.4
     },
     "top_source": "nucleaire",
-    "top_share": 82.2,
-    "co2_intensity": 26
+    "top_share": 70.1,
+    "co2_intensity": 45
   },
   "spot_price_france": {
     "price_eur_mwh": 203.94,
