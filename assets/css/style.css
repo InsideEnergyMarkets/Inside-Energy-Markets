@@ -1991,32 +1991,46 @@ footer .socials a:hover {
 .mk-sources em { font-style: normal; font-size: 12px; color: #00817d; }
 
 /* ===== Accueil : « Le point marchés » ===== */
-.hm-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
-.hm-tile {
-  display: flex; flex-direction: column; gap: 6px; padding: 18px 18px 16px; border-radius: 14px; text-decoration: none; color: #fff;
-  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 3px solid #a0aec0;
-  transition: background 0.2s, transform 0.2s;
+.hq-row {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) 150px 130px; align-items: center; gap: 16px;
+  padding: 14px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); color: #fff; text-decoration: none;
+  transition: background 0.15s ease;
 }
-.hm-tile:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
-.hm-tile--power { border-top-color: #00817d; }
-.hm-tile--oil { border-top-color: #e8703a; }
-.hm-tile--gas { border-top-color: #e8b33a; }
-.hm-tile--sea { border-top-color: #4fd1c5; }
-.hm-tile-name { display: flex; align-items: center; gap: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.5px; }
-.hm-tile-name i { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
-.hm-tile-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; }
-.hm-tile-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
-.hm-tile-sub { font-size: 12px; color: rgba(255, 255, 255, 0.6); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.hm-tile-sub b { font-weight: 700; }
-.hm-tile-sub b.up { color: #ff6b5b; }
-.hm-tile-sub b.down { color: #3ddc97; }
-.hm-tile-sub .mt-badge { padding: 2px 8px; font-size: 11px; }
-.hm-alert {
-  display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 16px; border-radius: 10px;
-  background: rgba(255, 107, 91, 0.12); color: #ffd2cc; font-size: 13.5px; text-decoration: none;
+a.hq-row:hover { background: rgba(255, 255, 255, 0.05); color: #fff; text-decoration: none; }
+.hq-head { padding-top: 10px; padding-bottom: 10px; font: 600 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.45); }
+.hq-head span:nth-child(4) { text-align: right; }
+.hq-name { display: flex; flex-direction: column; gap: 2px; font-weight: 600; font-size: 15px; }
+.hq-name small, .hq-inc-text small { font-weight: 400; font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+.hq-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; white-space: nowrap; }
+.hq-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.hq-change .mt-badge { font-size: 11px; padding: 3px 10px; }
+.hq-trend { display: flex; justify-content: flex-end; }
+.hq-spark { display: block; overflow: visible; }
+.hq-spark polyline { fill: none; stroke: rgba(255, 255, 255, 0.7); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.hq-spark circle { fill: #fff; }
+.hq-bar { display: block; width: 114px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.hq-bar i { display: block; height: 100%; min-width: 3px; border-radius: 3px; background: #3ddc97; }
+.hq-bar--partiel i { background: #e8b33a; }
+.hq-bar--ferme i { background: #ff6b5b; }
+.hq-incidents { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) auto; background: rgba(255, 107, 91, 0.07); }
+.hq-incidents .hq-name i { color: #ff6b5b; font-size: 13px; margin-right: 6px; }
+.hq-incidents .hq-name { display: block; }
+.hq-incidents .hq-name small { display: block; margin-top: 2px; }
+.hq-inc-text { display: flex; flex-direction: column; gap: 2px; font-size: 14px; color: rgba(255, 255, 255, 0.85); }
+.hq-inc-text b { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 18px; color: #fff; margin-right: 4px; }
+.hq-incidents .inc-all { margin: 0; justify-self: end; align-self: center; }
+@media (max-width: 760px) {
+  .hq-head { display: none; }
+  .hq-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 14px 4px; }
+  .hq-name { grid-column: 1; grid-row: 1; }
+  .hq-trend { grid-column: 2; grid-row: 1; }
+  .hq-value { grid-column: 1; grid-row: 2; font-size: 22px; }
+  .hq-change { grid-column: 2; grid-row: 2; justify-self: end; }
+  .hq-spark, .hq-bar { width: 96px; }
+  .hq-incidents { grid-template-columns: 1fr; padding: 14px 12px; }
+  .hq-incidents > * { grid-column: 1 !important; grid-row: auto !important; }
+  .hq-incidents .inc-all { justify-self: start; }
 }
-.hm-alert:hover { background: rgba(255, 107, 91, 0.2); }
-.hm-alert i { color: #ff6b5b; }
 
 /* ===== Électricité France : carte prix + mix ===== */
 .pw-card {
@@ -2092,7 +2106,6 @@ footer .socials a:hover {
 .px-change--flat { color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.08); }
 .market-change { margin: 2px 0 6px; }
 .pw-value .px-change { margin-left: 12px; font-size: 14px; }
-.hm-tile .px-change { align-self: flex-start; }
 
 /* ===== Mix : source dominante et part bas carbone ===== */
 .pw-stats--mix { grid-template-columns: 1fr 1fr; margin: 0 0 18px; }
@@ -2103,7 +2116,6 @@ footer .socials a:hover {
    ne passe pas par-dessus la barre du site et le sommaire au défilement */
 #inc-map { position: relative; z-index: 0; isolation: isolate; }
 
-.hm-alert span { line-height: 1.45; }
 
 /* ===== Option C : tableau de bord + détail en fenêtre ===== */
 /* Pétrole et gaz : deux prix côte à côte, même style que la carte Électricité */
@@ -2605,6 +2617,7 @@ html.has-player body { padding-bottom: 96px; }
 .ab-chip { padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font: 600 13px 'Inter', sans-serif; color: var(--deep); text-decoration: none; transition: border-color 0.15s ease, color 0.15s ease; }
 .ab-chip:hover { border-color: var(--teal); color: var(--teal); text-decoration: none; }
 .ab-cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.ab-cta-grid--spaced { margin-top: 48px; }
 .ab-cta { border-radius: 16px; padding: 24px 26px; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .ab-cta .ab-kicker { margin: 0; }
 .ab-cta-text { margin: 0; font-size: 15px; line-height: 1.55; color: #47555f; }

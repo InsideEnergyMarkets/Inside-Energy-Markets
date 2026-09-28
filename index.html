@@ -82,46 +82,50 @@ description: "Inside Energy Markets, le podcast de Tom Moulard sur les coulisses
     {% assign weekly = site.data.weekly_summary %}
     {% assign ormuz = market.chokepoints.hormuz %}
     {% assign marches = '/marches/' | relative_url %}
-    <div class="hm-tiles">
-      <a class="hm-tile hm-tile--power" href="{{ marches }}#electricite">
-        <span class="hm-tile-name"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Électricité FR</span>
+    <div class="hq-board">
+      <div class="hq-row hq-head" aria-hidden="true"><span>Marché</span><span>Dernier</span><span>Variation</span><span>30 jours</span></div>
+      <a class="hq-row" href="{{ marches }}#electricite">
+        <span class="hq-name">Électricité France<small>{{ market.spot_price_france.source | default: "RTE" }} · {{ market.spot_price_france.date_label | default: market.spot_price_france.date }}</small></span>
         {% if market.spot_price_france %}
-        <span class="hm-tile-value">{{ market.spot_price_france.price_eur_mwh | replace: ".", "," }} <small>€/MWh</small></span>
-        {% include price-change.html entry=market.spot_price_france %}
-        <span class="hm-tile-sub">{{ market.spot_price_france.date_label | default: market.spot_price_france.date }}{% if weekly.spot_price %} · moy. 7 j {{ weekly.spot_price.avg_eur_mwh | round: 0 }} €{% endif %}</span>
-        {% else %}<span class="hm-tile-value">-</span>{% endif %}
+        <span class="hq-value">{{ market.spot_price_france.price_eur_mwh | replace: ".", "," }} <small>€/MWh</small></span>
+        <span class="hq-change">{% include price-change.html entry=market.spot_price_france %}</span>
+        <span class="hq-trend">{% include sparkline.html key="spot_eur_mwh" %}</span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
-      <a class="hm-tile hm-tile--gas" href="{{ marches }}#gaz">
-        <span class="hm-tile-name"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>Henry Hub</span>
-        {% if market.henry_hub %}
-        <span class="hm-tile-value">{{ market.henry_hub.price_usd_mmbtu | replace: ".", "," }} <small>$/MMBtu</small></span>
-        {% include price-change.html entry=market.henry_hub %}
-        <span class="hm-tile-sub">{{ market.henry_hub.date_label | default: market.henry_hub.date }} · {{ market.henry_hub.source }}</span>
-        {% else %}<span class="hm-tile-value">-</span>{% endif %}
-      </a>
-      <a class="hm-tile hm-tile--oil" href="{{ marches }}#petrole">
-        <span class="hm-tile-name"><i class="fa-solid fa-droplet" aria-hidden="true"></i>Brent</span>
+      <a class="hq-row" href="{{ marches }}#petrole">
+        <span class="hq-name">Brent<small>{{ market.brent.source }} · {{ market.brent.date_label | default: market.brent.date }}</small></span>
         {% if market.brent %}
-        <span class="hm-tile-value">{{ market.brent.price_usd | replace: ".", "," }} <small>$/baril</small></span>
-        {% include price-change.html entry=market.brent %}
-        <span class="hm-tile-sub">{% if weekly.brent %}{% if weekly.brent.change_pct > 0 %}<b class="up">+{{ weekly.brent.change_pct | replace: ".", "," }} %</b>{% else %}<b class="down">{{ weekly.brent.change_pct | replace: ".", "," }} %</b>{% endif %} sur 7 j · {% endif %}{{ market.brent.source }}</span>
-        {% else %}<span class="hm-tile-value">-</span>{% endif %}
+        <span class="hq-value">{{ market.brent.price_usd | replace: ".", "," }} <small>$/baril</small></span>
+        <span class="hq-change">{% include price-change.html entry=market.brent %}</span>
+        <span class="hq-trend">{% include sparkline.html key="brent_usd" %}</span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
-      <a class="hm-tile hm-tile--sea" href="{{ marches }}#routes-maritimes">
-        <span class="hm-tile-name"><i class="fa-solid fa-ship" aria-hidden="true"></i>Détroit d'Ormuz</span>
+      <a class="hq-row" href="{{ marches }}#gaz">
+        <span class="hq-name">Henry Hub<small>{{ market.henry_hub.source }} · {{ market.henry_hub.date_label | default: market.henry_hub.date }}</small></span>
+        {% if market.henry_hub %}
+        <span class="hq-value">{{ market.henry_hub.price_usd_mmbtu | replace: ".", "," }} <small>$/MMBtu</small></span>
+        <span class="hq-change">{% include price-change.html entry=market.henry_hub %}</span>
+        <span class="hq-trend">{% include sparkline.html key="henry_hub_usd_mmbtu" %}</span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
+      </a>
+      <a class="hq-row" href="{{ marches }}#routes-maritimes">
+        <span class="hq-name">Détroit d'Ormuz<small>IMF PortWatch · données au {{ ormuz.date | date: "%d/%m" }}</small></span>
         {% if ormuz.pct_total != nil %}
-        <span class="hm-tile-value">{{ ormuz.pct_total }} <small>% du trafic normal</small></span>
-        <span class="hm-tile-sub"><b class="mt-badge {{ ormuz.status }}">{% if ormuz.status == 'fluide' %}Fluide{% elsif ormuz.status == 'partiel' %}Perturbé{% else %}Fortement perturbé{% endif %}</b> données au {{ ormuz.date | date: "%d/%m" }}</span>
-        {% else %}<span class="hm-tile-value">-</span>{% endif %}
+        <span class="hq-value">{{ ormuz.pct_total }} % <small>du trafic normal</small></span>
+        <span class="hq-change"><b class="mt-badge {{ ormuz.status }}">{% if ormuz.status == 'fluide' %}Fluide{% elsif ormuz.status == 'partiel' %}Perturbé{% else %}Fortement perturbé{% endif %}</b></span>
+        {% assign bar = ormuz.pct_total %}{% if bar > 100 %}{% assign bar = 100 %}{% endif %}
+        <span class="hq-trend"><span class="hq-bar hq-bar--{{ ormuz.status }}" role="img" aria-label="{{ ormuz.pct_total }} % du trafic normal"><i style="width: {{ bar }}%"></i></span></span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
+      {% assign inc = site.data.incidents %}
+      {% if inc.stats %}
+      <div class="hq-row hq-incidents">
+        <span class="hq-name"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Incidents en mer<small>UKMTO · 30 derniers jours</small></span>
+        <span class="hq-inc-text"><span><b>{{ inc.stats.total_30d }}</b> signalés, dont {{ inc.stats.attacks_30d }} attaques</span>{% if inc.stats.top_places.size > 0 %}<small>{% for tp in inc.stats.top_places %}{{ tp.place }} ({{ tp.n }}){% unless forloop.last %} · {% endunless %}{% endfor %}</small>{% endif %}</span>
+        <a class="inc-all" href="{{ marches }}#securite">Voir la carte <span aria-hidden="true">→</span></a>
+      </div>
+      {% endif %}
     </div>
-
-    {% assign inc = site.data.incidents %}
-    {% if inc.stats %}
-    <a class="hm-alert" href="{{ marches }}#securite"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-      <span>{{ inc.stats.total_30d }} incidents signalés en mer sur 30 jours, dont {{ inc.stats.attacks_30d }} attaques{% if inc.stats.top_places.size > 0 %} :
-      {% for tp in inc.stats.top_places %}{{ tp.place }} ({{ tp.n }}){% unless forloop.last %}, {% endunless %}{% endfor %}{% endif %}. Voir la carte →</span></a>
-    {% endif %}
 
     {% if market.updated_at %}
     <p class="mkt-updated-footer"><span class="live-dot"></span>Mis à jour le {{ market.updated_at | date: "%d/%m/%Y à %Hh%M" }}</p>
@@ -149,5 +153,6 @@ description: "Inside Energy Markets, le podcast de Tom Moulard sur les coulisses
       </a>
       {% endfor %}
     </div>
+    {% include podcast-cta.html class="ab-cta-grid--spaced" %}
   </div>
 </section>
