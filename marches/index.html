@@ -175,15 +175,24 @@ permalink: /marches/
         <b aria-hidden="true">↗</b>
       </button>
       <div class="mk-soon">
-        <span class="mk-soon-tag">Aperçu · à venir</span>
+        <span class="mk-soon-tag">À venir</span>
         <strong>TTF (Europe) et JKM (Asie)</strong>
         <span>Les deux prix du gaz importé, à côté du Henry Hub. Source à trouver.</span>
       </div>
-      <div class="mk-soon">
-        <span class="mk-soon-tag">Aperçu · à venir</span>
-        <strong>GNL : liquéfaction et exportations</strong>
-        <span>Capacités de liquéfaction et exportations mensuelles (EIA, à étudier).</span>
-      </div>
+      {% assign lng = site.data.lng_exports %}
+      {% if lng and lng.size > 12 %}
+      {% assign lng_last = lng | last %}
+      {% assign lng_prev_idx = lng.size | minus: 13 %}
+      {% assign lng_prev = lng[lng_prev_idx] %}
+      {% assign lng_yoy = lng_last.bcfd | minus: lng_prev.bcfd | times: 100.0 | divided_by: lng_prev.bcfd | round: 0 %}
+      {% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
+      {% assign m_idx = lng_last.month | split: "-" | last | plus: 0 | minus: 1 %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-lng">
+        <i class="fa-solid fa-ship" aria-hidden="true"></i>
+        <span><strong>Exportations de GNL des États-Unis</strong>{{ lng_last.bcfd | replace: ".", "," }} Bcf/j en {{ mois[m_idx] }} {{ lng_last.month | slice: 0, 4 }} · {% if lng_yoy > 0 %}+{% endif %}{{ lng_yoy }} % sur un an</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
     </div>
 
     <dialog class="mk-dialog" id="dlg-ormuz-brent" aria-labelledby="dlg-ormuz-brent-title">
@@ -197,6 +206,19 @@ permalink: /marches/
         <span class="mt-sw"></span>Brent ($/baril)</p>
       <p class="mt-src">Sources : IMF PortWatch (passages), EIA et OilPriceAPI (Brent)</p>
     </dialog>
+
+    {% if lng and lng.size > 0 %}
+    <dialog class="mk-dialog" id="dlg-lng" aria-labelledby="dlg-lng-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-lng-title">Exportations de GNL des États-Unis</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="Fermer">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">Volumes exportés par mois, en milliards de pieds cubes de gaz par jour (Bcf/j), sur deux ans.</p>
+      <div class="mt-chart mt-chart--tall"><canvas id="lng-chart" aria-label="Exportations mensuelles de GNL des États-Unis sur deux ans"></canvas></div>
+      <p class="mt-src">Source : EIA</p>
+    </dialog>
+    <script>window.mktLng = {{ lng | jsonify }};</script>
+    {% endif %}
   </div>
 </section>
 

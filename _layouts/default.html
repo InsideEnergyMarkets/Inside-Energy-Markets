@@ -733,6 +733,36 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   setInterval(next, 6000);
 });
 
+// ===== Exportations de GNL des États-Unis (EIA, mensuel) =====
+(function () {
+  var canvas = document.getElementById('lng-chart');
+  if (!canvas || typeof Chart === 'undefined' || !window.mktLng) return;
+  var rows = window.mktLng;
+  function month(m, long) {
+    var p = m.split('-');
+    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString('fr-FR', { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
+  }
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: rows.map(function (r) { return r.month; }),
+      datasets: [{ data: rows.map(function (r) { return r.bcfd; }), backgroundColor: '#e8b33a', borderRadius: 3 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+        title: function (items) { return month(items[0].label, true); },
+        label: function (c) { return c.parsed.y.toLocaleString('fr-FR') + ' Bcf/j'; },
+        afterBody: function () { return 'Source : EIA'; } } } },
+      scales: {
+        x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 9,
+                      callback: function (v) { return month(this.getLabelForValue(v)); } }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+      }
+    }
+  });
+})();
+
 // ===== Graphiques toujours visibles (bloc Électricité) : périodes et agrandissement =====
 (function () {
   if (!window.mktCharts) return;
