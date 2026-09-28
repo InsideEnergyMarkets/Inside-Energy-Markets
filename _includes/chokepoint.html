@@ -32,7 +32,7 @@
       frameborder="0" scrolling="no"></iframe>
     <div class="ais-fallback">
       <p>{{ t.cp.map_failed }}</p>
-      <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">{{ t.cp.see_mt }} →</a>
+      <a class="inc-all" href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">{{ t.cp.see_mt }} <span aria-hidden="true">↗</span></a>
     </div>
   </div>
   <p class="mt-src">{{ t.cp.traffic }}{{ t.colon }}IMF PortWatch{% if cp.date %}, {{ t.cp.as_of }} {{ cp.date | date: "%d/%m" }}{% endif %} · {{ t.cp.map }}{{ t.colon }}MarineTraffic</p>
