@@ -1,51 +1,33 @@
-# Inside Energy Markets — site
+# Inside Energy Markets
 
-Site Jekyll pour le podcast et le blog "Inside Energy Markets".
+### 👉 Le site du podcast : **[insideenergymarkets.github.io/Inside-Energy-Markets](https://insideenergymarkets.github.io/Inside-Energy-Markets/)**
 
-## Mettre le site en ligne (une seule fois)
+*Inside Energy Markets* est le podcast de Tom Moulard sur les coulisses des marchés de l'énergie : formation des prix de l'électricité et du gaz, GNL, géopolitique, stratégies d'achat et de couverture. Des épisodes courts, de quelques minutes, pour comprendre un sujet de marché d'un coup.
 
-1. Crée un nouveau repo GitHub, par ex. `inside-energy-markets` (public).
-2. Dans l'onglet "Add file → Upload files" du repo, glisse-dépose **tout le contenu** de ce dossier (pas le dossier lui-même, son contenu).
-3. Va dans **Settings → Pages**.
-4. Sous "Build and deployment", choisis Source = **Deploy from a branch**, Branch = **main**, dossier = **/ (root)**. Sauvegarde.
-5. Attends 1-2 minutes, le site sera en ligne à `https://TON-PSEUDO.github.io/inside-energy-markets/`.
+Sur le site :
 
-Si tu veux que le site soit à la racine (`TON-PSEUDO.github.io` sans `/inside-energy-markets/`), nomme le repo exactement `TON-PSEUDO.github.io`.
+- **[Épisodes](https://insideenergymarkets.github.io/Inside-Energy-Markets/episodes/)** à écouter directement dans le navigateur
+- **[Marchés](https://insideenergymarkets.github.io/Inside-Energy-Markets/marches/)** : électricité en France, gaz, Brent, stocks de gaz européens, trafic dans les détroits d'Ormuz, Bab-el-Mandeb et Malacca, mis à jour automatiquement
+- **[Blog](https://insideenergymarkets.github.io/Inside-Energy-Markets/blog/)** : analyses et décryptages
+- **[À propos](https://insideenergymarkets.github.io/Inside-Energy-Markets/about/)**
 
-## Publier un nouvel article de blog
+Écouter aussi sur [Spotify](https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA) et [Apple Podcasts](https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201). Suivre Tom Moulard sur [LinkedIn](https://www.linkedin.com/in/tom-moulard/).
 
-1. Dans le dossier `_posts/`, crée un nouveau fichier nommé :
-   `AAAA-MM-JJ-titre-court-sans-accents.md`
-   (ex : `2026-09-15-marche-gnl-europe.md`)
-2. Colle ce bloc en haut du fichier, puis ton texte en dessous :
+---
+
+## Ce dépôt
+
+Code source du site : Jekyll sur GitHub Pages. Les données de marché, les actualités et le flux du podcast sont mis à jour automatiquement par des workflows GitHub Actions (`scripts/`, `.github/workflows/`), chaque source affichée sur le site avec sa provenance.
+
+**Publier un article** : ajouter un fichier `_posts/AAAA-MM-JJ-titre-court.md` avec en tête :
 
 ```
 ---
-title: "Ton titre ici"
+title: "Titre de l'article"
 date: 2026-09-15
+image: /assets/img/mon-image.jpg
+tags: [GNL, Gaz]
 ---
-
-Ton article ici, en Markdown (# titres, **gras**, listes avec -, etc.)
 ```
 
-3. Ajoute/commit le fichier sur GitHub (tu peux le faire directement dans l'interface web, bouton "Add file" ou en éditant depuis le dossier `_posts`).
-4. Le site se régénère automatiquement en 1-2 minutes, l'article apparaît sur `/blog/` et sur l'accueil.
-
-## Ajouter/modifier un épisode
-
-Édite `_data/episodes.yml` — chaque épisode est un bloc avec `number`, `title`, `description`, `spotify`, `apple`.
-
-## À faire avant mise en ligne
-
-- Remplacer les liens Spotify/Apple Podcasts placeholder (`_data/episodes.yml`, `_layouts/default.html`) par tes vrais liens une fois le flux RSS actif.
-- Remplacer le lien LinkedIn placeholder par ton profil.
-- `assets/img/hero.png` est ta pochette de podcast — tu peux la remplacer par une autre image si besoin (même nom de fichier).
-
-## Tester en local (optionnel, si tu veux prévisualiser avant de publier)
-
-Nécessite Ruby installé :
-```
-bundle install
-bundle exec jekyll serve
-```
-Puis ouvre `http://localhost:4000`.
+**Ajouter un épisode** : ajouter un bloc dans `_data/episodes.yml` (`number`, `title`, `description`, `spotify`, `apple`, `linkedin`). Le lien audio et la durée sont repris automatiquement du flux RSS du podcast.
