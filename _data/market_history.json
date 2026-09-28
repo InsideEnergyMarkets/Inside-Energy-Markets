@@ -611,14 +611,14 @@
     "spot_eur_mwh": 203.94,
     "spot_source": "RTE",
     "mix_shares": {
-      "nucleaire": 67.9,
-      "solaire": 8.8,
-      "hydraulique": 8.3,
-      "gaz": 7.4,
-      "eolien": 5.7,
+      "nucleaire": 63.0,
+      "solaire": 24.1,
+      "eolien": 4.4,
+      "hydraulique": 4.3,
+      "gaz": 2.3,
       "bioenergies": 1.9
     },
-    "brent_usd": 106.85,
+    "brent_usd": 108.43,
     "brent_source": "OilPriceAPI"
   }
 ]
