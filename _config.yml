@@ -47,6 +47,11 @@ defaults:
       path: "google2488f4d4c023d3e9.html"
     values:
       sitemap: false
+  # Clé IndexNow (signaler les nouvelles pages à Bing) : pas une page à référencer
+  - scope:
+      path: "ba5fdc11ee8578d5540c332e9933f73f.txt"
+    values:
+      sitemap: false
 
 exclude:
   - README.md
