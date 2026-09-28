@@ -18,6 +18,11 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Montrer un aperçu avant de commiter sur `main` (sauf petits changements quand Tom dit
   « pousse directement »). Regrouper les vérifications, éviter les allers-retours inutiles.
 - Code couleur des variations de prix : hausse en rouge, baisse en vert.
+- Charte (ne pas réintroduire d'autres styles) : marine = structure, sarcelle `#00817d` = actions et liens
+  (`#4fd1c5` sur fond sombre), orange = « en direct » et sélection, rouge / vert = hausse / baisse seulement.
+  Boutons pilule : `.btn-primary` (sarcelle plein), `.btn-ghost` (contour), `.btn-listen` (petit, cartes).
+  Liens d'action « … → » : petite pilule avec la flèche dans un `<span>` (`.section-head a`, `.mk-open`, `.inc-all`).
+  Chiffres et dates en français (`| replace: ".", ","`, `{% include date-fr.html date=… %}`).
 - TTF et JKM quotidiens : payants chez OilPriceAPI (offre Developer, 19 $/mois ; l'offre gratuite ne couvre que
   WTI, Brent, Henry Hub, Waha). Absents tant que Tom n'a pas pris l'offre. Le PEG (France) est exclu : non fiable.
 
@@ -53,7 +58,8 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
-- `_includes/` : `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
+- `_includes/` : `episode-card.html` (carte épisode retournable : « Écouter » montre les liens au dos ;
+  utilisée sur l'accueil, /episodes/ et dans les articles), `date-fr.html`, `market-card.html` (carte prix retournable), `price-change.html` (flèche vs cours
   précédent), `chokepoint.html` (fiche compacte + fenêtre de détail) + `chokepoint-kpi.html`, `incidents.html`,
   `news-ticker.html`.
 - `assets/css/style.css` : fichier unique et long. Après chaque modification, vérifier que les
