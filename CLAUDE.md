@@ -55,6 +55,11 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   détail 90 j en fenêtre), `#securite` (carte des incidents + chiffres 30 j).
   Règle de cohérence : à l'écran, seulement des données récentes ; les séries mensuelles en retard
   (FMI, EIA) vont dans une fenêtre, présentées comme tendance de fond.
+- Navigation Turbo (`@hotwired/turbo` via jsDelivr, dans `<head>`, cache désactivé) : les liens internes
+  ne rechargent pas la fenêtre, le lecteur (`#pl-root`, `data-turbo-permanent`, audio détaché `new Audio()`)
+  continue d'une page à l'autre. Les scripts du `<body>` sont rejoués à chaque page : les écouteurs globaux
+  sont dans le bloc `if (!window.iemApp)`, les minuteurs dans `window.iemTimers`. Scripts externes (Leaflet,
+  GoatCounter) à mettre dans `<head>`, jamais dans une page. GoatCounter compte les pages sur `turbo:load`.
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
