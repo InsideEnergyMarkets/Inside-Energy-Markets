@@ -47,6 +47,7 @@ def load_existing():
 
 
 JOURS = ["lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim."]
+DAYS_EN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 
 def last_trading_day(date_str):
@@ -69,13 +70,17 @@ def label_quote(entry):
     entry["date"] = trading.isoformat()
     today = datetime.datetime.now(PARIS).date()
     day = f"{JOURS[trading.weekday()]} {trading:%d/%m}"
+    day_en = f"{DAYS_EN[trading.weekday()]} {trading:%d/%m}"
     if trading >= today:
         entry["date_label"] = f"Cours du {day}"
+        entry["date_label_en"] = f"Price on {day_en}"
     elif trading == last_trading_day(today.isoformat()):
         entry["date_label"] = f"Clôture du {day} (bourse fermée le week-end)"
+        entry["date_label_en"] = f"Close on {day_en} (market closed at weekends)"
     else:
         # En semaine, un prix qui n'est pas du jour : source en retard ou en panne
         entry["date_label"] = f"Dernier cours connu : {day}"
+        entry["date_label_en"] = f"Last known price: {day_en}"
     return entry
 
 
@@ -359,6 +364,7 @@ def fetch_spot_price_france(existing):
             "price_eur_mwh": daily[last_day],
             "date": last_day,
             "date_label": f"Moyenne du {JOURS[d.weekday()]} {d:%d/%m}",
+            "date_label_en": f"Average for {DAYS_EN[d.weekday()]} {d:%d/%m}",
             "unit": "EUR/MWh, moyenne journalière",
             "source": "RTE",
             "daily": daily,

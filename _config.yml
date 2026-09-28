@@ -11,16 +11,37 @@ collections:
   episodes:
     output: false
 
+lang: fr
+locale: fr_FR
+
+# Deux langues : le français à la racine, l'anglais sous /en/ (mêmes gabarits, textes dans
+# _data/i18n.yml). `ref` relie une page ou un article à sa traduction (sélecteur FR | EN).
 defaults:
   - scope:
       path: ""
       type: posts
     values:
       layout: post
+      lang: fr
   - scope:
       path: ""
     values:
       layout: default
+      lang: fr
+  - scope:
+      path: "en"
+      type: posts
+    values:
+      layout: post
+      lang: en
+      locale: en_GB
+      permalink: /en/blog/:title/
+  - scope:
+      path: "en"
+    values:
+      layout: default
+      lang: en
+      locale: en_GB
   # Fichier de vérification de la Search Console : pas une page à référencer
   - scope:
       path: "google2488f4d4c023d3e9.html"

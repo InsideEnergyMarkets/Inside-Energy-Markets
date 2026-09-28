@@ -1,24 +1,39 @@
 # Contexte fixe affiché sur chaque carte détroit (à mettre à jour à la main).
 # Source : EIA, World Oil Transit Chokepoints, publié le 3 mars 2026 (données du 1er semestre 2025).
 source_label: "EIA, World Oil Transit Chokepoints (mars 2026, données du 1er semestre 2025)"
+source_label_en: "EIA, World Oil Transit Chokepoints (March 2026, first-half 2025 data)"
 source_url: "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints"
 
 hormuz:
   - value: "20,9 Mb/j"
     text: "de pétrole, soit environ 20 % de la consommation mondiale"
+    value_en: "20.9 mb/d"
+    text_en: "of oil, about 20% of global consumption"
   - value: "1/4"
     text: "du pétrole transporté par mer"
+    value_en: "1/4"
+    text_en: "of all seaborne oil"
   - value: "> 20 %"
     text: "du GNL mondial (surtout du Qatar)"
+    value_en: "> 20%"
+    text_en: "of global LNG (mostly from Qatar)"
 
 bab_el_mandeb:
   - value: "4,2 Mb/j"
     text: "de pétrole au 1er semestre 2025"
+    value_en: "4.2 mb/d"
+    text_en: "of oil in the first half of 2025"
   - value: "÷ 2"
     text: "par rapport à 2023, depuis les attaques en mer Rouge"
+    value_en: "÷ 2"
+    text_en: "compared with 2023, since the Red Sea attacks"
 
 malacca:
   - value: "23,2 Mb/j"
     text: "de pétrole au 1er semestre 2025"
+    value_en: "23.2 mb/d"
+    text_en: "of oil in the first half of 2025"
   - value: "29 %"
     text: "du pétrole transporté par mer, 1er point de passage mondial"
+    value_en: "29%"
+    text_en: "of seaborne oil, the world's busiest chokepoint"

@@ -1,9 +1,10 @@
 {% comment %}Chiffre clé d'un détroit : valeur, % de la normale et jauge.{% endcomment %}
+{% include i18n.html %}
 {% assign pct = include.pct | default: 0 %}
 {% if pct >= 80 %}{% assign level = "ok" %}{% elsif pct >= 40 %}{% assign level = "mid" %}{% else %}{% assign level = "low" %}{% endif %}
 <div class="mt-kpi">
   <div class="mt-kpi-label">{{ include.label }}</div>
-  <div class="mt-kpi-value">{{ include.value | replace: ".", "," }}{% if include.unit %} <small>{{ include.unit }}</small>{% endif %}</div>
-  <div class="mt-kpi-sub">{{ pct }} % de la normale · normale {{ include.ref | replace: ".", "," }}{% if include.unit %} {{ include.unit }}{% endif %}</div>
+  <div class="mt-kpi-value">{{ include.value | replace: ".", dec }}{% if include.unit %} <small>{{ include.unit }}</small>{% endif %}</div>
+  <div class="mt-kpi-sub">{{ pct }} % {{ t.cp.of_normal }} · {{ t.cp.normal }} {{ include.ref | replace: ".", dec }}{% if include.unit %} {{ include.unit }}{% endif %}</div>
   <div class="mt-gauge"><span class="mt-gauge--{{ level }}" style="width: {{ pct | at_most: 100 }}%"></span></div>
 </div>

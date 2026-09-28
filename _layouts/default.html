@@ -1,11 +1,21 @@
+{%- include i18n.html -%}
+{%- if lang == "en" -%}{%- assign other = "fr" -%}{%- else -%}{%- assign other = "en" -%}{%- endif -%}
+{%- assign alt = nil -%}
+{%- if page.ref -%}
+{%- assign alt = site.pages | where: "ref", page.ref | where: "lang", other | first -%}
+{%- unless alt -%}{%- assign alt = site.posts | where: "ref", page.ref | where: "lang", other | first -%}{%- endunless -%}
+{%- endif -%}
+{%- if alt -%}{%- assign alt_url = alt.url -%}{%- else -%}{%- assign alt_url = site.data.i18n[other].url.home -%}{%- endif -%}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ lang }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="{{ '/assets/img/hero.png' | relative_url }}">
   {% seo %}
   {% feed_meta %}
+  {% if alt %}<link rel="alternate" hreflang="{{ lang }}" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="{{ other }}" href="{{ alt.url | absolute_url }}">{% endif %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -17,20 +27,21 @@
   <script data-goatcounter="https://insideenergymarkets.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
-<body>
+<body data-lang="{{ lang }}">
 <nav class="site-nav">
   <div class="wrap">
-    <a href="{{ '/' | relative_url }}" class="brand-logo">
+    <a href="{{ u.home | relative_url }}" class="brand-logo">
       <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Inside Energy Markets">
     </a>
     <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false">
       <i class="fa-solid fa-bars"></i>
     </button>
     <ul class="nav-links">
-      <li><a href="{{ '/episodes/' | relative_url }}">Épisodes</a></li>
-      <li><a href="{{ '/marches/' | relative_url }}">Marchés</a></li>
-      <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
-      <li><a href="{{ '/about/' | relative_url }}">À propos</a></li>
+      <li><a href="{{ u.episodes | relative_url }}">{{ t.nav.episodes }}</a></li>
+      <li><a href="{{ u.markets | relative_url }}">{{ t.nav.markets }}</a></li>
+      <li><a href="{{ u.blog | relative_url }}">{{ t.nav.blog }}</a></li>
+      <li><a href="{{ u.about | relative_url }}">{{ t.nav.about }}</a></li>
+      <li class="nav-lang"><a href="{{ alt_url | relative_url }}" hreflang="{{ other }}" lang="{{ other }}" title="{{ t.nav.switch_title }}"><i class="fa-solid fa-globe" aria-hidden="true"></i>{{ t.nav.switch }}</a></li>
     </ul>
   </div>
 </nav>
@@ -44,12 +55,18 @@
         <a class="linkedin" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
         <a class="spotify" href="https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a class="apple" href="https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-        <a href="{{ '/episodes/' | relative_url }}" class="footer-podcast-link">Voir tous les épisodes <span aria-hidden="true">→</span></a>
+        <a href="{{ u.episodes | relative_url }}" class="footer-podcast-link">{{ t.footer.all_episodes }} <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </footer>
 
 <div id="pl-root" data-turbo-permanent></div>
+
+<script>
+// Textes des scripts dans la langue de la page (rejoué à chaque page avec Turbo)
+window.iemT = {{ t.js | jsonify }};
+document.documentElement.lang = '{{ lang }}';
+</script>
 
 <script>
 // Tout ce bloc (écouteurs globaux, lecteur) ne s'installe qu'une fois : avec Turbo,
@@ -85,23 +102,23 @@ function buildPlayer() {
   var bar = document.createElement('div');
   bar.className = 'pl-bar';
   bar.setAttribute('role', 'region');
-  bar.setAttribute('aria-label', 'Lecteur du podcast');
+  bar.setAttribute('aria-label', iemT.player);
   bar.innerHTML =
     '<img class="pl-cover" src="{{ '/assets/img/hero.png' | relative_url }}" alt="">' +
     '<div class="pl-info"><span class="pl-kicker"></span><span class="pl-title"></span></div>' +
-    '<button type="button" class="pl-btn pl-back" aria-label="Reculer de 15 secondes">-15</button>' +
-    '<button type="button" class="pl-btn pl-toggle" aria-label="Pause"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>' +
-    '<button type="button" class="pl-btn pl-fwd" aria-label="Avancer de 15 secondes">+15</button>' +
+    '<button type="button" class="pl-btn pl-back" aria-label="' + iemT.back15 + '">-15</button>' +
+    '<button type="button" class="pl-btn pl-toggle" aria-label="' + iemT.pause + '"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>' +
+    '<button type="button" class="pl-btn pl-fwd" aria-label="' + iemT.fwd15 + '">+15</button>' +
     '<div class="pl-progress"><span class="pl-time">0:00</span>' +
-    '<input type="range" class="pl-seek" min="0" max="1000" value="0" step="1" aria-label="Position dans l\'épisode">' +
+    '<input type="range" class="pl-seek" min="0" max="1000" value="0" step="1" aria-label="' + iemT.seek + '">' +
     '<span class="pl-dur">0:00</span></div>' +
     '<div class="pl-links">' +
       '<a class="pl-link pl-link--spotify" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i>Spotify</a>' +
       '<a class="pl-link pl-link--apple" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i>Apple Podcasts</a>' +
       '<a class="pl-link pl-link--linkedin" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>' +
     '</div>' +
-    '<button type="button" class="pl-expand" aria-label="Agrandir le lecteur" aria-expanded="false"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>' +
-    '<button type="button" class="pl-close" aria-label="Fermer le lecteur">&#x2715;</button>';
+    '<button type="button" class="pl-expand" aria-label="' + iemT.expand_player + '" aria-expanded="false"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>' +
+    '<button type="button" class="pl-close" aria-label="' + iemT.close_player + '">&#x2715;</button>';
   var backdrop = document.createElement('div');
   backdrop.className = 'pl-backdrop';
   var root = document.getElementById('pl-root') || document.body;
@@ -112,7 +129,7 @@ function buildPlayer() {
     backdrop.classList.toggle('is-open', on);
     var b = bar.querySelector('.pl-expand');
     b.setAttribute('aria-expanded', on ? 'true' : 'false');
-    b.setAttribute('aria-label', on ? 'Réduire le lecteur' : 'Agrandir le lecteur');
+    b.setAttribute('aria-label', on ? iemT.reduce_player : iemT.expand_player);
     b.innerHTML = '<i class="fa-solid fa-' + (on ? 'down-left-and-up-right-to-center' : 'up-right-and-down-left-from-center') + '" aria-hidden="true"></i>';
   }
   bar.querySelector('.pl-expand').addEventListener('click', function () { expand(!bar.classList.contains('is-expanded')); });
@@ -128,7 +145,7 @@ function buildPlayer() {
   function state() {
     var playing = !audio.paused;
     toggle.innerHTML = '<i class="fa-solid fa-' + (playing ? 'pause' : 'play') + '" aria-hidden="true"></i>';
-    toggle.setAttribute('aria-label', playing ? 'Pause' : 'Lecture');
+    toggle.setAttribute('aria-label', playing ? iemT.pause : iemT.play);
     bar.classList.toggle('is-playing', playing);
   }
   audio.addEventListener('timeupdate', paint);
@@ -160,7 +177,7 @@ document.addEventListener('click', function (e) {
   if (audio.getAttribute('src') !== btn.dataset.audio) {
     audio.src = btn.dataset.audio;
     bar.dataset.duration = btn.dataset.duration || '';
-    bar.querySelector('.pl-kicker').textContent = 'Épisode ' + btn.dataset.number;
+    bar.querySelector('.pl-kicker').textContent = iemT.episode + ' ' + btn.dataset.number;
     bar.querySelector('.pl-title').textContent = btn.dataset.title;
     ['spotify', 'apple', 'linkedin'].forEach(function (k) {
       var a = bar.querySelector('.pl-link--' + k);
@@ -191,8 +208,8 @@ document.addEventListener('click', function (e) {
   if (!btn || !navigator.clipboard) return;
   navigator.clipboard.writeText(location.href).then(function () {
     var label = btn.querySelector('span');
-    label.textContent = 'Lien copié';
-    setTimeout(function () { label.textContent = 'Copier le lien'; }, 2000);
+    label.textContent = iemT.copied;
+    setTimeout(function () { label.textContent = iemT.copy; }, 2000);
   });
 });
 
@@ -245,7 +262,7 @@ document.querySelectorAll('.ais-embed-wrap').forEach(function (wrap) {
   var retry = document.createElement('button');
   retry.type = 'button';
   retry.className = 'ais-retry';
-  retry.textContent = 'Réessayer';
+  retry.textContent = iemT.retry;
   retry.addEventListener('click', function () {
     loaded = false;
     fallback.style.display = 'none';
@@ -326,10 +343,10 @@ if (navToggle) {
     return new Date(+p[0], +p[1] - 1, +p[2]);
   }
   function fmtNum(v) {
-    return v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return v.toLocaleString(iemT.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
   function fmtDay(s) {
-    return parseDay(s).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    return parseDay(s).toLocaleDateString(iemT.locale, { day: 'numeric', month: 'short' });
   }
 
   // Moyenne des points des 7 derniers jours calendaires (jour inclus), calculée
@@ -406,11 +423,11 @@ if (navToggle) {
               title: function (items) { return items.length ? fmtDay(items[0].label) : ''; },
               label: function (ctx) {
                 var txt = fmtNum(ctx.parsed.y) + ' ' + (dataset.unit || '');
-                return ctx.datasetIndex === 1 ? 'Moy. 7j : ' + txt : txt;
+                return ctx.datasetIndex === 1 ? iemT.ma7_label + txt : txt;
               },
               afterBody: function (items) {
                 var src = items.length && (win.sources[items[0].dataIndex] || dataset.source);
-                return src ? 'Source : ' + src : '';
+                return src ? iemT.source + src : '';
               }
             }
           }
@@ -449,14 +466,14 @@ if (navToggle) {
         '<div class="mkt-modal-head">' +
           '<h3 id="mkt-modal-title" class="mkt-commodity-name"></h3>' +
           '<div class="mkt-modal-tools">' +
-            '<button type="button" class="period-btn mkt-compare-btn" aria-pressed="false">Comparer (base 100)</button>' +
-            '<button type="button" class="period-btn mkt-ma-btn" aria-pressed="false">Moy. mobile 7j</button>' +
+            '<button type="button" class="period-btn mkt-compare-btn" aria-pressed="false">' + iemT.compare + '</button>' +
+            '<button type="button" class="period-btn mkt-ma-btn" aria-pressed="false">' + iemT.ma7 + '</button>' +
             '<div class="mkt-period-btns">' +
-              '<button type="button" class="period-btn" data-period="7">7j</button>' +
-              '<button type="button" class="period-btn" data-period="30">30j</button>' +
-              '<button type="button" class="period-btn" data-period="60">60j</button>' +
+              '<button type="button" class="period-btn" data-period="7">' + iemT.d7 + '</button>' +
+              '<button type="button" class="period-btn" data-period="30">' + iemT.d30 + '</button>' +
+              '<button type="button" class="period-btn" data-period="60">' + iemT.d60 + '</button>' +
             '</div>' +
-            '<button type="button" class="mkt-modal-close" aria-label="Fermer">&#x2715;</button>' +
+            '<button type="button" class="mkt-modal-close" aria-label="' + iemT.close + '">&#x2715;</button>' +
           '</div>' +
         '</div>' +
         '<div class="mkt-modal-chart"><canvas id="mkt-modal-canvas"></canvas></div>' +
@@ -502,20 +519,20 @@ if (navToggle) {
     var pct = v[0] ? diff / Math.abs(v[0]) * 100 : 0;
     var sign = diff > 0 ? '+' : '';
     box.innerHTML =
-      stat('Dernier', fmtNum(v[n - 1]), unit,
+      stat(iemT.last, fmtNum(v[n - 1]), unit,
            fmtDay(win.labels[n - 1]) + (win.sources[n - 1] ? ' · ' + win.sources[n - 1] : '')) +
-      stat('Variation', sign + fmtNum(pct), '%',
-           sign + fmtNum(diff) + ' ' + unit + ' depuis le ' + fmtDay(win.labels[0]),
+      stat(iemT.change, sign + fmtNum(pct), '%',
+           sign + fmtNum(diff) + ' ' + unit + ' ' + iemT.since + ' ' + fmtDay(win.labels[0]),
            diff > 0 ? 'up' : (diff < 0 ? 'down' : '')) +
-      stat('Plus bas', fmtNum(v[iMin]), unit, fmtDay(win.labels[iMin])) +
-      stat('Plus haut', fmtNum(v[iMax]), unit, fmtDay(win.labels[iMax])) +
-      stat('Moyenne', fmtNum(sum / n), unit, n + ' jours de données');
+      stat(iemT.low, fmtNum(v[iMin]), unit, fmtDay(win.labels[iMin])) +
+      stat(iemT.high, fmtNum(v[iMax]), unit, fmtDay(win.labels[iMax])) +
+      stat(iemT.avg, fmtNum(sum / n), unit, n + ' ' + iemT.days_of_data);
   }
 
   // ===== Comparaison base 100 =====
   // Chaque série est divisée par sa première valeur de la période (x 100) :
   // 110 = +10 % depuis le début de la période, quelle que soit l'unité
-  var seriesNames = { spot: 'Électricité FR', brent: 'Brent', henryhub: 'Henry Hub' };
+  var seriesNames = { spot: iemT.series_spot, brent: 'Brent', henryhub: 'Henry Hub' };
 
   // Ligne pointillée au niveau 100
   var baseLine = {
@@ -609,8 +626,8 @@ if (navToggle) {
               title: function (items) { return items.length ? fmtDay(items[0].label) : ''; },
               label: function (ctx) {
                 var s = cmp.series[ctx.datasetIndex], p = s.byDay[ctx.label];
-                if (!p) return s.name + ' : pas de cotation';
-                return s.name + ' : ' + ctx.parsed.y.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) +
+                if (!p) return s.name + iemT.colon + iemT.no_quote;
+                return s.name + iemT.colon + ctx.parsed.y.toLocaleString(iemT.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) +
                   ' (' + fmtNum(p.raw) + ' ' + (s.dataset.unit || '') + ')';
               }
             }
@@ -633,13 +650,11 @@ if (navToggle) {
     modal.querySelector('.mkt-modal-stats').innerHTML = ranked.map(function (r, i) {
       var sign = r.pct > 0 ? '+' : '', unit = r.s.dataset.unit || '';
       return stat((i + 1) + '. ' + r.s.name, sign + fmtNum(r.pct), '%',
-        'Moy. 7j : ' + fmtNum(r.s.start.value) + ' → ' + fmtNum(r.s.end.value) + ' ' + unit +
-        '<br>du ' + fmtDay(r.s.start.day) + ' au ' + fmtDay(r.s.end.day),
+        iemT.ma7_label + fmtNum(r.s.start.value) + ' → ' + fmtNum(r.s.end.value) + ' ' + unit +
+        '<br>' + iemT.from + ' ' + fmtDay(r.s.start.day) + ' ' + iemT.to + ' ' + fmtDay(r.s.end.day),
         r.pct > 0 ? 'up' : (r.pct < 0 ? 'down' : ''));
     }).join('') +
-    '<p class="mkt-modal-note">Courbes lissées sur 7 jours, ramenées à 100 au début de la période : ' +
-    'une courbe à 110 a pris 10 %. Le lissage évite qu\'un seul jour de départ (un creux ou un pic) ' +
-    'fausse la comparaison. L\'infobulle donne le prix réel du jour.</p>';
+    '<p class="mkt-modal-note">' + iemT.compare_note + '</p>';
   }
 
   function renderModal() {
@@ -656,7 +671,7 @@ if (navToggle) {
     cmpBtn.classList.toggle('active', !!modalState.compare);
     cmpBtn.setAttribute('aria-pressed', modalState.compare ? 'true' : 'false');
     modal.querySelector('#mkt-modal-title').textContent =
-      modalState.compare ? 'Comparaison base 100' : modalState.title;
+      modalState.compare ? iemT.compare_title : modalState.title;
 
     if (modalChart) modalChart.destroy();
     var ctx = document.getElementById('mkt-modal-canvas').getContext('2d');
@@ -703,8 +718,8 @@ if (navToggle) {
       var expand = document.createElement('button');
       expand.type = 'button';
       expand.className = 'period-btn mkt-expand-btn';
-      expand.setAttribute('aria-label', 'Agrandir le graphique');
-      expand.title = 'Agrandir';
+      expand.setAttribute('aria-label', iemT.expand_chart);
+      expand.title = iemT.expand;
       expand.innerHTML = '&#x2922;';
       expand.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -740,9 +755,9 @@ if (navToggle) {
 
   function day(s) {
     var p = s.split('-');
-    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(iemT.locale, { day: 'numeric', month: 'short' });
   }
-  function fmt(v, d) { return v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function fmt(v, d) { return v.toLocaleString(iemT.locale, { minimumFractionDigits: d, maximumFractionDigits: d }); }
   // Moyenne mobile sur 7 points (PortWatch publie un point par jour, week-ends compris)
   function ma7(values) {
     return values.map(function (_, i) {
@@ -777,8 +792,8 @@ if (navToggle) {
         responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
           title: function (items) { return day(items[0].label); },
-          label: function (c) { return (c.datasetIndex ? 'Normale : ' : 'Tankers/jour (moy. 7 j) : ') + fmt(c.parsed.y, 1); },
-          afterBody: function () { return 'Source : IMF PortWatch'; } } } },
+          label: function (c) { return (c.datasetIndex ? iemT.cp_normal : iemT.cp_tankers) + fmt(c.parsed.y, 1); },
+          afterBody: function () { return iemT.source + 'IMF PortWatch'; } } } },
         scales: { x: xAxis(6), y: { beginAtZero: true, ticks: { color: TICK }, grid: { color: GRID } } }
       }
     });
@@ -821,8 +836,8 @@ if (navToggle) {
         plugins: { legend: { display: false }, tooltip: { callbacks: {
           title: function (items) { return day(items[0].label); },
           label: function (c) {
-            return c.datasetIndex ? 'Brent : ' + fmt(c.parsed.y, 2) + ' $/baril'
-                                  : 'Capacité tankers Ormuz : ' + fmt(c.parsed.y, 0) + ' % de la normale';
+            return c.datasetIndex ? 'Brent' + iemT.colon + fmt(c.parsed.y, 2) + ' ' + iemT.usd_bbl
+                                  : iemT.hormuz_cap + fmt(c.parsed.y, 0) + ' ' + iemT.pct_normal;
           } } } },
         scales: {
           x: xAxis(7),
@@ -841,9 +856,9 @@ if (navToggle) {
 document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
   var min = Math.round((Date.now() - new Date(el.getAttribute('data-date'))) / 60000);
   if (isNaN(min)) return;
-  el.textContent = min < 60 ? 'il y a ' + Math.max(min, 1) + ' min'
-    : min < 1440 ? 'il y a ' + Math.round(min / 60) + ' h'
-    : 'il y a ' + Math.round(min / 1440) + ' j';
+  el.textContent = min < 60 ? iemT.ago_min.replace('{n}', Math.max(min, 1))
+    : min < 1440 ? iemT.ago_h.replace('{n}', Math.round(min / 60))
+    : iemT.ago_d.replace('{n}', Math.round(min / 1440));
 });
 
 // ===== Bandeau d'actualités : un titre à la fois, le suivant arrive par le bas =====
@@ -880,7 +895,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var rows = window.mktLng;
   function month(m, long) {
     var p = m.split('-');
-    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString('fr-FR', { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
+    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString(iemT.locale, { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
   }
   new Chart(canvas, {
     type: 'bar',
@@ -892,8 +907,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       responsive: true, maintainAspectRatio: false, animation: false,
       plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
         title: function (items) { return month(items[0].label, true); },
-        label: function (c) { return c.parsed.y.toLocaleString('fr-FR') + ' Bcf/j'; },
-        afterBody: function () { return 'Source : EIA'; } } } },
+        label: function (c) { return c.parsed.y.toLocaleString(iemT.locale) + ' ' + iemT.bcfd; },
+        afterBody: function () { return iemT.source + 'EIA'; } } } },
       scales: {
         x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 9,
                       callback: function (v) { return month(this.getLabelForValue(v)); } }, grid: { display: false } },
@@ -908,13 +923,13 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var gw = window.mktGasWorld, canvas = document.getElementById('gw-chart');
   if (!gw || !canvas || typeof Chart === 'undefined') return;
   var SERIES = [
-    { key: 'europe', name: 'Europe', color: '#4fd1c5' },
-    { key: 'asie', name: 'Asie', color: '#f472b6' },
-    { key: 'usa', name: 'États-Unis', color: '#e8b33a' }
+    { key: 'europe', name: iemT.europe, color: '#4fd1c5' },
+    { key: 'asie', name: iemT.asia, color: '#f472b6' },
+    { key: 'usa', name: iemT.usa, color: '#e8b33a' }
   ];
   function month(m, long) {
     var p = m.split('-');
-    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString('fr-FR', { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
+    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString(iemT.locale, { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
   }
   var chart = null;
   function render(n) {
@@ -932,8 +947,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
         responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { callbacks: {
           title: function (items) { return month(items[0].label, true); },
-          label: function (c) { return c.dataset.label + ' : ' + c.parsed.y.toLocaleString('fr-FR') + ' $/MMBtu'; },
-          afterBody: function () { return 'Source : FMI via FRED'; } } } },
+          label: function (c) { return c.dataset.label + iemT.colon + c.parsed.y.toLocaleString(iemT.locale) + ' $/MMBtu'; },
+          afterBody: function () { return iemT.source + iemT.imf_fred; } } } },
         scales: {
           x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 6, maxRotation: 0,
                         callback: function (v) { return month(this.getLabelForValue(v)); } }, grid: { display: false } },
@@ -957,10 +972,10 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 (function () {
   var st = window.mktGasStorage, canvas = document.getElementById('gs-chart');
   if (!st || !canvas || typeof Chart === 'undefined') return;
-  function fmt(v) { return v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+  function fmt(v) { return v.toLocaleString(iemT.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
   function dayLabel(md) {
     var p = md.split('-');
-    return new Date(2001, +p[0] - 1, +p[1]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    return new Date(2001, +p[0] - 1, +p[1]).toLocaleDateString(iemT.locale, { day: 'numeric', month: 'short' });
   }
   var chart = null;
   function render(zone) {
@@ -988,8 +1003,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
         responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { callbacks: {
           title: function (items) { return dayLabel(items[0].label); },
-          label: function (c) { return c.parsed.y === null ? null : c.dataset.label + ' : ' + fmt(c.parsed.y) + ' %'; },
-          afterBody: function () { return 'Source : GIE AGSI+'; } } } },
+          label: function (c) { return c.parsed.y === null ? null : c.dataset.label + iemT.colon + fmt(c.parsed.y) + ' %'; },
+          afterBody: function () { return iemT.source + 'GIE AGSI+'; } } } },
         scales: {
           x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 7, maxRotation: 0,
                         callback: function (v) { return dayLabel(this.getLabelForValue(v)); } }, grid: { display: false } },
@@ -1039,7 +1054,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     if (!v.length) return;
     function put(k, x) {
       box.querySelector('[data-stat="' + k + '"]').textContent =
-        x.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + dataset.unit.split('/')[0];
+        x.toLocaleString(iemT.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + dataset.unit.split('/')[0];
     }
     put('avg', v.reduce(function (a, b) { return a + b; }, 0) / v.length);
     put('min', Math.min.apply(null, v));
@@ -1102,17 +1117,21 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   if (!box || typeof L === 'undefined' || !window.mktIncidents) return;
 
   var TYPES = {
-    'Attack': { label: 'Attaque', color: '#ff6b5b' },
-    'Hijack': { label: 'Détournement', color: '#e8703a' },
-    'Suspicious Activity': { label: 'Activité suspecte', color: '#e8b33a' },
-    'Advisory': { label: 'Avis', color: '#4fd1c5' }
+    'Attack': { label: iemT.inc_attack, color: '#ff6b5b' },
+    'Hijack': { label: iemT.inc_hijack, color: '#e8703a' },
+    'Suspicious Activity': { label: iemT.inc_suspicious, color: '#e8b33a' },
+    'Advisory': { label: iemT.inc_advisory, color: '#4fd1c5' }
   };
-  var OTHER = { label: 'Autre', color: '#a0aec0' };
+  var OTHER = { label: iemT.inc_other, color: '#a0aec0' };
+  // Version anglaise : noms d'origine de l'UKMTO (place_en), sinon le nom traduit
+  var EN = document.body.dataset.lang === 'en';
+  function place(i) { return (EN && i.place_en) || i.place; }
+  function vesselOf(i) { return EN && i.vessel_type_en !== undefined ? i.vessel_type_en : i.vessel_type; }
   // Noms de navire anonymisés par l'UKMTO (NONE, MERCHANT…) : on n'affiche que le type
   function kind(t) { return TYPES[t] || OTHER; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
   function when(iso) {
-    return new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+    return new Date(iso).toLocaleDateString(iemT.locale, { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
   var cutoff = Date.now() - 90 * 86400000;
@@ -1126,11 +1145,11 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var groups = {};
   items.slice().reverse().forEach(function (i) { // les plus récents dessinés au-dessus
     var k = kind(i.type);
-    var vessel = i.vessel_type;
+    var vessel = vesselOf(i);
     var marker = L.circleMarker([i.lat, i.lon], { radius: 7, color: '#fff', weight: 1.5, fillColor: k.color, fillOpacity: 0.9 })
-      .bindPopup('<strong>' + k.label + ' · ' + esc(i.place) + '</strong><br>' + when(i.date) +
+      .bindPopup('<strong>' + k.label + ' · ' + esc(place(i)) + '</strong><br>' + when(i.date) +
                  (vessel ? ' · ' + esc(vessel) : '') + '<br>' + esc(i.summary) +
-                 '<br><em>Source : UKMTO n° ' + esc(String(i.number)) + '</em>');
+                 '<br><em>' + iemT.source + 'UKMTO ' + iemT.number_abbr + ' ' + esc(String(i.number)) + '</em>');
     (groups[k.label] = groups[k.label] || { color: k.color, layer: L.layerGroup().addTo(map), n: 0 }).layer.addLayer(marker);
     groups[k.label].n++;
   });
@@ -1155,8 +1174,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 
   // Liste courte : les 5 plus récents, résumé coupé à 2 lignes (texte complet dans la fiche de la carte)
   document.getElementById('inc-list').innerHTML = items.slice(0, 4).map(function (i) {
-    var k = kind(i.type), where = [i.place, i.vessel_type].filter(Boolean).join(' · ');
-    var day = new Date(i.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    var k = kind(i.type), where = [place(i), vesselOf(i)].filter(Boolean).join(' · ');
+    var day = new Date(i.date).toLocaleDateString(iemT.locale, { day: 'numeric', month: 'short' });
     return '<li style="--c:' + k.color + '"><div class="inc-meta"><time>' + day + '</time><span class="inc-tag">' + k.label +
            '</span><span class="inc-where">' + esc(where) + '</span></div><p class="inc-sum">' + esc(i.summary) + '</p></li>';
   }).join('');

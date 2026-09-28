@@ -5,9 +5,11 @@
   Données : site.data.market.chokepoints[key] (valeurs du jour) et
   site.data.chokepoints_history[key] (courbe 90 jours, lue par le script de la page).
 {% endcomment %}
+{% include i18n.html %}
 {% assign cp = site.data.market.chokepoints[include.key] %}
 {% assign ctx = site.data.chokepoints_context %}
-{% if cp.status == 'fluide' %}{% assign badge = "Trafic fluide" %}{% elsif cp.status == 'partiel' %}{% assign badge = "Partiellement perturbé" %}{% else %}{% assign badge = "Fortement perturbé" %}{% endif %}
+{% assign badge = t.status[cp.status] | default: t.status.ferme %}
+{% if lang == "en" %}{% assign refp = t.cp.ref_period %}{% else %}{% assign refp = cp.ref_period %}{% endif %}
 <article class="cp-tile {{ cp.status }}" id="detroit-{{ include.key }}">
   <header class="cp-tile-head">
     <h3 class="cp-tile-name">{{ include.short }}</h3>
@@ -16,26 +18,26 @@
 
   {% if cp.pct_total != nil %}
   <div class="cp-tile-figs">
-    <div><strong class="cp-tile-pct">{{ cp.pct_total }} %</strong><span>du trafic normal</span></div>
-    <div><strong>{{ cp.n_tanker | replace: ".", "," }}</strong><span>tankers / jour<br>normale {{ cp.ref_tanker | replace: ".", "," }}</span></div>
+    <div><strong class="cp-tile-pct">{{ cp.pct_total }} %</strong><span>{{ t.cp.of_normal_traffic }}</span></div>
+    <div><strong>{{ cp.n_tanker | replace: ".", dec }}</strong><span>{{ t.cp.tankers_day_lc }}<br>{{ t.cp.normal }} {{ cp.ref_tanker | replace: ".", dec }}</span></div>
   </div>
   <div class="mt-gauge"><span class="mt-gauge--{% if cp.pct_total >= 80 %}ok{% elsif cp.pct_total >= 40 %}mid{% else %}low{% endif %}" style="width: {{ cp.pct_total | at_most: 100 }}%"></span></div>
   {% else %}
-  <p class="mt-kpi-note">Données de trafic momentanément indisponibles.</p>
+  <p class="mt-kpi-note">{{ t.cp.unavailable }}</p>
   {% endif %}
 
   <div class="ais-embed-wrap cp-tile-map">
-    <iframe class="ais-frame" loading="lazy" title="Carte MarineTraffic, {{ include.name }}"
+    <iframe class="ais-frame" loading="lazy" title="{{ t.cp.map_title }}, {{ include.name }}"
       src="https://www.marinetraffic.com/en/ais/embed/zoom:{{ include.zoom }}/centery:{{ include.lat }}/centerx:{{ include.lon }}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
       frameborder="0" scrolling="no"></iframe>
     <div class="ais-fallback">
-      <p>La carte en direct n'a pas pu se charger.</p>
-      <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">Voir sur MarineTraffic →</a>
+      <p>{{ t.cp.map_failed }}</p>
+      <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">{{ t.cp.see_mt }} →</a>
     </div>
   </div>
-  <p class="mt-src">Trafic : IMF PortWatch{% if cp.date %}, au {{ cp.date | date: "%d/%m" }}{% endif %} · Carte : MarineTraffic</p>
+  <p class="mt-src">{{ t.cp.traffic }}{{ t.colon }}IMF PortWatch{% if cp.date %}, {{ t.cp.as_of }} {{ cp.date | date: "%d/%m" }}{% endif %} · {{ t.cp.map }}{{ t.colon }}MarineTraffic</p>
 
-  <button type="button" class="mk-open" data-dialog="dlg-{{ include.key }}">Détail : 90 jours et contexte <span aria-hidden="true">↗</span></button>
+  <button type="button" class="mk-open" data-dialog="dlg-{{ include.key }}">{{ t.cp.detail_btn }} <span aria-hidden="true">↗</span></button>
 </article>
 
 <dialog class="mk-dialog" id="dlg-{{ include.key }}" aria-labelledby="dlg-{{ include.key }}-title">
@@ -43,29 +45,29 @@
     <h3 class="mkt-commodity-name" id="dlg-{{ include.key }}-title">{{ include.name }}</h3>
     <div class="mk-dialog-tools">
       {% if cp.status %}<span class="mt-badge {{ cp.status }}">● {{ badge }}</span>{% endif %}
-      <button type="button" class="mkt-modal-close" data-close aria-label="Fermer">&#x2715;</button>
+      <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
     </div>
   </header>
 
   {% if cp.pct_total != nil %}
   <div class="mt-kpis">
-    {% include chokepoint-kpi.html label="Tankers / jour" value=cp.n_tanker pct=cp.pct_tanker ref=cp.ref_tanker %}
-    {% include chokepoint-kpi.html label="Navires / jour" value=cp.n_total pct=cp.pct_total ref=cp.ref_total %}
-    {% include chokepoint-kpi.html label="Capacité tankers / jour" value=cp.capacity_tanker_mt unit="Mt" pct=cp.pct_capacity ref=cp.ref_capacity_tanker_mt %}
+    {% include chokepoint-kpi.html label=t.cp.tankers_day value=cp.n_tanker pct=cp.pct_tanker ref=cp.ref_tanker %}
+    {% include chokepoint-kpi.html label=t.cp.ships_day value=cp.n_total pct=cp.pct_total ref=cp.ref_total %}
+    {% include chokepoint-kpi.html label=t.cp.capacity_day value=cp.capacity_tanker_mt unit="Mt" pct=cp.pct_capacity ref=cp.ref_capacity_tanker_mt %}
   </div>
-  <p class="mt-kpi-note">Moyenne des 5 derniers jours publiés ({{ cp.period_start | date: "%d/%m" }} au {{ cp.date | date: "%d/%m" }}),
-    comparée à la normale ({{ cp.ref_period }}). La capacité est le tonnage de port en lourd des tankers.</p>
+  <p class="mt-kpi-note">{{ t.cp.note_1 }} ({{ cp.period_start | date: "%d/%m" }} {{ t.to }} {{ cp.date | date: "%d/%m" }}),
+    {{ t.cp.note_2 }} ({{ refp }}). {{ t.cp.note_3 }}</p>
 
-  <div class="mt-chart"><canvas data-cp-chart="{{ include.key }}" data-ref="{{ cp.ref_tanker }}" aria-label="Tankers par jour sur 90 jours, {{ include.name }}"></canvas></div>
-  <p class="mt-legend"><span class="mt-sw"></span>Tankers par jour (moyenne 7 j)
-    <span class="mt-sw mt-sw--ref"></span>Normale ({{ cp.ref_period }})</p>
+  <div class="mt-chart"><canvas data-cp-chart="{{ include.key }}" data-ref="{{ cp.ref_tanker }}" aria-label="{{ t.cp.chart_aria }}, {{ include.name }}"></canvas></div>
+  <p class="mt-legend"><span class="mt-sw"></span>{{ t.cp.legend_tankers }}
+    <span class="mt-sw mt-sw--ref"></span>{{ t.cp.legend_normal }} ({{ refp }})</p>
   {% endif %}
 
   {% assign items = ctx[include.key] %}
   {% if items %}
   <div class="mt-ctx">
-    {% for item in items %}<div class="mt-ctx-item"><strong>{{ item.value }}</strong><span>{{ item.text }}</span></div>{% endfor %}
+    {% for item in items %}{% if lang == "en" %}<div class="mt-ctx-item"><strong>{{ item.value_en | default: item.value }}</strong><span>{{ item.text_en | default: item.text }}</span></div>{% else %}<div class="mt-ctx-item"><strong>{{ item.value }}</strong><span>{{ item.text }}</span></div>{% endif %}{% endfor %}
   </div>
-  <p class="mt-src">Contexte : <a href="{{ ctx.source_url }}" target="_blank" rel="noopener">{{ ctx.source_label }}</a> · Trafic : IMF PortWatch</p>
+  <p class="mt-src">{{ t.cp.context }}{{ t.colon }}<a href="{{ ctx.source_url }}" target="_blank" rel="noopener">{% if lang == "en" %}{{ ctx.source_label_en }}{% else %}{{ ctx.source_label }}{% endif %}</a> · {{ t.cp.traffic }}{{ t.colon }}IMF PortWatch</p>
   {% endif %}
 </dialog>

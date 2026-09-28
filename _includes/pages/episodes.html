@@ -1,0 +1,31 @@
+{% comment %}Page Épisodes (episodes/index.html en français, en/episodes/index.html en anglais).{% endcomment %}
+{% include i18n.html %}
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">{{ t.eps.eyebrow }}</p>
+    <h1>{{ t.eps.title }}</h1>
+    <p class="lead-sm">{{ t.eps.lead }}</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if lang == "en" %}<p class="lang-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ t.ep.in_french_note }}</p>{% endif %}
+    {% assign all_episodes = site.data.episodes | reverse %}
+
+    {% assign featured = all_episodes | first %}
+    {% include episode-card.html ep=featured featured=true %}
+
+    <div class="card-grid card-grid--episodes card-grid--rest">
+      {% for ep in all_episodes offset: 1 %}
+      {% include episode-card.html ep=ep %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    {% include podcast-cta.html hide_all=true %}
+  </div>
+</section>

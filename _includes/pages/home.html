@@ -1,0 +1,169 @@
+{% comment %}Accueil (index.html en français, en/index.html en anglais).{% endcomment %}
+{% include i18n.html %}
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ t.home.eyebrow }}</p>
+      <h1><em>Inside</em>ENERGY MARKETS</h1>
+      <p class="lead">{{ t.home.lead }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ u.episodes | relative_url }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.home.cta_listen }}</a>
+        <a class="btn btn-ghost" href="{{ u.markets | relative_url }}"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>{{ t.home.cta_markets }}</a>
+      </div>
+    </div>
+    {% include latest-episode.html %}
+    {% if lang == "en" %}{% assign latest_title = latest.title_en | default: latest.title %}{% else %}{% assign latest_title = latest.title %}{% endif %}
+    <div class="ep-flip hero-flip">
+      <div class="ep-flip-inner">
+        <div class="ep-front hero-art">
+          <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ t.home.hero_alt }}">
+          <button type="button" class="hero-flip-btn" data-flip aria-label="{{ t.home.flip_aria }}">
+            <span class="hero-flip-pill"><i class="fa-solid fa-headphones" aria-hidden="true"></i>{{ t.cta.listen_kicker_cap }}</span>
+          </button>
+        </div>
+        <div class="ep-back hero-back" inert style="--cover: url('{{ '/assets/img/hero.png' | relative_url }}')">
+          <p class="ep-back-kicker">Inside Energy Markets</p>
+          <p class="ep-back-title">{{ t.cta.listen_kicker_cap }}</p>
+          <div class="hero-platforms">
+            <a class="ep-link ep-link--spotify" href="https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i><span>Spotify</span></a>
+            <a class="ep-link ep-link--apple" href="https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i><span>Apple Podcasts</span></a>
+            <a class="ep-link ep-link--linkedin" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>
+          </div>
+          {% if latest %}
+          <div class="hero-latest">
+            <p class="ep-back-kicker">{{ t.ep.latest }} · EP {{ latest.number }}</p>
+            <p class="hero-latest-title">{{ latest_title }}</p>
+            <button type="button" class="ep-link ep-link--here" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest_title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" data-apple="{{ latest.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" data-linkedin="{{ latest.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}"><i class="fa-solid fa-play" aria-hidden="true"></i><span>{{ t.ep.listen_here }}</span><b>{{ l_min }}:{{ l_sec }}</b></button>
+          </div>
+          {% endif %}
+          <button type="button" class="ep-back-close" data-unflip><span aria-hidden="true">←</span> {{ t.ep.back }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="nw-section">
+  <div class="wrap">
+    {% include news-ticker.html %}
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>{{ t.home.latest_episodes }}</h2>
+      <a href="{{ u.episodes | relative_url }}">{{ t.cta.all_episodes }} <span aria-hidden="true">→</span></a>
+    </div>
+    {% if lang == "en" %}<p class="lang-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ t.ep.in_french_note }}</p>{% endif %}
+    <div class="card-grid card-grid--episodes">
+      {% assign latest_episodes = site.data.episodes | reverse %}
+      {% for ep in latest_episodes limit: 3 %}
+      {% include episode-card.html ep=ep %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="block markets">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>{{ t.home.markets_title }}</h2>
+      <a href="{{ u.markets | relative_url }}">{{ t.home.markets_all }} <span aria-hidden="true">→</span></a>
+    </div>
+
+    {% assign market = site.data.market %}
+    {% assign ormuz = market.chokepoints.hormuz %}
+    {% assign marches = u.markets | relative_url %}
+    {% assign spot = market.spot_price_france %}
+    {% assign brent = market.brent %}
+    {% assign hh = market.henry_hub %}
+    {% if lang == "en" %}
+    {% assign spot_label = spot.date_label_en | default: spot.date %}{% assign brent_label = brent.date_label_en | default: brent.date %}{% assign hh_label = hh.date_label_en | default: hh.date %}
+    {% else %}
+    {% assign spot_label = spot.date_label | default: spot.date %}{% assign brent_label = brent.date_label | default: brent.date %}{% assign hh_label = hh.date_label | default: hh.date %}
+    {% endif %}
+    <div class="hq-board">
+      <div class="hq-row hq-head" aria-hidden="true"><span>{{ t.home.col_market }}</span><span>{{ t.home.col_last }}</span><span>{{ t.home.col_change }}</span><span>{{ t.home.col_30d }}</span></div>
+      <a class="hq-row" href="{{ marches }}#{{ t.ids.power }}">
+        <span class="hq-name">{{ t.mk.power_fr }}<small>{{ spot.source | default: "RTE" }} · {{ spot_label }}</small></span>
+        {% if spot %}
+        <span class="hq-value">{{ spot.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small></span>
+        <span class="hq-change">{% include price-change.html entry=spot %}</span>
+        <span class="hq-trend">{% include sparkline.html key="spot_eur_mwh" %}</span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
+      </a>
+      <a class="hq-row" href="{{ marches }}#{{ t.ids.oil }}">
+        <span class="hq-name">Brent<small>{{ brent.source }} · {{ brent_label }}</small></span>
+        {% if brent %}
+        <span class="hq-value">{{ brent.price_usd | replace: ".", dec }} <small>{{ t.units.usd_bbl }}</small></span>
+        <span class="hq-change">{% include price-change.html entry=brent %}</span>
+        <span class="hq-trend">{% include sparkline.html key="brent_usd" %}</span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
+      </a>
+      <a class="hq-row" href="{{ marches }}#{{ t.ids.gas }}">
+        <span class="hq-name">Henry Hub<small>{{ hh.source }} · {{ hh_label }}</small></span>
+        {% if hh %}
+        <span class="hq-value">{{ hh.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small></span>
+        <span class="hq-change">{% include price-change.html entry=hh %}</span>
+        <span class="hq-trend">{% include sparkline.html key="henry_hub_usd_mmbtu" %}</span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
+      </a>
+      <a class="hq-row" href="{{ marches }}#{{ t.ids.sea }}">
+        <span class="hq-name">{{ t.mk.hormuz_strait }}<small>IMF PortWatch · {{ t.home.data_as_of }} {{ ormuz.date | date: "%d/%m" }}</small></span>
+        {% if ormuz.pct_total != nil %}
+        <span class="hq-value">{{ ormuz.pct_total }} % <small>{{ t.cp.of_normal_traffic }}</small></span>
+        <span class="hq-change"><b class="mt-badge {{ ormuz.status }}">{{ t.status_short[ormuz.status] | default: t.status_short.ferme }}</b></span>
+        {% assign bar = ormuz.pct_total %}{% if bar > 100 %}{% assign bar = 100 %}{% endif %}
+        <span class="hq-trend"><span class="hq-bar hq-bar--{{ ormuz.status }}" role="img" aria-label="{{ ormuz.pct_total }} % {{ t.cp.of_normal_traffic }}"><i style="width: {{ bar }}%"></i></span></span>
+        {% else %}<span class="hq-value">-</span>{% endif %}
+      </a>
+      {% assign inc = site.data.incidents %}
+      {% if inc.stats %}
+      <div class="hq-row hq-incidents">
+        <span class="hq-name"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{{ t.home.inc_title }}<small>UKMTO · {{ t.home.inc_period }}</small></span>
+        <span class="hq-inc-text"><span><b>{{ inc.stats.total_30d }}</b> {{ t.home.inc_reported | replace: '{n}', inc.stats.attacks_30d }}</span>{% if inc.stats.top_places.size > 0 %}<small>{% for tp in inc.stats.top_places %}{% if lang == "en" %}{{ tp.place_en | default: tp.place }}{% else %}{{ tp.place }}{% endif %} ({{ tp.n }}){% unless forloop.last %} · {% endunless %}{% endfor %}</small>{% endif %}</span>
+        <a class="inc-all" href="{{ marches }}#{{ t.ids.security }}">{{ t.home.see_map }} <span aria-hidden="true">→</span></a>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if market.updated_at %}
+    <p class="mkt-updated-footer"><span class="live-dot"></span>{{ t.updated }} {{ market.updated_at | date: t.datetime_fmt }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>{{ t.home.latest_posts }}</h2>
+      <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="card-grid card-grid--blog">
+      {% assign lposts = site.posts | where: "lang", lang %}
+      {% for post in lposts limit: 3 %}
+      <a class="card card--episode card--post" href="{{ post.url | relative_url }}">
+        <div class="card-thumb">
+          <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
+        </div>
+        <div class="card-body">
+          <p class="post-card-date">{% include date.html date=post.date %}</p>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="block home-cta">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>{{ t.home.cta_title }}</h2>
+      <a href="{{ u.about | relative_url }}">{{ t.nav.about }} <span aria-hidden="true">→</span></a>
+    </div>
+    {% include podcast-cta.html %}
+  </div>
+</section>

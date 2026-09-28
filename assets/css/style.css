@@ -2635,3 +2635,18 @@ html.has-player body { padding-bottom: 96px; }
   .ab-grid, .ab-cta-grid { grid-template-columns: 1fr; }
   .ab-stats strong { font-size: 21px; }
 }
+
+/* ===== Deux langues : sélecteur FR | EN, mention « podcast en français » ===== */
+.nav-links { align-items: center; }
+.site-nav .nav-links .nav-lang a {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25); font-size: 13px; font-weight: 600; letter-spacing: 0.4px;
+}
+.site-nav .nav-links .nav-lang a i { font-size: 12px; color: #4fd1c5; }
+.site-nav .nav-links .nav-lang a:hover { border-color: #4fd1c5; }
+@media (max-width: 760px) {
+  .site-nav .nav-links .nav-lang a { display: inline-flex; margin-top: 10px; padding: 7px 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.25); }
+}
+.lang-note { display: flex; align-items: center; gap: 8px; margin: -12px 0 20px; font-size: 13.5px; color: #47555f; }
+.lang-note i { color: var(--teal); }
+.ab-lang-note { font-weight: 400; color: rgba(255, 255, 255, 0.6); }

@@ -1,0 +1,9 @@
+{%- comment -%}
+  Langue de la page (front matter `lang`, fr par défaut, en sous /en/) et textes associés
+  (_data/i18n.yml). À inclure en tête de chaque page et du layout :
+  lang, t (textes), u (adresses des pages dans cette langue), dec (séparateur décimal).
+{%- endcomment -%}
+{%- assign lang = page.lang | default: "fr" -%}
+{%- assign t = site.data.i18n[lang] -%}
+{%- assign u = t.url -%}
+{%- assign dec = t.dec -%}

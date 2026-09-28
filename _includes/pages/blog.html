@@ -1,0 +1,62 @@
+{% comment %}Page Blog (blog/index.html en français, en/blog/index.html en anglais) : articles de la langue de la page.{% endcomment %}
+{% include i18n.html %}
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">{{ t.blog.eyebrow }}</p>
+    <h1>{{ t.blog.title }}</h1>
+    <p class="lead-sm">{{ t.blog.lead }}</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% assign posts = site.posts | where: "lang", lang %}
+    {% if posts.size > 0 %}
+    {% assign featured = posts | first %}
+    <a class="bl-featured" href="{{ featured.url | relative_url }}">
+      <div class="bl-featured-img">
+        <img src="{{ featured.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ featured.title }}">
+      </div>
+      <div class="bl-featured-body">
+        <p class="bl-tags"><span class="bl-tag bl-tag--new">{{ t.blog.featured }}</span>{% for tg in featured.tags %}<span class="bl-tag">{{ tg }}</span>{% endfor %}</p>
+        <h2>{{ featured.title }}</h2>
+        <p class="bl-meta">{% include date.html date=featured.date %} · {% include reading-time.html content=featured.content %}</p>
+        <p class="bl-excerpt">{{ featured.excerpt | strip_html | truncatewords: 40 }}</p>
+        <span class="bl-read">{{ t.blog.read }} <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    {% if posts.size > 1 %}
+    <div class="section-head bl-more-head"><h2>{{ t.blog.all_posts }}</h2></div>
+    <div class="card-grid card-grid--blog">
+      {% for post in posts offset: 1 %}
+      <a class="card card--episode card--post" href="{{ post.url | relative_url }}">
+        <div class="card-thumb">
+          <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
+        </div>
+        <div class="card-body">
+          {% if post.tags.size > 0 %}<p class="bl-tags">{% for tg in post.tags %}<span class="bl-tag">{{ tg }}</span>{% endfor %}</p>{% endif %}
+          <h3>{{ post.title }}</h3>
+          <p class="post-card-date">{% include date.html date=post.date %} · {% include reading-time.html content=post.content %}</p>
+          <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% else %}
+    <p>{{ t.blog.soon }}</p>
+    {% endif %}
+
+    <aside class="bl-follow">
+      <div>
+        <p class="bl-follow-title">{{ t.blog.follow_title }}</p>
+        <p class="bl-follow-text">{{ t.blog.follow_text }}</p>
+      </div>
+      <div class="bl-follow-links">
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+        <a class="btn btn-primary" href="{{ u.episodes | relative_url }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.cta.listen_kicker_cap }}</a>
+      </div>
+    </aside>
+  </div>
+</section>

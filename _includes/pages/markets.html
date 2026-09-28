@@ -1,0 +1,366 @@
+{% comment %}Page Marchés (marches/index.html en français, en/markets/index.html en anglais).{% endcomment %}
+{% include i18n.html %}
+{% assign mk = t.mk %}
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">{{ mk.eyebrow }}</p>
+    <h1>{{ mk.title }}</h1>
+    <p class="lead-sm">{{ mk.lead }}</p>
+  </div>
+</section>
+
+<section class="nw-section">
+  <div class="wrap">
+    {% include news-ticker.html %}
+  </div>
+</section>
+
+{% assign hist = site.data.market_history %}
+{% assign market = site.data.market %}
+{% assign weekly = site.data.weekly_summary %}
+{% assign ormuz = market.chokepoints.hormuz %}
+{% assign inc = site.data.incidents %}
+
+<script>
+  window.mktChartData = {
+    spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, sources: {{ hist | map: "spot_source" | jsonify }}, unit: "€/MWh", color: "#00817d" },
+    brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: {{ t.units.usd_bbl | jsonify }}, color: "#e8703a" },
+    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_usd_mmbtu" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "$/MMBtu", color: "#e8b33a" }
+  };
+  window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};
+  window.mktBrentYear = {{ site.data.brent_year | jsonify }};
+</script>
+
+<!-- ===== SOMMAIRE ===== -->
+<nav class="mk-toc" aria-label="{{ mk.toc_aria }}">
+  <div class="wrap">
+    <a href="#{{ t.ids.power }}"><i class="fa-solid fa-bolt" aria-hidden="true"></i>{{ mk.toc_power }}</a>
+    <a href="#{{ t.ids.gas }}"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>{{ mk.toc_gas }}</a>
+    <a href="#{{ t.ids.oil }}"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>{{ mk.toc_oil }}</a>
+    <a href="#{{ t.ids.sea }}"><i class="fa-solid fa-ship" aria-hidden="true"></i>{{ mk.toc_sea }}</a>
+    <a href="#{{ t.ids.security }}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{{ mk.toc_security }}</a>
+  </div>
+</nav>
+
+<!-- ===== 1. ÉLECTRICITÉ FRANCE ===== -->
+<section class="mk-section" id="{{ t.ids.power }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--power"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.power_title }}</h2>
+        <p class="mk-lead">{{ mk.power_lead }}</p>
+      </div>
+    </header>
+
+    {% assign spot = market.spot_price_france %}
+    {% assign mix = market.mix_france %}
+    {% if lang == "en" %}{% assign spot_label = spot.date_label_en | default: spot.date %}{% else %}{% assign spot_label = spot.date_label | default: spot.date %}{% endif %}
+    <div class="pw-card">
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">{{ mk.spot_label }}</p>
+          <button type="button" class="period-btn pw-expand" data-expand="spot" data-title="{{ mk.power_fr }}" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
+        </div>
+        {% if spot %}
+        <p class="pw-value">{{ spot.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small>{% include price-change.html entry=spot %}</p>
+        <p class="pw-sub">{{ spot_label }} · RTE</p>
+        {% else %}
+        <p class="pw-value">-</p>
+        {% endif %}
+        {% if weekly.spot_price %}
+        <div class="pw-stats">
+          <div><span>{{ mk.avg7 }}</span><strong>{{ weekly.spot_price.avg_eur_mwh | round: 0 }} €</strong></div>
+          <div><span>{{ t.js.low }}</span><strong>{{ weekly.spot_price.min_eur_mwh | round: 0 }} €</strong></div>
+          <div><span>{{ t.js.high }}</span><strong>{{ weekly.spot_price.max_eur_mwh | round: 0 }} €</strong></div>
+        </div>
+        {% endif %}
+        <div class="pw-chart-head">
+          <span>{{ mk.history }}</span>
+          <div class="mkt-period-btns" data-chart-controls="spot">
+            <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
+            <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
+            <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
+          </div>
+        </div>
+        <div class="pw-chart"><canvas id="chart-canvas-spot" aria-label="{{ mk.spot_chart_aria }}"></canvas></div>
+      </div>
+
+      <div class="pw-mix">
+        <p class="pw-label">{{ mk.mix_label }}</p>
+        {% if mix %}
+        {% assign co2 = mix.co2_intensity %}
+        {% if co2 < 50 %}{% assign co2_level = "low" %}{% assign co2_text = mk.co2_very_low %}{% elsif co2 < 100 %}{% assign co2_level = "low" %}{% assign co2_text = mk.co2_low %}{% elsif co2 < 250 %}{% assign co2_level = "mid" %}{% assign co2_text = mk.co2_mid %}{% else %}{% assign co2_level = "high" %}{% assign co2_text = mk.co2_high %}{% endif %}
+        <div class="pw-co2 pw-co2--{{ co2_level }}">
+          <span class="pw-co2-value">{{ co2 | round: 0 }}</span>
+          <span class="pw-co2-text"><strong>{{ co2_text }}</strong>{{ mk.co2_unit }}</span>
+        </div>
+        {% assign low_carbon = 0 %}
+        {% for pair in mix.shares %}{% unless pair[0] == "gaz" or pair[0] == "thermique" or pair[0] == "charbon" or pair[0] == "fioul" %}{% assign low_carbon = low_carbon | plus: pair[1] %}{% endunless %}{% endfor %}
+        {% assign top = mix.top_source %}
+        {% assign top_lbl = mk.sources[top] | default: top | capitalize %}
+        <div class="pw-stats pw-stats--mix">
+          <div><span>{{ mk.top_source }}</span><strong><i class="pw-dot pw-src--{{ top }}" aria-hidden="true"></i>{{ top_lbl }} {{ mix.top_share | replace: ".", dec }} %</strong></div>
+          <div><span>{{ mk.low_carbon }}</span><strong>{{ low_carbon | round: 1 | replace: ".", dec }} %</strong></div>
+        </div>
+        <div class="pw-stack" role="img" aria-label="{{ mk.mix_aria }}">
+          {% for pair in mix.shares %}<span class="pw-src--{{ pair[0] }}" style="width: {{ pair[1] }}%"></span>{% endfor %}
+        </div>
+        <ul class="pw-legend">
+          {% for pair in mix.shares %}
+          {% assign lbl = mk.sources[pair[0]] | default: pair[0] | capitalize %}
+          <li><i class="pw-src--{{ pair[0] }}" aria-hidden="true"></i>{{ lbl }}<b>{{ pair[1] | replace: ".", dec }} %</b></li>
+          {% endfor %}
+        </ul>
+        <p class="pw-sub">{{ mk.reading_of }} {{ mix.date_heure | date: t.daytime_fmt }} · RTE éCO2mix</p>
+        {% else %}
+        <p class="pw-sub">{{ mk.pending }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. GAZ ===== -->
+<section class="mk-section mk-section--alt" id="{{ t.ids.gas }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--gas"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.gas_title }}</h2>
+        <p class="mk-lead">{{ mk.gas_lead }}</p>
+      </div>
+    </header>
+
+    {% assign e = market.henry_hub %}
+    {% assign st = site.data.gas_storage %}
+    {% if lang == "en" %}{% assign e_label = e.date_label_en | default: e.date %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
+    <div class="pw-card">
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">{{ mk.hh_label }}</p>
+          <button type="button" class="period-btn pw-expand" data-expand="henryhub" data-title="Henry Hub" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
+        </div>
+        {% if e %}
+        <p class="pw-value">{{ e.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>
+        {% else %}<p class="pw-value">-</p>{% endif %}
+        <div class="pw-stats" data-week-stats="henryhub">
+          <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>
+          <div><span>{{ t.js.low }}</span><strong data-stat="min">-</strong></div>
+          <div><span>{{ t.js.high }}</span><strong data-stat="max">-</strong></div>
+        </div>
+        <div class="pw-chart-head">
+          <span>{{ mk.history }}</span>
+          <div class="mkt-period-btns" data-chart-controls="henryhub">
+            <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
+            <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
+            <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
+          </div>
+        </div>
+        <div class="pw-chart pw-chart--tall"><canvas id="chart-canvas-henryhub" aria-label="{{ mk.hh_chart_aria }}"></canvas></div>
+      </div>
+
+      <div class="pw-mix">
+        <p class="pw-label">{{ mk.storage_label }}</p>
+        {% if st and st.eu and st.eu.size > 0 %}
+        {% assign eu = st.eu | last %}
+        {% assign fr = st.fr | last %}
+        {% assign y = eu.date | slice: 0, 4 | plus: 0 | minus: 1 %}
+        {% assign ly_date = eu.date | slice: 4, 6 | prepend: y %}
+        {% assign eu_ly = st.eu | where: "date", ly_date | first %}
+        {% assign fr_ly = st.fr | where: "date", ly_date | first %}
+        <div class="pw-co2 gs-level">
+          <span class="pw-co2-value">{{ eu.full | round: 1 | replace: ".", dec }}<small>%</small></span>
+          <span class="pw-co2-text"><strong>{{ mk.storage_full }}</strong>{% assign twh = eu.twh | round: 0 %}{{ mk.storage_twh | replace: '{n}', twh }}</span>
+        </div>
+        <div class="gs-bar" role="img" aria-label="{{ mk.storage_aria }} {{ eu.full | round: 1 }} %{% if eu_ly %}, {{ mk.vs_last_year_aria }} {{ eu_ly.full | round: 1 }} %{% endif %}">
+          <span style="width: {{ eu.full }}%"></span>
+          {% if eu_ly %}<i style="left: {{ eu_ly.full }}%" title="{{ mk.same_date_ly }}"></i>{% endif %}
+        </div>
+        <p class="gs-bar-legend"><span>0 %</span>{% if eu_ly %}<span class="gs-ly-mark" style="left: {{ eu_ly.full }}%">▲ {{ mk.last_year }}</span>{% endif %}<span>100 %</span></p>
+        <div class="pw-stats pw-stats--mix">
+          {% if eu_ly %}
+          {% assign d_eu = eu.full | minus: eu_ly.full | round: 1 %}
+          <div><span>{{ mk.eu_vs_ly }}</span><strong class="{% if d_eu < 0 %}gs-down{% else %}gs-up{% endif %}">{% if d_eu > 0 %}+{% endif %}{{ d_eu | replace: ".", dec }} {{ mk.pts }}</strong></div>
+          {% endif %}
+          {% if fr %}
+          <div><span>{{ mk.france }}{% if fr_ly %} ({{ mk.last_year }}{{ t.colon }}{{ fr_ly.full | round: 0 }} %){% endif %}</span><strong>{{ fr.full | round: 1 | replace: ".", dec }} %</strong></div>
+          {% endif %}
+        </div>
+        <div class="pw-chart-head">
+          <span>{{ mk.storage_chart_head }}</span>
+          <div class="mkt-period-btns" id="gs-btns">
+            <button type="button" class="period-btn active" data-zone="eu">{{ mk.eu }}</button>
+            <button type="button" class="period-btn" data-zone="fr">{{ mk.france }}</button>
+          </div>
+        </div>
+        <div class="pw-chart pw-chart--tall"><canvas id="gs-chart" aria-label="{{ mk.storage_chart_aria }}"></canvas></div>
+        <p class="mt-legend gz-legend"><span class="gz-sw gz-sw--europe"></span>{{ eu.date | slice: 0, 4 }} <span class="gz-sw gz-sw--ly"></span>{{ y }}</p>
+        <p class="pw-sub">{{ mk.reading_of }} {{ eu.date | date: "%d/%m" }} · GIE AGSI+</p>
+        <script>window.mktGasStorage = {{ st | jsonify }};</script>
+        {% else %}
+        <p class="pw-sub">{{ mk.pending }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="mk-more-row">
+      {% assign gw = site.data.gas_world %}
+      {% if gw and gw.europe %}
+      {% assign gw_eu = gw.europe | last %}
+      {% assign gw_us = gw.usa | last %}
+      {% assign gw_as = gw.asie | last %}
+      {% assign gw_m = gw_eu.month | split: "-" | last | plus: 0 | minus: 1 %}
+      {% assign ratio = gw_eu.v | divided_by: gw_us.v | round: 1 | replace: '.', dec %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-gw">
+        <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
+        <span><strong>{{ mk.gw_tile }}</strong>{{ mk.gw_tile_sub | replace: '{n}', ratio }}</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
+      {% assign lng = site.data.lng_exports %}
+      {% if lng and lng.size > 12 %}
+      {% assign lng_last = lng | last %}
+      {% assign lng_prev_idx = lng.size | minus: 13 %}
+      {% assign lng_prev = lng[lng_prev_idx] %}
+      {% assign lng_yoy = lng_last.bcfd | minus: lng_prev.bcfd | times: 100.0 | divided_by: lng_prev.bcfd | round: 0 %}
+      {% assign m_idx = lng_last.month | split: "-" | last | plus: 0 | minus: 1 %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-lng">
+        <i class="fa-solid fa-ship" aria-hidden="true"></i>
+        <span><strong>{{ mk.lng_title }}</strong>{{ lng_last.bcfd | replace: ".", dec }} {{ t.js.bcfd }} {{ mk.in_month }} {{ t.months[m_idx] }} {{ lng_last.month | slice: 0, 4 }} · {% if lng_yoy > 0 %}+{% endif %}{{ lng_yoy }} % {{ mk.yoy }}</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
+    </div>
+
+    {% if gw and gw.europe %}
+    <dialog class="mk-dialog" id="dlg-gw" aria-labelledby="dlg-gw-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-gw-title">{{ mk.gw_title }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">{{ mk.gw_note }} {{ t.months[gw_m] }} {{ gw_eu.month | slice: 0, 4 }}.</p>
+      {% assign gap = gw_as.v | minus: gw_eu.v | round: 2 %}
+      <div class="mt-kpis">
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.europe }}</div><div class="mt-kpi-value">{{ gw_eu.v | replace: ".", dec }} <small>$/MMBtu</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.asia }}</div><div class="mt-kpi-value">{{ gw_as.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", dec }} $ {{ mk.vs_europe }}</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.usa }}</div><div class="mt-kpi-value">{{ gw_us.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{{ mk.europe_pays | replace: '{n}', ratio }}</div></div>
+      </div>
+      <div class="pw-chart-head">
+        <span></span>
+        <div class="mkt-period-btns" id="gw-btns">
+          <button type="button" class="period-btn active" data-period="24">{{ mk.y2 }}</button>
+          <button type="button" class="period-btn" data-period="60">{{ mk.y5 }}</button>
+          <button type="button" class="period-btn" data-period="120">{{ mk.y10 }}</button>
+        </div>
+      </div>
+      <div class="mt-chart mt-chart--tall"><canvas id="gw-chart" aria-label="{{ mk.gw_chart_aria }}"></canvas></div>
+      <p class="mt-legend"><span class="gz-sw gz-sw--europe"></span>{{ t.js.europe }} <span class="gz-sw gz-sw--asie"></span>{{ t.js.asia }} <span class="gz-sw gz-sw--usa"></span>{{ t.js.usa }}</p>
+      <p class="mt-src">Source{{ t.colon }}{{ mk.gw_source }}</p>
+    </dialog>
+    <script>window.mktGasWorld = {{ gw | jsonify }};</script>
+    {% endif %}
+
+    {% if lng and lng.size > 12 %}
+    <dialog class="mk-dialog" id="dlg-lng" aria-labelledby="dlg-lng-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-lng-title">{{ mk.lng_title }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">{{ mk.lng_note }}</p>
+      <div class="mt-chart mt-chart--tall"><canvas id="lng-chart" aria-label="{{ mk.lng_chart_aria }}"></canvas></div>
+      <p class="mt-src">Source{{ t.colon }}EIA</p>
+    </dialog>
+    <script>window.mktLng = {{ lng | jsonify }};</script>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ===== 3. PÉTROLE ===== -->
+<section class="mk-section" id="{{ t.ids.oil }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--oil"><i class="fa-solid fa-oil-well" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.oil_title }}</h2>
+        <p class="mk-lead">{{ mk.oil_lead }}</p>
+      </div>
+    </header>
+
+    {% assign e = market.brent %}
+    {% if lang == "en" %}{% assign e_label = e.date_label_en | default: e.date %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
+    {% if lang == "en" %}{% assign refp = t.cp.ref_period %}{% else %}{% assign refp = ormuz.ref_period %}{% endif %}
+    <div class="pw-card">
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">{{ mk.brent_label }}</p>
+          <button type="button" class="period-btn pw-expand" data-expand="brent" data-title="Brent" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
+        </div>
+        {% if e %}
+        <p class="pw-value">{{ e.price_usd | replace: ".", dec }} <small>{{ t.units.usd_bbl }}</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>
+        {% else %}<p class="pw-value">-</p>{% endif %}
+        <div class="pw-stats" data-week-stats="brent">
+          <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>
+          <div><span>{{ t.js.low }}</span><strong data-stat="min">-</strong></div>
+          <div><span>{{ t.js.high }}</span><strong data-stat="max">-</strong></div>
+        </div>
+        <div class="pw-chart-head">
+          <span>{{ mk.history }}</span>
+          <div class="mkt-period-btns" data-chart-controls="brent">
+            <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
+            <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
+            <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
+          </div>
+        </div>
+        <div class="pw-chart"><canvas id="chart-canvas-brent" aria-label="{{ mk.brent_chart_aria }}"></canvas></div>
+      </div>
+
+      <div class="pw-mix">
+        <p class="pw-label">{{ mk.cmp_label }}</p>
+        <p class="pw-note">{{ mk.cmp_note_1 }} {{ refp }}{{ mk.cmp_note_2 }}</p>
+        <div class="pw-chart pw-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ ormuz.ref_capacity_tanker_mt }}" aria-label="{{ mk.cmp_chart_aria }}"></canvas></div>
+        <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>{{ mk.cmp_legend_tankers }}
+          <span class="mt-sw"></span>Brent ({{ t.units.usd_bbl }})</p>
+        <p class="pw-sub">{{ mk.cmp_sources }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. ROUTES MARITIMES ===== -->
+<section class="mk-section mk-section--alt" id="{{ t.ids.sea }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--sea"><i class="fa-solid fa-ship" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.sea_title }}</h2>
+        <p class="mk-lead">{{ mk.sea_lead }}</p>
+      </div>
+    </header>
+
+    <div class="cp-grid">
+      {% include chokepoint.html key="hormuz" name=mk.hormuz_strait short=mk.hormuz lat="26.55" lon="56.3" zoom="7" %}
+      {% include chokepoint.html key="bab_el_mandeb" name=mk.bab_strait short=mk.bab lat="12.6" lon="43.4" zoom="7" %}
+      {% include chokepoint.html key="malacca" name=mk.malacca_strait short=mk.malacca lat="3.5" lon="100.5" zoom="5" %}
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. SÉCURITÉ EN MER ===== -->
+<section class="mk-section" id="{{ t.ids.security }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--risk"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.security_title }}</h2>
+        <p class="mk-lead">{{ mk.security_lead }}</p>
+      </div>
+    </header>
+    {% include incidents.html %}
+    {% if market.updated_at %}
+    <p class="mkt-updated-footer mkt-updated-footer--light"><span class="live-dot"></span>{{ mk.updated }} {{ market.updated_at | date: t.datetime_fmt }}</p>
+    {% endif %}
+  </div>
+</section>

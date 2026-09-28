@@ -1,6 +1,8 @@
 - number: 1
   title: "Panorama de l'énergie en France"
   description: "Qui produit quoi en France : nucléaire, hydraulique, renouvelables, thermique. Les bases du mix énergétique."
+  title_en: "An overview of energy in France"
+  description_en: "Who produces what in France: nuclear, hydro, renewables, thermal. The basics of the energy mix."
   spotify: "https://open.spotify.com/episode/52Jehmhya5d3TR2fyrkZ5F?si=aa7d477cc7ef40fa"
   apple: "https://podcasts.apple.com/us/podcast/savez-vous-vraiment-d%C3%B9-vient-l%C3%A9lectricit%C3%A9-que-vous/id6807057201?i=1000786984259"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_savez-vous-vraiment-do%C3%B9-vient-l%C3%A9lectricit%C3%A9-activity-7445376949952176128-rFP4"
@@ -8,6 +10,8 @@
 - number: 2
   title: "Du site de production à la prise : comprendre les réseaux"
   description: "RTE, Enedis, GRDF : comment l'énergie circule et pourquoi le réseau influence les prix."
+  title_en: "From power plant to plug: understanding the grids"
+  description_en: "RTE, Enedis, GRDF: how energy flows and why the grid affects prices."
   spotify: "https://open.spotify.com/episode/6r0vLqpaRnA5t2ogIt3WvP?si=8369d00c8430401e"
   apple: "https://podcasts.apple.com/us/podcast/comment-l%C3%A9lectricit%C3%A9-et-le-gaz-arrivent-ils-concr%C3%A8tement/id6807057201?i=1000788125049"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_comment-l%C3%A9lectricit%C3%A9etle-gaz-arrivent-ils-activity-7448346143446740992-g6bo"
@@ -15,6 +19,8 @@
 - number: 3
   title: "L'électricité renouvelable : opportunités, limites, intermittence"
   description: "Pourquoi l'intégration des énergies renouvelables complexifie le système électrique et le marché."
+  title_en: "Renewable electricity: opportunities, limits, intermittency"
+  description_en: "Why integrating renewables makes the power system and the market more complex."
   spotify: "https://open.spotify.com/episode/3nLI7l9Or1Y9XpxUJOmZm7?si=cac30586bf8d4b78"
   apple: "https://podcasts.apple.com/us/podcast/l%C3%A9lectricit%C3%A9-renouvelable-opportunit%C3%A9s-limites-intermittence/id6807057201?i=1000788654225"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_les-%C3%A9nergies-renouvelables-peuvent-elles-activity-7453423341157224448-GZQN"
@@ -22,6 +28,8 @@
 - number: 4
   title: "Le gaz naturel et le GNL : origines, flux et infrastructures"
   description: "D'où vient le gaz consommé en France, le rôle du GNL, du stockage et du biométhane."
+  title_en: "Natural gas and LNG: origins, flows and infrastructure"
+  description_en: "Where the gas used in France comes from, and the role of LNG, storage and biomethane."
   spotify: "https://open.spotify.com/episode/2XK4TIqy5GjTbyhzOjKW1d?si=0d642fb4d4b34ec2"
   apple: "https://podcasts.apple.com/us/podcast/le-gaz-naturel-et-le-gnl-origines-flux-et-infrastructures/id6807057201?i=1000788852685"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_energie-gaznaturel-gnl-activity-7455958682229592064-mLg7"
@@ -29,6 +37,8 @@
 - number: 5
   title: "Comprendre les taxes et la fiscalité de l'énergie"
   description: "TICFE, CTA, TVA : la structure du prix final payé par les consommateurs et les entreprises."
+  title_en: "Understanding energy taxes"
+  description_en: "TICFE, CTA, VAT: how the final price paid by households and businesses is built up."
   spotify: "https://open.spotify.com/episode/2USk6oEXZW7UZ4VlZXGFvx?si=de42f3c6e7fa4266"
   apple: "https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_aeznergie-podcast-fiscalitaez-activity-7465680769684832256-IWuI"
@@ -36,6 +46,8 @@
 - number: 6
   title: "Pourquoi l'énergie coûte ce qu'elle coûte : formation du prix"
   description: "Merit order, coût marginal, CO2 : les mécanismes qui fixent le prix de l'électricité et du gaz."
+  title_en: "Why energy costs what it costs: price formation"
+  description_en: "Merit order, marginal cost, CO2: the mechanisms that set electricity and gas prices."
   spotify: "https://open.spotify.com/episode/5aGF2puGB94yV28hLGjMxe?si=5af845a2843b45f9"
   apple: "https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_aeznergie-podcast-marchaezsdelaeznergie-activity-7467143376715509760-pEDd"
@@ -43,6 +55,8 @@
 - number: 7
   title: "Le marché de l'électricité et du gaz : fonctionnement, acteurs et logiques de prix"
   description: "Comment fonctionnent les marchés spot et à terme, et qui en sont les acteurs."
+  title_en: "The electricity and gas market: how it works, who trades and how prices form"
+  description_en: "How spot and forward markets work, and who the players are."
   spotify: "https://open.spotify.com/episode/3tvd0pzZVf6IXY8vMalOCJ?si=0c2bf5e89f0e49f1"
   apple: "https://podcasts.apple.com/fr/podcast/le-march%C3%A9-de-l%C3%A9lectricit%C3%A9-et-du-gaz-fonctionnement/id6807057201?i=1000790648006&l=en-GB"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_aeznergie-podcast-insideenergymarkets-activity-7468938931292606464-vQdY"
@@ -50,6 +64,8 @@
 - number: 8
   title: "Pourquoi les prix sont volatils ? Comprendre les pics et les creux"
   description: "Météo, géopolitique, disponibilité du nucléaire, stockage de gaz : les moteurs de la volatilité."
+  title_en: "Why are prices volatile? Understanding spikes and dips"
+  description_en: "Weather, geopolitics, nuclear availability, gas storage: what drives volatility."
   spotify: "https://open.spotify.com/episode/3fq8zWgQSOPiQUi87ZQgy4?si=dbc121ec4a914785"
   apple: "https://podcasts.apple.com/us/podcast/pourquoi-les-prix-sont-volatils-comprendre-les-pics/id6807057201?i=1000790914845"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_aeznergie-podcast-marchaezsdelaeznergie-activity-7470384375407300608-Gcst"
@@ -57,6 +73,8 @@
 - number: 9
   title: "Instruments financiers : comment se couvrir (hedging, forward, swap)"
   description: "Comment se protéger de la volatilité des prix : les outils de couverture expliqués simplement."
+  title_en: "Financial instruments: how to hedge (hedging, forwards, swaps)"
+  description_en: "How to protect yourself against price volatility: hedging tools explained simply."
   spotify: "https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA"
   apple: "https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_aeznergie-hedging-podcast-activity-7473651455766388737-jrsk"
@@ -64,6 +82,8 @@
 - number: 10
   title: "Interview d'un Sales-Trader"
   description: "Bloc + Spot, diversification, flexibilité : comment les entreprises structurent leurs achats d'énergie."
+  title_en: "Interview with a sales trader"
+  description_en: "Baseload + spot, diversification, flexibility: how companies structure their energy purchases."
   spotify: "https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA"
   apple: "https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201"
   linkedin: "https://www.linkedin.com/posts/tom-moulard_aeznergie-podcast-marchaezsdelaeznergie-activity-7480188018667028480-_m0M"

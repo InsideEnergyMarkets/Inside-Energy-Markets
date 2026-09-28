@@ -3,6 +3,7 @@
   les chiffres des 30 derniers jours et les derniers incidents
   (scripts/fetch_news.py -> _data/incidents.json, toutes les 2 h).
 {% endcomment %}
+{% include i18n.html %}
 {% assign inc = site.data.incidents %}
 {% assign incidents = inc.items %}
 {% if incidents and incidents.size > 0 %}
@@ -10,22 +11,22 @@
   <div class="inc-grid">
     <div class="inc-main">
       <div class="inc-filters" id="inc-filters"></div>
-      <div id="inc-map" role="region" aria-label="Carte des incidents maritimes, 90 derniers jours"></div>
-      <p class="mt-src">Incidents signalés au UKMTO sur 90 jours · Source : <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">UKMTO</a> · <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a></p>
+      <div id="inc-map" role="region" aria-label="{{ t.inc.map_aria }}"></div>
+      <p class="mt-src">{{ t.inc.map_src }} · Source{{ t.colon }}<a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">UKMTO</a> · <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a></p>
     </div>
     <aside class="inc-side">
       {% if inc.stats %}
-      <p class="pw-label">30 derniers jours</p>
+      <p class="pw-label">{{ t.inc.last30 }}</p>
       <div class="inc-stats">
-        <div><strong>{{ inc.stats.total_30d }}</strong><span>incidents</span></div>
-        <div><strong class="inc-stats-hot">{{ inc.stats.attacks_30d }}</strong><span>attaques</span></div>
+        <div><strong>{{ inc.stats.total_30d }}</strong><span>{{ t.inc.incidents }}</span></div>
+        <div><strong class="inc-stats-hot">{{ inc.stats.attacks_30d }}</strong><span>{{ t.inc.attacks }}</span></div>
       </div>
       {% assign top_place = inc.stats.top_places | first %}
-      {% if top_place %}<p class="inc-top">Zone la plus touchée : <strong>{{ top_place.place }}</strong> ({{ top_place.n }})</p>{% endif %}
+      {% if top_place %}<p class="inc-top">{{ t.inc.top_zone }}{{ t.colon }}<strong>{% if lang == "en" %}{{ top_place.place_en | default: top_place.place }}{% else %}{{ top_place.place }}{% endif %}</strong> ({{ top_place.n }})</p>{% endif %}
       {% endif %}
-      <h4 class="inc-list-title">Derniers incidents</h4>
+      <h4 class="inc-list-title">{{ t.inc.latest }}</h4>
       <ol class="inc-list" id="inc-list"></ol>
-      <a class="inc-all" href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">Tous les incidents sur le site de l'UKMTO <span aria-hidden="true">→</span></a>
+      <a class="inc-all" href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">{{ t.inc.all_ukmto }} <span aria-hidden="true">→</span></a>
     </aside>
   </div>
 </section>
