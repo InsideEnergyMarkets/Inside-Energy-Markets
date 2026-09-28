@@ -32,7 +32,8 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   `PYTHONIOENCODING=utf-8` pour afficher les accents.
 - `gh` connecté (compte InsideEnergyMarkets, scope workflow) : lancer des workflows, lire les logs.
   Dans PowerShell, recharger le PATH : `$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")`.
-- Identité git du repo : Tom Moulard <tom.moulard@kedgebs.com>.
+- Identité git du repo : Tom Moulard <325581313+InsideEnergyMarkets@users.noreply.github.com> (adresse masquée
+  GitHub, réglée dans .git/config ; ne jamais commiter avec l'adresse KEDGE, qui serait publique).
 - Pas de Ruby/Jekyll en local. Pour un aperçu fidèle : pousser une branche `apercu-*`,
   le workflow `preview-build.yml` construit le site (artefact « site »), puis
   `gh run download <id> -n site -D <dossier>/Inside-Energy-Markets` et servir `<dossier>`
