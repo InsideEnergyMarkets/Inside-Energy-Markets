@@ -7,6 +7,13 @@
   {% seo %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  {% comment %}Turbo : les liens internes chargent la page suivante sans recharger la fenêtre,
+  pour que le lecteur du podcast continue de jouer d'une page à l'autre.{% endcomment %}
+  <meta name="turbo-cache-control" content="no-cache">
+  <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.12/dist/turbo.es2017-umd.min.js"></script>
+  <script data-goatcounter="https://insideenergymarkets.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
 <body>
@@ -41,7 +48,13 @@
     </div>
   </footer>
 
+<div id="pl-root" data-turbo-permanent></div>
+
 <script>
+// Tout ce bloc (écouteurs globaux, lecteur) ne s'installe qu'une fois : avec Turbo,
+// les scripts de la page sont rejoués à chaque changement de page.
+if (!window.iemApp) {
+window.iemApp = true;
 // Cartes épisodes : « Écouter » retourne la carte, « Retour » ou Échap la remet à l'endroit
 function epFlip(card, on) {
   card.classList.toggle('flipped', on);
@@ -87,12 +100,12 @@ function buildPlayer() {
       '<a class="pl-link pl-link--linkedin" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>' +
     '</div>' +
     '<button type="button" class="pl-expand" aria-label="Agrandir le lecteur" aria-expanded="false"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>' +
-    '<button type="button" class="pl-close" aria-label="Fermer le lecteur">&#x2715;</button>' +
-    '<audio preload="none"></audio>';
+    '<button type="button" class="pl-close" aria-label="Fermer le lecteur">&#x2715;</button>';
   var backdrop = document.createElement('div');
   backdrop.className = 'pl-backdrop';
-  document.body.appendChild(backdrop);
-  document.body.appendChild(bar);
+  var root = document.getElementById('pl-root') || document.body;
+  root.appendChild(backdrop);
+  root.appendChild(bar);
   function expand(on) {
     bar.classList.toggle('is-expanded', on);
     backdrop.classList.toggle('is-open', on);
@@ -103,7 +116,7 @@ function buildPlayer() {
   }
   bar.querySelector('.pl-expand').addEventListener('click', function () { expand(!bar.classList.contains('is-expanded')); });
   backdrop.addEventListener('click', function () { expand(false); });
-  var audio = bar.querySelector('audio'), seek = bar.querySelector('.pl-seek'), toggle = bar.querySelector('.pl-toggle');
+  var audio = Object.assign(new Audio(), { preload: 'none' }), seek = bar.querySelector('.pl-seek'), toggle = bar.querySelector('.pl-toggle');
   function paint() {
     var d = audio.duration || +bar.dataset.duration || 0;
     bar.querySelector('.pl-time').textContent = fmtTime(audio.currentTime);
@@ -134,7 +147,7 @@ function buildPlayer() {
     audio.pause();
     expand(false);
     bar.classList.remove('is-open');
-    document.body.classList.remove('has-player');
+    document.documentElement.classList.remove('has-player');
   });
   return { bar: bar, audio: audio, paint: paint, expand: expand };
 }
@@ -154,7 +167,7 @@ document.addEventListener('click', function (e) {
     });
   }
   bar.classList.add('is-open');
-  document.body.classList.add('has-player');
+  document.documentElement.classList.add('has-player');
   player.paint();
   audio.play();
   epFlip(btn.closest('.ep-flip'), false);
@@ -164,10 +177,17 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && player) player.expand(false);
   if (e.key === 'Escape') document.querySelectorAll('.ep-flip.flipped').forEach(function (c) { epFlip(c, false); });
 });
+
+// Statistiques : GoatCounter compte le premier chargement, puis chaque page ouverte via Turbo
+var iemFirstVisit = true;
+document.addEventListener('turbo:load', function () {
+  if (iemFirstVisit) { iemFirstVisit = false; return; }
+  if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: location.pathname + location.search });
+});
+}
 </script>
 
-<script data-goatcounter="https://insideenergymarkets.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script>
+<script>
 // Fallback générique pour toutes les cartes AIS (Ormuz, Bab-el-Mandeb, Malacca...)
 // Le délai ne démarre que quand la carte est visible à l'écran : avec loading="lazy",
 // le navigateur ne charge l'iframe qu'à l'approche de la carte, et un délai lancé dès
@@ -809,6 +829,8 @@ document.querySelectorAll('.nw-time[data-date]').forEach(function (el) {
 });
 
 // ===== Bandeau d'actualités : un titre à la fois, le suivant arrive par le bas =====
+(window.iemTimers || []).forEach(clearInterval);
+window.iemTimers = [];
 document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var slides = bar.querySelectorAll('.nw-slide'), count = bar.querySelector('.nw-count');
   if (slides.length < 2) return;
@@ -830,7 +852,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   bar.addEventListener('mouseleave', function () { paused = false; });
   bar.addEventListener('focusin', function () { paused = true; });
   bar.addEventListener('focusout', function () { paused = false; });
-  setInterval(next, 6000);
+  window.iemTimers.push(setInterval(next, 6000));
 });
 
 // ===== Exportations de GNL des États-Unis (EIA, mensuel) =====
