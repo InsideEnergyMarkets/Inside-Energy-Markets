@@ -552,7 +552,7 @@ if (navToggle) {
   }
 
   // Accès depuis les blocs où le graphique est toujours visible (ex. Électricité France)
-  window.mktCharts = { render: renderChart, open: openModal };
+  window.mktCharts = { render: renderChart, open: openModal, window: seriesWindow };
 
   document.querySelectorAll('.mkt-flip-outer').forEach(function (card) {
     var key = card.getAttribute('data-chart');
@@ -752,6 +752,47 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       window.mktCharts.open(btn.getAttribute('data-expand'), btn.getAttribute('data-title'), btn);
     });
   });
+
+  // Moyenne, plus bas et plus haut des 7 derniers jours cotés (Brent, Henry Hub)
+  document.querySelectorAll('[data-week-stats]').forEach(function (box) {
+    var dataset = window.mktChartData && window.mktChartData[box.getAttribute('data-week-stats')];
+    if (!dataset) return;
+    var v = window.mktCharts.window(dataset, 7).values;
+    if (!v.length) return;
+    function put(k, x) {
+      box.querySelector('[data-stat="' + k + '"]').textContent =
+        x.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + dataset.unit.split('/')[0];
+    }
+    put('avg', v.reduce(function (a, b) { return a + b; }, 0) / v.length);
+    put('min', Math.min.apply(null, v));
+    put('max', Math.max.apply(null, v));
+  });
+})();
+
+// ===== Fenêtres de détail (détroits, Ormuz / Brent) =====
+(function () {
+  document.querySelectorAll('[data-dialog]').forEach(function (btn) {
+    var dlg = document.getElementById(btn.getAttribute('data-dialog'));
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    btn.addEventListener('click', function () {
+      dlg.showModal();
+      document.body.style.overflow = 'hidden';
+      // Graphiques créés quand la fenêtre était fermée : on les recale sur leur taille réelle
+      if (window.Chart) dlg.querySelectorAll('canvas').forEach(function (c) {
+        var ch = Chart.getChart(c);
+        if (ch) ch.resize();
+      });
+    });
+  });
+  document.querySelectorAll('.mk-dialog').forEach(function (dlg) {
+    dlg.addEventListener('close', function () { document.body.style.overflow = ''; });
+    dlg.addEventListener('click', function (e) {
+      // Clic sur le fond assombri (hors de la fenêtre) ou sur la croix
+      var r = dlg.getBoundingClientRect();
+      var outside = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+      if ((e.target === dlg && outside) || e.target.closest('[data-close]')) dlg.close();
+    });
+  });
 })();
 
 // ===== Sommaire de la page Marchés : rubrique en cours de lecture =====
@@ -835,7 +876,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 
   // Liste courte : les 5 plus récents, résumé coupé à 2 lignes (texte complet dans la fiche de la carte)
-  document.getElementById('inc-list').innerHTML = items.slice(0, 5).map(function (i) {
+  document.getElementById('inc-list').innerHTML = items.slice(0, 4).map(function (i) {
     var k = kind(i.type), where = [i.place, i.vessel_type].filter(Boolean).join(' · ');
     var day = new Date(i.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
     return '<li style="--c:' + k.color + '"><div class="inc-meta"><time>' + day + '</time><span class="inc-tag">' + k.label +

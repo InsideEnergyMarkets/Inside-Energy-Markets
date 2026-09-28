@@ -1,17 +1,50 @@
 {% comment %}
-  Carte « tableau de bord » d'un détroit.
-  Paramètres : key (hormuz, bab_el_mandeb, malacca), name, lat, lon, zoom, link (optionnel).
+  Fiche compacte d'un détroit (chiffres essentiels + carte en direct), avec le détail
+  (chiffres complets, courbe 90 jours, contexte EIA) dans une fenêtre.
+  Paramètres : key (hormuz, bab_el_mandeb, malacca), name, short, lat, lon, zoom.
   Données : site.data.market.chokepoints[key] (valeurs du jour) et
   site.data.chokepoints_history[key] (courbe 90 jours, lue par le script de la page).
 {% endcomment %}
 {% assign cp = site.data.market.chokepoints[include.key] %}
 {% assign ctx = site.data.chokepoints_context %}
-<article class="mt-card" id="detroit-{{ include.key }}">
+{% if cp.status == 'fluide' %}{% assign badge = "Trafic fluide" %}{% elsif cp.status == 'partiel' %}{% assign badge = "Partiellement perturbé" %}{% else %}{% assign badge = "Fortement perturbé" %}{% endif %}
+<article class="cp-tile {{ cp.status }}" id="detroit-{{ include.key }}">
+  <header class="cp-tile-head">
+    <h3 class="cp-tile-name">{{ include.short }}</h3>
+    {% if cp.status %}<span class="mt-badge {{ cp.status }}">● {{ badge }}</span>{% endif %}
+  </header>
+
+  {% if cp.pct_total != nil %}
+  <div class="cp-tile-figs">
+    <div><strong class="cp-tile-pct">{{ cp.pct_total }} %</strong><span>du trafic normal</span></div>
+    <div><strong>{{ cp.n_tanker | replace: ".", "," }}</strong><span>tankers / jour<br>normale {{ cp.ref_tanker | replace: ".", "," }}</span></div>
+  </div>
+  <div class="mt-gauge"><span class="mt-gauge--{% if cp.pct_total >= 80 %}ok{% elsif cp.pct_total >= 40 %}mid{% else %}low{% endif %}" style="width: {{ cp.pct_total | at_most: 100 }}%"></span></div>
+  {% else %}
+  <p class="mt-kpi-note">Données de trafic momentanément indisponibles.</p>
+  {% endif %}
+
+  <div class="ais-embed-wrap cp-tile-map">
+    <iframe class="ais-frame" loading="lazy" title="Carte MarineTraffic, {{ include.name }}"
+      src="https://www.marinetraffic.com/en/ais/embed/zoom:{{ include.zoom }}/centery:{{ include.lat }}/centerx:{{ include.lon }}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
+      frameborder="0" scrolling="no"></iframe>
+    <div class="ais-fallback">
+      <p>La carte en direct n'a pas pu se charger.</p>
+      <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">Voir sur MarineTraffic →</a>
+    </div>
+  </div>
+  <p class="mt-src">Trafic : IMF PortWatch{% if cp.date %}, au {{ cp.date | date: "%d/%m" }}{% endif %} · Carte : MarineTraffic</p>
+
+  <button type="button" class="mk-open" data-dialog="dlg-{{ include.key }}">Détail : 90 jours et contexte <span aria-hidden="true">↗</span></button>
+</article>
+
+<dialog class="mk-dialog" id="dlg-{{ include.key }}" aria-labelledby="dlg-{{ include.key }}-title">
   <header class="mt-head">
-    <h3 class="mkt-commodity-name">{{ include.name }}</h3>
-    {% if cp.status %}
-    <span class="mt-badge {{ cp.status }}">{% if cp.status == 'fluide' %}● Trafic fluide{% elsif cp.status == 'partiel' %}● Trafic partiellement perturbé{% else %}● Trafic fortement perturbé{% endif %}</span>
-    {% endif %}
+    <h3 class="mkt-commodity-name" id="dlg-{{ include.key }}-title">{{ include.name }}</h3>
+    <div class="mk-dialog-tools">
+      {% if cp.status %}<span class="mt-badge {{ cp.status }}">● {{ badge }}</span>{% endif %}
+      <button type="button" class="mkt-modal-close" data-close aria-label="Fermer">&#x2715;</button>
+    </div>
   </header>
 
   {% if cp.pct_total != nil %}
@@ -26,8 +59,6 @@
   <div class="mt-chart"><canvas data-cp-chart="{{ include.key }}" data-ref="{{ cp.ref_tanker }}" aria-label="Tankers par jour sur 90 jours, {{ include.name }}"></canvas></div>
   <p class="mt-legend"><span class="mt-sw"></span>Tankers par jour (moyenne 7 j)
     <span class="mt-sw mt-sw--ref"></span>Normale ({{ cp.ref_period }})</p>
-  {% else %}
-  <p class="mt-kpi-note">Données de trafic momentanément indisponibles.</p>
   {% endif %}
 
   {% assign items = ctx[include.key] %}
@@ -37,23 +68,4 @@
   </div>
   <p class="mt-src">Contexte : <a href="{{ ctx.source_url }}" target="_blank" rel="noopener">{{ ctx.source_label }}</a> · Trafic : IMF PortWatch</p>
   {% endif %}
-
-  <figure class="mt-map">
-    <figcaption class="mt-map-head">
-      <span class="mt-live"><i aria-hidden="true"></i>Carte en direct</span>
-      <span class="mt-map-note">Tous les navires présents dans la zone, ports compris : ce n'est pas le nombre de passages.</span>
-    </figcaption>
-    <div class="ais-embed-wrap ais-embed-wrap--hero">
-      <iframe class="ais-frame" loading="lazy" title="Carte MarineTraffic, {{ include.name }}"
-        src="https://www.marinetraffic.com/en/ais/embed/zoom:{{ include.zoom }}/centery:{{ include.lat }}/centerx:{{ include.lon }}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:false/remember:false"
-        frameborder="0" scrolling="no"></iframe>
-      <div class="ais-fallback">
-        <p>La carte en direct n'a pas pu se charger.</p>
-        <a href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">Voir en direct sur MarineTraffic →</a>
-      </div>
-    </div>
-    <p class="mt-src">Carte : MarineTraffic</p>
-  </figure>
-
-  {% if include.link %}<p class="mt-more"><a href="{{ '/marches/' | relative_url }}">Voir aussi Bab-el-Mandeb, Malacca et le lien Ormuz / Brent →</a></p>{% endif %}
-</article>
+</dialog>

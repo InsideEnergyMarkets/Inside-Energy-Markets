@@ -1,20 +1,33 @@
 {% comment %}
-  Incidents dans la zone : liens vers les alertes officielles + carte des incidents
-  signalés au UKMTO (scripts/fetch_news.py -> _data/incidents.json, toutes les 2 h).
+  Sécurité en mer : carte des incidents signalés au UKMTO (90 jours) et, à côté,
+  les chiffres des 30 derniers jours et les derniers incidents
+  (scripts/fetch_news.py -> _data/incidents.json, toutes les 2 h).
 {% endcomment %}
-{% assign incidents = site.data.incidents.items %}
+{% assign inc = site.data.incidents %}
+{% assign incidents = inc.items %}
 {% if incidents and incidents.size > 0 %}
 <section class="mt-card inc-card">
-  <h3 class="mkt-commodity-name">Carte des incidents</h3>
-  <p class="mt-kpi-note">Incidents signalés par les navires au UKMTO (centre maritime de la Royal Navy) sur les 90 derniers jours.</p>
-  <div class="inc-filters" id="inc-filters"></div>
-  <div id="inc-map" role="region" aria-label="Carte des incidents maritimes"></div>
-  <div class="inc-latest">
-    <h4 class="inc-list-title">Derniers incidents</h4>
-    <ol class="inc-list" id="inc-list"></ol>
-    <a class="inc-all" href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">Tous les incidents sur le site de l'UKMTO →</a>
+  <div class="inc-grid">
+    <div class="inc-main">
+      <div class="inc-filters" id="inc-filters"></div>
+      <div id="inc-map" role="region" aria-label="Carte des incidents maritimes, 90 derniers jours"></div>
+      <p class="mt-src">Incidents signalés au UKMTO sur 90 jours · Source : <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">UKMTO</a> · <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a></p>
+    </div>
+    <aside class="inc-side">
+      {% if inc.stats %}
+      <p class="pw-label">30 derniers jours</p>
+      <div class="inc-stats">
+        <div><strong>{{ inc.stats.total_30d }}</strong><span>incidents</span></div>
+        <div><strong class="inc-stats-hot">{{ inc.stats.attacks_30d }}</strong><span>attaques</span></div>
+      </div>
+      {% assign top_place = inc.stats.top_places | first %}
+      {% if top_place %}<p class="inc-top">Zone la plus touchée : <strong>{{ top_place.place }}</strong> ({{ top_place.n }})</p>{% endif %}
+      {% endif %}
+      <h4 class="inc-list-title">Derniers incidents</h4>
+      <ol class="inc-list" id="inc-list"></ol>
+      <a class="inc-all" href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">Tous les incidents sur le site de l'UKMTO →</a>
+    </aside>
   </div>
-  <p class="mt-src">Source : <a href="https://www.ukmto.org/recent-incidents" target="_blank" rel="noopener">UKMTO</a> · <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a></p>
 </section>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
