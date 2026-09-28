@@ -749,7 +749,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       datasets: [{ data: rows.map(function (r) { return r.bcfd; }), backgroundColor: '#e8b33a', borderRadius: 3 }]
     },
     options: {
-      responsive: true, maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false, animation: false,
       plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
         title: function (items) { return month(items[0].label, true); },
         label: function (c) { return c.parsed.y.toLocaleString('fr-FR') + ' Bcf/j'; },
