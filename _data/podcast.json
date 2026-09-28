@@ -1,0 +1,50 @@
+{
+ "updated_at": "2026-09-28T09:08:26+00:00",
+ "episodes": {
+  "9": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/126231198/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-24%2F939b6a48-aacd-92e6-b742-c5ee251f092e.mp3",
+   "duration": 207,
+   "date": "2026-09-24"
+  },
+  "8": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/126072872/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-21%2F9e448ec1-3dfc-1cf2-578b-ed09440c76cc.mp3",
+   "duration": 225,
+   "date": "2026-09-21"
+  },
+  "7": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/125985201/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-19%2F260d280f-e7ef-0e22-b87a-3134d193f2b1.mp3",
+   "duration": 264,
+   "date": "2026-09-19"
+  },
+  "6": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/125920752/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-18%2F49e540cc-625d-4114-a5ea-7a566e1da3ed.mp3",
+   "duration": 185,
+   "date": "2026-09-18"
+  },
+  "5": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/125629168/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-12%2F5c057a9d-c443-a253-b601-61645359b486.mp3",
+   "duration": 266,
+   "date": "2026-09-12"
+  },
+  "4": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/125525187/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-10%2F3ac5cabd-8d23-d21d-4951-2ecaab9e5b10.mp3",
+   "duration": 317,
+   "date": "2026-09-10"
+  },
+  "3": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/125451420/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-9%2Ff9029032-5aec-897c-3b4e-12071b502998.mp3",
+   "duration": 151,
+   "date": "2026-09-09"
+  },
+  "2": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/125271585/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-8-6%2F9ccc5fd4-713b-33f3-92f4-e0abcc304411.mp3",
+   "duration": 211,
+   "date": "2026-09-06"
+  },
+  "1": {
+   "audio": "https://anchor.fm/s/10edf0868/podcast/play/124983517/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-7-31%2Fb280cc9b-bb03-12d9-c091-05613eeb577c.mp3",
+   "duration": 184,
+   "date": "2026-08-31"
+  }
+ }
+}

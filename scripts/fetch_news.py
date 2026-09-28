@@ -4,6 +4,8 @@ Actualités et incidents maritimes, lancé toutes les 2 h par .github/workflows/
 - _data/news.json : derniers titres liés à l'énergie et aux détroits, repris des flux RSS
   publics de 5 médias (Al Jazeera, France 24, Le Monde, EIA, BBC) (titre, lien, média, date). Les flux RSS sont faits pour être repris ;
   on n'affiche que le titre et le lien vers l'article.
+- _data/podcast.json : lien audio, durée et date de chaque épisode (flux RSS du podcast),
+  pour le lecteur intégré au site.
 - _data/incidents.json : incidents signalés au UKMTO (centre maritime de la Royal Navy),
   via le flux qui alimente la carte de www.ukmto.org. Contenu publié sous Open Government
   Licence v3.0 (www.ukmto.org/terms-and-conditions, points 20 et 22). On garde 12 mois.
@@ -45,6 +47,11 @@ ENERGY = re.compile(r"\boil\b|pétrol|tanker|\bship|navire|strait|détroit|\bgas
 
 UKMTO_URL = "https://sccd.royalnavy.mod.uk/api/ukmto/all"
 INCIDENTS_KEEP_DAYS = 365
+
+# Flux RSS public du podcast (trouvé via l'API iTunes lookup, id 6807057201)
+PODCAST_RSS = "https://anchor.fm/s/10edf0868/podcast/rss"
+PODCAST_PATH = os.path.join(DATA_DIR, "podcast.json")
+ITUNES = {"itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd"}
 
 
 def load_json(path, default):
@@ -188,10 +195,56 @@ def update_incidents():
     print(f"Incidents UKMTO : {len(raw)} dans le flux, {len(items)} conservés")
 
 
+# ===== Podcast : fichiers audio pour le lecteur du site =====
+
+def parse_duration(value):
+    """« 00:03:27 », « 03:27 » ou « 207 » -> secondes."""
+    seconds = 0
+    for part in (value or "").strip().split(":"):
+        if not part.strip().isdigit():
+            return None
+        seconds = seconds * 60 + int(part)
+    return seconds or None
+
+
+def update_podcast():
+    """Lien audio, durée et date de chaque épisode, repris du flux RSS public du podcast
+    (Spotify for Creators). Le lien passe par Spotify for Creators, donc les écoutes sur le
+    site comptent dans ses statistiques. En cas d'échec, on garde le fichier précédent."""
+    try:
+        r = requests.get(PODCAST_RSS, headers=HEADERS, timeout=30)
+        r.raise_for_status()
+        root = ET.fromstring(r.content)
+    except Exception as e:
+        print(f"Erreur flux du podcast: {e}")
+        return
+    episodes = {}
+    for it in root.iter("item"):
+        number = (it.findtext("itunes:episode", namespaces=ITUNES) or "").strip()
+        enclosure = it.find("enclosure")
+        if not number.isdigit() or enclosure is None or not enclosure.get("url"):
+            continue
+        try:
+            date = parsedate_to_datetime(it.findtext("pubDate")).date().isoformat()
+        except Exception:
+            date = None
+        episodes[str(int(number))] = {
+            "audio": enclosure.get("url"),
+            "duration": parse_duration(it.findtext("itunes:duration", namespaces=ITUNES)),
+            "date": date,
+        }
+    if not episodes:
+        print("Flux du podcast vide, on garde le fichier précédent.")
+        return
+    write_json(PODCAST_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "episodes": episodes})
+    print(f"Podcast : {len(episodes)} épisodes dans le flux")
+
+
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
     update_news()
     update_incidents()
+    update_podcast()
     return 0
 
 

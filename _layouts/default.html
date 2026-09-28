@@ -61,7 +61,107 @@ document.addEventListener('click', function (e) {
   var close = e.target.closest('[data-unflip]');
   if (close) epFlip(close.closest('.ep-flip'), false);
 });
+// ===== Lecteur du podcast : barre fixée en bas de l'écran, créée au premier « Écouter ici » =====
+var player = null;
+function fmtTime(s) {
+  s = Math.max(0, Math.floor(s || 0));
+  return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
+}
+function buildPlayer() {
+  var bar = document.createElement('div');
+  bar.className = 'pl-bar';
+  bar.setAttribute('role', 'region');
+  bar.setAttribute('aria-label', 'Lecteur du podcast');
+  bar.innerHTML =
+    '<img class="pl-cover" src="{{ '/assets/img/hero.png' | relative_url }}" alt="">' +
+    '<div class="pl-info"><span class="pl-kicker"></span><span class="pl-title"></span></div>' +
+    '<button type="button" class="pl-btn pl-back" aria-label="Reculer de 15 secondes">-15</button>' +
+    '<button type="button" class="pl-btn pl-toggle" aria-label="Pause"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>' +
+    '<button type="button" class="pl-btn pl-fwd" aria-label="Avancer de 15 secondes">+15</button>' +
+    '<div class="pl-progress"><span class="pl-time">0:00</span>' +
+    '<input type="range" class="pl-seek" min="0" max="1000" value="0" step="1" aria-label="Position dans l\'épisode">' +
+    '<span class="pl-dur">0:00</span></div>' +
+    '<div class="pl-links">' +
+      '<a class="pl-link pl-link--spotify" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i>Spotify</a>' +
+      '<a class="pl-link pl-link--apple" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i>Apple Podcasts</a>' +
+      '<a class="pl-link pl-link--linkedin" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>' +
+    '</div>' +
+    '<button type="button" class="pl-expand" aria-label="Agrandir le lecteur" aria-expanded="false"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>' +
+    '<button type="button" class="pl-close" aria-label="Fermer le lecteur">&#x2715;</button>' +
+    '<audio preload="none"></audio>';
+  var backdrop = document.createElement('div');
+  backdrop.className = 'pl-backdrop';
+  document.body.appendChild(backdrop);
+  document.body.appendChild(bar);
+  function expand(on) {
+    bar.classList.toggle('is-expanded', on);
+    backdrop.classList.toggle('is-open', on);
+    var b = bar.querySelector('.pl-expand');
+    b.setAttribute('aria-expanded', on ? 'true' : 'false');
+    b.setAttribute('aria-label', on ? 'Réduire le lecteur' : 'Agrandir le lecteur');
+    b.innerHTML = '<i class="fa-solid fa-' + (on ? 'down-left-and-up-right-to-center' : 'up-right-and-down-left-from-center') + '" aria-hidden="true"></i>';
+  }
+  bar.querySelector('.pl-expand').addEventListener('click', function () { expand(!bar.classList.contains('is-expanded')); });
+  backdrop.addEventListener('click', function () { expand(false); });
+  var audio = bar.querySelector('audio'), seek = bar.querySelector('.pl-seek'), toggle = bar.querySelector('.pl-toggle');
+  function paint() {
+    var d = audio.duration || +bar.dataset.duration || 0;
+    bar.querySelector('.pl-time').textContent = fmtTime(audio.currentTime);
+    bar.querySelector('.pl-dur').textContent = fmtTime(d);
+    if (!seek.matches(':active')) seek.value = d ? Math.round(audio.currentTime / d * 1000) : 0;
+    seek.style.setProperty('--p', (seek.value / 10) + '%');
+  }
+  function state() {
+    var playing = !audio.paused;
+    toggle.innerHTML = '<i class="fa-solid fa-' + (playing ? 'pause' : 'play') + '" aria-hidden="true"></i>';
+    toggle.setAttribute('aria-label', playing ? 'Pause' : 'Lecture');
+    bar.classList.toggle('is-playing', playing);
+  }
+  audio.addEventListener('timeupdate', paint);
+  audio.addEventListener('loadedmetadata', paint);
+  audio.addEventListener('play', state);
+  audio.addEventListener('pause', state);
+  audio.addEventListener('ended', state);
+  toggle.addEventListener('click', function () { if (audio.paused) audio.play(); else audio.pause(); });
+  bar.querySelector('.pl-back').addEventListener('click', function () { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+  bar.querySelector('.pl-fwd').addEventListener('click', function () { audio.currentTime = Math.min(audio.duration || 1e9, audio.currentTime + 15); });
+  seek.addEventListener('input', function () {
+    var d = audio.duration || +bar.dataset.duration || 0;
+    if (d) audio.currentTime = seek.value / 1000 * d;
+    seek.style.setProperty('--p', (seek.value / 10) + '%');
+  });
+  bar.querySelector('.pl-close').addEventListener('click', function () {
+    audio.pause();
+    expand(false);
+    bar.classList.remove('is-open');
+    document.body.classList.remove('has-player');
+  });
+  return { bar: bar, audio: audio, paint: paint, expand: expand };
+}
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-play]');
+  if (!btn) return;
+  if (!player) player = buildPlayer();
+  var bar = player.bar, audio = player.audio;
+  if (audio.getAttribute('src') !== btn.dataset.audio) {
+    audio.src = btn.dataset.audio;
+    bar.dataset.duration = btn.dataset.duration || '';
+    bar.querySelector('.pl-kicker').textContent = 'Épisode ' + btn.dataset.number;
+    bar.querySelector('.pl-title').textContent = btn.dataset.title;
+    ['spotify', 'apple', 'linkedin'].forEach(function (k) {
+      var a = bar.querySelector('.pl-link--' + k);
+      if (btn.dataset[k]) { a.href = btn.dataset[k]; a.hidden = false; } else { a.hidden = true; }
+    });
+  }
+  bar.classList.add('is-open');
+  document.body.classList.add('has-player');
+  player.paint();
+  audio.play();
+  epFlip(btn.closest('.ep-flip'), false);
+});
+
 document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && player) player.expand(false);
   if (e.key === 'Escape') document.querySelectorAll('.ep-flip.flipped').forEach(function (c) { epFlip(c, false); });
 });
 </script>

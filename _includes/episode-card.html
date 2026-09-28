@@ -6,6 +6,9 @@
   cls (classe en plus, optionnel).
 {% endcomment %}
 {% assign ep = include.ep %}
+{% assign ep_key = ep.number | append: "" %}
+{% assign pod = site.data.podcast.episodes[ep_key] %}
+{% if pod.duration %}{% assign ep_min = pod.duration | divided_by: 60 %}{% assign ep_sec = pod.duration | modulo: 60 %}{% if ep_sec < 10 %}{% assign ep_sec = ep_sec | prepend: "0" %}{% endif %}{% endif %}
 <div class="ep-flip{% if include.featured %} ep-flip--featured{% endif %}{% if include.cls %} {{ include.cls }}{% endif %}">
   <div class="ep-flip-inner">
     <div class="ep-front card card--episode{% if include.featured %} card--featured{% endif %}">
@@ -17,13 +20,17 @@
       <div class="card-body">
         <h3>{{ ep.title }}</h3>
         <p>{{ ep.description }}</p>
-        <button type="button" class="btn-listen" data-flip aria-label="Écouter l'épisode {{ ep.number }} : choisir la plateforme"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter</button>
+        <div class="ep-actions">
+          <button type="button" class="btn-listen" data-flip aria-label="Écouter l'épisode {{ ep.number }} : choisir la plateforme"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter</button>
+          {% if pod.duration %}<span class="ep-duration"><i class="fa-regular fa-clock" aria-hidden="true"></i>{{ ep_min }} min {{ ep_sec }}</span>{% endif %}
+        </div>
       </div>
     </div>
     <div class="ep-back" inert style="--cover: url('{{ '/assets/img/hero.png' | relative_url }}')">
       <p class="ep-back-kicker">Épisode {{ ep.number }} · Écouter sur</p>
       <p class="ep-back-title">{{ ep.title }}</p>
       <div class="ep-back-links">
+        {% if pod.audio %}<button type="button" class="ep-link ep-link--here" data-play data-audio="{{ pod.audio | escape }}" data-number="{{ ep.number }}" data-title="{{ ep.title | escape }}" data-duration="{{ pod.duration }}" data-spotify="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" data-apple="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" data-linkedin="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}"><i class="fa-solid fa-play" aria-hidden="true"></i><span>Écouter ici</span><b>{{ ep_min }}:{{ ep_sec }}</b></button>{% endif %}
         <a class="ep-link ep-link--spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i><span>Spotify</span><b aria-hidden="true">↗</b></a>
         <a class="ep-link ep-link--apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i><span>Apple Podcasts</span><b aria-hidden="true">↗</b></a>
         <a class="ep-link ep-link--linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span><b aria-hidden="true">↗</b></a>
