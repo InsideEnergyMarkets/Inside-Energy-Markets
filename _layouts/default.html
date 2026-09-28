@@ -271,7 +271,7 @@ if (navToggle) {
                 return ctx.datasetIndex === 1 ? 'Moy. 7j : ' + txt : txt;
               },
               afterBody: function (items) {
-                var src = items.length && win.sources[items[0].dataIndex];
+                var src = items.length && (win.sources[items[0].dataIndex] || dataset.source);
                 return src ? 'Source : ' + src : '';
               }
             }
@@ -377,7 +377,7 @@ if (navToggle) {
   // ===== Comparaison base 100 =====
   // Chaque série est divisée par sa première valeur de la période (x 100) :
   // 110 = +10 % depuis le début de la période, quelle que soit l'unité
-  var seriesNames = {};
+  var seriesNames = { spot: 'Électricité FR', brent: 'Brent', henryhub: 'Henry Hub' };
 
   // Ligne pointillée au niveau 100
   var baseLine = {
@@ -763,12 +763,120 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
+// ===== Gaz dans le monde : moyennes mensuelles FMI (via FRED) =====
+(function () {
+  var gw = window.mktGasWorld, canvas = document.getElementById('gw-chart');
+  if (!gw || !canvas || typeof Chart === 'undefined') return;
+  var SERIES = [
+    { key: 'europe', name: 'Europe', color: '#4fd1c5' },
+    { key: 'asie', name: 'Asie', color: '#f472b6' },
+    { key: 'usa', name: 'États-Unis', color: '#e8b33a' }
+  ];
+  function month(m, long) {
+    var p = m.split('-');
+    return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString('fr-FR', { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' });
+  }
+  var chart = null;
+  function render(n) {
+    var labels = gw.europe.slice(-n).map(function (r) { return r.month; });
+    var datasets = SERIES.map(function (s) {
+      var by = {};
+      (gw[s.key] || []).forEach(function (r) { by[r.month] = r.v; });
+      return { label: s.name, data: labels.map(function (m) { return m in by ? by[m] : null; }), borderColor: s.color,
+               backgroundColor: s.color, borderWidth: 2, pointRadius: 0, pointHoverRadius: 3, tension: 0.25, spanGaps: true };
+    });
+    if (chart) chart.destroy();
+    chart = new Chart(canvas, {
+      type: 'line', data: { labels: labels, datasets: datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (items) { return month(items[0].label, true); },
+          label: function (c) { return c.dataset.label + ' : ' + c.parsed.y.toLocaleString('fr-FR') + ' $/MMBtu'; },
+          afterBody: function () { return 'Source : FMI via FRED'; } } } },
+        scales: {
+          x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 6, maxRotation: 0,
+                        callback: function (v) { return month(this.getLabelForValue(v)); } }, grid: { display: false } },
+          y: { beginAtZero: true, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+        }
+      }
+    });
+  }
+  render(24);
+  var btns = document.querySelectorAll('#gw-btns [data-period]');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      btns.forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      render(parseInt(b.getAttribute('data-period'), 10));
+    });
+  });
+})();
+
+// ===== Stocks de gaz (GIE AGSI+) : remplissage cette année face à l'an dernier =====
+(function () {
+  var st = window.mktGasStorage, canvas = document.getElementById('gs-chart');
+  if (!st || !canvas || typeof Chart === 'undefined') return;
+  function fmt(v) { return v.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+  function dayLabel(md) {
+    var p = md.split('-');
+    return new Date(2001, +p[0] - 1, +p[1]).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  }
+  var chart = null;
+  function render(zone) {
+    var rows = st[zone] || [];
+    if (!rows.length) return;
+    var year = rows[rows.length - 1].date.slice(0, 4), prev = String(+year - 1);
+    var cur = {}, old = {}, days = {};
+    rows.forEach(function (r) {
+      var md = r.date.slice(5), y = r.date.slice(0, 4);
+      if (md === '02-29') return;
+      if (y === year) cur[md] = r.full; else if (y === prev) old[md] = r.full;
+      if (y === year || y === prev) days[md] = 1;
+    });
+    var labels = Object.keys(days).sort();
+    if (chart) chart.destroy();
+    chart = new Chart(canvas, {
+      type: 'line',
+      data: { labels: labels, datasets: [
+        { label: year, data: labels.map(function (d) { return d in cur ? cur[d] : null; }), borderColor: '#4fd1c5',
+          backgroundColor: '#4fd1c522', fill: true, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 3, tension: 0.2 },
+        { label: prev, data: labels.map(function (d) { return d in old ? old[d] : null; }), borderColor: 'rgba(255,255,255,0.55)',
+          borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 3, tension: 0.2 }
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (items) { return dayLabel(items[0].label); },
+          label: function (c) { return c.parsed.y === null ? null : c.dataset.label + ' : ' + fmt(c.parsed.y) + ' %'; },
+          afterBody: function () { return 'Source : GIE AGSI+'; } } } },
+        scales: {
+          x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 7, maxRotation: 0,
+                        callback: function (v) { return dayLabel(this.getLabelForValue(v)); } }, grid: { display: false } },
+          y: { min: 0, max: 100, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, callback: function (v) { return v + ' %'; } },
+               grid: { color: 'rgba(255,255,255,0.06)' } }
+        }
+      }
+    });
+  }
+  render('eu');
+  var btns = document.querySelectorAll('#gs-btns [data-zone]');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      btns.forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      render(b.getAttribute('data-zone'));
+    });
+  });
+})();
+
 // ===== Graphiques toujours visibles (bloc Électricité) : périodes et agrandissement =====
 (function () {
   if (!window.mktCharts) return;
   document.querySelectorAll('[data-chart-controls]').forEach(function (box) {
     var key = box.getAttribute('data-chart-controls');
-    window.mktCharts.render(key, 30);
+    var active = box.querySelector('.period-btn.active');
+    window.mktCharts.render(key, active ? parseInt(active.getAttribute('data-period'), 10) : 30);
     box.querySelectorAll('[data-period]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         box.querySelectorAll('[data-period]').forEach(function (b) { b.classList.remove('active'); });

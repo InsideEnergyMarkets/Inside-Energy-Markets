@@ -38,7 +38,8 @@ permalink: /marches/
 <nav class="mk-toc" aria-label="Rubriques de la page">
   <div class="wrap">
     <a href="#electricite"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Électricité</a>
-    <a href="#petrole-gaz"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>Pétrole et gaz</a>
+    <a href="#gaz"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>Gaz</a>
+    <a href="#petrole"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>Pétrole</a>
     <a href="#routes-maritimes"><i class="fa-solid fa-ship" aria-hidden="true"></i>Routes maritimes</a>
     <a href="#securite"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Sécurité en mer</a>
   </div>
@@ -122,70 +123,110 @@ permalink: /marches/
   </div>
 </section>
 
-<!-- ===== 2. PÉTROLE ET GAZ ===== -->
-<section class="mk-section mk-section--alt" id="petrole-gaz">
+<!-- ===== 2. GAZ ===== -->
+<section class="mk-section mk-section--alt" id="gaz">
   <div class="wrap">
     <header class="mk-head">
-      <span class="mk-head-icon mk-head-icon--oil"><i class="fa-solid fa-oil-well" aria-hidden="true"></i></span>
+      <span class="mk-head-icon mk-head-icon--gas"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i></span>
       <div>
-        <h2 class="mkt-page-title">Pétrole et gaz</h2>
-        <p class="mk-lead">Les prix de référence du pétrole et du gaz, et ce qui les fait bouger.</p>
+        <h2 class="mkt-page-title">Gaz</h2>
+        <p class="mk-lead">Le prix de référence américain et le niveau des stocks européens, au jour le jour.</p>
       </div>
     </header>
 
-    <div class="pw-card pw-card--duo">
-      {% assign oil_prices = "brent|Brent, pétrole de la mer du Nord|$/baril|price_usd|Brent;henryhub|Henry Hub, gaz naturel américain|$/MMBtu|price_usd_mmbtu|Henry Hub" | split: ";" %}
-      {% for p in oil_prices %}
-      {% assign f = p | split: "|" %}
-      {% if f[0] == "brent" %}{% assign e = market.brent %}{% else %}{% assign e = market.henry_hub %}{% endif %}
-      {% assign fld = f[3] %}
+    {% assign e = market.henry_hub %}
+    {% assign st = site.data.gas_storage %}
+    <div class="pw-card">
       <div class="pw-price">
         <div class="pw-top">
-          <p class="pw-label">{{ f[1] }}</p>
-          <button type="button" class="period-btn pw-expand" data-expand="{{ f[0] }}" data-title="{{ f[4] }}" aria-label="Agrandir le graphique" title="Agrandir">&#x2922;</button>
+          <p class="pw-label">Henry Hub, prix de référence américain</p>
+          <button type="button" class="period-btn pw-expand" data-expand="henryhub" data-title="Henry Hub" aria-label="Agrandir le graphique" title="Agrandir">&#x2922;</button>
         </div>
         {% if e %}
-        <p class="pw-value">{{ e[fld] | replace: ".", "," }} <small>{{ f[2] }}</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-value">{{ e.price_usd_mmbtu | replace: ".", "," }} <small>$/MMBtu</small>{% include price-change.html entry=e %}</p>
         <p class="pw-sub">{{ e.date_label | default: e.date }} · {{ e.source }}</p>
-        {% else %}
-        <p class="pw-value">-</p>
-        {% endif %}
-        <div class="pw-stats" data-week-stats="{{ f[0] }}">
+        {% else %}<p class="pw-value">-</p>{% endif %}
+        <div class="pw-stats" data-week-stats="henryhub">
           <div><span>Moyenne 7 j</span><strong data-stat="avg">-</strong></div>
           <div><span>Plus bas</span><strong data-stat="min">-</strong></div>
           <div><span>Plus haut</span><strong data-stat="max">-</strong></div>
         </div>
         <div class="pw-chart-head">
           <span>Historique</span>
-          <div class="mkt-period-btns" data-chart-controls="{{ f[0] }}">
+          <div class="mkt-period-btns" data-chart-controls="henryhub">
             <button type="button" class="period-btn" data-period="7">7j</button>
             <button type="button" class="period-btn active" data-period="30">30j</button>
             <button type="button" class="period-btn" data-period="60">60j</button>
           </div>
         </div>
-        <div class="pw-chart"><canvas id="chart-canvas-{{ f[0] }}" aria-label="{{ f[4] }}, historique"></canvas></div>
+        <div class="pw-chart pw-chart--tall"><canvas id="chart-canvas-henryhub" aria-label="Henry Hub, historique"></canvas></div>
       </div>
-      {% endfor %}
+
+      <div class="pw-mix">
+        <p class="pw-label">Stocks de gaz en Europe</p>
+        {% if st and st.eu and st.eu.size > 0 %}
+        {% assign eu = st.eu | last %}
+        {% assign fr = st.fr | last %}
+        {% assign y = eu.date | slice: 0, 4 | plus: 0 | minus: 1 %}
+        {% assign ly_date = eu.date | slice: 4, 6 | prepend: y %}
+        {% assign eu_ly = st.eu | where: "date", ly_date | first %}
+        {% assign fr_ly = st.fr | where: "date", ly_date | first %}
+        <div class="pw-co2 gs-level">
+          <span class="pw-co2-value">{{ eu.full | round: 1 | replace: ".", "," }}<small>%</small></span>
+          <span class="pw-co2-text"><strong>des stockages remplis</strong>{{ eu.twh | round: 0 }} TWh de gaz stockés dans l'UE</span>
+        </div>
+        <div class="gs-bar" role="img" aria-label="Taux de remplissage des stockages de l'UE : {{ eu.full | round: 1 }} %{% if eu_ly %}, contre {{ eu_ly.full | round: 1 }} % l'an dernier{% endif %}">
+          <span style="width: {{ eu.full }}%"></span>
+          {% if eu_ly %}<i style="left: {{ eu_ly.full }}%" title="L'an dernier à la même date"></i>{% endif %}
+        </div>
+        <p class="gs-bar-legend"><span>0 %</span>{% if eu_ly %}<span class="gs-ly-mark" style="left: {{ eu_ly.full }}%">▲ an dernier</span>{% endif %}<span>100 %</span></p>
+        <div class="pw-stats pw-stats--mix">
+          {% if eu_ly %}
+          {% assign d_eu = eu.full | minus: eu_ly.full | round: 1 %}
+          <div><span>UE, vs l'an dernier</span><strong class="{% if d_eu < 0 %}gs-down{% else %}gs-up{% endif %}">{% if d_eu > 0 %}+{% endif %}{{ d_eu | replace: ".", "," }} pts</strong></div>
+          {% endif %}
+          {% if fr %}
+          <div><span>France{% if fr_ly %} (an dernier : {{ fr_ly.full | round: 0 }} %){% endif %}</span><strong>{{ fr.full | round: 1 | replace: ".", "," }} %</strong></div>
+          {% endif %}
+        </div>
+        <div class="pw-chart-head">
+          <span>Remplissage, cette année et l'an dernier</span>
+          <div class="mkt-period-btns" id="gs-btns">
+            <button type="button" class="period-btn active" data-zone="eu">UE</button>
+            <button type="button" class="period-btn" data-zone="fr">France</button>
+          </div>
+        </div>
+        <div class="pw-chart pw-chart--tall"><canvas id="gs-chart" aria-label="Taux de remplissage des stockages de gaz, cette année et l'an dernier"></canvas></div>
+        <p class="mt-legend gz-legend"><span class="gz-sw gz-sw--europe"></span>{{ eu.date | slice: 0, 4 }} <span class="gz-sw gz-sw--ly"></span>{{ y }}</p>
+        <p class="pw-sub">Relevé du {{ eu.date | date: "%d/%m" }} · GIE AGSI+</p>
+        <script>window.mktGasStorage = {{ st | jsonify }};</script>
+        {% else %}
+        <p class="pw-sub">Donnée à venir</p>
+        {% endif %}
+      </div>
     </div>
 
     <div class="mk-more-row">
-      <button type="button" class="mk-link-tile" data-dialog="dlg-ormuz-brent">
-        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
-        <span><strong>Ormuz et le prix du pétrole</strong>Trafic des tankers face au Brent sur 12 mois</span>
+      {% assign gw = site.data.gas_world %}
+      {% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
+      {% if gw and gw.europe %}
+      {% assign gw_eu = gw.europe | last %}
+      {% assign gw_us = gw.usa | last %}
+      {% assign gw_as = gw.asie | last %}
+      {% assign gw_m = gw_eu.month | split: "-" | last | plus: 0 | minus: 1 %}
+      {% assign ratio = gw_eu.v | divided_by: gw_us.v | round: 1 %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-gw">
+        <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
+        <span><strong>Le gaz dans le monde sur 10 ans</strong>Europe, Asie, États-Unis : l'Europe paie son gaz {{ ratio | replace: ".", "," }} fois le prix américain</span>
         <b aria-hidden="true">↗</b>
       </button>
-      <div class="mk-soon">
-        <span class="mk-soon-tag">À venir</span>
-        <strong>TTF (Europe) et JKM (Asie)</strong>
-        <span>Les deux prix du gaz importé, à côté du Henry Hub. Source à trouver.</span>
-      </div>
+      {% endif %}
       {% assign lng = site.data.lng_exports %}
       {% if lng and lng.size > 12 %}
       {% assign lng_last = lng | last %}
       {% assign lng_prev_idx = lng.size | minus: 13 %}
       {% assign lng_prev = lng[lng_prev_idx] %}
       {% assign lng_yoy = lng_last.bcfd | minus: lng_prev.bcfd | times: 100.0 | divided_by: lng_prev.bcfd | round: 0 %}
-      {% assign mois = "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre" | split: "," %}
       {% assign m_idx = lng_last.month | split: "-" | last | plus: 0 | minus: 1 %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-lng">
         <i class="fa-solid fa-ship" aria-hidden="true"></i>
@@ -195,19 +236,35 @@ permalink: /marches/
       {% endif %}
     </div>
 
-    <dialog class="mk-dialog" id="dlg-ormuz-brent" aria-labelledby="dlg-ormuz-brent-title">
+    {% if gw and gw.europe %}
+    <dialog class="mk-dialog" id="dlg-gw" aria-labelledby="dlg-gw-title">
       <header class="mt-head">
-        <h3 class="mkt-commodity-name" id="dlg-ormuz-brent-title">Ormuz et le prix du pétrole</h3>
+        <h3 class="mkt-commodity-name" id="dlg-gw-title">Le gaz dans le monde</h3>
         <button type="button" class="mkt-modal-close" data-close aria-label="Fermer">&#x2715;</button>
       </header>
-      <p class="mt-kpi-note">Capacité des tankers passant à Ormuz sur 12 mois (moyenne 7 jours, en % de la normale {{ ormuz.ref_period }}), face au prix du Brent.</p>
-      <div class="mt-chart mt-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ ormuz.ref_capacity_tanker_mt }}" aria-label="Capacité des tankers à Ormuz et prix du Brent sur 12 mois"></canvas></div>
-      <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>Capacité tankers à Ormuz (% de la normale)
-        <span class="mt-sw"></span>Brent ($/baril)</p>
-      <p class="mt-src">Sources : IMF PortWatch (passages), EIA et OilPriceAPI (Brent)</p>
+      <p class="mt-kpi-note">Moyennes mensuelles en $/MMBtu : Europe (TTF), Asie (GNL livré au Japon), États-Unis (Henry Hub). Tendance de fond, publiée avec environ deux mois de décalage : dernier mois connu, {{ mois[gw_m] }} {{ gw_eu.month | slice: 0, 4 }}.</p>
+      {% assign gap = gw_as.v | minus: gw_eu.v | round: 2 %}
+      <div class="mt-kpis">
+        <div class="mt-kpi"><div class="mt-kpi-label">Europe</div><div class="mt-kpi-value">{{ gw_eu.v | replace: ".", "," }} <small>$/MMBtu</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">Asie</div><div class="mt-kpi-value">{{ gw_as.v | replace: ".", "," }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", "," }} $ par rapport à l'Europe</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">États-Unis</div><div class="mt-kpi-value">{{ gw_us.v | replace: ".", "," }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">l'Europe paie {{ ratio | replace: ".", "," }} fois plus</div></div>
+      </div>
+      <div class="pw-chart-head">
+        <span></span>
+        <div class="mkt-period-btns" id="gw-btns">
+          <button type="button" class="period-btn active" data-period="24">2 ans</button>
+          <button type="button" class="period-btn" data-period="60">5 ans</button>
+          <button type="button" class="period-btn" data-period="120">10 ans</button>
+        </div>
+      </div>
+      <div class="mt-chart mt-chart--tall"><canvas id="gw-chart" aria-label="Prix du gaz en Europe, en Asie et aux États-Unis, moyennes mensuelles"></canvas></div>
+      <p class="mt-legend"><span class="gz-sw gz-sw--europe"></span>Europe <span class="gz-sw gz-sw--asie"></span>Asie <span class="gz-sw gz-sw--usa"></span>États-Unis</p>
+      <p class="mt-src">Source : FMI (Primary Commodity Prices) via FRED</p>
     </dialog>
+    <script>window.mktGasWorld = {{ gw | jsonify }};</script>
+    {% endif %}
 
-    {% if lng and lng.size > 0 %}
+    {% if lng and lng.size > 12 %}
     <dialog class="mk-dialog" id="dlg-lng" aria-labelledby="dlg-lng-title">
       <header class="mt-head">
         <h3 class="mkt-commodity-name" id="dlg-lng-title">Exportations de GNL des États-Unis</h3>
@@ -222,8 +279,58 @@ permalink: /marches/
   </div>
 </section>
 
-<!-- ===== 3. ROUTES MARITIMES ===== -->
-<section class="mk-section" id="routes-maritimes">
+<!-- ===== 3. PÉTROLE ===== -->
+<section class="mk-section" id="petrole">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--oil"><i class="fa-solid fa-oil-well" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">Pétrole</h2>
+        <p class="mk-lead">Le prix de référence mondial du brut, et ce qui le fait bouger en ce moment.</p>
+      </div>
+    </header>
+
+    {% assign e = market.brent %}
+    <div class="pw-card">
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">Brent, pétrole de la mer du Nord</p>
+          <button type="button" class="period-btn pw-expand" data-expand="brent" data-title="Brent" aria-label="Agrandir le graphique" title="Agrandir">&#x2922;</button>
+        </div>
+        {% if e %}
+        <p class="pw-value">{{ e.price_usd | replace: ".", "," }} <small>$/baril</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e.date_label | default: e.date }} · {{ e.source }}</p>
+        {% else %}<p class="pw-value">-</p>{% endif %}
+        <div class="pw-stats" data-week-stats="brent">
+          <div><span>Moyenne 7 j</span><strong data-stat="avg">-</strong></div>
+          <div><span>Plus bas</span><strong data-stat="min">-</strong></div>
+          <div><span>Plus haut</span><strong data-stat="max">-</strong></div>
+        </div>
+        <div class="pw-chart-head">
+          <span>Historique</span>
+          <div class="mkt-period-btns" data-chart-controls="brent">
+            <button type="button" class="period-btn" data-period="7">7j</button>
+            <button type="button" class="period-btn active" data-period="30">30j</button>
+            <button type="button" class="period-btn" data-period="60">60j</button>
+          </div>
+        </div>
+        <div class="pw-chart"><canvas id="chart-canvas-brent" aria-label="Brent, historique"></canvas></div>
+      </div>
+
+      <div class="pw-mix">
+        <p class="pw-label">Ormuz et le prix du pétrole, 12 mois</p>
+        <p class="pw-note">Capacité des tankers passant à Ormuz (moyenne 7 jours, en % de la normale {{ ormuz.ref_period }}), face au prix du Brent.</p>
+        <div class="pw-chart pw-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ ormuz.ref_capacity_tanker_mt }}" aria-label="Capacité des tankers à Ormuz et prix du Brent sur 12 mois"></canvas></div>
+        <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>Tankers à Ormuz (% de la normale)
+          <span class="mt-sw"></span>Brent ($/baril)</p>
+        <p class="pw-sub">IMF PortWatch (passages) · EIA et OilPriceAPI (Brent)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. ROUTES MARITIMES ===== -->
+<section class="mk-section mk-section--alt" id="routes-maritimes">
   <div class="wrap">
     <header class="mk-head">
       <span class="mk-head-icon mk-head-icon--sea"><i class="fa-solid fa-ship" aria-hidden="true"></i></span>
@@ -241,8 +348,8 @@ permalink: /marches/
   </div>
 </section>
 
-<!-- ===== 4. SÉCURITÉ EN MER ===== -->
-<section class="mk-section mk-section--alt" id="securite">
+<!-- ===== 5. SÉCURITÉ EN MER ===== -->
+<section class="mk-section" id="securite">
   <div class="wrap">
     <header class="mk-head">
       <span class="mk-head-icon mk-head-icon--risk"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>

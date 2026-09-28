@@ -9,6 +9,8 @@ Récupère les données marché et les écrit dans _data/market.json :
   avec historique 90 jours dans _data/chokepoints_history.json
 - Brent sur 12 mois (EIA) pour le graphique Ormuz / Brent : _data/brent_year.json
 - Exportations mensuelles de GNL des États-Unis (EIA) : _data/lng_exports.json
+- Prix mondiaux du gaz par mois (FMI via la FRED) : Europe, Asie, États-Unis : _data/gas_world.json
+- Stocks de gaz en Europe et en France (GIE AGSI+ -> secret GIE_API_KEY) : _data/gas_storage.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
 un résumé hebdomadaire (_data/weekly_summary.json). Chaque prix de l'historique est
@@ -32,6 +34,7 @@ PARIS = ZoneInfo("Europe/Paris")
 
 EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
 RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")
+GIE_API_KEY = os.environ.get("GIE_API_KEY", "")
 OILPRICEAPI_KEY = os.environ.get("OILPRICEAPI_KEY", "")
 
 
@@ -378,6 +381,11 @@ PORTWATCH_DAILY_URL = (
 CHOKEPOINTS_HISTORY_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "chokepoints_history.json")
 BRENT_YEAR_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "brent_year.json")
 LNG_EXPORTS_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "lng_exports.json")
+GAS_WORLD_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "gas_world.json")
+# Séries FRED (FMI, moyennes mensuelles en $/MMBtu)
+GAS_WORLD_SERIES = {"europe": "PNGASEUUSDM", "asie": "PNGASJPUSDM", "usa": "PNGASUSUSDM"}
+GAS_WORLD_MONTHS = 120
+GAS_STORAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "gas_storage.json")
 TRAFFIC_FIELDS = ("n_tanker", "n_total", "capacity_tanker")
 CHOKEPOINT_HISTORY_DAYS = 90
 
@@ -560,6 +568,77 @@ def update_lng_exports():
             json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
 
 
+def fetch_fred_monthly(series_id, months):
+    """Série mensuelle de la FRED (fichier CSV officiel), {mois 'AAAA-MM': valeur}."""
+    r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}", timeout=30)
+    r.raise_for_status()
+    out = {}
+    for line in r.text.strip().splitlines()[1:]:
+        day, _, value = line.partition(",")
+        if value and value != ".":
+            out[day[:7]] = round(float(value), 2)
+    return dict(sorted(out.items())[-months:])
+
+
+def update_gas_world():
+    """Prix mondiaux du gaz, moyennes mensuelles du FMI (Primary Commodity Prices) via la FRED :
+    Europe (TTF), Asie (GNL livré au Japon), États-Unis (Henry Hub), en $/MMBtu, sur 10 ans.
+    En cas d'erreur, on garde le fichier existant."""
+    try:
+        data = {key: [{"month": m, "v": v} for m, v in fetch_fred_monthly(sid, GAS_WORLD_MONTHS).items()]
+                for key, sid in GAS_WORLD_SERIES.items()}
+    except Exception as e:
+        print(f"Erreur prix mondiaux du gaz (FRED): {e}")
+        return
+    with open(GAS_WORLD_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def fetch_agsi(params, start, end):
+    """Remplissage des stockages de gaz (GIE AGSI+), [{date, full (%), twh}] du plus ancien au plus récent."""
+    rows, page = [], 1
+    while True:
+        r = requests.get("https://agsi.gie.eu/api", headers={"x-key": GIE_API_KEY}, timeout=30,
+                         params=dict(params, **{"from": start, "to": end, "size": 300, "page": page}))
+        r.raise_for_status()
+        payload = r.json()
+        rows += payload.get("data", [])
+        if page >= int(payload.get("last_page") or 1):
+            break
+        page += 1
+    out = {}
+    for row in rows:
+        try:
+            out[row["gasDayStart"]] = {"date": row["gasDayStart"], "full": round(float(row["full"]), 2),
+                                       "twh": round(float(row["gasInStorage"]), 1)}
+        except (KeyError, TypeError, ValueError):
+            continue
+    return [out[d] for d in sorted(out)]
+
+
+def update_gas_storage():
+    """Stocks de gaz de l'UE et de la France, du 1er janvier de l'an dernier à aujourd'hui
+    (pour comparer à l'an dernier à la même date). En cas d'erreur, on garde le fichier existant."""
+    if not GIE_API_KEY:
+        print("GIE_API_KEY manquant, stocks de gaz non mis à jour.")
+        return
+    today = datetime.date.today()
+    start = datetime.date(today.year - 1, 1, 1).isoformat()
+    try:
+        data = {
+            "eu": fetch_agsi({"type": "eu"}, start, today.isoformat()),
+            "fr": fetch_agsi({"country": "FR"}, start, today.isoformat()),
+        }
+    except Exception as e:
+        print(f"Erreur stocks de gaz (GIE AGSI+): {e}")
+        return
+    if not data["eu"]:
+        print("Stocks de gaz : réponse vide, on garde le fichier existant.")
+        return
+    with open(GAS_STORAGE_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+
+
 def load_history():
     try:
         with open(HISTORY_PATH, "r", encoding="utf-8") as f:
@@ -734,6 +813,8 @@ def main():
     }
     update_brent_year()
     update_lng_exports()
+    update_gas_world()
+    update_gas_storage()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:
