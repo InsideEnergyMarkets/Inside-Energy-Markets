@@ -79,7 +79,7 @@
     {% assign brent = market.brent %}
     {% assign hh = market.henry_hub %}
     {% if lang == "en" %}
-    {% assign spot_label = spot.date_label_en | default: spot.date %}{% assign brent_label = brent.date_label_en | default: brent.date %}{% assign hh_label = hh.date_label_en | default: hh.date %}
+    {% assign spot_label = spot.date | date: "%d/%m/%Y" %}{% if spot.date_label_en %}{% assign spot_label = spot.date_label_en %}{% endif %}{% assign brent_label = brent.date | date: "%d/%m/%Y" %}{% if brent.date_label_en %}{% assign brent_label = brent.date_label_en %}{% endif %}{% assign hh_label = hh.date | date: "%d/%m/%Y" %}{% if hh.date_label_en %}{% assign hh_label = hh.date_label_en %}{% endif %}
     {% else %}
     {% assign spot_label = spot.date_label | default: spot.date %}{% assign brent_label = brent.date_label | default: brent.date %}{% assign hh_label = hh.date_label | default: hh.date %}
     {% endif %}

@@ -55,7 +55,7 @@
 
     {% assign spot = market.spot_price_france %}
     {% assign mix = market.mix_france %}
-    {% if lang == "en" %}{% assign spot_label = spot.date_label_en | default: spot.date %}{% else %}{% assign spot_label = spot.date_label | default: spot.date %}{% endif %}
+    {% if lang == "en" %}{% assign spot_label = spot.date | date: "%d/%m/%Y" %}{% if spot.date_label_en %}{% assign spot_label = spot.date_label_en %}{% endif %}{% else %}{% assign spot_label = spot.date_label | default: spot.date %}{% endif %}
     <div class="pw-card">
       <div class="pw-price">
         <div class="pw-top">
@@ -108,7 +108,7 @@
         </div>
         <ul class="pw-legend">
           {% for pair in mix.shares %}
-          {% assign lbl = mk.sources[pair[0]] | default: pair[0] | capitalize %}
+          {% assign src_key = pair[0] %}{% assign lbl = mk.sources[src_key] | default: src_key | capitalize %}
           <li><i class="pw-src--{{ pair[0] }}" aria-hidden="true"></i>{{ lbl }}<b>{{ pair[1] | replace: ".", dec }} %</b></li>
           {% endfor %}
         </ul>
@@ -134,7 +134,7 @@
 
     {% assign e = market.henry_hub %}
     {% assign st = site.data.gas_storage %}
-    {% if lang == "en" %}{% assign e_label = e.date_label_en | default: e.date %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
+    {% if lang == "en" %}{% assign e_label = e.date | date: "%d/%m/%Y" %}{% if e.date_label_en %}{% assign e_label = e.date_label_en %}{% endif %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
     <div class="pw-card">
       <div class="pw-price">
         <div class="pw-top">
@@ -289,7 +289,7 @@
     </header>
 
     {% assign e = market.brent %}
-    {% if lang == "en" %}{% assign e_label = e.date_label_en | default: e.date %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
+    {% if lang == "en" %}{% assign e_label = e.date | date: "%d/%m/%Y" %}{% if e.date_label_en %}{% assign e_label = e.date_label_en %}{% endif %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
     {% if lang == "en" %}{% assign refp = t.cp.ref_period %}{% else %}{% assign refp = ormuz.ref_period %}{% endif %}
     <div class="pw-card">
       <div class="pw-price">
