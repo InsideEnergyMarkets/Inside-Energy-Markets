@@ -1,54 +1,53 @@
 {
-  "updated_at": "2026-09-27T18:08:14.240785Z",
+  "updated_at": "2026-09-28T00:10:30.099473Z",
   "brent": {
-    "price_usd": 104.38,
+    "price_usd": 105.99,
     "date": "2026-09-25",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)",
+    "date_label": "Dernier cours connu : ven. 25/09",
     "prev_value": 114.89,
     "prev_date": "2026-09-22",
-    "change_pct": -9.1
+    "change_pct": -7.7
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.16,
-    "date": "2026-09-25",
+    "price_usd_mmbtu": 3.05,
+    "date": "2026-09-28",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 25/09 (bourse fermée le week-end)",
-    "prev_value": 2.9,
-    "prev_date": "2026-09-22",
-    "change_pct": 9.0
+    "date_label": "Cours du lun. 28/09",
+    "prev_value": 3.16,
+    "prev_date": "2026-09-25",
+    "change_pct": -3.5
   },
   "mix_france": {
-    "date_heure": "2026-09-27T17:45:00+00:00",
+    "date_heure": "2026-09-27T23:45:00+00:00",
     "shares": {
-      "nucleaire": 73.1,
-      "hydraulique": 12.8,
-      "gaz": 6.2,
-      "eolien": 4.9,
-      "bioenergies": 2.3,
-      "solaire": 0.7
+      "nucleaire": 82.2,
+      "eolien": 6.2,
+      "hydraulique": 5.9,
+      "gaz": 3.2,
+      "bioenergies": 2.5
     },
     "top_source": "nucleaire",
-    "top_share": 73.1,
-    "co2_intensity": 38
+    "top_share": 82.2,
+    "co2_intensity": 26
   },
   "spot_price_france": {
-    "price_eur_mwh": 115.41,
-    "date": "2026-09-27",
-    "date_label": "Moyenne du dim. 27/09",
+    "price_eur_mwh": 203.94,
+    "date": "2026-09-28",
+    "date_label": "Moyenne du lun. 28/09",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 148.2,
-    "prev_date": "2026-09-26",
-    "change_pct": -22.1
+    "prev_value": 115.41,
+    "prev_date": "2026-09-27",
+    "change_pct": 76.7
   },
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-09-20",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-09-16",
       "days_averaged": 5,
       "n_tanker": 0.6,
@@ -66,7 +65,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-09-20",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-09-16",
       "days_averaged": 5,
       "n_tanker": 6.4,
@@ -84,7 +83,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-09-20",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-09-16",
       "days_averaged": 5,
       "n_tanker": 71.6,
