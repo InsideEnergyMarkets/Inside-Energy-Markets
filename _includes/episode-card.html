@@ -1,0 +1,34 @@
+{% comment %}
+  Carte épisode retournable : face avant (pochette, titre, bouton Écouter),
+  dos (liens Spotify, Apple Podcasts, LinkedIn). Le script du layout la retourne
+  au clic sur « Écouter » et la remet à l'endroit avec « Retour » ou Échap.
+  Paramètres : ep (entrée de _data/episodes.yml), featured (true pour la grande carte),
+  cls (classe en plus, optionnel).
+{% endcomment %}
+{% assign ep = include.ep %}
+<div class="ep-flip{% if include.featured %} ep-flip--featured{% endif %}{% if include.cls %} {{ include.cls }}{% endif %}">
+  <div class="ep-flip-inner">
+    <div class="ep-front card card--episode{% if include.featured %} card--featured{% endif %}">
+      <div class="card-thumb">
+        <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep.title }}">
+        <span class="card-thumb-badge">EP {{ ep.number }}</span>
+        {% if include.featured %}<span class="card-featured-badge">Dernier épisode</span>{% endif %}
+      </div>
+      <div class="card-body">
+        <h3>{{ ep.title }}</h3>
+        <p>{{ ep.description }}</p>
+        <button type="button" class="btn-listen" data-flip aria-label="Écouter l'épisode {{ ep.number }} : choisir la plateforme"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter</button>
+      </div>
+    </div>
+    <div class="ep-back" inert style="--cover: url('{{ '/assets/img/hero.png' | relative_url }}')">
+      <p class="ep-back-kicker">Épisode {{ ep.number }} · Écouter sur</p>
+      <p class="ep-back-title">{{ ep.title }}</p>
+      <div class="ep-back-links">
+        <a class="ep-link ep-link--spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i><span>Spotify</span><b aria-hidden="true">↗</b></a>
+        <a class="ep-link ep-link--apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i><span>Apple Podcasts</span><b aria-hidden="true">↗</b></a>
+        <a class="ep-link ep-link--linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span><b aria-hidden="true">↗</b></a>
+      </div>
+      <button type="button" class="ep-back-close" data-unflip><span aria-hidden="true">←</span> Retour</button>
+    </div>
+  </div>
+</div>

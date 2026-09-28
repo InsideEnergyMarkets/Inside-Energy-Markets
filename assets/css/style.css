@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root {
   --sky-light: #cfe7f5;
   --sky-mid: #6fa9d6;
   --hero-bg: #D1E6F0;
-  --navy: #1c3d52;
-  --navy-deep: #12293a;
+  --navy: #17255f;
+  --navy-deep: #0d1638;
   --ink: #1a2733;
   --paper: #f7f9fa;
   --paper-dim: #eef2f4;
   --line: #d8e1e6;
-  --accent: #2f6f8f;
+  --accent: #00817d;
   --max: 760px;
 }
 
@@ -144,29 +144,6 @@ img { max-width: 100%; display: block; }
 
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 600;
-  border: 1px solid transparent;
-}
-
-.btn-primary {
-  background: var(--navy-deep);
-  color: #fff;
-}
-.btn-primary:hover { background: var(--navy); text-decoration: none; }
-
-.btn-ghost {
-  background: rgba(255,255,255,0.55);
-  border-color: rgba(18,41,58,0.25);
-  color: var(--navy-deep);
-}
-.btn-ghost:hover { background: rgba(255,255,255,0.8); text-decoration: none; }
 
 .hero-art {
   flex: 0.9;
@@ -184,11 +161,13 @@ section.block.alt { background: var(--paper-dim); }
 
 .section-head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
+  gap: 16px;
   margin-bottom: 28px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid rgba(23, 37, 95, 0.12);
   padding-bottom: 14px;
+  position: relative;
 }
 
 .section-head h2 {
@@ -199,7 +178,6 @@ section.block.alt { background: var(--paper-dim); }
   margin: 0;
 }
 
-.section-head a { font-size: 14px; font-weight: 600; }
 
 /* ---------- Episode / post cards ---------- */
 .card-grid {
@@ -218,7 +196,7 @@ section.block.alt { background: var(--paper-dim); }
 .card .num {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 15px;
-  color: var(--accent);
+  color: var(--teal-deep);
   letter-spacing: 1px;
   margin: 0 0 6px;
 }
@@ -408,27 +386,6 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
   display: inline-block;
 }
 
-/* --- Boutons : marine dominant, sarcelle en accent --- */
-.btn-primary {
-  background: var(--deep);
-  box-shadow: 0 6px 20px rgba(23, 37, 95, 0.28);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-}
-.btn-primary:hover {
-  background: #101c47;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(23, 37, 95, 0.38);
-}
-
-.btn-ghost {
-  border-color: rgba(23, 37, 95, 0.3);
-  color: var(--deep);
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-.btn-ghost:hover {
-  transform: translateY(-1px);
-  border-color: var(--teal);
-}
 
 /* --- Séparateur net entre hero et le reste --- */
 .hero {
@@ -444,10 +401,6 @@ footer .wrap { display: flex; justify-content: space-between; align-items: cente
   transform: translateY(-3px);
   box-shadow: 0 14px 32px rgba(23, 37, 95, 0.10);
   border-color: rgba(23, 37, 95, 0.18);
-}
-
-.card .num {
-  color: var(--teal-deep);
 }
 
 .listen-links a.spotify:hover,
@@ -474,11 +427,6 @@ footer .socials a.spotify:hover { border-color: var(--teal); }
 .market-card--mix .market-value { color: var(--navy-deep); }
 
 /* --- Section headers avec un trait d'accent sarcelle, discret --- */
-.section-head {
-  border-bottom-width: 2px;
-  border-bottom-color: rgba(23, 37, 95, 0.12);
-  position: relative;
-}
 .section-head::after {
   content: "";
   position: absolute;
@@ -536,56 +484,12 @@ footer .socials a:hover {
   color: rgba(255, 255, 255, 0.78);
 }
 
-.hero .btn-ghost {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #ffffff;
-}
-.hero .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--teal);
-}
 
 .hero-art {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* --- Boutons du hero : sarcelle avec liseré blanc --- */
-.hero .btn-primary {
-  background: var(--teal);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 6px 20px rgba(0, 129, 125, 0.35);
-}
-.hero .btn-primary:hover {
-  background: var(--teal-deep);
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.hero .btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-.hero .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.7);
-}
-footer .socials a.footer-podcast-link {
-  width: auto;
-  height: auto;
-  border-radius: 6px;
-  border: none;
-  padding: 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--deep, var(--navy-deep));
-  margin-left: 4px;
-}
-footer .socials a.footer-podcast-link:hover {
-  color: var(--teal, var(--accent));
-  background: none;
-}
 
 /* ================================================================
    PAGE ÉPISODES — bandeau + cartes avec pochette
@@ -788,66 +692,6 @@ footer .socials a.footer-podcast-link:hover {
    BOUTON ÉCOUTER + MENU DÉROULANT
    ================================================================ */
 
-.listen-cta-wrap {
-  position: relative;
-  display: inline-block;
-}
-
-.btn-listen {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(23, 37, 95, 0.85);
-  color: #ffffff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-  font-family: inherit;
-}
-.btn-listen:hover { background: rgba(16, 28, 71, 0.95); }
-.btn-listen i { font-size: 12px; }
-
-.listen-dropdown {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: 0 12px 28px rgba(23, 37, 95, 0.15);
-  min-width: 210px;
-  z-index: 10;
-  overflow: hidden;
-}
-.listen-dropdown.open { display: block; }
-
-.listen-dropdown a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--paper-dim);
-}
-.listen-dropdown a:last-child { border-bottom: none; }
-.listen-dropdown a:hover { background: var(--paper-dim); text-decoration: none; }
-
-.listen-dropdown a.spotify i { color: #1BC257; }
-.listen-dropdown a.apple i { color: #8F53B3; }
-.listen-dropdown a.linkedin i { color: #0A66C2; }
-.card.dropdown-active {
-  position: relative;
-  z-index: 50;
-}
-
 /* ================================================================
    CARTE ÉPISODE DANS UN ARTICLE DE BLOG : corrections
    ================================================================ */
@@ -872,7 +716,6 @@ footer .socials a.footer-podcast-link:hover {
 .card--featured {
   display: flex;
   flex-direction: row;
-  margin-bottom: 32px;
   overflow: hidden;
 }
 .card--featured .card-thumb {
@@ -2237,8 +2080,6 @@ footer .socials a.footer-podcast-link:hover {
   margin: 3px 0 0; font-size: 12.5px; line-height: 1.45; color: rgba(255, 255, 255, 0.7);
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.inc-all { display: inline-block; margin-top: 2px; font-size: 13px; font-weight: 600; color: #4fd1c5; text-decoration: none; }
-.inc-all:hover { text-decoration: underline; }
 
 /* ===== Variation des prix (flèche vs cours précédent) ===== */
 .px-change {
@@ -2313,12 +2154,6 @@ footer .socials a.footer-podcast-link:hover {
 .cp-tile .mt-gauge { margin-top: 0; }
 .cp-tile-map { aspect-ratio: 4 / 3; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.12); }
 .cp-tile .mt-src { margin: -4px 0 0; }
-.mk-open {
-  margin-top: auto; align-self: stretch; cursor: pointer; padding: 9px 12px; border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); color: #4fd1c5;
-  font: 600 13px 'Inter', sans-serif; transition: background 0.2s;
-}
-.mk-open:hover { background: rgba(255, 255, 255, 0.14); }
 @media (max-width: 960px) { .cp-grid { grid-template-columns: 1fr; } }
 
 /* Fenêtre de détail (élément <dialog> natif) */
@@ -2393,3 +2228,121 @@ footer .socials a.footer-podcast-link:hover {
 .gs-down { color: #ff6b5b; }
 .gs-up { color: #3ddc97; }
 .gz-sw--ly { background: rgba(255, 255, 255, 0.55); }
+
+/* ================================================================
+   CHARTE : boutons et liens d'action (une seule définition)
+   Principal = sarcelle plein · Secondaire = contour · Lien = pilule
+   ================================================================ */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; padding: 12px 22px;
+  border-radius: 999px; border: 1.5px solid transparent;
+  font: 600 15px 'Inter', sans-serif; cursor: pointer; text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn i { font-size: 12px; }
+.btn-primary { background: var(--teal); color: #fff; box-shadow: 0 6px 18px rgba(0, 129, 125, 0.28); }
+.btn-primary:hover { background: var(--teal-deep); color: #fff; box-shadow: 0 10px 24px rgba(0, 129, 125, 0.35); }
+.btn-ghost { background: transparent; border-color: rgba(23, 37, 95, 0.25); color: var(--deep); }
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+.hero .btn-ghost { border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+.hero .btn-ghost:hover { border-color: #4fd1c5; color: #4fd1c5; }
+
+/* Bouton « Écouter » des cartes épisodes : principal, petite taille */
+.btn-listen {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
+  border-radius: 999px; border: none; background: var(--teal); color: #fff;
+  font: 600 13.5px 'Inter', sans-serif; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 129, 125, 0.25);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-listen:hover { background: var(--teal-deep); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0, 129, 125, 0.32); }
+.btn-listen i { font-size: 11px; }
+
+/* Liens « Tout le détail → » : petite pilule, flèche sarcelle */
+.section-head a, footer .socials a.footer-podcast-link {
+  display: inline-flex; align-items: center; gap: 8px; flex: none;
+  width: auto; height: auto; padding: 7px 15px; border-radius: 999px;
+  background: rgba(23, 37, 95, 0.05); border: 1px solid rgba(23, 37, 95, 0.14);
+  font: 600 13px 'Inter', sans-serif; color: var(--deep); text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.section-head a span, .footer-podcast-link span { color: var(--teal); transition: transform 0.15s ease; }
+.section-head a:hover, footer .socials a.footer-podcast-link:hover { border-color: var(--teal); background: rgba(0, 129, 125, 0.06); color: var(--deep); text-decoration: none; }
+.section-head a:hover span, .footer-podcast-link:hover span { transform: translateX(3px); }
+footer .socials a.footer-podcast-link { margin-left: 6px; }
+.markets .section-head a { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.18); color: #fff; }
+.markets .section-head a span { color: #4fd1c5; }
+.markets .section-head a:hover { border-color: #4fd1c5; background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+/* Liens d'action sur fond sombre (détroits, incidents) : même pilule que « Tout le détail » */
+.mk-open, .inc-all {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer; text-decoration: none;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18);
+  font: 600 13px 'Inter', sans-serif; color: #fff;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.mk-open span, .inc-all span { color: #4fd1c5; transition: transform 0.15s ease; }
+.mk-open:hover, .inc-all:hover { border-color: #4fd1c5; background: rgba(255, 255, 255, 0.12); color: #fff; text-decoration: none; }
+.mk-open:hover span, .inc-all:hover span { transform: translate(2px, -2px); }
+.inc-all:hover span { transform: translateX(3px); }
+.mk-open { margin-top: auto; align-self: flex-start; }
+.inc-all { align-self: flex-start; margin-top: auto; }
+
+/* ================================================================
+   CARTES ÉPISODES RETOURNABLES
+   ================================================================ */
+.ep-flip { perspective: 1400px; }
+.ep-flip--featured { margin-bottom: 32px; }
+.ep-flip-inner { position: relative; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
+.ep-flip.flipped .ep-flip-inner { transform: rotateY(180deg); }
+.ep-front, .ep-back { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.ep-front { height: 100%; display: flex; flex-direction: column; }
+.ep-front.card--featured { flex-direction: row; }
+.ep-front .card-body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+.ep-front .card-body .btn-listen { margin-top: auto; }
+.ep-front.card--featured .card-body { justify-content: center; }
+.ep-front.card--featured .card-body .btn-listen { margin-top: 0; }
+.ep-flip.flipped .ep-front:hover { transform: none; }
+
+.ep-back {
+  position: absolute; inset: 0; transform: rotateY(180deg);
+  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  padding: 24px 22px; border-radius: 10px; color: #fff; overflow: hidden;
+  background: linear-gradient(160deg, rgba(23, 37, 95, 0.94), rgba(13, 22, 56, 0.97)), var(--cover) center / cover;
+  box-shadow: 0 14px 32px rgba(23, 37, 95, 0.22);
+}
+.ep-back-kicker { margin: 0; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.8px; text-transform: uppercase; color: #4fd1c5; }
+.ep-back-title { margin: 0 0 6px; font: 600 16px/1.35 'Inter', sans-serif; }
+.ep-flip--featured .ep-back { padding: 32px 40px; }
+.ep-flip--featured .ep-back-title { font-size: 22px; }
+.ep-back-links { display: flex; flex-direction: column; gap: 8px; }
+.ep-flip--featured .ep-back-links { flex-direction: row; flex-wrap: wrap; }
+.ep-flip--featured .ep-link { flex: 1 1 180px; }
+.ep-link {
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff; font: 600 14px 'Inter', sans-serif; text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.ep-link i { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; background: #fff; flex: none; }
+.ep-link--spotify i { color: #1BC257; }
+.ep-link--apple i { color: #8F53B3; }
+.ep-link--linkedin i { color: #0A66C2; }
+.ep-link b { margin-left: auto; color: #4fd1c5; font-weight: 600; }
+.ep-link:hover { background: rgba(255, 255, 255, 0.16); border-color: #4fd1c5; color: #fff; text-decoration: none; transform: translateY(-1px); }
+.ep-back-close {
+  align-self: flex-start; margin-top: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  background: none; border: 1px solid rgba(255, 255, 255, 0.25); color: rgba(255, 255, 255, 0.85);
+  font: 600 12.5px 'Inter', sans-serif;
+}
+.ep-back-close:hover { border-color: #4fd1c5; color: #fff; }
+@media (max-width: 760px) {
+  .ep-front.card--featured { flex-direction: column; }
+  .ep-flip--featured .ep-back-links { flex-direction: column; }
+  .ep-flip--featured .ep-back { padding: 24px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ep-flip-inner { transition: none; }
+}

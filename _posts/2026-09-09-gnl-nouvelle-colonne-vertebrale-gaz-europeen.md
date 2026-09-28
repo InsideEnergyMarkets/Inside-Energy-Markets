@@ -27,24 +27,7 @@ Le prix européen du gaz était déjà en partie connecté au marché mondial av
 En attendant, si vous voulez revenir sur les bases (terminaux méthaniers, stockage, rôle du gaz dans le mix électrique), l'épisode 4 du podcast pose le cadre :
 
 {% assign ep4 = site.data.episodes | where: "number", 4 | first %}
-<div class="card card--episode post-episode-card">
-  <div class="card-thumb">
-    <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep4.title }}">
-    <span class="card-thumb-badge">EP {{ ep4.number }}</span>
-  </div>
-  <div class="card-body">
-    <h3>{{ ep4.title }}</h3>
-    <p>{{ ep4.description }}</p>
-    <div class="listen-cta-wrap">
-      <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-play"></i></button>
-      <div class="listen-dropdown">
-        <a class="spotify" href="{{ ep4.spotify }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
-        <a class="apple" href="{{ ep4.apple }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
-        <a class="linkedin" href="{{ ep4.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
-      </div>
-    </div>
-  </div>
-</div>
+{% include episode-card.html ep=ep4 cls="post-episode-card" %}
 
 ---
 

@@ -10,8 +10,8 @@ title: Accueil
       <h1><em>Inside</em>ENERGY MARKETS</h1>
       <p class="lead">Les coulisses des marchés de l'énergie, racontées par Tom Moulard et ses invités.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="{{ '/episodes/' | relative_url }}">Écouter les épisodes</a>
-        <a class="btn btn-ghost" href="{{ '/blog/' | relative_url }}">Lire le blog</a>
+        <a class="btn btn-primary" href="{{ '/episodes/' | relative_url }}"><i class="fa-solid fa-play" aria-hidden="true"></i>Écouter les épisodes</a>
+        <a class="btn btn-ghost" href="{{ '/marches/' | relative_url }}"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>Voir les marchés</a>
       </div>
     </div>
     <div class="hero-art">
@@ -31,29 +31,12 @@ title: Accueil
   <div class="wrap">
     <div class="section-head">
       <h2>Derniers épisodes</h2>
-      <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes →</a>
+      <a href="{{ '/episodes/' | relative_url }}">Tous les épisodes <span aria-hidden="true">→</span></a>
     </div>
 <div class="card-grid card-grid--episodes">
   {% assign latest_episodes = site.data.episodes | reverse %}
   {% for ep in latest_episodes limit: 3 %}
-  <div class="card card--episode">
-    <div class="card-thumb">
-      <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="{{ ep.title }}">
-      <span class="card-thumb-badge">EP {{ ep.number }}</span>
-    </div>
-    <div class="card-body">
-      <h3>{{ ep.title }}</h3>
-      <p>{{ ep.description }}</p>
-      <div class="listen-cta-wrap">
-        <button type="button" class="btn-listen" aria-expanded="false">Écouter <i class="fa-solid fa-play"></i></button>
-        <div class="listen-dropdown">
-          <a class="spotify" href="{{ ep.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" target="_blank"><i class="fa-brands fa-spotify"></i> Écouter sur Spotify</a>
-          <a class="apple" href="{{ ep.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" target="_blank"><i class="fa-solid fa-podcast"></i> Écouter sur Apple Podcasts</a>
-          <a class="linkedin" href="{{ ep.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}" target="_blank"><i class="fa-brands fa-linkedin"></i> Voir sur LinkedIn</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% include episode-card.html ep=ep %}
   {% endfor %}
 </div>
   </div>
@@ -63,7 +46,7 @@ title: Accueil
   <div class="wrap">
     <div class="section-head">
       <h2>Le point marchés</h2>
-      <a href="{{ '/marches/' | relative_url }}">Tout le détail →</a>
+      <a href="{{ '/marches/' | relative_url }}">Tout le détail <span aria-hidden="true">→</span></a>
     </div>
 
     {% assign market = site.data.market %}
@@ -74,7 +57,7 @@ title: Accueil
       <a class="hm-tile hm-tile--power" href="{{ marches }}#electricite">
         <span class="hm-tile-name"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Électricité FR</span>
         {% if market.spot_price_france %}
-        <span class="hm-tile-value">{{ market.spot_price_france.price_eur_mwh }} <small>€/MWh</small></span>
+        <span class="hm-tile-value">{{ market.spot_price_france.price_eur_mwh | replace: ".", "," }} <small>€/MWh</small></span>
         {% include price-change.html entry=market.spot_price_france %}
         <span class="hm-tile-sub">{{ market.spot_price_france.date_label | default: market.spot_price_france.date }}{% if weekly.spot_price %} · moy. 7 j {{ weekly.spot_price.avg_eur_mwh | round: 0 }} €{% endif %}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
@@ -82,7 +65,7 @@ title: Accueil
       <a class="hm-tile hm-tile--gas" href="{{ marches }}#gaz">
         <span class="hm-tile-name"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>Henry Hub</span>
         {% if market.henry_hub %}
-        <span class="hm-tile-value">{{ market.henry_hub.price_usd_mmbtu }} <small>$/MMBtu</small></span>
+        <span class="hm-tile-value">{{ market.henry_hub.price_usd_mmbtu | replace: ".", "," }} <small>$/MMBtu</small></span>
         {% include price-change.html entry=market.henry_hub %}
         <span class="hm-tile-sub">{{ market.henry_hub.date_label | default: market.henry_hub.date }} · {{ market.henry_hub.source }}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
@@ -90,7 +73,7 @@ title: Accueil
       <a class="hm-tile hm-tile--oil" href="{{ marches }}#petrole">
         <span class="hm-tile-name"><i class="fa-solid fa-droplet" aria-hidden="true"></i>Brent</span>
         {% if market.brent %}
-        <span class="hm-tile-value">{{ market.brent.price_usd }} <small>$/baril</small></span>
+        <span class="hm-tile-value">{{ market.brent.price_usd | replace: ".", "," }} <small>$/baril</small></span>
         {% include price-change.html entry=market.brent %}
         <span class="hm-tile-sub">{% if weekly.brent %}{% if weekly.brent.change_pct > 0 %}<b class="up">+{{ weekly.brent.change_pct | replace: ".", "," }} %</b>{% else %}<b class="down">{{ weekly.brent.change_pct | replace: ".", "," }} %</b>{% endif %} sur 7 j · {% endif %}{{ market.brent.source }}</span>
         {% else %}<span class="hm-tile-value">-</span>{% endif %}
@@ -121,7 +104,7 @@ title: Accueil
   <div class="wrap">
     <div class="section-head">
       <h2>Derniers articles</h2>
-      <a href="{{ '/blog/' | relative_url }}">Tout le blog →</a>
+      <a href="{{ '/blog/' | relative_url }}">Tout le blog <span aria-hidden="true">→</span></a>
     </div>
     <div class="card-grid card-grid--blog">
       {% for post in site.posts limit: 3 %}
@@ -130,7 +113,7 @@ title: Accueil
           <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
         </div>
         <div class="card-body">
-          <p class="post-card-date">{{ post.date | date: "%d %B %Y" }}</p>
+          <p class="post-card-date">{% include date-fr.html date=post.date %}</p>
           <h3>{{ post.title }}</h3>
           <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
         </div>

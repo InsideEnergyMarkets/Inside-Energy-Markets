@@ -21,7 +21,7 @@ permalink: /blog/
           <img src="{{ post.image | default: '/assets/img/hero.png' | relative_url }}" alt="{{ post.title }}">
         </div>
         <div class="card-body">
-          <p class="post-card-date">{{ post.date | date: "%d %B %Y" }}</p>
+          <p class="post-card-date">{% include date-fr.html date=post.date %}</p>
           <h3>{{ post.title }}</h3>
           <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
         </div>
