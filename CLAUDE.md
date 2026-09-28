@@ -46,7 +46,9 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 ## Structure
 
 - `index.html` : accueil (hero podcast, bandeau d'actus, derniers épisodes, « Le point marchés »
-  en 4 tuiles liées aux rubriques de /marches/, bandeau incidents 30 j, derniers articles).
+  en tableau de cotations : une ligne par marché liée à sa rubrique de /marches/, courbe 30 j via
+  `_includes/sparkline.html` (SVG calculé en Liquid depuis `market_history.json`), ligne incidents 30 j ;
+  derniers articles, puis bloc `_includes/podcast-cta.html` « Écouter / Venir en invité », aussi sur À propos et /episodes/).
 - `marches/index.html` (option C : tableau de bord + détail en fenêtre `<dialog class="mk-dialog">`
   ouverte par `[data-dialog]`) : sommaire collant, rubriques dans cet ordre :
   `#electricite` (carte prix + mix), `#gaz` (Henry Hub quotidien + stocks de gaz UE/France ; tuiles
