@@ -1114,15 +1114,28 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       var a = byId[e.target.id];
       if (a) {
         a.classList.add('is-current');
-        // Défile seulement la barre du sommaire, jamais la page : scrollIntoView
-        // faisait redescendre la page sur téléphone pendant qu'on remontait.
+        window.iemTocCurrent = a;
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  // Recadre la barre du sommaire sur la rubrique en cours, seulement quand la page
+  // a fini de défiler : toucher au défilement pendant un geste tactile faisait
+  // redescendre la page sur téléphone.
+  if (!window.iemTocScroll) {
+    window.iemTocScroll = true;
+    var tocTimer;
+    window.addEventListener('scroll', function () {
+      clearTimeout(tocTimer);
+      tocTimer = setTimeout(function () {
+        var a = window.iemTocCurrent;
+        if (!a || !a.isConnected) return;
         var bar = a.parentElement;
         var r = a.getBoundingClientRect(), b = bar.getBoundingClientRect();
         if (r.left < b.left) bar.scrollLeft += r.left - b.left - 12;
         else if (r.right > b.right) bar.scrollLeft += r.right - b.right + 12;
-      }
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
+      }, 400);
+    }, { passive: true });
+  }
   Object.keys(byId).forEach(function (id) {
     var section = document.getElementById(id);
     if (section) observer.observe(section);
