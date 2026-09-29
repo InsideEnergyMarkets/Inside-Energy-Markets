@@ -35,6 +35,8 @@
 {% for pair in pod_eps %}{% assign ab_n = ab_n | plus: 1 %}{% assign ab_secs = ab_secs | plus: pair[1].duration %}{% if pair[1].date < ab_first %}{% assign ab_first = pair[1].date %}{% endif %}{% endfor %}
 {% assign ab_min = ab_secs | divided_by: 60 %}
 {% if ab_n > 0 %}{% assign ab_avg = ab_secs | divided_by: ab_n | divided_by: 60.0 | round %}{% endif %}
+{% comment %}Date de lancement réelle du podcast (_config.yml), antérieure aux dates du flux Spotify{% endcomment %}
+{% if site.podcast_start %}{% assign ab_first = site.podcast_start %}{% endif %}
 {% assign ab_m = ab_first | slice: 5, 2 | plus: 0 | minus: 1 %}
 {% assign ab_month_lc = t.months[ab_m] %}{% assign ab_month = ab_month_lc | capitalize %}
 {% assign ab_year = ab_first | slice: 0, 4 %}

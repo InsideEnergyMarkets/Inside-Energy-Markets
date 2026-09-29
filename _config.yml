@@ -67,3 +67,6 @@ plugins:
 logo: /assets/img/hero.png
 twitter:
   card: summary_large_image
+
+# Mois de lancement du podcast (page À propos), prioritaire sur la date du premier épisode du flux
+podcast_start: "2026-02-01"
