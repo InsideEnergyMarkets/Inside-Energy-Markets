@@ -1114,7 +1114,12 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       var a = byId[e.target.id];
       if (a) {
         a.classList.add('is-current');
-        a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        // Défile seulement la barre du sommaire, jamais la page : scrollIntoView
+        // faisait redescendre la page sur téléphone pendant qu'on remontait.
+        var bar = a.parentElement;
+        var r = a.getBoundingClientRect(), b = bar.getBoundingClientRect();
+        if (r.left < b.left) bar.scrollLeft += r.left - b.left - 12;
+        else if (r.right > b.right) bar.scrollLeft += r.right - b.right + 12;
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
