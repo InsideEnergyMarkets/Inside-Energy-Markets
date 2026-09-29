@@ -95,7 +95,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Blog : article le plus récent « à la une », étiquettes (`tags:` dans le front matter), temps de lecture
   (`reading-time.html`), partage LinkedIn, encadré auteur, article précédent / suivant. Flux RSS `/feed.xml`
   (jekyll-feed) gardé sans bouton visible (Tom n'en veut pas).
-- À propos : chiffres du podcast calculés depuis `podcast.json`, parcours sans dates (à compléter par Tom),
+- À propos : chiffres du podcast calculés depuis `podcast.json` (mois de lancement forcé par `podcast_start` dans `_config.yml`), parcours sans dates (à compléter par Tom),
   sujets, blocs « Écouter » et « Invité ». Adresse e-mail jamais en clair : `data-contact` = adresse à l'envers
   en base64, reconstituée au clic par le script du layout.
 - `_includes/` : `episode-card.html` (carte épisode retournable : « Écouter » montre les liens au dos ;
@@ -119,6 +119,9 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   - Mix et CO2 : RTE éCO2mix (`where=nucleaire is not null` obligatoire), parts triées.
   - Détroits : IMF PortWatch (moyenne des 5 derniers jours publiés ; normale = moyenne
     janv.-oct. 2023 ; publication hebdo, ~1 semaine de retard ; statut fluide >= 80 %, partiel >= 40 %).
+- Gaz affiché en €/MWh : taux de référence BCE (API data-api.ecb.europa.eu, sans clé) dans `fx.json`
+  (quotidien 400 j, mensuel 11 ans) ; Henry Hub `price_eur_mwh` / `henry_hub_eur_mwh`, FMI champ `e` de
+  `gas_world.json`. Les valeurs $/MMBtu restent stockées. 1 MMBtu = 0,29307107 MWh.
 - `market_history.json` : 60 j, chaque prix à sa date de cotation avec sa source ; pas de
   Brent/HH le week-end ; l'EIA comble les trous (15 derniers jours, sans écraser).
 - `chokepoints_history.json` (90 j par détroit + `hormuz_year`), `brent_year.json` (EIA 12 mois),
