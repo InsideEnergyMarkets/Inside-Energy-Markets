@@ -2669,7 +2669,7 @@ html.has-player body { padding-bottom: 96px; }
   transition: border-color 0.2s, color 0.2s;
 }
 .nav-ep:hover { border-color: #4fd1c5; color: #ffffff; }
-.nav-ep-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--orange, #e8703a); animation: pulse-dot 2s infinite; }
+.nav-ep-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--orange, #e8703a); }
 .nav-ep-tag { font-weight: 600; }
 .nav-ep-title { max-width: 260px; overflow: hidden; text-overflow: ellipsis; color: rgba(255, 255, 255, 0.75); }
 .nav-ep i { font-size: 10px; color: #4fd1c5; }
