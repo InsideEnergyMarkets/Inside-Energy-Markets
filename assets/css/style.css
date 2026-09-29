@@ -2678,7 +2678,7 @@ html.has-player .nav-ep { display: none; }
 @media (max-width: 760px) { .nav-ep { margin-left: 12px; padding: 5px 10px; font-size: 12px; } }
 
 /* Ligne de cotations sous le bandeau d'actus (accueil, ordinateur ; masquée sur téléphone) */
-.qs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin-top: 10px; padding: 8px 2px; border-bottom: 1px solid var(--line); }
+.qs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 10px; padding: 8px 2px; border-bottom: 1px solid var(--line); }
 .qs-item { display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap; font-size: 13px; color: var(--ink); text-decoration: none; }
 .qs-item:hover { text-decoration: none; }
 .qs-item:hover .qs-val { color: #00817d; }
@@ -2693,7 +2693,7 @@ html.has-player .nav-ep { display: none; }
 .qs-status.fluide { color: #1f8a55; }
 /* Même petite pilule que les autres liens « … → » (.section-head a) */
 .qs-all {
-  margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 5px 13px; border-radius: 999px;
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px;
   background: rgba(23, 37, 95, 0.05); border: 1px solid rgba(23, 37, 95, 0.14);
   font: 600 12px 'Inter', sans-serif; color: var(--deep); white-space: nowrap; text-decoration: none;
   transition: border-color 0.15s ease, background 0.15s ease;
