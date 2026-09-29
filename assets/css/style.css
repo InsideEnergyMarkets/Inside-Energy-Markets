@@ -2698,7 +2698,5 @@ html.has-player .nav-ep { display: none; }
   font: 600 12px 'Inter', sans-serif; color: var(--deep); white-space: nowrap; text-decoration: none;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
-.qs-all span { color: var(--teal); transition: transform 0.15s ease; }
 .qs-all:hover { border-color: var(--teal); background: rgba(0, 129, 125, 0.06); color: var(--deep); text-decoration: none; }
-.qs-all:hover span { transform: translateX(3px); }
 @media (max-width: 640px) { .qs { display: none; } }

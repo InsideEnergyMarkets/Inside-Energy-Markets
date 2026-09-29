@@ -132,7 +132,7 @@ fr:
   quotes:
     spot: "Spot France"
     hormuz: "Ormuz"
-    all: "Suivre les marchés"
+    all: "Voir plus"
   news:
     aria: "Dernières informations"
     label_long: "Dernières "
@@ -449,7 +449,7 @@ en:
   quotes:
     spot: "France spot"
     hormuz: "Hormuz"
-    all: "Follow the markets"
+    all: "See more"
   news:
     aria: "Latest news"
     label_long: "Latest "

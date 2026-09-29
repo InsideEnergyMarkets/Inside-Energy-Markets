@@ -15,5 +15,5 @@
 <div class="qs">
   {{ q_items }}
   {% if q_hz.status %}<a class="qs-item" href="{{ marches }}#{{ t.ids.sea }}" title="IMF PortWatch · {{ q_hz.date | date: '%d/%m' }}"><span class="qs-name">{{ t.quotes.hormuz }}</span><span class="qs-status {{ q_hz.status }}">{{ t.status_short[q_hz.status] }}</span></a>{% endif %}
-  <a class="qs-all" href="{{ marches }}">{{ t.quotes.all }} <span aria-hidden="true">→</span></a>
+  <a class="qs-all" href="{{ marches }}">{{ t.quotes.all }}</a>
 </div>
