@@ -36,7 +36,8 @@
     {% include latest-episode.html %}
     {% if latest %}
     {% if lang == "en" %}{% assign nav_ep_title = latest.title_en | default: latest.title %}{% else %}{% assign nav_ep_title = latest.title %}{% endif %}
-    {% assign nav_ep_age = site.time | date: "%s" | minus: latest_pod.date | date: "%s" | divided_by: 86400 %}
+    {% assign nav_ep_date = latest_pod.date | date: "%s" %}
+    {% assign nav_ep_age = site.time | date: "%s" | minus: nav_ep_date | divided_by: 86400 %}
     <button type="button" class="nav-ep" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ nav_ep_title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify }}" data-apple="{{ latest.apple }}" data-linkedin="{{ latest.linkedin }}" aria-label="{{ t.nav.play_aria | replace: '%n', latest.number }}{{ t.colon }}{{ nav_ep_title | escape }}">
       <span class="nav-ep-dot" aria-hidden="true"></span>
       <span class="nav-ep-tag">{% if nav_ep_age < 14 %}{{ t.nav.new }}{% else %}{{ t.ep.latest }}{% endif %} · EP {{ latest.number }}</span>
