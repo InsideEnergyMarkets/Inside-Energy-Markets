@@ -1,0 +1,19 @@
+{% comment %}
+  Ligne de cotations sous le bandeau d'actus de l'accueil (ordinateur seulement) :
+  Brent, Henry Hub, spot France, Ormuz. Chaque cotation mène à sa rubrique de /marches/,
+  la source et la date sont en infobulle. Hausse en rouge, baisse en vert.
+{% endcomment %}
+{% include i18n.html %}
+{% assign market = site.data.market %}
+{% assign marches = u.markets | relative_url %}
+{% assign q_brent = market.brent %}{% assign q_hh = market.henry_hub %}{% assign q_spot = market.spot_price_france %}{% assign q_hz = market.chokepoints.hormuz %}
+{% capture q_items %}
+{% if q_brent.price_usd %}{% assign e = q_brent %}{% include quote-item.html name="Brent" value=q_brent.price_usd unit="$" anchor=t.ids.oil %}{% endif %}
+{% if q_hh.price_eur_mwh %}{% assign e = q_hh %}{% include quote-item.html name="Henry Hub" value=q_hh.price_eur_mwh unit="€/MWh" anchor=t.ids.gas %}{% endif %}
+{% if q_spot.price_eur_mwh %}{% assign e = q_spot %}{% include quote-item.html name=t.quotes.spot value=q_spot.price_eur_mwh unit="€/MWh" anchor=t.ids.power %}{% endif %}
+{% endcapture %}
+<div class="qs">
+  {{ q_items }}
+  {% if q_hz.status %}<a class="qs-item" href="{{ marches }}#{{ t.ids.sea }}" title="IMF PortWatch · {{ q_hz.date | date: '%d/%m' }}"><span class="qs-name">{{ t.quotes.hormuz }}</span><span class="qs-status {{ q_hz.status }}">{{ t.status_short[q_hz.status] }}</span></a>{% endif %}
+  <a class="qs-all" href="{{ marches }}">{{ t.quotes.all }} <span aria-hidden="true">→</span></a>
+</div>

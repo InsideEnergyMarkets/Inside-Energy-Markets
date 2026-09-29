@@ -70,7 +70,7 @@ fr:
     eyebrow: "PODCAST &amp; ANALYSES"
     lead: "Les coulisses des marchés de l'énergie, racontées par Tom Moulard et ses invités."
     cta_listen: "Écouter les épisodes"
-    cta_markets: "Voir les marchés"
+    cta_markets: "Suivre les marchés"
     hero_alt: "Éoliennes offshore, Inside Energy Markets"
     flip_aria: "Écouter le podcast : choisir la plateforme"
     latest_episodes: "Derniers épisodes"
@@ -129,6 +129,10 @@ fr:
     path_iem_launched: "Le podcast, lancé en %m %y, puis ce site : analyses et données de marché en direct."
     themes_kicker: "Les sujets du podcast"
     themes: ["Mix électrique français", "Réseaux", "Renouvelables et intermittence", "Gaz naturel et GNL", "Taxes et fiscalité", "Formation des prix", "Marchés spot et à terme", "Volatilité", "Couverture et instruments financiers", "Stratégies d'achat"]
+  quotes:
+    spot: "Spot France"
+    hormuz: "Ormuz"
+    all: "Suivre les marchés"
   news:
     aria: "Dernières informations"
     label_long: "Dernières "
@@ -383,7 +387,7 @@ en:
     eyebrow: "PODCAST &amp; ANALYSIS"
     lead: "Inside the energy markets, with Tom Moulard and his guests."
     cta_listen: "Listen to the episodes"
-    cta_markets: "See the markets"
+    cta_markets: "Follow the markets"
     hero_alt: "Offshore wind turbines, Inside Energy Markets"
     flip_aria: "Listen to the podcast: choose a platform"
     latest_episodes: "Latest episodes"
@@ -442,6 +446,10 @@ en:
     path_iem_launched: "The podcast, launched in %m %y, then this site: analysis and live market data."
     themes_kicker: "Podcast topics"
     themes: ["The French power mix", "Grids", "Renewables and intermittency", "Natural gas and LNG", "Energy taxes", "Price formation", "Spot and forward markets", "Volatility", "Hedging and financial instruments", "Procurement strategies"]
+  quotes:
+    spot: "France spot"
+    hormuz: "Hormuz"
+    all: "Follow the markets"
   news:
     aria: "Latest news"
     label_long: "Latest "
