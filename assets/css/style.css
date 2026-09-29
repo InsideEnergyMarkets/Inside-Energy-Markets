@@ -2649,3 +2649,30 @@ html.has-player body { padding-bottom: 96px; }
 .lang-note { display: flex; align-items: center; gap: 8px; margin: -12px 0 20px; font-size: 13.5px; color: #47555f; }
 .lang-note i { color: var(--teal); }
 .ab-lang-note { font-weight: 400; color: rgba(255, 255, 255, 0.6); }
+
+/* Barre de navigation : dernier épisode en pilule (lance le lecteur) */
+.nav-ep {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 auto 0 20px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: none;
+  color: rgba(255, 255, 255, 0.9);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s;
+}
+.nav-ep:hover { border-color: #4fd1c5; color: #ffffff; }
+.nav-ep-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--orange, #e8703a); animation: pulse-dot 2s infinite; }
+.nav-ep-tag { font-weight: 600; }
+.nav-ep-title { max-width: 260px; overflow: hidden; text-overflow: ellipsis; color: rgba(255, 255, 255, 0.75); }
+.nav-ep i { font-size: 10px; color: #4fd1c5; }
+html.has-player .nav-ep { display: none; }
+@media (max-width: 1000px) { .nav-ep-title { display: none; } }
+@media (max-width: 760px) { .nav-ep { margin-left: 12px; padding: 5px 10px; font-size: 12px; } }

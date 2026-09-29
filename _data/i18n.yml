@@ -32,6 +32,8 @@ fr:
     about: "À propos"
     switch: "EN"
     switch_title: "English version"
+    new: "Nouveau"
+    play_aria: "Écouter l'épisode %n ici"
   footer:
     all_episodes: "Voir tous les épisodes"
   units:
@@ -343,6 +345,8 @@ en:
     about: "About"
     switch: "FR"
     switch_title: "Version française"
+    new: "New"
+    play_aria: "Play episode %n here"
   footer:
     all_episodes: "All episodes"
   units:

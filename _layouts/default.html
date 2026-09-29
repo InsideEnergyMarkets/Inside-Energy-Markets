@@ -33,6 +33,17 @@
     <a href="{{ u.home | relative_url }}" class="brand-logo">
       <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Inside Energy Markets">
     </a>
+    {% include latest-episode.html %}
+    {% if latest %}
+    {% if lang == "en" %}{% assign nav_ep_title = latest.title_en | default: latest.title %}{% else %}{% assign nav_ep_title = latest.title %}{% endif %}
+    {% assign nav_ep_age = site.time | date: "%s" | minus: latest_pod.date | date: "%s" | divided_by: 86400 %}
+    <button type="button" class="nav-ep" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ nav_ep_title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify }}" data-apple="{{ latest.apple }}" data-linkedin="{{ latest.linkedin }}" aria-label="{{ t.nav.play_aria | replace: '%n', latest.number }}{{ t.colon }}{{ nav_ep_title | escape }}">
+      <span class="nav-ep-dot" aria-hidden="true"></span>
+      <span class="nav-ep-tag">{% if nav_ep_age < 14 %}{{ t.nav.new }}{% else %}{{ t.ep.latest }}{% endif %} · EP {{ latest.number }}</span>
+      <span class="nav-ep-title">{{ nav_ep_title }}</span>
+      <i class="fa-solid fa-play" aria-hidden="true"></i>
+    </button>
+    {% endif %}
     <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false">
       <i class="fa-solid fa-bars"></i>
     </button>
@@ -188,7 +199,8 @@ document.addEventListener('click', function (e) {
   document.documentElement.classList.add('has-player');
   player.paint();
   audio.play();
-  epFlip(btn.closest('.ep-flip'), false);
+  var card = btn.closest('.ep-flip');
+  if (card) epFlip(card, false);
 });
 
 document.addEventListener('keydown', function (e) {
