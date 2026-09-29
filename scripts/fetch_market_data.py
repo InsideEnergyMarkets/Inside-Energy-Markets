@@ -18,10 +18,12 @@ rangé à la date du prix lui-même (pas à la date du run) et porte sa source.
 
 En cas d'échec sur une source, on garde l'ancienne valeur (le site ne casse jamais).
 """
+import csv
+import datetime
+import io
 import json
 import os
 import sys
-import datetime
 from zoneinfo import ZoneInfo
 
 import requests
@@ -645,6 +647,87 @@ def update_gas_storage():
         json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
 
 
+# ===== Conversion des prix du gaz en €/MWh (unité européenne) =====
+# Les sources américaines (OilPriceAPI, EIA, FMI) donnent des $/MMBtu. On garde ces valeurs
+# et on ajoute l'équivalent en €/MWh, avec le taux de référence de la BCE du jour
+# (ou du mois pour les moyennes mensuelles). 1 MMBtu = 0,29307107 MWh.
+FX_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "fx.json")
+MWH_PER_MMBTU = 0.29307107
+FX = {"daily": {}, "monthly": {}}
+
+
+def fetch_ecb_usd(freq, start):
+    """Taux de référence BCE : dollars pour 1 euro, {période: taux}. freq 'D' (jour) ou 'M' (mois)."""
+    r = requests.get(f"https://data-api.ecb.europa.eu/service/data/EXR/{freq}.USD.EUR.SP00.A",
+                     params={"startPeriod": start, "format": "csvdata"}, timeout=30)
+    r.raise_for_status()
+    rows = csv.DictReader(io.StringIO(r.text))
+    return {row["TIME_PERIOD"]: round(float(row["OBS_VALUE"]), 4) for row in rows if row.get("OBS_VALUE")}
+
+
+def update_fx():
+    """Met à jour _data/fx.json (400 jours de taux quotidiens, taux mensuels depuis 11 ans).
+    En cas d'échec, on garde les taux déjà connus."""
+    global FX
+    FX = load_json(FX_PATH, {"daily": {}, "monthly": {}})
+    today = datetime.date.today()
+    try:
+        daily = fetch_ecb_usd("D", (today - datetime.timedelta(days=400)).isoformat())
+        monthly = fetch_ecb_usd("M", f"{today.year - 11}-01")
+    except Exception as e:
+        print(f"Erreur taux de change BCE: {e} (on garde les taux connus)")
+        return
+    if daily and monthly:
+        last = max(daily)
+        FX = {"latest": {"date": last, "usd_per_eur": daily[last]}, "daily": daily, "monthly": monthly}
+        with open(FX_PATH, "w", encoding="utf-8") as f:
+            json.dump(FX, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def usd_per_eur_on(date):
+    """Taux BCE du jour, ou du dernier jour ouvré précédent (la BCE ne publie pas le week-end)."""
+    daily = FX.get("daily") or {}
+    known = [d for d in daily if d <= date[:10]]
+    if known:
+        return daily[max(known)]
+    return daily[min(daily)] if daily else None
+
+
+def mmbtu_usd_to_mwh_eur(value, usd_per_eur):
+    if value is None or not usd_per_eur:
+        return None
+    return round(value / usd_per_eur / MWH_PER_MMBTU, 2)
+
+
+def add_henry_hub_eur(entry):
+    """Ajoute price_eur_mwh (et le taux utilisé) à l'entrée Henry Hub de market.json."""
+    if not entry or entry.get("price_usd_mmbtu") is None or not entry.get("date"):
+        return entry
+    rate = usd_per_eur_on(entry["date"])
+    eur = mmbtu_usd_to_mwh_eur(entry["price_usd_mmbtu"], rate)
+    if eur is not None:
+        entry["price_eur_mwh"] = eur
+        entry["usd_per_eur"] = rate
+    return entry
+
+
+def enrich_gas_world():
+    """Ajoute à chaque moyenne mensuelle de _data/gas_world.json sa valeur en €/MWh (champ e),
+    avec le taux moyen du mois de la BCE."""
+    data = load_json(GAS_WORLD_PATH, None)
+    monthly = FX.get("monthly") or {}
+    if not data or not monthly:
+        return
+    for points in data.values():
+        for p in points:
+            rate = monthly.get(p["month"]) or monthly.get(max((m for m in monthly if m <= p["month"]), default=""))
+            e = mmbtu_usd_to_mwh_eur(p.get("v"), rate)
+            if e is not None:
+                p["e"] = e
+    with open(GAS_WORLD_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+
+
 def load_history():
     try:
         with open(HISTORY_PATH, "r", encoding="utf-8") as f:
@@ -720,6 +803,12 @@ def append_to_history(history, data, spot_daily):
     cutoff = (datetime.date.today() - datetime.timedelta(days=HISTORY_MAX_DAYS)).isoformat()
     history = sorted((h for h in history if h["date"] >= cutoff), key=lambda h: h["date"])
 
+    # Henry Hub en €/MWh pour chaque jour, au taux BCE de ce jour-là
+    for h in history:
+        eur = mmbtu_usd_to_mwh_eur(h.get("henry_hub_usd_mmbtu"), usd_per_eur_on(h["date"]))
+        if eur is not None:
+            h["henry_hub_eur_mwh"] = eur
+
     os.makedirs(os.path.dirname(HISTORY_PATH), exist_ok=True)
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
@@ -784,7 +873,7 @@ def compute_weekly_summary(history):
 CHANGE_FIELDS = {
     "spot_price_france": ("price_eur_mwh", "spot_eur_mwh"),
     "brent": ("price_usd", "brent_usd"),
-    "henry_hub": ("price_usd_mmbtu", "henry_hub_usd_mmbtu"),
+    "henry_hub": ("price_eur_mwh", "henry_hub_eur_mwh"),
 }
 
 
@@ -806,13 +895,14 @@ def add_changes(data, history):
 def main():
     existing = load_existing()
 
+    update_fx()
     spot = fetch_spot_price_france(existing)
     spot_daily = spot.pop("daily", {}) if spot else {}
 
     data = {
         "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
         "brent": label_quote(fetch_brent(existing)),
-        "henry_hub": label_quote(fetch_henry_hub(existing)),
+        "henry_hub": add_henry_hub_eur(label_quote(fetch_henry_hub(existing))),
         "mix_france": fetch_mix_france(existing),
         "spot_price_france": spot,
         "chokepoints": fetch_chokepoint_traffic(existing),
@@ -820,6 +910,7 @@ def main():
     update_brent_year()
     update_lng_exports()
     update_gas_world()
+    enrich_gas_world()
     update_gas_storage()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)

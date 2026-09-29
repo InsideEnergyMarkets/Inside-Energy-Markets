@@ -936,7 +936,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     var labels = gw.europe.slice(-n).map(function (r) { return r.month; });
     var datasets = SERIES.map(function (s) {
       var by = {};
-      (gw[s.key] || []).forEach(function (r) { by[r.month] = r.v; });
+      (gw[s.key] || []).forEach(function (r) { if (r.e != null) by[r.month] = r.e; });
       return { label: s.name, data: labels.map(function (m) { return m in by ? by[m] : null; }), borderColor: s.color,
                backgroundColor: s.color, borderWidth: 2, pointRadius: 0, pointHoverRadius: 3, tension: 0.25, spanGaps: true };
     });
@@ -947,7 +947,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
         responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { callbacks: {
           title: function (items) { return month(items[0].label, true); },
-          label: function (c) { return c.dataset.label + iemT.colon + c.parsed.y.toLocaleString(iemT.locale) + ' $/MMBtu'; },
+          label: function (c) { return c.dataset.label + iemT.colon + c.parsed.y.toLocaleString(iemT.locale) + ' €/MWh'; },
           afterBody: function () { return iemT.source + iemT.imf_fred; } } } },
         scales: {
           x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, maxTicksLimit: 6, maxRotation: 0,

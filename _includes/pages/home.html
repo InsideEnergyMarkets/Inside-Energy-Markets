@@ -104,9 +104,9 @@
       <a class="hq-row" href="{{ marches }}#{{ t.ids.gas }}">
         <span class="hq-name">Henry Hub<small>{{ hh.source }} · {{ hh_label }}</small></span>
         {% if hh %}
-        <span class="hq-value">{{ hh.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small></span>
+        <span class="hq-value">{% if hh.price_eur_mwh %}{{ hh.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small>{% else %}{{ hh.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small>{% endif %}</span>
         <span class="hq-change">{% include price-change.html entry=hh %}</span>
-        <span class="hq-trend">{% include sparkline.html key="henry_hub_usd_mmbtu" %}</span>
+        <span class="hq-trend">{% include sparkline.html key="henry_hub_eur_mwh" %}</span>
         {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
       <a class="hq-row" href="{{ marches }}#{{ t.ids.sea }}">

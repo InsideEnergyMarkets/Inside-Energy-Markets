@@ -25,7 +25,7 @@
   window.mktChartData = {
     spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, sources: {{ hist | map: "spot_source" | jsonify }}, unit: "€/MWh", color: "#00817d" },
     brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: {{ t.units.usd_bbl | jsonify }}, color: "#e8703a" },
-    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_usd_mmbtu" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "$/MMBtu", color: "#e8b33a" }
+    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_eur_mwh" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "€/MWh", color: "#e8b33a" }
   };
   window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};
   window.mktBrentYear = {{ site.data.brent_year | jsonify }};
@@ -142,8 +142,9 @@
           <button type="button" class="period-btn pw-expand" data-expand="henryhub" data-title="Henry Hub" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
         </div>
         {% if e %}
-        <p class="pw-value">{{ e.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small>{% include price-change.html entry=e %}</p>
-        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>
+        {% if e.price_eur_mwh %}<p class="pw-value">{{ e.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e_label }} · {{ e.source }}, {{ mk.fx_note }} ({{ e.price_usd_mmbtu | replace: ".", dec }} $/MMBtu)</p>{% else %}<p class="pw-value">{{ e.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>{% endif %}
         {% else %}<p class="pw-value">-</p>{% endif %}
         <div class="pw-stats" data-week-stats="henryhub">
           <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>
@@ -212,7 +213,7 @@
       {% assign gw_us = gw.usa | last %}
       {% assign gw_as = gw.asie | last %}
       {% assign gw_m = gw_eu.month | split: "-" | last | plus: 0 | minus: 1 %}
-      {% assign ratio = gw_eu.v | divided_by: gw_us.v | round: 1 | replace: '.', dec %}
+      {% assign ratio = gw_eu.e | divided_by: gw_us.e | round: 1 | replace: '.', dec %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-gw">
         <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
         <span><strong>{{ mk.gw_tile }}</strong>{{ mk.gw_tile_sub | replace: '%n', ratio }}</span>
@@ -241,11 +242,11 @@
         <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
       </header>
       <p class="mt-kpi-note">{{ mk.gw_note }} {{ t.months[gw_m] }} {{ gw_eu.month | slice: 0, 4 }}.</p>
-      {% assign gap = gw_as.v | minus: gw_eu.v | round: 2 %}
+      {% assign gap = gw_as.e | minus: gw_eu.e | round: 2 %}
       <div class="mt-kpis">
-        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.europe }}</div><div class="mt-kpi-value">{{ gw_eu.v | replace: ".", dec }} <small>$/MMBtu</small></div></div>
-        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.asia }}</div><div class="mt-kpi-value">{{ gw_as.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", dec }} $ {{ mk.vs_europe }}</div></div>
-        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.usa }}</div><div class="mt-kpi-value">{{ gw_us.v | replace: ".", dec }} <small>$/MMBtu</small></div><div class="mt-kpi-sub">{{ mk.europe_pays | replace: '%n', ratio }}</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.europe }}</div><div class="mt-kpi-value">{{ gw_eu.e | replace: ".", dec }} <small>€/MWh</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.asia }}</div><div class="mt-kpi-value">{{ gw_as.e | replace: ".", dec }} <small>€/MWh</small></div><div class="mt-kpi-sub">{% if gap > 0 %}+{% endif %}{{ gap | replace: ".", dec }} € {{ mk.vs_europe }}</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.js.usa }}</div><div class="mt-kpi-value">{{ gw_us.e | replace: ".", dec }} <small>€/MWh</small></div><div class="mt-kpi-sub">{{ mk.europe_pays | replace: '%n', ratio }}</div></div>
       </div>
       <div class="pw-chart-head">
         <span></span>

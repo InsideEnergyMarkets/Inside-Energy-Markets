@@ -18,7 +18,9 @@
     "source": "OilPriceAPI",
     "date_label": "Cours du mar. 29/09",
     "date_label_en": "Price on Tue 29/09",
-    "prev_value": 3.05,
+    "price_eur_mwh": 9.39,
+    "usd_per_eur": 1.1378,
+    "prev_value": 9.15,
     "prev_date": "2026-09-28",
     "change_pct": 2.6
   },
