@@ -2721,7 +2721,6 @@ html.has-player .nav-ep { display: none; }
 .da-hours { justify-content: flex-start; }
 .da-chart { position: relative; height: 300px; margin-top: 12px; }
 .da-chart canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
-.da-open { align-self: flex-start; margin-top: 16px; }
 .da-h2 { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 0.5px; margin: 0 0 4px; color: var(--deep); }
 .da-compare { margin-top: 36px; }
 .da-compare-card { margin-top: 14px; padding: 18px 20px 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
@@ -2746,3 +2745,10 @@ html.has-player .nav-ep { display: none; }
   .da-card { grid-template-columns: 1fr; }
   .da-chart { height: 240px; }
 }
+/* Fenêtre « Prix de l'électricité demain » dans /marches/ */
+.da-kpis { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.da-kpis .px-change { margin: 4px 0 0; font-size: 12px; }
+.da-dlg-h { margin: 16px 0 6px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.mk-dialog .da-when { margin-left: 6px; vertical-align: 1px; }
+.da-dlg-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.da-dlg-actions button.mk-open i { font-size: 11px; color: #4fd1c5; }

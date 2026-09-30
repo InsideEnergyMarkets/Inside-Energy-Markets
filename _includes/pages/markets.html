@@ -84,7 +84,6 @@
           </div>
         </div>
         <div class="pw-chart"><canvas id="chart-canvas-spot" aria-label="{{ mk.spot_chart_aria }}"></canvas></div>
-        {% if site.data.day_ahead.latest %}<a class="mk-open da-open" href="{{ u.day_ahead | relative_url }}">{{ mk.day_ahead_link }} <span aria-hidden="true">→</span></a>{% endif %}
       </div>
 
       <div class="pw-mix">
@@ -119,6 +118,41 @@
         {% endif %}
       </div>
     </div>
+
+    {% assign dad = site.data.day_ahead %}{% assign dd = dad.latest %}{% assign dday = dad.fr[dd] %}
+    {% if dday %}
+    {% assign dwd = dd | date: "%w" | plus: 0 %}
+    <div class="mk-more-row">
+      <button type="button" class="mk-link-tile" data-dialog="dlg-da">
+        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+        <span><strong>{{ mk.day_ahead_link }}</strong>{{ t.weekdays[dwd] | capitalize }} {% include date.html date=dd %} · {{ dday.avg | round: 2 | replace: ".", dec }} €/MWh {{ mk.on_average }}</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+    </div>
+    <dialog class="mk-dialog" id="dlg-da" aria-labelledby="dlg-da-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-da-title">{{ t.da.title }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">{{ t.da.avg_label }} · {{ t.weekdays[dwd] | capitalize }} {% include date.html date=dd %} <span class="da-when" data-da-date="{{ dd }}" hidden></span></p>
+      <div class="mt-kpis da-kpis">
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.da.avg_short }}</div><div class="mt-kpi-value">{{ dday.avg | round: 2 | replace: ".", dec }} <small>€/MWh</small></div>{% if dday.change_pct != nil %}<div class="mt-kpi-sub">{% include price-change.html entry=dday %}</div>{% endif %}</div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.da.peak }}</div><div class="mt-kpi-value">{% if dday.peak != nil %}{{ dday.peak | round: 0 }} <small>€/MWh</small>{% else %}-{% endif %}</div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.da.cheapest }}</div><div class="mt-kpi-value">{{ dday.min.hour | plus: 0 }} h <small>· {{ dday.min.value | round: 0 }} €</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ t.da.dearest }}</div><div class="mt-kpi-value">{{ dday.max.hour | plus: 0 }} h <small>· {{ dday.max.value | round: 0 }} €</small></div></div>
+      </div>
+      <p class="da-dlg-h">{{ t.da.hourly_label }}</p>
+      <div class="mt-chart"><canvas id="da-chart" aria-label="{{ t.da.chart_aria }}"></canvas></div>
+      <p class="da-dlg-h">{{ t.da.compare_title }}</p>
+      <div class="da-compare-chart" style="height: {{ t.da.zone_order.size | plus: 1 | times: 30 | plus: 24 }}px"><canvas id="da-compare-chart" data-theme="dark" aria-label="{{ t.da.compare_aria }}"></canvas></div>
+      <p class="mt-src">Source{{ t.colon }}ENTSO-E Transparency Platform</p>
+      <div class="da-dlg-actions">
+        {% include play-episode.html number=6 label=t.da.listen_ep6 cls="mk-open" %}
+        <a class="mk-open" href="{{ u.day_ahead | relative_url }}">{{ t.da.full_page }} <span aria-hidden="true">→</span></a>
+      </div>
+    </dialog>
+    {% include day-ahead-data.html %}
+    {% endif %}
   </div>
 </section>
 

@@ -933,13 +933,12 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 
 // ===== Prix day-ahead heure par heure (page « Prix de l'électricité demain ») =====
 (function () {
-  var when = document.querySelector('[data-da-date]');
-  if (when) {
-    var parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  var parisToday = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  document.querySelectorAll('[data-da-date]').forEach(function (when) {
     var d = when.getAttribute('data-da-date');
-    if (d > parts) { when.textContent = iemT.da_tomorrow; when.hidden = false; }
-    else if (d === parts) { when.textContent = iemT.da_today; when.hidden = false; }
-  }
+    if (d > parisToday) { when.textContent = iemT.da_tomorrow; when.hidden = false; }
+    else if (d === parisToday) { when.textContent = iemT.da_today; when.hidden = false; }
+  });
   var canvas = document.getElementById('da-chart');
   if (!canvas || typeof Chart === 'undefined' || !window.daHourly) return;
   var rows = window.daHourly.rows;
@@ -971,13 +970,17 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   if (!canvas || typeof Chart === 'undefined' || !window.daNeighbors) return;
   var rows = window.daNeighbors.rows.slice().sort(function (a, b) { return b.value - a.value; });
   var fr = window.daNeighbors.rows[0].value;
+  // Thème : fond clair sur la page autonome, fond sombre dans la fenêtre de /marches/
+  var dark = canvas.getAttribute('data-theme') === 'dark';
+  var ink = dark ? '#fff' : '#1a2733', muted = dark ? 'rgba(255,255,255,0.5)' : '#5a6b7b';
+  var frColor = dark ? '#4fd1c5' : '#00817d', otherColor = dark ? 'rgba(255,255,255,0.35)' : 'rgba(23,37,95,0.75)';
   var fmt = function (v) { return v.toLocaleString(iemT.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
   new Chart(canvas, {
     type: 'bar',
     data: {
       labels: rows.map(function (r) { return r.name; }),
       datasets: [{ data: rows.map(function (r) { return r.value; }), borderRadius: 4, barPercentage: 0.7,
-        backgroundColor: rows.map(function (r) { return r.fr ? '#00817d' : 'rgba(23,37,95,0.75)'; }) }]
+        backgroundColor: rows.map(function (r) { return r.fr ? frColor : otherColor; }) }]
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
@@ -989,17 +992,17 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
         },
         afterBody: function () { return iemT.source + 'ENTSO-E'; } } } },
       scales: {
-        x: { beginAtZero: true, ticks: { color: '#5a6b7b', font: { size: 11 } }, grid: { color: 'rgba(23,37,95,0.06)' } },
-        y: { ticks: { color: '#1a2733', font: function (ctx) { return { size: 13, weight: rows[ctx.index] && rows[ctx.index].fr ? '700' : '500' }; } }, grid: { display: false } }
+        x: { beginAtZero: true, ticks: { color: muted, font: { size: 11 } }, grid: { color: dark ? 'rgba(255,255,255,0.06)' : 'rgba(23,37,95,0.06)' } },
+        y: { ticks: { color: ink, font: function (ctx) { return { size: 13, weight: rows[ctx.index] && rows[ctx.index].fr ? '700' : '500' }; } }, grid: { display: false } }
       }
     },
     plugins: [{ id: 'daValues', afterDatasetsDraw: function (chart) {
       var ctx = chart.ctx, meta = chart.getDatasetMeta(0);
-      ctx.save(); ctx.font = "600 12px 'JetBrains Mono', monospace"; ctx.fillStyle = '#1a2733'; ctx.textBaseline = 'middle';
+      ctx.save(); ctx.font = "600 12px 'JetBrains Mono', monospace"; ctx.textBaseline = 'middle';
       meta.data.forEach(function (bar, i) {
         var v = rows[i].value, x = bar.x + 6;
         ctx.textAlign = 'left';
-        if (x + 50 > chart.chartArea.right) { x = bar.x - 6; ctx.textAlign = 'right'; ctx.fillStyle = '#fff'; } else { ctx.fillStyle = '#1a2733'; }
+        if (x + 50 > chart.chartArea.right) { x = bar.x - 6; ctx.textAlign = 'right'; ctx.fillStyle = dark ? '#0d1638' : '#fff'; } else { ctx.fillStyle = ink; }
         ctx.fillText(Math.round(v) + ' €', x, bar.y);
       });
       ctx.restore();

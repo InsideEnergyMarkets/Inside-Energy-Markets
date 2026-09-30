@@ -1,0 +1,15 @@
+{%- comment -%}
+  Bouton qui lance un épisode dans le lecteur du site (barre en bas).
+  Paramètres : number (numéro de l'épisode), label (texte du bouton), cls (classe, facultatif).
+  Sans audio dans le flux, lien vers la page des épisodes.
+{%- endcomment -%}
+{%- include i18n.html -%}
+{%- assign pe = site.data.episodes | where: "number", include.number | first -%}
+{%- assign pe_key = include.number | append: "" -%}
+{%- assign pe_pod = site.data.podcast.episodes[pe_key] -%}
+{%- if lang == "en" -%}{%- assign pe_title = pe.title_en | default: pe.title -%}{%- else -%}{%- assign pe_title = pe.title -%}{%- endif -%}
+{%- if pe_pod.audio -%}
+<button type="button"{% if include.cls %} class="{{ include.cls }}"{% endif %} data-play data-audio="{{ pe_pod.audio | escape }}" data-number="{{ include.number }}" data-title="{{ pe_title | escape }}" data-duration="{{ pe_pod.duration }}" data-spotify="{{ pe.spotify }}" data-apple="{{ pe.apple }}" data-linkedin="{{ pe.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ include.label }}</button>
+{%- else -%}
+<a{% if include.cls %} class="{{ include.cls }}"{% endif %} href="{{ u.episodes | relative_url }}">{{ include.label }} <span aria-hidden="true">→</span></a>
+{%- endif -%}

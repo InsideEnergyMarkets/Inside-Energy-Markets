@@ -1,0 +1,13 @@
+{%- comment -%}
+  Données du prix day-ahead pour les graphiques du layout (window.daHourly, window.daNeighbors),
+  pour la journée la plus récente de _data/day_ahead.json. Utilisé par la page « Prix de
+  l'électricité demain » et par la fenêtre de la rubrique Électricité de /marches/.
+{%- endcomment -%}
+{%- include i18n.html -%}
+{%- assign dad = site.data.day_ahead -%}{%- assign dd = dad.latest -%}{%- assign dday = dad.fr[dd] -%}{%- assign dnb = dad.neighbors -%}
+{%- if dday -%}
+<script>
+  window.daHourly = { rows: {{ dday.hourly | jsonify }}, unit: "€/MWh" };
+  window.daNeighbors = { rows: [{"name": {{ t.da.zones.FR | jsonify }}, "value": {{ dday.avg }}, "fr": true}{% for code in t.da.zone_order %}{% assign zone = dnb[code] %}{% assign v = zone[dd] %}{% if v != nil %}, {"name": {{ t.da.zones[code] | jsonify }}, "value": {{ v }}}{% endif %}{% endfor %}] };
+</script>
+{%- endif -%}
