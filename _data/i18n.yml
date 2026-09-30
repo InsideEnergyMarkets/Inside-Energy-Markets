@@ -167,7 +167,6 @@ fr:
   epp:
     with: "avec"
     key_points: "En bref"
-    transcript: "Transcription de l'épisode"
     read: "Lire"
     read_aria: "Lire la transcription de l'épisode %n"
   quotes:
@@ -529,7 +528,6 @@ en:
   epp:
     with: "with"
     key_points: "Key points"
-    transcript: "Episode transcript"
     read: "Read"
     read_aria: "Read the transcript of episode %n"
   quotes:

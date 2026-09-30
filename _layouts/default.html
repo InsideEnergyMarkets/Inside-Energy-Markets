@@ -1007,6 +1007,33 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
+// ===== Page épisode : prix day-ahead heure par heure (fond clair, heures de pointe en marine) =====
+(function () {
+  var canvas = document.getElementById('epp-hourly-chart');
+  if (!canvas || typeof Chart === 'undefined' || !window.eppHourly) return;
+  var rows = window.eppHourly;
+  var fmt = function (v) { return v.toLocaleString(iemT.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: rows.map(function (r) { return +r[0] + ' h'; }),
+      datasets: [{ data: rows.map(function (r) { return r[1]; }), borderRadius: 3,
+        backgroundColor: rows.map(function (r) { var h = +r[0]; return h >= 8 && h < 20 ? '#17255f' : '#00817d'; }) }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+        title: function (items) { var h = +rows[items[0].dataIndex][0]; return h + ' h - ' + (h + 1) + ' h'; },
+        label: function (c) { return fmt(c.parsed.y) + ' €/MWh'; },
+        afterBody: function () { return iemT.source + 'ENTSO-E'; } } } },
+      scales: {
+        x: { ticks: { color: '#5a6b7b', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } },
+        y: { ticks: { color: '#5a6b7b', font: { size: 11 } }, grid: { color: 'rgba(23,37,95,0.06)' } }
+      }
+    }
+  });
+})();
+
 // ===== Gaz dans le monde : moyennes mensuelles FMI (via FRED) =====
 (function () {
   var gw = window.mktGasWorld, canvas = document.getElementById('gw-chart');

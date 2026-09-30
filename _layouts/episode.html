@@ -2,7 +2,7 @@
 layout: default
 ---
 {% comment %}
-  Page d'un épisode avec sa transcription (collection _transcripts, un fichier Markdown par
+  Page d'un épisode : explication illustrée, transcription complète repliée en bas (collection _transcripts, un fichier Markdown par
   épisode et par langue). Front matter : number (lien avec _data/episodes.yml et podcast.json),
   ref, title (titre pour Google), description, permalink, guest (facultatif), key_points, related.
 {% endcomment %}
@@ -39,8 +39,7 @@ layout: default
       </aside>
       {% endif %}
 
-      <p class="epp-kicker">{{ t.epp.transcript }}</p>
-      <div class="epp-transcript">
+      <div class="epp-body">
         {{ content }}
       </div>
 
