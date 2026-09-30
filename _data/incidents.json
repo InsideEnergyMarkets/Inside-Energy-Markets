@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-30T14:49:19+00:00",
+ "updated_at": "2026-09-30T16:46:31+00:00",
  "stats": {
-  "total_30d": 23,
+  "total_30d": 22,
   "attacks_30d": 16,
   "top_places": [
    {
@@ -10,13 +10,13 @@
     "n": 16
    },
    {
-    "place": "Océan Indien",
-    "place_en": "Indian Ocean",
-    "n": 3
-   },
-   {
     "place": "Golfe d'Aden",
     "place_en": "Gulf of Aden",
+    "n": 2
+   },
+   {
+    "place": "Océan Indien",
+    "place_en": "Indian Ocean",
     "n": 2
    }
   ]
