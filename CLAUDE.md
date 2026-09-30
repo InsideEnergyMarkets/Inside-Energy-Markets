@@ -118,7 +118,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
     prix quart d'heure de la journée).
   - Mix et CO2 : RTE éCO2mix (`where=nucleaire is not null` obligatoire), parts triées.
   - Détroits : IMF PortWatch (moyenne des 5 derniers jours publiés ; normale = moyenne
-    janv.-oct. 2023 ; publication hebdo, ~1 semaine de retard ; statut fluide >= 80 %, partiel >= 40 %).
+    janv.-oct. 2023 ; publication hebdo, ~1 semaine de retard ; statut fluide >= 80 %, partiel >= 40 %, ferme >= 15 %, arret en dessous = « Quasi à l'arrêt »).
 - Gaz affiché en €/MWh : taux de référence BCE (API data-api.ecb.europa.eu, sans clé) dans `fx.json`
   (quotidien 400 j, mensuel 11 ans) ; Henry Hub `price_eur_mwh` / `henry_hub_eur_mwh`, FMI champ `e` de
   `gas_world.json`. Les valeurs $/MMBtu restent stockées. 1 MMBtu = 0,29307107 MWh.
