@@ -1,6 +1,13 @@
 {
- "updated_at": "2026-09-30T00:51:19+00:00",
+ "updated_at": "2026-09-30T02:44:41+00:00",
  "items": [
+  {
+   "title": "Somali pirates killed five crew members on hijacked tanker, officials say",
+   "url": "https://www.aljazeera.com/news/2026/9/30/somali-pirates-killed-five-crew-members-on-hijacked-tanker-officials-say?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-09-30T02:39:06+00:00"
+  },
   {
    "title": "US sanctions 10 entities for allegedly supporting Iran’s military",
    "url": "https://www.aljazeera.com/news/2026/9/29/us-sanctions-10-entities-for-allegedly-supporting-irans-military?traffic_source=rss",
@@ -28,13 +35,6 @@
    "source": "BBC",
    "lang": "en",
    "date": "2026-09-27T07:44:11+00:00"
-  },
-  {
-   "title": "Détroit d’Ormuz : l’Iran maintient ses conditions après le rejet de son plan par Trump",
-   "url": "https://www.france24.com/fr/moyen-orient/20260927-d%C3%A9troit-d-ormuz-l-iran-maintient-ses-conditions-apr%C3%A8s-le-rejet-de-son-plan-par-trump",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-09-27T02:42:12+00:00"
   }
  ]
 }
