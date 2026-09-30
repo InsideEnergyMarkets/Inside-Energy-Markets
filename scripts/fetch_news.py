@@ -26,7 +26,7 @@ import requests
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "_data")
 NEWS_PATH = os.path.join(DATA_DIR, "news.json")
 INCIDENTS_PATH = os.path.join(DATA_DIR, "incidents.json")
-HEADERS = {"User-Agent": "InsideEnergyMarkets/1.0 (+https://insideenergymarkets.github.io/Inside-Energy-Markets/)"}
+HEADERS = {"User-Agent": "InsideEnergyMarkets/1.0 (+https://insideenergymarkets.com/)"}
 
 FEEDS = {
     "Al Jazeera": "https://www.aljazeera.com/xml/rss/all.xml",

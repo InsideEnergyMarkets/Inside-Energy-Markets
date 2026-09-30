@@ -4,7 +4,9 @@ Site du podcast Inside Energy Markets (Tom Moulard) : épisodes, blog et donnée
 de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 
 - Repo : InsideEnergyMarkets/Inside-Energy-Markets (branche `main` = site en ligne)
-- En ligne : https://insideenergymarkets.github.io/Inside-Energy-Markets/ (baseurl `/Inside-Energy-Markets`)
+- En ligne : https://insideenergymarkets.com/ (domaine Infomaniak, zone DNS gérée par Tom : A/AAAA GitHub Pages,
+  `www` en CNAME, TXT de vérification GitHub ; fichier `CNAME` à la racine, baseurl vide).
+  L'ancienne adresse insideenergymarkets.github.io/Inside-Energy-Markets/ redirige vers le domaine.
 - Répondre en français.
 
 ## Règles de Tom (à respecter)
@@ -36,8 +38,8 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   GitHub, réglée dans .git/config ; ne jamais commiter avec l'adresse KEDGE, qui serait publique).
 - Pas de Ruby/Jekyll en local. Pour un aperçu fidèle : pousser une branche `apercu-*`,
   le workflow `preview-build.yml` construit le site (artefact « site »), puis
-  `gh run download <id> -n site -D <dossier>/Inside-Energy-Markets` et servir `<dossier>`
-  avec `python -m http.server 8769` (URL : http://127.0.0.1:8769/Inside-Energy-Markets/).
+  `gh run download <id> -n site -D <dossier>` et servir `<dossier>`
+  avec `python -m http.server 8769` (URL : http://127.0.0.1:8769/).
 - Les crons commitent sur `main` : toujours `git pull --rebase` avant de pousser ;
   en cas de conflit sur `_data/*.json`, garder la version de `main` (plus récente).
 - Pièges vus : dans Bash, utiliser des heredocs (`git commit -F - <<'EOF'`), pas la syntaxe

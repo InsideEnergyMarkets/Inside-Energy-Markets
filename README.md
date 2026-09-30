@@ -1,15 +1,15 @@
 # Inside Energy Markets
 
-### 👉 Le site du podcast : **[insideenergymarkets.github.io/Inside-Energy-Markets](https://insideenergymarkets.github.io/Inside-Energy-Markets/)**
+### 👉 Le site du podcast : **[insideenergymarkets.com](https://insideenergymarkets.com/)**
 
 *Inside Energy Markets* est le podcast de Tom Moulard sur les coulisses des marchés de l'énergie : formation des prix de l'électricité et du gaz, GNL, géopolitique, stratégies d'achat et de couverture. Des épisodes courts, de quelques minutes, pour comprendre un sujet de marché d'un coup.
 
 Sur le site :
 
-- **[Épisodes](https://insideenergymarkets.github.io/Inside-Energy-Markets/episodes/)** à écouter directement dans le navigateur
-- **[Marchés](https://insideenergymarkets.github.io/Inside-Energy-Markets/marches/)** : électricité en France, gaz, Brent, stocks de gaz européens, trafic dans les détroits d'Ormuz, Bab-el-Mandeb et Malacca, mis à jour automatiquement
-- **[Blog](https://insideenergymarkets.github.io/Inside-Energy-Markets/blog/)** : analyses et décryptages
-- **[À propos](https://insideenergymarkets.github.io/Inside-Energy-Markets/about/)**
+- **[Épisodes](https://insideenergymarkets.com/episodes/)** à écouter directement dans le navigateur
+- **[Marchés](https://insideenergymarkets.com/marches/)** : électricité en France, gaz, Brent, stocks de gaz européens, trafic dans les détroits d'Ormuz, Bab-el-Mandeb et Malacca, mis à jour automatiquement
+- **[Blog](https://insideenergymarkets.com/blog/)** : analyses et décryptages
+- **[À propos](https://insideenergymarkets.com/about/)**
 
 Écouter aussi sur [Spotify](https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA) et [Apple Podcasts](https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201). Suivre Tom Moulard sur [LinkedIn](https://www.linkedin.com/in/tom-moulard/).
 
