@@ -1,9 +1,13 @@
 # Taxes sur les carburants, pour la décomposition du prix du litre (rubrique Pétrole de /marches/).
 # Mis à jour à la main quand la loi de finances change les tarifs.
-# TICPE : tarif national en € par litre (France métropolitaine, hors modulations régionales).
+# TICPE en € par litre, France métropolitaine, majoration régionale maximale incluse (appliquée
+# par la plupart des régions) :
+#   gazole    : 59,40 c€ + 1,35 c€ = 60,75 c€
+#   SP95-E10  : 66,29 c€ + 0,73 c€ = 67,02 c€
+#   (pour mémoire, SP95-E5 : 68,29 c€ + 0,73 c€ = 69,02 c€)
 # Source : Douanes (douane.gouv.fr, tarifs de la TICPE).
 as_of: "2026"
 ticpe:
   gazole: 0.6075
-  e10: 0.6629
+  e10: 0.6702
 tva: 0.20
