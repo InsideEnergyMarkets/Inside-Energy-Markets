@@ -2851,7 +2851,9 @@ html.has-player .nav-ep { display: none; }
 .sim-wave { animation: sim-wave 2.5s linear infinite; }
 @keyframes sim-bob { 50% { transform: translateY(-2px); } }
 @keyframes sim-wave { to { stroke-dashoffset: -40; } }
-@media (prefers-reduced-motion: reduce) { .sim-ship-body, .sim-wave { animation: none; } }
+.sim-flare { animation: sim-flare 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom center; }
+@keyframes sim-flare { 50% { transform: scaleY(0.8); opacity: 0.8; } }
+@media (prefers-reduced-motion: reduce) { .sim-ship-body, .sim-wave, .sim-flare { animation: none; } }
 .sim-ship-pct { margin: 0; text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.65); }
 .sim-kv { display: flex; justify-content: space-between; gap: 10px; margin: 0; font-size: 13px; color: rgba(255, 255, 255, 0.6); }
 .sim-kv strong { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: #fff; text-align: right; }

@@ -1147,11 +1147,40 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     svg.innerHTML = g + '<path class="sim-wave" d="M0,106 q10,-5 20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0" fill="none" stroke="rgba(79,209,197,.35)" stroke-width="1.2" stroke-dasharray="3 7"/>';
     return svg;
   }
+  // Raffinerie au trait : colonnes de distillation, torchère, bacs de stockage remplis selon le volume
+  var REFINERY_BPD = 300000; // capacité d'une grande raffinerie, en barils par jour (ordre de grandeur)
+  function refinery(fill) {
+    fill = Math.max(0, Math.min(1, fill));
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 340 120'); svg.setAttribute('class', 'sim-ship'); svg.setAttribute('aria-hidden', 'true');
+    var tanks = '';
+    [210, 262].forEach(function (x, i) {
+      var lvl = Math.max(0, Math.min(1, fill * 2 - i)), h = 34 * lvl;
+      tanks += '<rect x="' + x + '" y="62" width="44" height="34" rx="4"/>';
+      if (lvl > 0) tanks += '<rect x="' + (x + 2) + '" y="' + (94 - h).toFixed(1) + '" width="40" height="' + h.toFixed(1) + '" rx="3" fill="rgba(79,209,197,.55)" stroke="none"/>';
+    });
+    svg.innerHTML = '<g class="sim-ship-body" fill="none" stroke="#4fd1c5" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">' +
+      '<line x1="20" y1="96" x2="320" y2="96"/>' +
+      '<rect x="44" y="30" width="18" height="66" rx="3"/><path d="M44,48 H62 M44,64 H62 M44,80 H62"/>' +
+      '<rect x="74" y="18" width="22" height="78" rx="3"/><path d="M74,38 H96 M74,56 H96 M74,74 H96"/>' +
+      '<rect x="108" y="44" width="16" height="52" rx="3"/>' +
+      '<path d="M62,40 H74 M96,30 H108 V44"/>' +
+      '<path d="M150,96 V26 M156,96 V26 M150,40 H156 M150,60 H156 M150,80 H156"/>' +
+      '<path class="sim-flare" d="M153,22 C149,16 151,10 155,6 C155,12 159,14 157,20 C156,22 154,23 153,22 Z" fill="#e8703a" stroke="#e8703a"/>' +
+      '<path d="M124,70 H150 M178,80 H210"/>' + tanks + '</g>';
+    return svg;
+  }
   // Remplissage : quantité rapportée au plus petit navire qui la contient (ou au VLCC / méthanier)
   function fillOf(kind, qty) {
     var list = kind === 'lng' ? D.vessels.lng : D.vessels.oil, v = list[list.length - 1];
     for (var i = 0; i < list.length; i++) { if (qty <= list[i].qty) { v = list[i]; break; } }
     return { v: v, f: qty / v.qty };
+  }
+  function refineryBlock(qty) {
+    var box = el('div', 'sim-ship-box'), d = qty / REFINERY_BPD;
+    box.appendChild(refinery(d));
+    box.appendChild(el('p', 'sim-ship-pct', T.sim_ref_days.replace('%n', num(d, d < 10 ? 1 : 0)).replace('%c', num(REFINERY_BPD, 0))));
+    return box;
   }
   function shipBlock(kind, qty) {
     var box = el('div', 'sim-ship-box'), fo = fillOf(kind, qty);
@@ -1357,7 +1386,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       var head = el('div', 'sim-ship-head');
       head.appendChild(el('strong', null, (p.dir === 'short' ? T.sim_margin_short : T.sim_margin_long) + ' · ' + num(p.qty, 0) + ' b'));
       box.appendChild(card([
-        head, shipBlock('tanker', p.qty),
+        head, refineryBlock(p.qty),
         kv(T.sim_game_ref, num(p.entry, 2) + ' → ' + num(now, 2) + ' $/b ' + T.sim_margin),
         kv('P&L', money(pnl), 'sim-pnl ' + tone(pnl)),
         why(p.why),
