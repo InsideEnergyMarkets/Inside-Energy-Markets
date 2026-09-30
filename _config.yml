@@ -10,6 +10,9 @@ permalink: /blog/:title/
 collections:
   episodes:
     output: false
+  # Pages d'épisode avec transcription : un fichier Markdown par épisode dans _transcripts/
+  transcripts:
+    output: true
 
 lang: fr
 locale: fr_FR
@@ -17,6 +20,12 @@ locale: fr_FR
 # Deux langues : le français à la racine, l'anglais sous /en/ (mêmes gabarits, textes dans
 # _data/i18n.yml). `ref` relie une page ou un article à sa traduction (sélecteur FR | EN).
 defaults:
+  - scope:
+      path: ""
+      type: transcripts
+    values:
+      layout: episode
+      lang: fr
   - scope:
       path: ""
       type: posts

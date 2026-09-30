@@ -10,6 +10,7 @@
 {% if lang == "en" %}{% assign ep_title = ep.title_en | default: ep.title %}{% assign ep_desc = ep.description_en | default: ep.description %}{% else %}{% assign ep_title = ep.title %}{% assign ep_desc = ep.description %}{% endif %}
 {% assign ep_key = ep.number | append: "" %}
 {% assign pod = site.data.podcast.episodes[ep_key] %}
+{% assign tr = site.transcripts | where: "number", ep.number | where: "lang", lang | first %}
 {% if pod.duration %}{% assign ep_min = pod.duration | divided_by: 60 %}{% assign ep_sec = pod.duration | modulo: 60 %}{% if ep_sec < 10 %}{% assign ep_sec = ep_sec | prepend: "0" %}{% endif %}{% endif %}
 <div class="ep-flip{% if include.featured %} ep-flip--featured{% endif %}{% if include.cls %} {{ include.cls }}{% endif %}">
   <div class="ep-flip-inner">
@@ -24,6 +25,7 @@
         <p>{{ ep_desc }}</p>
         <div class="ep-actions">
           <button type="button" class="btn-listen" data-flip aria-label="{{ t.ep.listen_aria | replace: '%n', ep.number }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.ep.listen }}</button>
+          {% if tr %}<a class="ep-read" href="{{ tr.url | relative_url }}" aria-label="{{ t.epp.read_aria | replace: '%n', ep.number }}"><i class="fa-regular fa-file-lines" aria-hidden="true"></i>{{ t.epp.read }}</a>{% endif %}
           {% if pod.duration %}<span class="ep-duration"><i class="fa-regular fa-clock" aria-hidden="true"></i>{{ ep_min }} min {{ ep_sec }}</span>{% endif %}
         </div>
       </div>

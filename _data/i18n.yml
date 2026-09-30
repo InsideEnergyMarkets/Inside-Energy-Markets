@@ -164,6 +164,12 @@ fr:
       - "Les écarts entre la France et ses voisins reflètent les capacités d'échange aux frontières. Quand ces interconnexions sont saturées, les prix des deux côtés se séparent."
     link_markets: "Le marché de l'électricité en direct"
     link_episodes: "Comprendre la formation des prix en podcast"
+  epp:
+    with: "avec"
+    key_points: "En bref"
+    transcript: "Transcription de l'épisode"
+    read: "Lire"
+    read_aria: "Lire la transcription de l'épisode %n"
   quotes:
     spot: "Spot France"
     hormuz: "Ormuz"
@@ -520,6 +526,12 @@ en:
       - "Price gaps between France and its neighbours reflect cross-border capacity. When interconnectors are congested, prices on each side split apart."
     link_markets: "Live power market data"
     link_episodes: "Understand price formation in the podcast"
+  epp:
+    with: "with"
+    key_points: "Key points"
+    transcript: "Episode transcript"
+    read: "Read"
+    read_aria: "Read the transcript of episode %n"
   quotes:
     spot: "France spot"
     hormuz: "Hormuz"

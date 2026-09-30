@@ -1,0 +1,59 @@
+---
+layout: default
+---
+{% comment %}
+  Page d'un épisode avec sa transcription (collection _transcripts, un fichier Markdown par
+  épisode et par langue). Front matter : number (lien avec _data/episodes.yml et podcast.json),
+  ref, title (titre pour Google), description, permalink, guest (facultatif), key_points, related.
+{% endcomment %}
+{% include i18n.html %}
+{% assign ep = site.data.episodes | where: "number", page.number | first %}
+{% if lang == "en" %}{% assign ep_title = ep.title_en | default: ep.title %}{% assign ep_desc = ep.description_en | default: ep.description %}{% else %}{% assign ep_title = ep.title %}{% assign ep_desc = ep.description %}{% endif %}
+{% assign ep_key = page.number | append: "" %}
+{% assign pod = site.data.podcast.episodes[ep_key] %}
+{% if pod.duration %}{% assign ep_min = pod.duration | divided_by: 60 %}{% assign ep_sec = pod.duration | modulo: 60 %}{% if ep_sec < 10 %}{% assign ep_sec = ep_sec | prepend: "0" %}{% endif %}{% endif %}
+<article class="epp">
+  <header class="episodes-header post-header-banner">
+    <div class="wrap prose">
+      <p class="eyebrow">{{ t.ep.episode }} {{ page.number }}</p>
+      <h1>{{ ep_title }}</h1>
+      <p class="bl-post-meta">
+        {% if pod.date %}<span>{% include date.html date=pod.date %}</span>{% endif %}
+        {% if pod.duration %}<span aria-hidden="true">·</span><span>{{ ep_min }} min {{ ep_sec }}</span>{% endif %}
+        {% if page.guest %}<span aria-hidden="true">·</span><span>{{ t.epp.with }} {{ page.guest }}</span>{% endif %}
+      </p>
+      <p class="lead-sm">{{ ep_desc }}</p>
+      <div class="epp-actions">
+        {% if pod.audio %}<button type="button" class="btn btn-primary" data-play data-audio="{{ pod.audio | escape }}" data-number="{{ page.number }}" data-title="{{ ep_title | escape }}" data-duration="{{ pod.duration }}" data-spotify="{{ ep.spotify }}" data-apple="{{ ep.apple }}" data-linkedin="{{ ep.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.ep.listen_here }} · {{ ep_min }}:{{ ep_sec }}</button>{% endif %}
+        {% if ep.spotify %}<a class="btn btn-ghost" href="{{ ep.spotify }}" target="_blank" rel="noopener"><i class="fa-brands fa-spotify" aria-hidden="true"></i>Spotify</a>{% endif %}
+        {% if ep.apple %}<a class="btn btn-ghost" href="{{ ep.apple }}" target="_blank" rel="noopener"><i class="fa-solid fa-podcast" aria-hidden="true"></i>Apple Podcasts</a>{% endif %}
+      </div>
+    </div>
+  </header>
+  <div class="post-body">
+    <div class="wrap prose">
+      {% if page.key_points %}
+      <aside class="epp-keys">
+        <p class="epp-keys-title">{{ t.epp.key_points }}</p>
+        <ul>{% for k in page.key_points %}<li>{{ k }}</li>{% endfor %}</ul>
+      </aside>
+      {% endif %}
+
+      <p class="epp-kicker">{{ t.epp.transcript }}</p>
+      <div class="epp-transcript">
+        {{ content }}
+      </div>
+
+      {% if page.related %}
+      <p class="da-links epp-links">{% for r in page.related %}<a href="{{ r.url | relative_url }}">{{ r.label }} <span aria-hidden="true">→</span></a>{% endfor %}</p>
+      {% endif %}
+
+      <div class="bl-share">
+        <span class="bl-share-label">{{ t.blog.share }}</span>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+        <button type="button" class="btn btn-ghost" data-copy-link><i class="fa-solid fa-link" aria-hidden="true"></i><span>{{ t.js.copy }}</span></button>
+      </div>
+      <p class="bl-back"><a href="{{ u.episodes | relative_url }}">{{ t.cta.all_episodes }}</a></p>
+    </div>
+  </div>
+</article>

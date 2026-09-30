@@ -2746,3 +2746,15 @@ html.has-player .nav-ep { display: none; }
   .da-card { grid-template-columns: 1fr; }
   .da-chart { height: 240px; }
 }
+
+/* ===== Page d'un épisode avec transcription (_layouts/episode.html) ===== */
+.epp-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.epp-keys { margin: 0 0 32px; padding: 20px 24px; border-radius: 14px; background: rgba(0, 129, 125, 0.06); border: 1px solid rgba(0, 129, 125, 0.18); }
+.epp-keys-title { margin: 0 0 8px; font: 700 12px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: var(--teal); }
+.epp-keys ul { margin: 0; padding-left: 18px; }
+.epp-keys li { margin: 6px 0; line-height: 1.6; }
+.epp-kicker { margin: 0 0 4px; font: 700 12px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: #5a6b7b; }
+.epp-transcript p > strong:first-child { color: var(--teal); }
+.epp-links { margin: 32px 0 8px; }
+.ep-read { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--teal); text-decoration: none; }
+.ep-read:hover { text-decoration: underline; }
