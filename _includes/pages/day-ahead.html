@@ -67,7 +67,11 @@
       {% for para in da.how %}<p>{{ para }}</p>{% endfor %}
       <p class="da-links">
         <a href="{{ u.markets | relative_url }}#{{ t.ids.power }}">{{ da.link_markets }} <span aria-hidden="true">→</span></a>
-        <a href="{{ u.episodes | relative_url }}">{{ da.link_episodes }} <span aria-hidden="true">→</span></a>
+        {% comment %}Lance l'épisode 6 (formation des prix) dans le lecteur du site{% endcomment %}
+        {% assign ep6 = site.data.episodes | where: "number", 6 | first %}{% assign pod6 = site.data.podcast.episodes["6"] %}
+        {% if pod6.audio %}{% if lang == "en" %}{% assign ep6_title = ep6.title_en | default: ep6.title %}{% else %}{% assign ep6_title = ep6.title %}{% endif %}
+        <button type="button" data-play data-audio="{{ pod6.audio | escape }}" data-number="6" data-title="{{ ep6_title | escape }}" data-duration="{{ pod6.duration }}" data-spotify="{{ ep6.spotify }}" data-apple="{{ ep6.apple }}" data-linkedin="{{ ep6.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ da.link_episodes }}</button>
+        {% else %}<a href="{{ u.episodes | relative_url }}">{{ da.link_episodes }} <span aria-hidden="true">→</span></a>{% endif %}
       </p>
     </div>
   </div>

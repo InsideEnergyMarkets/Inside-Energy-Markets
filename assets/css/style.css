@@ -2731,14 +2731,16 @@ html.has-player .nav-ep { display: none; }
 .da-explain { margin-top: 40px; max-width: 760px; }
 .da-explain p { font-size: 15px; line-height: 1.7; color: var(--ink); }
 .da-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-.da-links a {
+.da-links a, .da-links button {
   display: inline-flex; align-items: center; gap: 8px; padding: 7px 15px; border-radius: 999px;
   background: rgba(23, 37, 95, 0.05); border: 1px solid rgba(23, 37, 95, 0.14);
   font: 600 13px 'Inter', sans-serif; color: var(--deep); text-decoration: none;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .da-links a span { color: var(--teal); transition: transform 0.15s ease; }
-.da-links a:hover { border-color: var(--teal); background: rgba(0, 129, 125, 0.06); text-decoration: none; }
+.da-links button { cursor: pointer; }
+.da-links button i { font-size: 11px; color: var(--teal); }
+.da-links a:hover, .da-links button:hover { border-color: var(--teal); background: rgba(0, 129, 125, 0.06); text-decoration: none; }
 .da-links a:hover span { transform: translateX(3px); }
 @media (max-width: 860px) {
   .da-card { grid-template-columns: 1fr; }
