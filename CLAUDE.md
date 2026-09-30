@@ -180,6 +180,11 @@ Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY, GIE_API_KEY (+ RT
 - Capacités de liquéfaction : pas d'API EIA (fichier Excel).
 - Pages épisode illustrées (collection `_transcripts`, gabarit `_layouts/episode.html`, transcription Whisper
   repliée en bas) : EP 10 en aperçu sur la branche `apercu-episode-10`, en attente de relecture par l'invité.
+- Simulateur éducatif (tout fictif) prêt sur la branche `apercu-simulateur`, gardé HORS du site pour l'instant
+  (décision de Tom) : /simulateur/ et /en/simulator/, onglets Positions (Brent, Henry Hub, navires au trait),
+  Arbitrage WTI → Brent (fret et durée = hypothèses du joueur), Raffineur (marge 3-2-1, EIA New York),
+  carnet « pourquoi », localStorage. P&L : gain vert, perte rouge (validé par Tom). La branche contient aussi
+  l'ajout essence/diesel EIA dans oil_year.json. À rebaser sur main avant publication.
 - Pistes notées : guide « Acheter son énergie en entreprise », page « Les métiers des marchés de l'énergie »,
   note hebdo archivée sur le site (newsletter LinkedIn).
 - Plus tard : système de signaux (détroit fermé / mouvement de prix), `analyze_history.py`,
