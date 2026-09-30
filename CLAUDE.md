@@ -133,6 +133,15 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   `gas_storage.json` (GIE AGSI+, secret GIE_API_KEY en en-tête `x-key` : remplissage UE et France depuis
   le 1er janvier de l'an dernier ; compte GIE « All platforms », donc ALSI et IIP aussi accessibles),
   `chokepoints_context.yml` (chiffres EIA fixes, mis à jour à la main).
+- Prix day-ahead (ENTSO-E, secret ENTSOE_API_KEY) : `day_ahead.json` (France au quart d'heure résumé par heure,
+  pays voisins, 7 jours). Page `/prix-electricite-demain/` + tuile en fenêtre dans #electricite.
+- Pétrole : `market.wti` (OilPriceAPI WTI_USD, repli EIA RWTC), `oil_year.json` (Brent/WTI EIA 12 mois),
+  `us_crude_stocks.json` (EIA WCESTUS1 hebdo), `oil_balance.json` (EIA STEO PAPR_WORLD / PATC_WORLD,
+  24 mois + prévisions, pointillés à partir du mois en cours), `fuel.json` (pompe : flux instantané
+  DGCCRF sur data.economie.gouv.fr, Licence Ouverte, sans clé, stations mises à jour depuis 7 j,
+  historique quotidien 120 j), `fuel_taxes.yml` (TICPE et TVA, tenus à la main, à vérifier chaque année).
+  #petrole : Brent à gauche (même DA qu'élec et gaz), offre/demande mondiales à droite, tuiles WTI,
+  stocks US, Ormuz/Brent, prix à la pompe (décomposition du litre de gazole).
 
 `scripts/fetch_news.py` (workflow `update-news.yml`, toutes les 2 h à la demi-heure) :
 - `podcast.json` : flux RSS public du podcast `https://anchor.fm/s/10edf0868/podcast/rss` (Spotify for Creators,
@@ -169,5 +178,9 @@ Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY, GIE_API_KEY (+ RT
   de la rubrique Gaz, au-dessus des stocks.
 - Pistes GIE : ALSI (terminaux GNL européens), IIP (indisponibilités, pour les signaux).
 - Capacités de liquéfaction : pas d'API EIA (fichier Excel).
+- Pages épisode illustrées (collection `_transcripts`, gabarit `_layouts/episode.html`, transcription Whisper
+  repliée en bas) : EP 10 en aperçu sur la branche `apercu-episode-10`, en attente de relecture par l'invité.
+- Pistes notées : guide « Acheter son énergie en entreprise », page « Les métiers des marchés de l'énergie »,
+  note hebdo archivée sur le site (newsletter LinkedIn).
 - Plus tard : système de signaux (détroit fermé / mouvement de prix), `analyze_history.py`,
   note hebdo `generate_note.py`, ajout du WTI (spread Brent-WTI), paper trading (mis de côté).
