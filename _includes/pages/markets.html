@@ -404,7 +404,7 @@
       {% assign spread = e.price_usd | minus: wti.price_usd | round: 2 %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-wti">
         <i class="fa-solid fa-flag-usa" aria-hidden="true"></i>
-        <span><strong>WTI</strong>{{ wti.price_usd | replace: ".", dec }} $ · {{ mk.spread_short }} {{ spread | replace: ".", dec }} $</span>
+        <span><strong>WTI</strong>{% include money2.html value=wti.price_usd %} $ · {{ mk.spread_short }} {% include money2.html value=spread %} $</span>
         <b aria-hidden="true">↗</b>
       </button>
       {% endif %}
@@ -434,9 +434,9 @@
       </header>
       <p class="mt-kpi-note">{{ mk.wti_note }}</p>
       <div class="mt-kpis">
-        <div class="mt-kpi"><div class="mt-kpi-label">Brent</div><div class="mt-kpi-value">{{ e.price_usd | replace: ".", dec }} <small>$/b</small></div></div>
-        <div class="mt-kpi"><div class="mt-kpi-label">WTI</div><div class="mt-kpi-value">{{ wti.price_usd | replace: ".", dec }} <small>$/b</small></div></div>
-        <div class="mt-kpi"><div class="mt-kpi-label">{{ mk.spread }}</div><div class="mt-kpi-value">{{ spread | replace: ".", dec }} <small>$/b</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">Brent</div><div class="mt-kpi-value">{% include money2.html value=e.price_usd %} <small>$/b</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">WTI</div><div class="mt-kpi-value">{% include money2.html value=wti.price_usd %} <small>$/b</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ mk.spread }}</div><div class="mt-kpi-value">{% include money2.html value=spread %} <small>$/b</small></div></div>
       </div>
       {% if oy and oy.size > 0 %}
       <div class="mt-chart mt-chart--tall"><canvas id="oil-year-chart" aria-label="{{ mk.wti_chart_aria }}"></canvas></div>
