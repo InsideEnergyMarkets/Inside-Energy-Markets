@@ -826,7 +826,8 @@ def update_oil_year():
     except Exception as e:
         print(f"Erreur Brent / WTI 12 mois (EIA): {e}")
         return
-    rows = [{"date": d, "brent": brent[d], "wti": wti.get(d)} for d in sorted(brent) if d in wti]
+    since = (datetime.date.today() - datetime.timedelta(days=365)).isoformat()
+    rows = [{"date": d, "brent": brent[d], "wti": wti[d]} for d in sorted(brent) if d in wti and d >= since]
     if rows:
         with open(OIL_YEAR_PATH, "w", encoding="utf-8") as f:
             json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
