@@ -105,7 +105,7 @@ def fetch_eia_series(series_code, length):
     """{date: valeur} des `length` derniers jours publiés par l'EIA pour une série."""
     url = (
         "https://api.eia.gov/v2/petroleum/pri/spt/data/"
-        if series_code in ("RBRTE", "RWTC")
+        if series_code in ("RBRTE", "RWTC") or series_code.startswith("EER_")
         else "https://api.eia.gov/v2/natural-gas/pri/fut/data/"
     )
     url += (
@@ -115,7 +115,9 @@ def fetch_eia_series(series_code, length):
     r = requests.get(url, timeout=20)
     r.raise_for_status()
     rows = r.json()["response"]["data"]
-    return {row["period"]: round(float(row["value"]), 2) for row in rows}
+    # Les produits raffinés cotent en $/gallon : on garde 4 décimales avant la conversion en $/baril
+    digits = 4 if series_code.startswith("EER_") else 2
+    return {row["period"]: round(float(row["value"]), digits) for row in rows}
 
 
 def fetch_brent_oilpriceapi(code="BRENT_CRUDE_USD"):
@@ -854,8 +856,15 @@ def fetch_wti(existing):
     return existing.get("wti")
 
 
+GALLONS_PER_BARREL = 42
+# Prix spot des produits raffinés à New York (EIA, $/gallon) pour le jeu du raffineur du simulateur
+EIA_GASOLINE_NYH = "EER_EPMRU_PF4_Y35NY_DPG"   # essence conventionnelle, New York Harbor
+EIA_DIESEL_NYH = "EER_EPD2DXL0_PF4_Y35NY_DPG"  # diesel à très basse teneur en soufre, New York Harbor
+
+
 def update_oil_year():
-    """Brent et WTI sur 12 mois (EIA, prix spot quotidiens) pour la fenêtre Brent / WTI."""
+    """Brent, WTI, essence et diesel (New York) sur 12 mois (EIA, prix spot quotidiens), en $/baril :
+    fenêtre Brent / WTI de /marches/ et jeux du simulateur (arbitrage, marge de raffinage 3-2-1)."""
     if not EIA_API_KEY:
         return
     try:
@@ -864,8 +873,22 @@ def update_oil_year():
     except Exception as e:
         print(f"Erreur Brent / WTI 12 mois (EIA): {e}")
         return
+    try:
+        gas = fetch_eia_series(EIA_GASOLINE_NYH, 400)
+        dsl = fetch_eia_series(EIA_DIESEL_NYH, 400)
+    except Exception as e:
+        print(f"Erreur essence / diesel (EIA): {e}")
+        gas, dsl = {}, {}
     since = (datetime.date.today() - datetime.timedelta(days=365)).isoformat()
-    rows = [{"date": d, "brent": brent[d], "wti": wti[d]} for d in sorted(brent) if d in wti and d >= since]
+    rows = []
+    for d in sorted(brent):
+        if d not in wti or d < since:
+            continue
+        row = {"date": d, "brent": brent[d], "wti": wti[d]}
+        if d in gas and d in dsl:
+            row["gas"] = round(gas[d] * GALLONS_PER_BARREL, 2)
+            row["dsl"] = round(dsl[d] * GALLONS_PER_BARREL, 2)
+        rows.append(row)
     if rows:
         with open(OIL_YEAR_PATH, "w", encoding="utf-8") as f:
             json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))

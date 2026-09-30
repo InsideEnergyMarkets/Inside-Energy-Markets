@@ -1095,109 +1095,307 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
-// ===== Simulateur éducatif de positions fictives (page /simulateur/) =====
-// Positions gardées dans le navigateur (localStorage, avec repli en mémoire), P&L recalculé
-// avec le dernier cours du site. Aucun argent réel, aucune recommandation.
+// ===== Simulateur éducatif (page /simulateur/) : positions, arbitrage WTI -> Brent, raffineur =====
+// Tout est fictif. Positions gardées dans le navigateur (localStorage, repli en mémoire), résultats
+// recalculés avec les derniers cours du site. Fret et durée de voyage = hypothèses du joueur.
 (function () {
-  var form = document.getElementById('sim-form');
-  if (!form || !window.simData) return;
-  var Q = window.simData.quotes, KEY = 'iem-sim-v1';
-  var state = { open: [], closed: [] }, canStore = true;
-  try { var raw = localStorage.getItem(KEY); if (raw) state = JSON.parse(raw) || state; } catch (e) { canStore = false; }
-  if (!Array.isArray(state.open)) state.open = [];
-  if (!Array.isArray(state.closed)) state.closed = [];
-  if (!canStore) document.getElementById('sim-storage').hidden = false;
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { document.getElementById('sim-storage').hidden = false; } }
-  var loc = iemT.locale;
-  var num = function (v, d) { return v.toLocaleString(loc, { minimumFractionDigits: d, maximumFractionDigits: d }); };
-  var money = function (v) { return (v > 0 ? '+' : '') + num(v, 2) + ' $ ' + iemT.sim_fictive; };
+  var root = document.getElementById('sim-panel-pos');
+  if (!root || !window.simData) return;
+  var D = window.simData, Q = D.quotes, KEY = 'iem-sim-v1', T = iemT, loc = T.locale;
+  var state = { open: [], closed: [], voyages: [], refin: [] }, canStore = true;
+  try { var raw = localStorage.getItem(KEY); if (raw) { var s = JSON.parse(raw); if (s) state = s; } } catch (e) { canStore = false; }
+  ['open', 'closed', 'voyages', 'refin'].forEach(function (k) { if (!Array.isArray(state[k])) state[k] = []; });
+  var storageMsg = document.getElementById('sim-storage');
+  if (!canStore) storageMsg.hidden = false;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { storageMsg.hidden = false; } }
+
+  // ----- Formats -----
+  var num = function (v, d) { return (v || 0).toLocaleString(loc, { minimumFractionDigits: d, maximumFractionDigits: d }); };
+  var money = function (v) { return (v > 0 ? '+' : '') + num(v, 0) + ' $ ' + T.sim_fictive; };
   var pct = function (v) { return (v > 0 ? '+' : '') + num(v, 2) + ' %'; };
-  var day = function (d) { var p = (d || '').split('-'); return p.length === 3 ? p[2] + '/' + p[1] : ''; };
-  function result(p, price) {
+  var dm = function (d) { var p = (d || '').split('-'); return p.length === 3 ? p[2] + '/' + p[1] : ''; };
+  var tone = function (v) { return v > 0 ? 'is-gain' : v < 0 ? 'is-loss' : ''; };
+  var today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  var addDays = function (d, n) { var x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
+  var daysBetween = function (a, b) { return Math.round((new Date(b + 'T12:00:00Z') - new Date(a + 'T12:00:00Z')) / 864e5); };
+  var id = function () { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); };
+  var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+
+  // ----- Navires au trait (style minimaliste), remplissage en % sous le navire -----
+  var NS = 'http://www.w3.org/2000/svg';
+  function ship(kind, fill) {
+    fill = Math.max(0, Math.min(1, fill));
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 340 120'); svg.setAttribute('class', 'sim-ship'); svg.setAttribute('aria-hidden', 'true');
+    var g = '<g class="sim-ship-body" fill="none" stroke="#4fd1c5" stroke-width="1.8" stroke-linejoin="round">' +
+      '<path d="M28,70 H302 L318,78 C312,90 302,96 288,96 H50 C38,96 30,86 28,70 Z"/>' +
+      '<path d="M36,70 V36 H72 V70"/><path d="M46,36 V22 H58 V36"/>';
+    if (kind === 'lng') {
+      var tanks = '';
+      [110, 160, 210, 260].forEach(function (cx, i) {
+        var lvl = Math.max(0, Math.min(1, fill * 4 - i));
+        tanks += '<circle cx="' + cx + '" cy="52" r="18"/>';
+        if (lvl > 0) tanks += '<rect x="' + (cx - 18) + '" y="' + (70 - 36 * lvl) + '" width="36" height="' + (36 * lvl) + '" fill="rgba(79,209,197,.55)" stroke="none" clip-path="url(#tk' + i + ')"/>' +
+          '<clipPath id="tk' + i + '"><circle cx="' + cx + '" cy="52" r="17"/></clipPath>';
+      });
+      g += tanks + '</g>';
+    } else {
+      g += '<line x1="80" y1="62" x2="290" y2="62"/><path d="M100,62 V56 M140,62 V56 M180,62 V56 M220,62 V56 M260,62 V54"/></g>' +
+        '<rect x="82" y="76" width="210" height="10" rx="5" fill="rgba(79,209,197,.15)"/>' +
+        '<rect x="82" y="76" width="' + Math.max(0, 210 * fill).toFixed(1) + '" height="10" rx="5" fill="#4fd1c5"/>';
+    }
+    svg.innerHTML = g + '<path class="sim-wave" d="M0,106 q10,-5 20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0 t20,0" fill="none" stroke="rgba(79,209,197,.35)" stroke-width="1.2" stroke-dasharray="3 7"/>';
+    return svg;
+  }
+  // Remplissage : quantité rapportée au plus petit navire qui la contient (ou au VLCC / méthanier)
+  function fillOf(kind, qty) {
+    var list = kind === 'lng' ? D.vessels.lng : D.vessels.oil, v = list[list.length - 1];
+    for (var i = 0; i < list.length; i++) { if (qty <= list[i].qty) { v = list[i]; break; } }
+    return { v: v, f: qty / v.qty };
+  }
+  function shipBlock(kind, qty) {
+    var box = el('div', 'sim-ship-box'), fo = fillOf(kind, qty);
+    box.appendChild(ship(kind, fo.f));
+    box.appendChild(el('p', 'sim-ship-pct', T.sim_fill.replace('%p', num(Math.min(fo.f, 9.99) * 100, 0)).replace('%v', fo.v.name)));
+    return box;
+  }
+  function presets(container, list, input, onPick) {
+    container.textContent = '';
+    list.forEach(function (v) {
+      var b = el('button', 'sim-chip', null); b.type = 'button';
+      b.appendChild(el('strong', null, v.name)); b.appendChild(el('span', null, num(v.qty, 0)));
+      b.addEventListener('click', function () {
+        container.querySelectorAll('.sim-chip').forEach(function (c) { c.classList.remove('is-on'); });
+        b.classList.add('is-on'); if (input) { input.value = v.qty; input.dispatchEvent(new Event('input')); }
+        if (onPick) onPick(v);
+      });
+      container.appendChild(b);
+    });
+  }
+  function why(text) { return text ? el('p', 'sim-why-text', '« ' + text + ' »') : null; }
+  function card(parts) {
+    var c = el('article', 'sim-ship-card');
+    parts.forEach(function (p) { if (p) c.appendChild(p); });
+    return c;
+  }
+  function kv(label, value, cls) { var r = el('p', 'sim-kv ' + (cls || '')); r.appendChild(el('span', null, label)); r.appendChild(el('strong', null, value)); return r; }
+  function btn(text, aria, fn) { var b = el('button', 'sim-close', text); b.type = 'button'; if (aria) b.setAttribute('aria-label', aria); b.addEventListener('click', fn); return b; }
+  function closeTo(entry) { state.closed.unshift(entry); state.closed = state.closed.slice(0, 60); }
+
+  // ----- Onglets -----
+  var tabs = document.querySelectorAll('[data-sim-tab]');
+  function showTab(name) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-sim-tab') === name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      document.getElementById('sim-panel-' + t.getAttribute('data-sim-tab')).hidden = !on;
+    });
+    try { localStorage.setItem(KEY + '-tab', name); } catch (e) {}
+  }
+  tabs.forEach(function (t) { t.addEventListener('click', function () { showTab(t.getAttribute('data-sim-tab')); }); });
+  try { var last = localStorage.getItem(KEY + '-tab'); if (last && document.getElementById('sim-panel-' + last)) showTab(last); } catch (e) {}
+
+  // ===== 1. Positions libres =====
+  function posResult(p, price) {
     var sign = p.dir === 'short' ? -1 : 1;
-    // « || 0 » évite d'afficher « -0,00 » pour une position courte sans variation
     return { pnl: (price - p.entry) * p.qty * sign || 0, pct: (price - p.entry) / p.entry * 100 * sign || 0 };
   }
-  function cell(text, cls) { var td = document.createElement('td'); if (cls) td.className = cls; td.textContent = text; return td; }
-  function pnlCell(r) {
-    var td = cell(money(r.pnl) + ' (' + pct(r.pct) + ')', 'num sim-pnl ' + (r.pnl > 0 ? 'is-gain' : r.pnl < 0 ? 'is-loss' : ''));
-    return td;
-  }
-  function render() {
-    var tb = document.querySelector('#sim-open tbody'), total = 0;
-    tb.textContent = '';
+  function renderPos() {
+    var box = document.getElementById('sim-open'), total = 0;
+    box.textContent = '';
     state.open.forEach(function (p) {
       var q = Q[p.c]; if (!q) return;
-      var now = q.price != null ? q.price : p.entry, r = result(p, now);
+      var now = q.price != null ? q.price : p.entry, r = posResult(p, now);
       total += r.pnl;
-      var tr = document.createElement('tr');
-      tr.appendChild(cell(q.name));
-      tr.appendChild(cell(p.dir === 'short' ? iemT.sim_short : iemT.sim_long, 'sim-dir-' + p.dir));
-      tr.appendChild(cell(num(p.qty, 0), 'num'));
-      tr.appendChild(cell(num(p.entry, 2) + ' ' + q.unit + ' · ' + day(p.date), 'num'));
-      tr.appendChild(cell(num(now, 2) + ' ' + q.unit + ' · ' + day(q.date), 'num'));
-      tr.appendChild(pnlCell(r));
-      var risk = document.createElement('td');
-      if (q.risk) { var b = document.createElement('span'); b.className = 'mt-badge ' + q.risk.cls; b.textContent = q.risk.text; risk.appendChild(b); }
-      tr.appendChild(risk);
-      var act = document.createElement('td'), btn = document.createElement('button');
-      btn.type = 'button'; btn.className = 'sim-close'; btn.textContent = iemT.sim_close; btn.setAttribute('aria-label', iemT.sim_close_aria);
-      btn.addEventListener('click', function () {
-        state.open = state.open.filter(function (x) { return x.id !== p.id; });
-        var fin = result(p, now);
-        state.closed.unshift({ id: p.id, c: p.c, dir: p.dir, qty: p.qty, entry: p.entry, date: p.date, exit: now, exitDate: q.date, pnl: fin.pnl, pct: fin.pct });
-        state.closed = state.closed.slice(0, 50);
-        save(); render();
-      });
-      act.appendChild(btn); tr.appendChild(act);
-      tb.appendChild(tr);
+      var head = el('div', 'sim-ship-head');
+      head.appendChild(el('strong', null, q.name + ' · ' + (p.dir === 'short' ? T.sim_short : T.sim_long)));
+      if (q.risk) head.appendChild(el('span', 'mt-badge ' + q.risk.cls, q.risk.text));
+      box.appendChild(card([
+        head, shipBlock(q.ship, p.qty),
+        kv(T.sim_game_pos, num(p.qty, 0) + ' · ' + num(p.entry, 2) + ' → ' + num(now, 2) + ' ' + q.unit),
+        kv('P&L', money(r.pnl) + ' (' + pct(r.pct) + ')', 'sim-pnl ' + tone(r.pnl)),
+        why(p.why),
+        btn(T.sim_close, T.sim_close_aria, function () {
+          state.open = state.open.filter(function (x) { return x.id !== p.id; });
+          var f = posResult(p, now);
+          closeTo({ game: 'pos', name: q.name + ' ' + (p.dir === 'short' ? T.sim_short : T.sim_long), qty: p.qty, entry: num(p.entry, 2) + ' · ' + dm(p.date), exit: num(now, 2) + ' · ' + dm(q.date), pnl: f.pnl, pct: f.pct, why: p.why });
+          save(); renderAll();
+        })
+      ]));
     });
     document.getElementById('sim-open-empty').hidden = state.open.length > 0;
-    document.getElementById('sim-open').hidden = state.open.length === 0;
     var tot = document.getElementById('sim-total');
-    tot.hidden = state.open.length === 0;
-    tot.textContent = iemT.sim_total + ' ' + money(total);
-    tot.className = 'sim-total ' + (total > 0 ? 'is-gain' : total < 0 ? 'is-loss' : '');
-
-    var tc = document.querySelector('#sim-closed tbody');
-    tc.textContent = '';
-    state.closed.forEach(function (p) {
-      var q = Q[p.c]; if (!q) return;
-      var tr = document.createElement('tr');
-      tr.appendChild(cell(q.name));
-      tr.appendChild(cell(p.dir === 'short' ? iemT.sim_short : iemT.sim_long, 'sim-dir-' + p.dir));
-      tr.appendChild(cell(num(p.qty, 0), 'num'));
-      tr.appendChild(cell(num(p.entry, 2) + ' ' + q.unit + ' · ' + day(p.date), 'num'));
-      tr.appendChild(cell(num(p.exit, 2) + ' ' + q.unit + ' · ' + day(p.exitDate), 'num'));
-      tr.appendChild(pnlCell(p));
-      tc.appendChild(tr);
-    });
-    document.getElementById('sim-closed-empty').hidden = state.closed.length > 0;
-    document.getElementById('sim-closed').hidden = state.closed.length === 0;
-    document.getElementById('sim-clear').hidden = state.closed.length === 0;
+    tot.hidden = state.open.length === 0; tot.textContent = T.sim_total + ' ' + money(total); tot.className = 'sim-total ' + tone(total);
   }
   var sel = document.getElementById('sim-c'), qty = document.getElementById('sim-qty'), err = document.getElementById('sim-error');
-  function syncForm() {
+  function syncPos() {
     var q = Q[sel.value];
-    document.getElementById('sim-entry-price').textContent = q && q.price != null ? num(q.price, 2) + ' ' + q.unit + ' (' + day(q.date) + ')' : '-';
+    document.getElementById('sim-entry-price').textContent = q.price != null ? num(q.price, 2) + ' ' + q.unit + ' (' + dm(q.date) + ')' : '-';
     document.getElementById('sim-qty-label').textContent = q.qtyLabel;
+    presets(document.getElementById('sim-presets'), q.ship === 'lng' ? D.vessels.lng : D.vessels.oil, qty);
   }
-  sel.addEventListener('change', syncForm);
+  sel.addEventListener('change', syncPos);
   qty.addEventListener('input', function () { err.hidden = true; });
-  form.addEventListener('submit', function (e) {
+  document.getElementById('sim-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var q = Q[sel.value], n = Number(qty.value);
-    if (!Number.isInteger(n) || n < 1 || n > 10000000) { err.textContent = iemT.sim_err_qty; err.hidden = false; qty.focus(); return; }
-    if (!q || q.price == null) { err.textContent = iemT.sim_err_price; err.hidden = false; return; }
-    var dir = form.querySelector('input[name="dir"]:checked').value;
-    state.open.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), c: sel.value, dir: dir, qty: n, entry: q.price, date: q.date });
-    err.hidden = true; save(); render();
+    if (!Number.isInteger(n) || n < 1 || n > 10000000) { err.textContent = T.sim_err_qty; err.hidden = false; qty.focus(); return; }
+    if (q.price == null) { err.textContent = T.sim_err_price; err.hidden = false; return; }
+    var w = document.getElementById('sim-why');
+    state.open.push({ id: id(), c: sel.value, dir: this.querySelector('input[name="dir"]:checked').value, qty: n, entry: q.price, date: q.date, why: w.value.trim() });
+    w.value = ''; err.hidden = true; save(); renderAll();
   });
+
+  // ===== 2. Arbitrage WTI -> Brent =====
+  var bh = D.brentHist || { dates: [], values: [] };
+  function brentOn(date) {
+    // Brent de la date d'arrivée, ou du premier jour de cotation qui suit ; sinon inconnu
+    for (var i = 0; i < bh.dates.length; i++) { if (bh.dates[i] >= date && bh.values[i] != null) return { v: bh.values[i], d: bh.dates[i] }; }
+    return null;
+  }
+  var fr = document.getElementById('arb-freight'), days = document.getElementById('arb-days'), aerr = document.getElementById('arb-error');
+  var vessel = D.vessels.oil[1];
+  function calcArb() {
+    var w = Q.wti.price, b = Q.brent.price, f = Number(fr.value);
+    var ok = w != null && b != null && isFinite(f);
+    document.getElementById('arb-buy').textContent = w != null ? num(w, 2) + ' $' : '-';
+    document.getElementById('arb-sell').textContent = b != null ? num(b, 2) + ' $' : '-';
+    document.getElementById('arb-spread').textContent = ok ? num(b - w, 2) + ' $' : '-';
+    document.getElementById('arb-freight-v').textContent = isFinite(f) ? '- ' + num(f, 2) + ' $' : '-';
+    var m = ok ? b - w - f : null;
+    var mEl = document.getElementById('arb-margin'), tEl = document.getElementById('arb-margin-total');
+    mEl.textContent = m != null ? (m > 0 ? '+' : '') + num(m, 2) + ' $' : '-'; mEl.className = tone(m);
+    tEl.textContent = m != null ? money(m * vessel.qty) : '-'; tEl.className = tone(m);
+    var win = document.getElementById('arb-window');
+    win.textContent = m == null ? '' : m > 0 ? T.sim_window_open : T.sim_window_closed;
+    win.className = 'sim-window ' + (m > 0 ? 'is-open' : 'is-shut');
+  }
+  presets(document.getElementById('arb-vessels'), D.vessels.oil, null, function (v) { vessel = v; calcArb(); });
+  document.querySelectorAll('#arb-vessels .sim-chip')[1].classList.add('is-on');
+  fr.addEventListener('input', function () { aerr.hidden = true; calcArb(); });
+  days.addEventListener('input', function () { aerr.hidden = true; });
+  document.getElementById('arb-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = Number(fr.value), n = Number(days.value);
+    if (!isFinite(f) || f < 0 || f > 30) { aerr.textContent = T.sim_err_freight; aerr.hidden = false; fr.focus(); return; }
+    if (!Number.isInteger(n) || n < 5 || n > 60) { aerr.textContent = T.sim_err_days; aerr.hidden = false; days.focus(); return; }
+    if (Q.wti.price == null || Q.brent.price == null) { aerr.textContent = T.sim_err_price; aerr.hidden = false; return; }
+    var w = document.getElementById('arb-why');
+    state.voyages.push({ id: id(), vessel: vessel.name, qty: vessel.qty, buy: Q.wti.price, freight: f, depart: today, arrive: addDays(today, n), days: n, why: w.value.trim() });
+    w.value = ''; aerr.hidden = true; save(); renderAll();
+  });
+  function renderArb() {
+    var box = document.getElementById('arb-list');
+    box.textContent = '';
+    state.voyages.forEach(function (v) {
+      var done = today >= v.arrive, sold = done ? brentOn(v.arrive) : null;
+      var sell = sold ? sold.v : Q.brent.price, pnl = ((sell - v.buy - v.freight) * v.qty) || 0;
+      var prog = Math.max(0, Math.min(1, daysBetween(v.depart, today) / v.days));
+      var head = el('div', 'sim-ship-head');
+      head.appendChild(el('strong', null, v.vessel + ' · ' + num(v.qty, 0) + ' b'));
+      head.appendChild(el('span', 'mt-badge sim-badge-none', 'Houston → Rotterdam'));
+      var route = el('div', 'sim-route'); var bar = el('span'); bar.style.width = (prog * 100).toFixed(0) + '%'; route.appendChild(bar);
+      var status = sold ? T.sim_delivered.replace('%d', dm(sold.d)) : T.sim_voyage.replace('%p', num(prog * 100, 0)) + ' · ' + T.sim_arrival.replace('%d', dm(v.arrive));
+      box.appendChild(card([
+        head, shipBlock('tanker', v.qty), route, el('p', 'sim-ship-pct', status),
+        kv(T.sim_game_arb, num(v.buy, 2) + ' $ + ' + num(v.freight, 2) + ' $ → ' + num(sell, 2) + ' $' + (sold ? '' : ' (' + T.sim_est + ')')),
+        kv('P&L', money(pnl), 'sim-pnl ' + tone(pnl)),
+        why(v.why),
+        btn(sold ? T.sim_archive : T.sim_close, null, function () {
+          state.voyages = state.voyages.filter(function (x) { return x.id !== v.id; });
+          closeTo({ game: 'arb', name: v.vessel + ' WTI → Brent', qty: v.qty, entry: num(v.buy + v.freight, 2) + ' · ' + dm(v.depart), exit: num(sell, 2) + ' · ' + dm(sold ? sold.d : Q.brent.date), pnl: pnl, pct: (sell - v.buy - v.freight) / (v.buy + v.freight) * 100 || 0, why: v.why });
+          save(); renderAll();
+        })
+      ]));
+    });
+    document.getElementById('arb-empty').hidden = state.voyages.length > 0;
+  }
+
+  // ===== 3. Raffineur : marge 3-2-1 =====
+  var prod = (D.products || []).filter(function (r) { return r.gas != null && r.dsl != null && r.wti != null; });
+  var crack = function (r) { return (2 * r.gas + r.dsl - 3 * r.wti) / 3; };
+  var lastP = prod.length ? prod[prod.length - 1] : null, lastCrack = lastP ? crack(lastP) : null;
+  if (lastP) {
+    document.getElementById('ref-date').textContent = dm(lastP.date);
+    document.getElementById('ref-wti').textContent = num(lastP.wti, 2) + ' $';
+    document.getElementById('ref-gas').textContent = num(lastP.gas, 2) + ' $';
+    document.getElementById('ref-dsl').textContent = num(lastP.dsl, 2) + ' $';
+    document.getElementById('ref-crack').textContent = num(lastCrack, 2) + ' $';
+    var rc = document.getElementById('ref-chart');
+    if (rc && typeof Chart !== 'undefined') {
+      new Chart(rc, {
+        type: 'line',
+        data: { labels: prod.map(function (r) { return r.date; }), datasets: [{ data: prod.map(crack), borderColor: '#4fd1c5', backgroundColor: 'rgba(79,209,197,0.12)', fill: true, borderWidth: 2, pointRadius: 0, tension: 0.2 }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+          plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+            title: function (it) { return dm(it[0].label) + '/' + it[0].label.slice(0, 4); },
+            label: function (c) { return T.sim_crack + ' : ' + num(c.parsed.y, 2) + ' $/b'; },
+            afterBody: function () { return T.source + 'EIA'; } } } },
+          scales: { x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 6, callback: function (v) { return dm(this.getLabelForValue(v)); } }, grid: { display: false } },
+                    y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.06)' } } } }
+      });
+    }
+  }
+  var rq = document.getElementById('ref-qty'), rerr = document.getElementById('ref-error');
+  presets(document.getElementById('ref-presets'), [{ name: '100 000', qty: 100000 }, { name: '300 000', qty: 300000 }, { name: '1 M', qty: 1000000 }], rq);
+  rq.addEventListener('input', function () { rerr.hidden = true; });
+  document.getElementById('ref-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = Number(rq.value);
+    if (!Number.isInteger(n) || n < 1 || n > 10000000) { rerr.textContent = T.sim_err_qty; rerr.hidden = false; rq.focus(); return; }
+    if (lastCrack == null) { rerr.textContent = T.sim_err_ref; rerr.hidden = false; return; }
+    var w = document.getElementById('ref-why');
+    state.refin.push({ id: id(), dir: this.querySelector('input[name="rdir"]:checked').value, qty: n, entry: lastCrack, date: lastP.date, why: w.value.trim() });
+    w.value = ''; rerr.hidden = true; save(); renderAll();
+  });
+  function renderRef() {
+    var box = document.getElementById('ref-list');
+    box.textContent = '';
+    state.refin.forEach(function (p) {
+      var now = lastCrack != null ? lastCrack : p.entry, sign = p.dir === 'short' ? -1 : 1;
+      var pnl = (now - p.entry) * p.qty * sign || 0;
+      var head = el('div', 'sim-ship-head');
+      head.appendChild(el('strong', null, (p.dir === 'short' ? T.sim_margin_short : T.sim_margin_long) + ' · ' + num(p.qty, 0) + ' b'));
+      box.appendChild(card([
+        head, shipBlock('tanker', p.qty),
+        kv(T.sim_game_ref, num(p.entry, 2) + ' → ' + num(now, 2) + ' $/b ' + T.sim_margin),
+        kv('P&L', money(pnl), 'sim-pnl ' + tone(pnl)),
+        why(p.why),
+        btn(T.sim_close, T.sim_close_aria, function () {
+          state.refin = state.refin.filter(function (x) { return x.id !== p.id; });
+          closeTo({ game: 'ref', name: p.dir === 'short' ? T.sim_margin_short : T.sim_margin_long, qty: p.qty, entry: num(p.entry, 2) + ' · ' + dm(p.date), exit: num(now, 2) + ' · ' + dm(lastP ? lastP.date : ''), pnl: pnl, pct: (now - p.entry) / Math.abs(p.entry) * 100 * sign || 0, why: p.why });
+          save(); renderAll();
+        })
+      ]));
+    });
+    document.getElementById('ref-empty').hidden = state.refin.length > 0;
+  }
+
+  // ===== Historique commun et carnet =====
+  function renderClosed() {
+    var tb = document.querySelector('#sim-closed tbody');
+    tb.textContent = '';
+    var games = { pos: T.sim_game_pos, arb: T.sim_game_arb, ref: T.sim_game_ref };
+    state.closed.forEach(function (p) {
+      if (!p.game) p.game = 'pos';
+      var tr = document.createElement('tr');
+      [games[p.game] || '', p.name || '', num(p.qty, 0), p.entry, p.exit].forEach(function (v, i) { var td = el('td', i >= 2 ? 'num' : null, v); tr.appendChild(td); });
+      var td = el('td', 'num sim-pnl ' + tone(p.pnl), money(p.pnl) + ' (' + pct(p.pct) + ')'); tr.appendChild(td);
+      tr.appendChild(el('td', 'sim-why-cell', p.why || ''));
+      tb.appendChild(tr);
+    });
+    var has = state.closed.length > 0;
+    document.getElementById('sim-closed-empty').hidden = has;
+    document.getElementById('sim-closed').hidden = !has;
+    document.getElementById('sim-clear').hidden = !has;
+  }
   document.getElementById('sim-clear').addEventListener('click', function () {
-    if (!window.confirm(iemT.sim_confirm_clear)) return;
-    state.closed = []; save(); render();
+    if (!window.confirm(T.sim_confirm_clear)) return;
+    state.closed = []; save(); renderAll();
   });
-  syncForm(); render();
+
+  function renderAll() { renderPos(); renderArb(); renderRef(); renderClosed(); }
+  syncPos(); calcArb(); renderAll();
 })();
 
 // ===== Gaz dans le monde : moyennes mensuelles FMI (via FRED) =====

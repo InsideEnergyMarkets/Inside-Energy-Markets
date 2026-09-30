@@ -2827,4 +2827,48 @@ html.has-player .nav-ep { display: none; }
 .sim-storage { margin: 12px 0 0; font-size: 13px; color: #b7791f; }
 .sim-explain { margin-top: 36px; }
 .sim-foot { margin: 28px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12px; color: #5a6b7b; }
+/* Simulateur : onglets, cargaisons, navires au trait, carnet */
+.sim-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 18px; }
+.sim-tabs button { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(23, 37, 95, 0.18); background: #fff; font: 600 14px 'Inter', sans-serif; color: var(--deep); cursor: pointer; }
+.sim-tabs button i { color: var(--teal); }
+.sim-tabs button[aria-selected="true"] { background: var(--deep); border-color: var(--deep); color: #fff; }
+.sim-tabs button[aria-selected="true"] i { color: #4fd1c5; }
+.sim-intro { margin: 0 0 16px; max-width: 780px; font-size: 15px; line-height: 1.6; color: var(--ink); }
+.sim-field textarea { font: 400 14px 'Inter', sans-serif; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); color: #fff; resize: vertical; }
+.sim-field textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
+.sim-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.sim-chip { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 7px 11px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.18); background: transparent; color: rgba(255, 255, 255, 0.7); font: 500 11px 'Inter', sans-serif; cursor: pointer; }
+.sim-chip strong { font-size: 13px; color: #fff; }
+.sim-chip.is-on, .sim-chip:hover { border-color: #e8703a; background: rgba(232, 112, 58, 0.1); }
+.sim-ships { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 12px; }
+.sim-ship-card { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); }
+.sim-ship-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sim-ship-head strong { font-size: 14px; }
+.sim-ship-head .mt-badge { font-size: 11px; padding: 3px 10px; }
+.sim-ship-box { margin: 4px 0 0; }
+.sim-ship { display: block; width: 100%; height: auto; }
+.sim-ship-body { animation: sim-bob 3.5s ease-in-out infinite; transform-origin: center; }
+.sim-wave { animation: sim-wave 2.5s linear infinite; }
+@keyframes sim-bob { 50% { transform: translateY(-2px); } }
+@keyframes sim-wave { to { stroke-dashoffset: -40; } }
+@media (prefers-reduced-motion: reduce) { .sim-ship-body, .sim-wave { animation: none; } }
+.sim-ship-pct { margin: 0; text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.65); }
+.sim-kv { display: flex; justify-content: space-between; gap: 10px; margin: 0; font-size: 13px; color: rgba(255, 255, 255, 0.6); }
+.sim-kv strong { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: #fff; text-align: right; }
+.sim-kv.sim-pnl.is-gain strong { color: #3ddc97; }
+.sim-kv.sim-pnl.is-loss strong { color: #ff6b5b; }
+.sim-why-text { margin: 2px 0 0; font-size: 12.5px; font-style: italic; color: rgba(255, 255, 255, 0.7); }
+.sim-ship-card .sim-close { align-self: flex-start; margin-top: 4px; }
+.sim-route { position: relative; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.sim-route span { position: absolute; inset: 0 auto 0 0; background: #4fd1c5; border-radius: 2px; }
+.sim-calc { display: grid; gap: 6px; margin: 8px 0 12px; }
+.sim-calc div { display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; color: rgba(255, 255, 255, 0.7); }
+.sim-calc strong { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: #fff; }
+.sim-calc .sim-calc-total { padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.sim-calc strong.is-gain { color: #3ddc97; }
+.sim-calc strong.is-loss { color: #ff6b5b; }
+.sim-window { margin: 0 0 10px; padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+.sim-window.is-open { background: rgba(79, 209, 197, 0.12); color: #4fd1c5; }
+.sim-window.is-shut { background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.7); }
+.sim-why-cell { font-size: 12.5px; font-style: italic; color: rgba(255, 255, 255, 0.7); min-width: 180px; }
 @media (max-width: 860px) { .sim-grid { grid-template-columns: 1fr; } .sim-card { padding: 18px 16px; } }

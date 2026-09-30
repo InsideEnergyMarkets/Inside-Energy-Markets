@@ -1,15 +1,19 @@
 {% comment %}
-  Simulateur éducatif de positions fictives (simulateur/ et en/simulator/).
-  Aucun argent réel, aucun compte, aucune recommandation : l'utilisateur ouvre librement des
-  positions fictives sur le Brent ou le Henry Hub, au dernier cours connu du site (market.json).
-  Les positions sont gardées dans le navigateur (localStorage), le P&L est recalculé par le script
-  du layout à chaque visite avec le dernier cours. Le statut du détroit est un indicateur qualitatif
-  de tension logistique, jamais un prix de fret.
+  Simulateur éducatif (simulateur/ et en/simulator/). Tout est fictif : aucun argent réel, aucun
+  compte, aucune recommandation. Trois onglets, gérés par le script du layout :
+  - Positions : positions fictives libres sur le Brent et le Henry Hub, illustrées par un navire.
+  - Arbitrage : acheter une cargaison au WTI (Houston), la vendre au Brent (Rotterdam), fret et durée
+    du voyage choisis par le joueur (hypothèses, jamais présentées comme des données de marché).
+  - Raffineur : marge de raffinage 3-2-1 (EIA, prix spot de New York), position longue ou courte.
+  Chaque position peut porter une note « pourquoi » (carnet). Tout est gardé dans le navigateur.
+  Le statut des détroits est un indicateur qualitatif de tension logistique, jamais un prix de fret.
 {% endcomment %}
 {% include i18n.html %}
 {% assign sim = t.sim %}
 {% assign market = site.data.market %}
-{% assign b = market.brent %}{% assign hh = market.henry_hub %}{% assign hz = market.chokepoints.hormuz %}
+{% assign b = market.brent %}{% assign hh = market.henry_hub %}{% assign wti = market.wti %}{% assign hz = market.chokepoints.hormuz %}
+{% assign hist = site.data.market_history %}
+{% assign oy = site.data.oil_year %}
 <section class="episodes-header">
   <div class="wrap">
     <p class="eyebrow">{{ sim.eyebrow }}</p>
@@ -22,63 +26,150 @@
   <div class="wrap">
     <p class="sim-banner" role="note"><i class="fa-solid fa-flask" aria-hidden="true"></i><span><strong>{{ sim.banner_strong }}</strong> {{ sim.banner }}</span></p>
 
-    <div class="sim-grid">
-      <div class="sim-card">
-        <p class="pw-label">{{ sim.quotes_label }}</p>
-        <div class="sim-quote">
-          <div class="sim-quote-head"><strong>Brent</strong>{% if hz.status %}<span class="mt-badge {{ hz.status }}" title="{{ sim.strait_note }}">{{ sim.hormuz }} · {{ t.status_short[hz.status] }}</span>{% endif %}</div>
-          <p class="sim-quote-value">{% include money2.html value=b.price_usd %} <small>$/{{ sim.unit_bbl }}</small></p>
-          <p class="pw-sub">{{ sim.quote_of }} {{ b.date | date: "%d/%m" }} · {{ b.source }}</p>
-        </div>
-        <div class="sim-quote">
-          <div class="sim-quote-head"><strong>Henry Hub</strong><span class="mt-badge sim-badge-none" title="{{ sim.no_strait_note }}">{{ sim.no_strait }}</span></div>
-          <p class="sim-quote-value">{% include money2.html value=hh.price_usd_mmbtu %} <small>$/MMBtu</small></p>
-          <p class="pw-sub">{{ sim.quote_of }} {{ hh.date | date: "%d/%m" }} · {{ hh.source }}</p>
-        </div>
-        <p class="sim-strait-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ sim.strait_note }}</p>
-      </div>
-
-      <form class="sim-card sim-form" id="sim-form" novalidate>
-        <p class="pw-label">{{ sim.form_label }}</p>
-        <label class="sim-field"><span>{{ sim.commodity }}</span>
-          <select name="c" id="sim-c">
-            <option value="brent">Brent ($/{{ sim.unit_bbl }})</option>
-            <option value="hh">Henry Hub ($/MMBtu)</option>
-          </select>
-        </label>
-        <fieldset class="sim-field sim-dir"><legend>{{ sim.direction }}</legend>
-          <label><input type="radio" name="dir" value="long" checked><span>{{ sim.long }}</span></label>
-          <label><input type="radio" name="dir" value="short"><span>{{ sim.short }}</span></label>
-        </fieldset>
-        <label class="sim-field"><span id="sim-qty-label">{{ sim.qty_bbl }}</span>
-          <input type="number" name="qty" id="sim-qty" min="1" max="10000000" step="1" value="1000" inputmode="numeric">
-        </label>
-        <p class="sim-entry">{{ sim.entry_price }}{{ t.colon }}<strong id="sim-entry-price">-</strong></p>
-        <p class="sim-error" id="sim-error" role="alert" hidden></p>
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus" aria-hidden="true"></i>{{ sim.open_btn }}</button>
-        <p class="sim-help">{{ sim.form_help }}</p>
-      </form>
+    <div class="sim-tabs" role="tablist" aria-label="{{ sim.tabs_aria }}">
+      <button type="button" role="tab" id="sim-tab-pos" aria-controls="sim-panel-pos" aria-selected="true" data-sim-tab="pos"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>{{ sim.tab_pos }}</button>
+      <button type="button" role="tab" id="sim-tab-arb" aria-controls="sim-panel-arb" aria-selected="false" data-sim-tab="arb"><i class="fa-solid fa-ship" aria-hidden="true"></i>{{ sim.tab_arb }}</button>
+      <button type="button" role="tab" id="sim-tab-ref" aria-controls="sim-panel-ref" aria-selected="false" data-sim-tab="ref"><i class="fa-solid fa-industry" aria-hidden="true"></i>{{ sim.tab_ref }}</button>
     </div>
 
-    <div class="sim-card sim-positions">
-      <div class="sim-pos-head">
-        <p class="pw-label">{{ sim.open_label }}</p>
-        <p class="sim-total" id="sim-total" hidden></p>
+    <!-- ===== Onglet 1 : positions libres ===== -->
+    <div class="sim-panel" role="tabpanel" id="sim-panel-pos" aria-labelledby="sim-tab-pos">
+      <p class="sim-intro">{{ sim.pos_intro }}</p>
+      <div class="sim-grid">
+        <div class="sim-card">
+          <p class="pw-label">{{ sim.quotes_label }}</p>
+          <div class="sim-quote">
+            <div class="sim-quote-head"><strong>Brent</strong>{% if hz.status %}<span class="mt-badge {{ hz.status }}" title="{{ sim.strait_note }}">{{ sim.hormuz }} · {{ t.status_short[hz.status] }}</span>{% endif %}</div>
+            <p class="sim-quote-value">{% include money2.html value=b.price_usd %} <small>$/{{ sim.unit_bbl }}</small></p>
+            <p class="pw-sub">{{ sim.quote_of }} {{ b.date | date: "%d/%m" }} · {{ b.source }}</p>
+          </div>
+          <div class="sim-quote">
+            <div class="sim-quote-head"><strong>Henry Hub</strong><span class="mt-badge sim-badge-none" title="{{ sim.no_strait_note }}">{{ sim.no_strait }}</span></div>
+            <p class="sim-quote-value">{% include money2.html value=hh.price_usd_mmbtu %} <small>$/MMBtu</small></p>
+            <p class="pw-sub">{{ sim.quote_of }} {{ hh.date | date: "%d/%m" }} · {{ hh.source }}</p>
+          </div>
+          <p class="sim-strait-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ sim.strait_note }}</p>
+        </div>
+
+        <form class="sim-card sim-form" id="sim-form" novalidate>
+          <p class="pw-label">{{ sim.form_label }}</p>
+          <label class="sim-field"><span>{{ sim.commodity }}</span>
+            <select name="c" id="sim-c">
+              <option value="brent">Brent ($/{{ sim.unit_bbl }})</option>
+              <option value="hh">Henry Hub ($/MMBtu)</option>
+            </select>
+          </label>
+          <fieldset class="sim-field sim-dir"><legend>{{ sim.direction }}</legend>
+            <label><input type="radio" name="dir" value="long" checked><span>{{ sim.long }}</span></label>
+            <label><input type="radio" name="dir" value="short"><span>{{ sim.short }}</span></label>
+          </fieldset>
+          <div class="sim-field"><span id="sim-qty-label">{{ sim.qty_bbl }}</span>
+            <div class="sim-presets" id="sim-presets"></div>
+            <input type="number" name="qty" id="sim-qty" min="1" max="10000000" step="1" value="1000000" inputmode="numeric" aria-labelledby="sim-qty-label">
+          </div>
+          <label class="sim-field"><span>{{ sim.why }}</span>
+            <textarea name="why" id="sim-why" maxlength="280" rows="2" placeholder="{{ sim.why_ph }}"></textarea>
+          </label>
+          <p class="sim-entry">{{ sim.entry_price }}{{ t.colon }}<strong id="sim-entry-price">-</strong></p>
+          <p class="sim-error" id="sim-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus" aria-hidden="true"></i>{{ sim.open_btn }}</button>
+          <p class="sim-help">{{ sim.form_help }}</p>
+        </form>
       </div>
-      <div class="sim-table-wrap"><table class="sim-table" id="sim-open">
-        <thead><tr><th>{{ sim.col_commodity }}</th><th>{{ sim.col_dir }}</th><th class="num">{{ sim.col_qty }}</th><th class="num">{{ sim.col_entry }}</th><th class="num">{{ sim.col_now }}</th><th class="num">{{ sim.col_pnl }}</th><th>{{ sim.col_risk }}</th><th></th></tr></thead>
-        <tbody></tbody>
-      </table></div>
-      <p class="sim-empty" id="sim-open-empty">{{ sim.no_open }}</p>
+
+      <div class="sim-card sim-positions">
+        <div class="sim-pos-head"><p class="pw-label">{{ sim.open_label }}</p><p class="sim-total" id="sim-total" hidden></p></div>
+        <div class="sim-ships" id="sim-open"></div>
+        <p class="sim-empty" id="sim-open-empty">{{ sim.no_open }}</p>
+      </div>
     </div>
 
-    <div class="sim-card sim-positions">
-      <div class="sim-pos-head">
-        <p class="pw-label">{{ sim.closed_label }}</p>
-        <button type="button" class="sim-clear" id="sim-clear" hidden>{{ sim.clear_btn }}</button>
+    <!-- ===== Onglet 2 : arbitrage physique WTI -> Brent ===== -->
+    <div class="sim-panel" role="tabpanel" id="sim-panel-arb" aria-labelledby="sim-tab-arb" hidden>
+      <p class="sim-intro">{{ sim.arb_intro }}</p>
+      <div class="sim-grid">
+        <div class="sim-card">
+          <p class="pw-label">{{ sim.arb_window }}</p>
+          <div class="sim-calc">
+            <div><span>{{ sim.arb_buy }}</span><strong id="arb-buy">-</strong></div>
+            <div><span>{{ sim.arb_sell }}</span><strong id="arb-sell">-</strong></div>
+            <div><span>{{ sim.arb_spread }}</span><strong id="arb-spread">-</strong></div>
+            <div><span>{{ sim.arb_freight_row }}</span><strong id="arb-freight-v">-</strong></div>
+            <div class="sim-calc-total"><span>{{ sim.arb_margin }}</span><strong id="arb-margin">-</strong></div>
+            <div class="sim-calc-total"><span>{{ sim.arb_margin_total }}</span><strong id="arb-margin-total">-</strong></div>
+          </div>
+          <p class="sim-window" id="arb-window"></p>
+          <p class="sim-strait-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ sim.arb_note }}</p>
+        </div>
+        <form class="sim-card sim-form" id="arb-form" novalidate>
+          <p class="pw-label">{{ sim.arb_form }}</p>
+          <div class="sim-field"><span>{{ sim.vessel }}</span><div class="sim-presets" id="arb-vessels"></div></div>
+          <label class="sim-field"><span>{{ sim.arb_freight }}</span>
+            <input type="number" id="arb-freight" min="0" max="30" step="0.1" value="3" inputmode="decimal">
+          </label>
+          <label class="sim-field"><span>{{ sim.arb_days }}</span>
+            <input type="number" id="arb-days" min="5" max="60" step="1" value="18" inputmode="numeric">
+          </label>
+          <label class="sim-field"><span>{{ sim.why }}</span>
+            <textarea id="arb-why" maxlength="280" rows="2" placeholder="{{ sim.why_ph }}"></textarea>
+          </label>
+          <p class="sim-error" id="arb-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-ship" aria-hidden="true"></i>{{ sim.arb_btn }}</button>
+          <p class="sim-help">{{ sim.arb_help }}</p>
+        </form>
       </div>
+      <div class="sim-card sim-positions">
+        <div class="sim-pos-head"><p class="pw-label">{{ sim.arb_list }}</p></div>
+        <div class="sim-ships" id="arb-list"></div>
+        <p class="sim-empty" id="arb-empty">{{ sim.arb_none }}</p>
+      </div>
+    </div>
+
+    <!-- ===== Onglet 3 : raffineur, marge 3-2-1 ===== -->
+    <div class="sim-panel" role="tabpanel" id="sim-panel-ref" aria-labelledby="sim-tab-ref" hidden>
+      <p class="sim-intro">{{ sim.ref_intro }}</p>
+      <div class="sim-grid">
+        <div class="sim-card">
+          <p class="pw-label">{{ sim.ref_now }} <span id="ref-date"></span></p>
+          <div class="sim-calc">
+            <div><span>{{ sim.ref_crude }}</span><strong id="ref-wti">-</strong></div>
+            <div><span>{{ sim.ref_gas }}</span><strong id="ref-gas">-</strong></div>
+            <div><span>{{ sim.ref_dsl }}</span><strong id="ref-dsl">-</strong></div>
+            <div class="sim-calc-total"><span>{{ sim.ref_crack }}</span><strong id="ref-crack">-</strong></div>
+          </div>
+          <div class="mt-chart"><canvas id="ref-chart" aria-label="{{ sim.ref_chart_aria }}"></canvas></div>
+          <p class="pw-sub">{{ sim.ref_src }}</p>
+        </div>
+        <form class="sim-card sim-form" id="ref-form" novalidate>
+          <p class="pw-label">{{ sim.ref_form }}</p>
+          <fieldset class="sim-field sim-dir"><legend>{{ sim.direction }}</legend>
+            <label><input type="radio" name="rdir" value="long" checked><span>{{ sim.ref_long }}</span></label>
+            <label><input type="radio" name="rdir" value="short"><span>{{ sim.ref_short }}</span></label>
+          </fieldset>
+          <div class="sim-field"><span>{{ sim.ref_qty }}</span>
+            <div class="sim-presets" id="ref-presets"></div>
+            <input type="number" id="ref-qty" min="1" max="10000000" step="1" value="300000" inputmode="numeric" aria-label="{{ sim.ref_qty }}">
+          </div>
+          <label class="sim-field"><span>{{ sim.why }}</span>
+            <textarea id="ref-why" maxlength="280" rows="2" placeholder="{{ sim.why_ph }}"></textarea>
+          </label>
+          <p class="sim-error" id="ref-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-lock" aria-hidden="true"></i>{{ sim.ref_btn }}</button>
+          <p class="sim-help">{{ sim.ref_help }}</p>
+        </form>
+      </div>
+      <div class="sim-card sim-positions">
+        <div class="sim-pos-head"><p class="pw-label">{{ sim.ref_list }}</p></div>
+        <div class="sim-ships" id="ref-list"></div>
+        <p class="sim-empty" id="ref-empty">{{ sim.ref_none }}</p>
+      </div>
+    </div>
+
+    <!-- ===== Historique commun : positions clôturées et carnet ===== -->
+    <div class="sim-card sim-positions">
+      <div class="sim-pos-head"><p class="pw-label">{{ sim.closed_label }}</p><button type="button" class="sim-clear" id="sim-clear" hidden>{{ sim.clear_btn }}</button></div>
       <div class="sim-table-wrap"><table class="sim-table" id="sim-closed">
-        <thead><tr><th>{{ sim.col_commodity }}</th><th>{{ sim.col_dir }}</th><th class="num">{{ sim.col_qty }}</th><th class="num">{{ sim.col_entry }}</th><th class="num">{{ sim.col_exit }}</th><th class="num">{{ sim.col_pnl }}</th></tr></thead>
+        <thead><tr><th>{{ sim.col_game }}</th><th>{{ sim.col_commodity }}</th><th class="num">{{ sim.col_qty }}</th><th class="num">{{ sim.col_entry }}</th><th class="num">{{ sim.col_exit }}</th><th class="num">{{ sim.col_pnl }}</th><th>{{ sim.col_why }}</th></tr></thead>
         <tbody></tbody>
       </table></div>
       <p class="sim-empty" id="sim-closed-empty">{{ sim.no_closed }}</p>
@@ -101,10 +192,17 @@
 <script>
   window.simData = {
     quotes: {
-      brent: { name: "Brent", price: {{ b.price_usd | default: "null" }}, date: {{ b.date | jsonify }}, unit: {{ sim.unit_bbl | prepend: "$/" | jsonify }}, qtyLabel: {{ sim.qty_bbl | jsonify }},
+      brent: { name: "Brent", price: {{ b.price_usd | default: "null" }}, date: {{ b.date | jsonify }}, unit: {{ sim.unit_bbl | prepend: "$/" | jsonify }}, qtyLabel: {{ sim.qty_bbl | jsonify }}, ship: "tanker",
                risk: {% if hz.status %}{ cls: {{ hz.status | jsonify }}, text: {{ sim.hormuz | append: " · " | append: t.status_short[hz.status] | jsonify }} }{% else %}null{% endif %} },
-      hh: { name: "Henry Hub", price: {{ hh.price_usd_mmbtu | default: "null" }}, date: {{ hh.date | jsonify }}, unit: "$/MMBtu", qtyLabel: {{ sim.qty_mmbtu | jsonify }},
-            risk: { cls: "sim-badge-none", text: {{ sim.no_strait | jsonify }} } }
+      hh: { name: "Henry Hub", price: {{ hh.price_usd_mmbtu | default: "null" }}, date: {{ hh.date | jsonify }}, unit: "$/MMBtu", qtyLabel: {{ sim.qty_mmbtu | jsonify }}, ship: "lng",
+            risk: { cls: "sim-badge-none", text: {{ sim.no_strait | jsonify }} } },
+      wti: { name: "WTI", price: {% if wti.price_usd %}{{ wti.price_usd }}{% else %}null{% endif %}, date: {{ wti.date | jsonify }} }
+    },
+    brentHist: { dates: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }} },
+    products: {{ oy | jsonify }},
+    vessels: {
+      oil: [{ key: "aframax", name: "Aframax", qty: 750000 }, { key: "suezmax", name: "Suezmax", qty: 1000000 }, { key: "vlcc", name: "VLCC", qty: 2000000 }],
+      lng: [{ key: "lng", name: {{ sim.lng_carrier | jsonify }}, qty: 3400000 }]
     }
   };
 </script>
