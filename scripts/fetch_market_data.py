@@ -12,6 +12,10 @@ Récupère les données marché et les écrit dans _data/market.json :
 - Prix mondiaux du gaz par mois (FMI via la FRED) : Europe, Asie, États-Unis : _data/gas_world.json
 - Stocks de gaz en Europe et en France (GIE AGSI+ -> secret GIE_API_KEY) : _data/gas_storage.json
 - Prix day-ahead de l'électricité, France et pays voisins, aujourd'hui et demain
+- WTI (OilPriceAPI, repli EIA) et Brent / WTI sur 12 mois (EIA) : _data/oil_year.json
+- Prix des carburants à la pompe en France, moyenne nationale (flux officiel DGCCRF,
+  data.economie.gouv.fr, Licence Ouverte, sans clé) : _data/fuel.json
+- Stocks commerciaux de brut aux États-Unis, hebdomadaires (EIA) : _data/us_crude_stocks.json
   (ENTSO-E Transparency Platform -> secret ENTSOE_API_KEY) : _data/day_ahead.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
@@ -99,7 +103,7 @@ def fetch_eia_series(series_code, length):
     """{date: valeur} des `length` derniers jours publiés par l'EIA pour une série."""
     url = (
         "https://api.eia.gov/v2/petroleum/pri/spt/data/"
-        if series_code == "RBRTE"
+        if series_code in ("RBRTE", "RWTC")
         else "https://api.eia.gov/v2/natural-gas/pri/fut/data/"
     )
     url += (
@@ -112,11 +116,11 @@ def fetch_eia_series(series_code, length):
     return {row["period"]: round(float(row["value"]), 2) for row in rows}
 
 
-def fetch_brent_oilpriceapi():
-    """Brent via OilPriceAPI, mis à jour toutes les 5 minutes (plan gratuit)."""
+def fetch_brent_oilpriceapi(code="BRENT_CRUDE_USD"):
+    """Brent (ou WTI avec code="WTI_USD") via OilPriceAPI, mis à jour toutes les 5 minutes (plan gratuit)."""
     if not OILPRICEAPI_KEY:
         return None
-    url = "https://api.oilpriceapi.com/v1/prices/latest?by_code=BRENT_CRUDE_USD"
+    url = f"https://api.oilpriceapi.com/v1/prices/latest?by_code={code}"
     r = requests.get(url, headers={"Authorization": f"Token {OILPRICEAPI_KEY}"}, timeout=15)
     r.raise_for_status()
     payload = r.json()
@@ -785,6 +789,116 @@ def update_day_ahead():
     print("Day-ahead :", ", ".join(f"{d} {fr[d]['avg']} €/MWh" for d in keep[-2:]))
 
 
+# ===== Pétrole : WTI, Brent / WTI sur 12 mois, stocks américains, prix à la pompe =====
+OIL_YEAR_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "oil_year.json")
+US_STOCKS_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "us_crude_stocks.json")
+FUEL_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "fuel.json")
+FUEL_URL = ("https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/"
+            "prix-des-carburants-en-france-flux-instantane-v2/records")
+FUEL_KEEP_DAYS = 120
+
+
+def fetch_wti(existing):
+    """WTI : OilPriceAPI (même source que le Brent, pour un écart cohérent), repli sur l'EIA."""
+    try:
+        wti = fetch_brent_oilpriceapi("WTI_USD")
+        if wti:
+            return label_quote(wti)
+    except Exception as e:
+        print(f"Erreur WTI (OilPriceAPI): {e}")
+    if EIA_API_KEY:
+        try:
+            series = fetch_eia_series("RWTC", 5)
+            d = max(series)
+            return label_quote({"price_usd": series[d], "date": d, "unit": "USD/baril", "source": "EIA"})
+        except Exception as e:
+            print(f"Erreur WTI (EIA): {e}")
+    return existing.get("wti")
+
+
+def update_oil_year():
+    """Brent et WTI sur 12 mois (EIA, prix spot quotidiens) pour la fenêtre Brent / WTI."""
+    if not EIA_API_KEY:
+        return
+    try:
+        brent = fetch_eia_series("RBRTE", 400)
+        wti = fetch_eia_series("RWTC", 400)
+    except Exception as e:
+        print(f"Erreur Brent / WTI 12 mois (EIA): {e}")
+        return
+    rows = [{"date": d, "brent": brent[d], "wti": wti.get(d)} for d in sorted(brent) if d in wti]
+    if rows:
+        with open(OIL_YEAR_PATH, "w", encoding="utf-8") as f:
+            json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def update_us_crude_stocks():
+    """Stocks commerciaux de brut aux États-Unis, hors réserve stratégique (EIA, série WCESTUS1,
+    publiée le mercredi), en millions de barils, sur 60 semaines."""
+    if not EIA_API_KEY:
+        return
+    url = ("https://api.eia.gov/v2/petroleum/stoc/wstk/data/"
+           f"?api_key={EIA_API_KEY}&frequency=weekly&data[0]=value&facets[series][]=WCESTUS1"
+           "&sort[0][column]=period&sort[0][direction]=desc&length=60")
+    try:
+        r = requests.get(url, timeout=20)
+        r.raise_for_status()
+        rows = r.json()["response"]["data"]
+    except Exception as e:
+        print(f"Erreur stocks de brut US (EIA): {e}")
+        return
+    out = [{"date": row["period"], "mb": round(float(row["value"]) / 1000, 1)} for row in sorted(rows, key=lambda x: x["period"])]
+    if out:
+        with open(US_STOCKS_PATH, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def fetch_fuel_average(field, since):
+    """Prix moyen d'un carburant en France (€/L) sur les stations qui l'ont mis à jour depuis `since`."""
+    r = requests.get(FUEL_URL, params={
+        "select": f"avg({field}_prix) as prix, count({field}_prix) as n",
+        "where": f"{field}_maj >= date'{since}' and {field}_prix > 0",
+    }, timeout=60)
+    r.raise_for_status()
+    row = r.json()["results"][0]
+    return (round(float(row["prix"]), 3) if row.get("prix") else None), row.get("n") or 0
+
+
+def update_fuel_prices():
+    """Moyenne nationale du gazole et du SP95-E10 (flux instantané officiel de la DGCCRF).
+    On ne garde que les prix mis à jour dans les 7 derniers jours, et un historique quotidien
+    de 120 jours. En cas d'erreur, le fichier existant reste en place."""
+    existing = load_json(FUEL_PATH, {})
+    today = datetime.datetime.now(PARIS).date()
+    since = (today - datetime.timedelta(days=7)).isoformat()
+    try:
+        gazole, n_gazole = fetch_fuel_average("gazole", since)
+        e10, n_e10 = fetch_fuel_average("e10", since)
+    except Exception as e:
+        print(f"Erreur prix des carburants (DGCCRF): {e}")
+        return
+    if not gazole or not e10:
+        print("Prix des carburants : réponse vide, on garde le fichier existant.")
+        return
+    history = existing.get("history", {})
+    history[today.isoformat()] = {"gazole": gazole, "e10": e10}
+    keep = sorted(history)[-FUEL_KEEP_DAYS:]
+    history = {d: history[d] for d in keep}
+    ref_day = (today - datetime.timedelta(days=7)).isoformat()
+    older = [d for d in keep if d <= ref_day]
+    change = {}
+    if older:
+        ref = history[older[-1]]
+        change = {"since": older[-1],
+                  "gazole_cts": round((gazole - ref["gazole"]) * 100, 1),
+                  "e10_cts": round((e10 - ref["e10"]) * 100, 1)}
+    out = {"date": today.isoformat(), "gazole": gazole, "e10": e10,
+           "stations": max(n_gazole, n_e10), "change_7d": change, "history": history}
+    with open(FUEL_PATH, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Carburants : gazole {gazole} €/L, SP95-E10 {e10} €/L ({out['stations']} stations)")
+
+
 # ===== Conversion des prix du gaz en €/MWh (unité européenne) =====
 # Les sources américaines (OilPriceAPI, EIA, FMI) donnent des $/MMBtu. On garde ces valeurs
 # et on ajoute l'équivalent en €/MWh, avec le taux de référence de la BCE du jour
@@ -1040,6 +1154,7 @@ def main():
     data = {
         "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
         "brent": label_quote(fetch_brent(existing)),
+        "wti": fetch_wti(existing),
         "henry_hub": add_henry_hub_eur(label_quote(fetch_henry_hub(existing))),
         "mix_france": fetch_mix_france(existing),
         "spot_price_france": spot,
@@ -1051,6 +1166,9 @@ def main():
     enrich_gas_world()
     update_gas_storage()
     update_day_ahead()
+    update_oil_year()
+    update_us_crude_stocks()
+    update_fuel_prices()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:
