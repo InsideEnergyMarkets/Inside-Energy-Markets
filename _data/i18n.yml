@@ -42,10 +42,12 @@ fr:
     fluide: "Trafic fluide"
     partiel: "Partiellement perturbé"
     ferme: "Fortement perturbé"
+    arret: "Quasi à l'arrêt"
   status_short:
     fluide: "Fluide"
     partiel: "Perturbé"
     ferme: "Fortement perturbé"
+    arret: "Quasi à l'arrêt"
   px:
     prev: "Cours précédent"
     "on": "le"
@@ -359,10 +361,12 @@ en:
     fluide: "Normal traffic"
     partiel: "Partly disrupted"
     ferme: "Severely disrupted"
+    arret: "Near standstill"
   status_short:
     fluide: "Normal"
     partiel: "Disrupted"
     ferme: "Severely disrupted"
+    arret: "Near standstill"
   px:
     prev: "Previous price"
     "on": "on"

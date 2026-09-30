@@ -2700,3 +2700,11 @@ html.has-player .nav-ep { display: none; }
 }
 .qs-all:hover { border-color: var(--teal); background: rgba(0, 129, 125, 0.06); color: var(--deep); text-decoration: none; }
 @media (max-width: 640px) { .qs { display: none; } }
+
+/* Détroit quasi à l'arrêt (< 15 % du trafic normal) : même rouge que « fortement perturbé »,
+   badge plein pour le distinguer */
+.traffic-badge.arret, .mt-badge.arret { background: #ff6b5b; color: #0d1638; }
+.mk-strait.arret { border-top-color: #d9463a; }
+.hq-bar--arret i { background: #ff6b5b; }
+.cp-tile.arret { border-top-color: #ff6b5b; }
+.qs-status.arret { color: #c53030; }

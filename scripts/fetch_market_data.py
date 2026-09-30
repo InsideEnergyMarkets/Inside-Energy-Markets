@@ -446,7 +446,8 @@ def fetch_chokepoint_reference(name_fragment):
 
 
 def classify_traffic_status(current, baseline):
-    """Retourne 'fluide', 'partiel' ou 'ferme' selon le ratio trafic actuel / moyenne normale."""
+    """Retourne 'fluide' (>= 80 %), 'partiel' (40-79 %), 'ferme' (15-39 %) ou 'arret' (< 15 %)
+    selon le ratio trafic actuel / moyenne normale."""
     try:
         current = float(current)
         baseline = float(baseline)
@@ -459,8 +460,10 @@ def classify_traffic_status(current, baseline):
         return "fluide"
     elif ratio >= 0.4:
         return "partiel"
-    else:
+    elif ratio >= 0.15:
         return "ferme"
+    else:
+        return "arret"
 
 
 def _pct(value, ref):
