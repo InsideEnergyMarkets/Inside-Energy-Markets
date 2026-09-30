@@ -16,6 +16,8 @@ Récupère les données marché et les écrit dans _data/market.json :
 - Prix des carburants à la pompe en France, moyenne nationale (flux officiel DGCCRF,
   data.economie.gouv.fr, Licence Ouverte, sans clé) : _data/fuel.json
 - Stocks commerciaux de brut aux États-Unis, hebdomadaires (EIA) : _data/us_crude_stocks.json
+- Offre et demande mondiales de pétrole, historique et prévisions (EIA, Short-Term Energy
+  Outlook) : _data/oil_balance.json
   (ENTSO-E Transparency Platform -> secret ENTSOE_API_KEY) : _data/day_ahead.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
@@ -796,6 +798,42 @@ FUEL_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "fuel.json")
 FUEL_URL = ("https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/"
             "prix-des-carburants-en-france-flux-instantane-v2/records")
 FUEL_KEEP_DAYS = 120
+OIL_BALANCE_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "oil_balance.json")
+
+
+def update_oil_balance():
+    """Production (PAPR_WORLD) et consommation (PATC_WORLD) mondiales de pétrole et autres liquides,
+    en millions de barils par jour, 24 mois d'historique et les prévisions de l'EIA (Short-Term
+    Energy Outlook, publié chaque mois). À partir du mois en cours, les valeurs sont des prévisions."""
+    if not EIA_API_KEY:
+        return
+    today = datetime.datetime.now(PARIS).date()
+    start = f"{today.year - 2}-{today.month:02d}"
+    url = ("https://api.eia.gov/v2/steo/data/"
+           f"?api_key={EIA_API_KEY}&frequency=monthly&data[0]=value"
+           "&facets[seriesId][]=PAPR_WORLD&facets[seriesId][]=PATC_WORLD"
+           f"&start={start}&sort[0][column]=period&sort[0][direction]=asc&length=200")
+    try:
+        r = requests.get(url, timeout=30)
+        r.raise_for_status()
+        data = r.json()["response"]["data"]
+    except Exception as e:
+        print(f"Erreur offre et demande mondiales (EIA STEO): {e}")
+        return
+    months = {}
+    for row in data:
+        key = "prod" if row["seriesId"] == "PAPR_WORLD" else "cons"
+        months.setdefault(row["period"], {})[key] = round(float(row["value"]), 2)
+    rows = [{"m": m, "prod": v["prod"], "cons": v["cons"]} for m, v in sorted(months.items()) if "prod" in v and "cons" in v]
+    if not rows:
+        print("Offre et demande mondiales : réponse vide, on garde le fichier existant.")
+        return
+    this_month = f"{today.year}-{today.month:02d}"
+    current = next((r for r in rows if r["m"] == this_month), rows[-1])
+    out = {"forecast_from": this_month, "current": current, "rows": rows}
+    with open(OIL_BALANCE_PATH, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Offre et demande mondiales : {len(rows)} mois, {current['m']} production {current['prod']} / consommation {current['cons']}")
 
 
 def fetch_wti(existing):
@@ -1170,6 +1208,7 @@ def main():
     update_oil_year()
     update_us_crude_stocks()
     update_fuel_prices()
+    update_oil_balance()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:

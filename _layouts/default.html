@@ -1066,6 +1066,35 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
+// ===== Pétrole : offre et demande mondiales (EIA STEO), prévisions en pointillés =====
+(function () {
+  var canvas = document.getElementById('oil-balance-chart');
+  if (!canvas || typeof Chart === 'undefined' || !window.mktOilBalance) return;
+  var ob = window.mktOilBalance, rows = ob.rows;
+  var fc = rows.findIndex(function (r) { return r.m >= ob.forecast_from; });
+  var dash = function (ctx) { return fc >= 0 && ctx.p1DataIndex >= fc ? [5, 4] : undefined; };
+  var month = function (m, long) { var p = m.split('-'); return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString(iemT.locale, { month: long ? 'long' : 'short', year: long ? 'numeric' : '2-digit' }); };
+  var fmt = function (v) { return v.toLocaleString(iemT.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }); };
+  new Chart(canvas, {
+    type: 'line',
+    data: { labels: rows.map(function (r) { return r.m; }), datasets: [
+      { label: iemT.production, data: rows.map(function (r) { return r.prod; }), borderColor: '#4fd1c5', borderWidth: 2, pointRadius: 0, tension: 0.25, segment: { borderDash: dash } },
+      { label: iemT.consumption, data: rows.map(function (r) { return r.cons; }), borderColor: '#e8703a', borderWidth: 2, pointRadius: 0, tension: 0.25, segment: { borderDash: dash } }
+    ] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { callbacks: {
+        title: function (items) { var i = items[0].dataIndex; return month(rows[i].m, true) + (fc >= 0 && i >= fc ? ' (' + iemT.forecast + ')' : ''); },
+        label: function (c) { return c.dataset.label + ' : ' + fmt(c.parsed.y) + ' M b/j'; },
+        afterBody: function (items) { var r = rows[items[0].dataIndex], d = r.prod - r.cons; return (d >= 0 ? '+' : '') + fmt(d) + ' M b/j · ' + iemT.source + 'EIA'; } } } },
+      scales: {
+        x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8, callback: function (v) { return month(this.getLabelForValue(v)); } }, grid: { display: false } },
+        y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+      }
+    }
+  });
+})();
+
 // ===== Gaz dans le monde : moyennes mensuelles FMI (via FRED) =====
 (function () {
   var gw = window.mktGasWorld, canvas = document.getElementById('gw-chart');
