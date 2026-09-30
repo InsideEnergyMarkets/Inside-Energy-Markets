@@ -353,15 +353,163 @@
         <div class="pw-chart"><canvas id="chart-canvas-brent" aria-label="{{ mk.brent_chart_aria }}"></canvas></div>
       </div>
 
+      {% assign ob = site.data.oil_balance %}
       <div class="pw-mix">
-        <p class="pw-label">{{ mk.cmp_label }}</p>
-        <p class="pw-note">{{ mk.cmp_note_1 }} {{ refp }}{{ mk.cmp_note_2 }}</p>
-        <div class="pw-chart pw-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ ormuz.ref_capacity_tanker_mt }}" aria-label="{{ mk.cmp_chart_aria }}"></canvas></div>
-        <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>{{ mk.cmp_legend_tankers }}
-          <span class="mt-sw"></span>Brent ({{ t.units.usd_bbl }})</p>
-        <p class="pw-sub">{{ mk.cmp_sources }}</p>
+        <p class="pw-label">{{ mk.balance_label }}</p>
+        <p class="pw-note">{{ mk.balance_note }}</p>
+        {% if ob and ob.rows.size > 0 %}
+        {% assign obc = ob.current %}
+        {% assign obs = obc.prod | minus: obc.cons | round: 2 %}
+        {% assign obm = obc.m | split: "-" %}{% assign obm_i = obm[1] | plus: 0 | minus: 1 %}
+        <div class="pw-stats">
+          <div><span>{{ mk.production }}</span><strong>{{ obc.prod | round: 1 | replace: ".", dec }}</strong></div>
+          <div><span>{{ mk.consumption }}</span><strong>{{ obc.cons | round: 1 | replace: ".", dec }}</strong></div>
+          <div><span>{% if obs >= 0 %}{{ mk.surplus }}{% else %}{{ mk.deficit }}{% endif %}</span><strong>{% if obs > 0 %}+{% endif %}{{ obs | round: 1 | replace: ".", dec }}</strong></div>
+        </div>
+        <p class="oil-bal-when">{{ mk.mbd_in }} {{ t.months[obm_i] }} {{ obm[0] }}</p>
+        <div class="pw-chart pw-chart--tall"><canvas id="oil-balance-chart" aria-label="{{ mk.balance_aria }}"></canvas></div>
+        <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>{{ mk.production }} <span class="mt-sw"></span>{{ mk.consumption }} <span class="oil-bal-fc">{{ mk.dashed_forecast }}</span></p>
+        <p class="pw-sub">EIA, Short-Term Energy Outlook</p>
+        <script>window.mktOilBalance = {{ ob | jsonify }};</script>
+        {% else %}
+        <p class="pw-sub">{{ mk.pending }}</p>
+        {% endif %}
       </div>
     </div>
+
+    {% assign wti = market.wti %}
+    {% assign oy = site.data.oil_year %}
+    {% assign us = site.data.us_crude_stocks %}
+    <div class="mk-more-row mk-more-row--4">
+      {% if wti.price_usd %}
+      {% assign spread = e.price_usd | minus: wti.price_usd | round: 2 %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-wti">
+        <i class="fa-solid fa-flag-usa" aria-hidden="true"></i>
+        <span><strong>WTI</strong>{% include money2.html value=wti.price_usd %} $ · {{ mk.spread_short }} {% include money2.html value=spread %} $</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
+      {% if us and us.size > 1 %}
+      {% assign us_last = us | last %}{% assign us_prev_i = us.size | minus: 2 %}{% assign us_prev = us[us_prev_i] %}
+      {% assign us_chg = us_last.mb | minus: us_prev.mb | round: 1 %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-us">
+        <i class="fa-solid fa-oil-can" aria-hidden="true"></i>
+        <span><strong>{{ mk.us_stocks }}</strong>{% if us_chg > 0 %}+{% endif %}{{ us_chg | replace: ".", dec }} {{ mk.mb }} {{ mk.in_week }}</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-hz-brent">
+        <i class="fa-solid fa-ship" aria-hidden="true"></i>
+        <span><strong>{{ mk.cmp_tile }}</strong>{{ mk.cmp_tile_sub }}</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% assign fuel = site.data.fuel %}
+      {% if fuel.gazole %}
+      <button type="button" class="mk-link-tile" data-dialog="dlg-pump">
+        <i class="fa-solid fa-gas-pump" aria-hidden="true"></i>
+        <span><strong>{{ mk.pump_label }}</strong>{{ mk.diesel }} {% include money2.html value=fuel.gazole %} € · SP95-E10 {% include money2.html value=fuel.e10 %} €</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
+    </div>
+
+    {% if wti.price_usd %}
+    <dialog class="mk-dialog" id="dlg-wti" aria-labelledby="dlg-wti-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-wti-title">{{ mk.wti_title }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">{{ mk.wti_note }}</p>
+      <div class="mt-kpis">
+        <div class="mt-kpi"><div class="mt-kpi-label">Brent</div><div class="mt-kpi-value">{% include money2.html value=e.price_usd %} <small>$/b</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">WTI</div><div class="mt-kpi-value">{% include money2.html value=wti.price_usd %} <small>$/b</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ mk.spread }}</div><div class="mt-kpi-value">{% include money2.html value=spread %} <small>$/b</small></div></div>
+      </div>
+      {% if oy and oy.size > 0 %}
+      <div class="mt-chart mt-chart--tall"><canvas id="oil-year-chart" aria-label="{{ mk.wti_chart_aria }}"></canvas></div>
+      <p class="mt-legend"><span class="mt-sw mt-sw--orange"></span>Brent <span class="mt-sw mt-sw--yellow"></span>WTI</p>
+      <script>window.mktOilYear = {{ oy | jsonify }};</script>
+      {% endif %}
+      <p class="mt-src">Source{{ t.colon }}{{ wti.source }} ({{ mk.today }}) · EIA ({{ mk.spot_12m }})</p>
+    </dialog>
+    {% endif %}
+
+    {% if us and us.size > 1 %}
+    {% assign us_year_i = us.size | minus: 53 %}{% if us_year_i >= 0 %}{% assign us_year = us[us_year_i] %}{% assign us_yoy = us_last.mb | minus: us_year.mb | round: 1 %}{% endif %}
+    <dialog class="mk-dialog" id="dlg-us" aria-labelledby="dlg-us-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-us-title">{{ mk.us_stocks_title }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">{{ mk.us_note }}</p>
+      <div class="mt-kpis">
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ mk.us_level }} {{ us_last.date | date: "%d/%m" }}</div><div class="mt-kpi-value">{{ us_last.mb | replace: ".", dec }} <small>{{ mk.mb }}</small></div></div>
+        <div class="mt-kpi"><div class="mt-kpi-label">{{ mk.us_week }}</div><div class="mt-kpi-value">{% if us_chg > 0 %}+{% endif %}{{ us_chg | replace: ".", dec }} <small>{{ mk.mb }}</small></div></div>
+        {% if us_yoy != nil %}<div class="mt-kpi"><div class="mt-kpi-label">{{ mk.us_yoy }}</div><div class="mt-kpi-value">{% if us_yoy > 0 %}+{% endif %}{{ us_yoy | replace: ".", dec }} <small>{{ mk.mb }}</small></div></div>{% endif %}
+      </div>
+      <div class="mt-chart mt-chart--tall"><canvas id="us-stocks-chart" aria-label="{{ mk.us_chart_aria }}"></canvas></div>
+      <p class="mt-src">Source{{ t.colon }}EIA, Weekly Petroleum Status Report</p>
+      <script>window.mktUsStocks = {{ us | jsonify }};</script>
+    </dialog>
+    {% endif %}
+
+    {% if fuel.gazole %}
+    {% assign tax = site.data.fuel_taxes %}
+    <dialog class="mk-dialog" id="dlg-pump" aria-labelledby="dlg-pump-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-pump-title">{{ mk.pump_label }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+        {% if fuel.gazole %}
+        {% assign ch = fuel.change_7d %}
+        <div class="oil-pump">
+          <div><span class="oil-pump-name">{{ mk.diesel }}</span><span class="oil-pump-value">{% include money2.html value=fuel.gazole %} <small>€/L</small></span>
+            {% if ch.since %}<span class="oil-pump-chg {% if ch.gazole_cts > 0 %}is-up{% elsif ch.gazole_cts < 0 %}is-down{% endif %}">{% if ch.gazole_cts > 0 %}▲ +{% elsif ch.gazole_cts < 0 %}▼ {% endif %}{{ ch.gazole_cts | replace: ".", dec }} c€ {{ mk.over_7d }}</span>{% endif %}</div>
+          <div><span class="oil-pump-name">SP95-E10</span><span class="oil-pump-value">{% include money2.html value=fuel.e10 %} <small>€/L</small></span>
+            {% if ch.since %}<span class="oil-pump-chg {% if ch.e10_cts > 0 %}is-up{% elsif ch.e10_cts < 0 %}is-down{% endif %}">{% if ch.e10_cts > 0 %}▲ +{% elsif ch.e10_cts < 0 %}▼ {% endif %}{{ ch.e10_cts | replace: ".", dec }} c€ {{ mk.over_7d }}</span>{% endif %}</div>
+        </div>
+        {% assign usd_eur = site.data.fx.latest.usd_per_eur %}
+        {% if e.price_usd and usd_eur %}
+        {% assign p_total = fuel.gazole %}
+        {% assign p_crude = e.price_usd | divided_by: usd_eur | divided_by: 158.987 %}
+        {% assign vat_rate = tax.tva | plus: 1 %}
+        {% assign p_vat = p_total | times: tax.tva | divided_by: vat_rate %}
+        {% assign p_ticpe = tax.ticpe.gazole %}
+        {% assign p_rest = p_total | minus: p_vat | minus: p_ticpe | minus: p_crude %}
+        {% assign w_crude = p_crude | times: 100 | divided_by: p_total | round: 1 %}
+        {% assign w_rest = p_rest | times: 100 | divided_by: p_total | round: 1 %}
+        {% assign w_ticpe = p_ticpe | times: 100 | divided_by: p_total | round: 1 %}
+        {% assign w_vat = p_vat | times: 100 | divided_by: p_total | round: 1 %}
+        {% capture gz_txt %}{% include money2.html value=fuel.gazole %}{% endcapture %}
+        <p class="oil-dec-title">{{ mk.litre_title | replace: "%n", gz_txt }}</p>
+        <div class="oil-dec" role="img" aria-label="{{ mk.litre_aria }}">
+          <span class="oil-dec--crude" style="width: {{ w_crude }}%"></span><span class="oil-dec--rest" style="width: {{ w_rest }}%"></span><span class="oil-dec--ticpe" style="width: {{ w_ticpe }}%"></span><span class="oil-dec--vat" style="width: {{ w_vat }}%"></span>
+        </div>
+        <ul class="oil-dec-legend">
+          <li><i class="oil-dec--crude" aria-hidden="true"></i>{{ mk.part_crude }}<b>{% include money2.html value=p_crude %} €</b></li>
+          <li><i class="oil-dec--rest" aria-hidden="true"></i>{{ mk.part_rest }}<b>{% include money2.html value=p_rest %} €</b></li>
+          <li><i class="oil-dec--ticpe" aria-hidden="true"></i>{{ mk.part_ticpe }}<b>{% include money2.html value=p_ticpe %} €</b></li>
+          <li><i class="oil-dec--vat" aria-hidden="true"></i>{{ mk.part_vat }}<b>{% include money2.html value=p_vat %} €</b></li>
+        </ul>
+        {% endif %}
+        <p class="mt-src">{{ mk.pump_src | replace: "%n", fuel.stations }} {{ fuel.date | date: "%d/%m" }} · DGCCRF · {{ mk.tax_src }}</p>
+        {% else %}
+        <p class="pw-sub">{{ mk.pending }}</p>
+        {% endif %}
+    </dialog>
+    {% endif %}
+
+    <dialog class="mk-dialog" id="dlg-hz-brent" aria-labelledby="dlg-hz-brent-title">
+      <header class="mt-head">
+        <h3 class="mkt-commodity-name" id="dlg-hz-brent-title">{{ mk.cmp_label }}</h3>
+        <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
+      </header>
+      <p class="mt-kpi-note">{{ mk.cmp_note_1 }} {{ refp }}{{ mk.cmp_note_2 }}</p>
+      <div class="mt-chart mt-chart--tall"><canvas id="mt-brent-cmp" data-ref="{{ ormuz.ref_capacity_tanker_mt }}" aria-label="{{ mk.cmp_chart_aria }}"></canvas></div>
+        <p class="mt-legend"><span class="mt-sw mt-sw--teal"></span>{{ mk.cmp_legend_tankers }}
+          <span class="mt-sw"></span>Brent ({{ t.units.usd_bbl }})</p>
+      <p class="mt-src">{{ mk.cmp_sources }}</p>
+    </dialog>
   </div>
 </section>
 

@@ -2752,3 +2752,29 @@ html.has-player .nav-ep { display: none; }
 .mk-dialog .da-when { margin-left: 6px; vertical-align: 1px; }
 .da-dlg-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
 .da-dlg-actions button.mk-open i { font-size: 11px; color: #4fd1c5; }
+/* Rubrique Pétrole : prix à la pompe et décomposition du litre de gazole */
+.oil-pump { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 16px; }
+.oil-pump > div { background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.oil-pump-name { font-size: 11px; color: rgba(255, 255, 255, 0.55); }
+.oil-pump-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; line-height: 1.2; }
+.oil-pump-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.oil-pump-chg { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.6); }
+.oil-pump-chg.is-up { color: #ff6b5b; }
+.oil-pump-chg.is-down { color: #3ddc97; }
+.oil-dec-title { margin: 0 0 8px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.oil-dec { display: flex; height: 16px; border-radius: 6px; overflow: hidden; }
+.oil-dec span { display: block; height: 100%; }
+.oil-dec--crude { background: #e8703a; }
+.oil-dec--rest { background: #4fd1c5; }
+.oil-dec--ticpe { background: #8fa3c8; }
+.oil-dec--vat { background: #c9d3dd; }
+.oil-dec-legend { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; font-size: 13px; color: rgba(255, 255, 255, 0.8); }
+.oil-dec-legend li { display: flex; align-items: center; gap: 8px; }
+.oil-dec-legend i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.oil-dec-legend b { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+.mk-more-row--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .mk-more-row--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .mk-more-row--4 { grid-template-columns: 1fr; } }
+.mt-sw--yellow { border-top-color: #e8b33a; }
+.oil-bal-when { margin: -8px 0 8px; font-size: 11px; color: rgba(255, 255, 255, 0.45); }
+.oil-bal-fc { margin-left: 10px; color: rgba(255, 255, 255, 0.45); }
