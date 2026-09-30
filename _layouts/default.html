@@ -1095,6 +1095,110 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   });
 })();
 
+// ===== Simulateur éducatif de positions fictives (page /simulateur/) =====
+// Positions gardées dans le navigateur (localStorage, avec repli en mémoire), P&L recalculé
+// avec le dernier cours du site. Aucun argent réel, aucune recommandation.
+(function () {
+  var form = document.getElementById('sim-form');
+  if (!form || !window.simData) return;
+  var Q = window.simData.quotes, KEY = 'iem-sim-v1';
+  var state = { open: [], closed: [] }, canStore = true;
+  try { var raw = localStorage.getItem(KEY); if (raw) state = JSON.parse(raw) || state; } catch (e) { canStore = false; }
+  if (!Array.isArray(state.open)) state.open = [];
+  if (!Array.isArray(state.closed)) state.closed = [];
+  if (!canStore) document.getElementById('sim-storage').hidden = false;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { document.getElementById('sim-storage').hidden = false; } }
+  var loc = iemT.locale;
+  var num = function (v, d) { return v.toLocaleString(loc, { minimumFractionDigits: d, maximumFractionDigits: d }); };
+  var money = function (v) { return (v > 0 ? '+' : '') + num(v, 2) + ' $ ' + iemT.sim_fictive; };
+  var pct = function (v) { return (v > 0 ? '+' : '') + num(v, 2) + ' %'; };
+  var day = function (d) { var p = (d || '').split('-'); return p.length === 3 ? p[2] + '/' + p[1] : ''; };
+  function result(p, price) {
+    var sign = p.dir === 'short' ? -1 : 1;
+    return { pnl: (price - p.entry) * p.qty * sign, pct: (price - p.entry) / p.entry * 100 * sign };
+  }
+  function cell(text, cls) { var td = document.createElement('td'); if (cls) td.className = cls; td.textContent = text; return td; }
+  function pnlCell(r) {
+    var td = cell(money(r.pnl) + ' (' + pct(r.pct) + ')', 'num sim-pnl ' + (r.pnl > 0 ? 'is-gain' : r.pnl < 0 ? 'is-loss' : ''));
+    return td;
+  }
+  function render() {
+    var tb = document.querySelector('#sim-open tbody'), total = 0;
+    tb.textContent = '';
+    state.open.forEach(function (p) {
+      var q = Q[p.c]; if (!q) return;
+      var now = q.price != null ? q.price : p.entry, r = result(p, now);
+      total += r.pnl;
+      var tr = document.createElement('tr');
+      tr.appendChild(cell(q.name));
+      tr.appendChild(cell(p.dir === 'short' ? iemT.sim_short : iemT.sim_long, 'sim-dir-' + p.dir));
+      tr.appendChild(cell(num(p.qty, 0), 'num'));
+      tr.appendChild(cell(num(p.entry, 2) + ' ' + q.unit + ' · ' + day(p.date), 'num'));
+      tr.appendChild(cell(num(now, 2) + ' ' + q.unit + ' · ' + day(q.date), 'num'));
+      tr.appendChild(pnlCell(r));
+      var risk = document.createElement('td');
+      if (q.risk) { var b = document.createElement('span'); b.className = 'mt-badge ' + q.risk.cls; b.textContent = q.risk.text; risk.appendChild(b); }
+      tr.appendChild(risk);
+      var act = document.createElement('td'), btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'sim-close'; btn.textContent = iemT.sim_close; btn.setAttribute('aria-label', iemT.sim_close_aria);
+      btn.addEventListener('click', function () {
+        state.open = state.open.filter(function (x) { return x.id !== p.id; });
+        var fin = result(p, now);
+        state.closed.unshift({ id: p.id, c: p.c, dir: p.dir, qty: p.qty, entry: p.entry, date: p.date, exit: now, exitDate: q.date, pnl: fin.pnl, pct: fin.pct });
+        state.closed = state.closed.slice(0, 50);
+        save(); render();
+      });
+      act.appendChild(btn); tr.appendChild(act);
+      tb.appendChild(tr);
+    });
+    document.getElementById('sim-open-empty').hidden = state.open.length > 0;
+    document.getElementById('sim-open').hidden = state.open.length === 0;
+    var tot = document.getElementById('sim-total');
+    tot.hidden = state.open.length === 0;
+    tot.textContent = iemT.sim_total + ' ' + money(total);
+    tot.className = 'sim-total ' + (total > 0 ? 'is-gain' : total < 0 ? 'is-loss' : '');
+
+    var tc = document.querySelector('#sim-closed tbody');
+    tc.textContent = '';
+    state.closed.forEach(function (p) {
+      var q = Q[p.c]; if (!q) return;
+      var tr = document.createElement('tr');
+      tr.appendChild(cell(q.name));
+      tr.appendChild(cell(p.dir === 'short' ? iemT.sim_short : iemT.sim_long, 'sim-dir-' + p.dir));
+      tr.appendChild(cell(num(p.qty, 0), 'num'));
+      tr.appendChild(cell(num(p.entry, 2) + ' ' + q.unit + ' · ' + day(p.date), 'num'));
+      tr.appendChild(cell(num(p.exit, 2) + ' ' + q.unit + ' · ' + day(p.exitDate), 'num'));
+      tr.appendChild(pnlCell(p));
+      tc.appendChild(tr);
+    });
+    document.getElementById('sim-closed-empty').hidden = state.closed.length > 0;
+    document.getElementById('sim-closed').hidden = state.closed.length === 0;
+    document.getElementById('sim-clear').hidden = state.closed.length === 0;
+  }
+  var sel = document.getElementById('sim-c'), qty = document.getElementById('sim-qty'), err = document.getElementById('sim-error');
+  function syncForm() {
+    var q = Q[sel.value];
+    document.getElementById('sim-entry-price').textContent = q && q.price != null ? num(q.price, 2) + ' ' + q.unit + ' (' + day(q.date) + ')' : '-';
+    document.getElementById('sim-qty-label').textContent = q.qtyLabel;
+  }
+  sel.addEventListener('change', syncForm);
+  qty.addEventListener('input', function () { err.hidden = true; });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = Q[sel.value], n = Number(qty.value);
+    if (!Number.isInteger(n) || n < 1 || n > 10000000) { err.textContent = iemT.sim_err_qty; err.hidden = false; qty.focus(); return; }
+    if (!q || q.price == null) { err.textContent = iemT.sim_err_price; err.hidden = false; return; }
+    var dir = form.querySelector('input[name="dir"]:checked').value;
+    state.open.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), c: sel.value, dir: dir, qty: n, entry: q.price, date: q.date });
+    err.hidden = true; save(); render();
+  });
+  document.getElementById('sim-clear').addEventListener('click', function () {
+    if (!window.confirm(iemT.sim_confirm_clear)) return;
+    state.closed = []; save(); render();
+  });
+  syncForm(); render();
+})();
+
 // ===== Gaz dans le monde : moyennes mensuelles FMI (via FRED) =====
 (function () {
   var gw = window.mktGasWorld, canvas = document.getElementById('gw-chart');
