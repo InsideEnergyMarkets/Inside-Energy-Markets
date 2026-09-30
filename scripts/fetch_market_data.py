@@ -11,6 +11,8 @@ Récupère les données marché et les écrit dans _data/market.json :
 - Exportations mensuelles de GNL des États-Unis (EIA) : _data/lng_exports.json
 - Prix mondiaux du gaz par mois (FMI via la FRED) : Europe, Asie, États-Unis : _data/gas_world.json
 - Stocks de gaz en Europe et en France (GIE AGSI+ -> secret GIE_API_KEY) : _data/gas_storage.json
+- Prix day-ahead de l'électricité, France et pays voisins, aujourd'hui et demain
+  (ENTSO-E Transparency Platform -> secret ENTSOE_API_KEY) : _data/day_ahead.json
 
 Garde aussi un historique (_data/market_history.json, 60 derniers jours) et calcule
 un résumé hebdomadaire (_data/weekly_summary.json). Chaque prix de l'historique est
@@ -38,6 +40,7 @@ EIA_API_KEY = os.environ.get("EIA_API_KEY", "")
 RTE_BASE64_KEY = os.environ.get("RTE_BASE64_KEY", "")
 GIE_API_KEY = os.environ.get("GIE_API_KEY", "")
 OILPRICEAPI_KEY = os.environ.get("OILPRICEAPI_KEY", "")
+ENTSOE_API_KEY = os.environ.get("ENTSOE_API_KEY", "")
 
 
 def load_existing():
@@ -650,6 +653,138 @@ def update_gas_storage():
         json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
 
 
+# ===== Prix day-ahead de l'électricité (ENTSO-E Transparency Platform) =====
+# Résultat de l'enchère journalière européenne (publiée vers 13 h pour le lendemain), au pas
+# de 15 minutes. France : moyenne de la journée, pointe (8 h-20 h, jours ouvrés), prix heure
+# par heure, heures les moins et les plus chères. Pays voisins : moyenne de la journée.
+# On garde les 7 derniers jours ; en cas d'erreur, le fichier existant reste en place.
+DAY_AHEAD_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "day_ahead.json")
+ENTSOE_URL = "https://web-api.tp.entsoe.eu/api"
+ENTSOE_ZONES = {
+    "FR": "10YFR-RTE------C",
+    "DE": "10Y1001A1001A82H",   # Allemagne-Luxembourg
+    "BE": "10YBE----------2",
+    "NL": "10YNL----------L",
+    "ES": "10YES-REE------0",
+    "IT": "10Y1001A1001A73I",   # Italie Nord
+    "CH": "10YCH-SWISSGRIDZ",
+}
+DAY_AHEAD_KEEP_DAYS = 7
+
+
+def fetch_entsoe_day_ahead(eic, start_utc, end_utc):
+    """Prix day-ahead d'une zone : {datetime UTC du quart d'heure: prix en €/MWh}.
+    Les séries horaires sont ramenées au quart d'heure ; les points absents (compression
+    de courbe A03) reprennent le prix du point précédent."""
+    import xml.etree.ElementTree as ET
+    r = requests.get(ENTSOE_URL, params={
+        "securityToken": ENTSOE_API_KEY, "documentType": "A44",
+        "in_Domain": eic, "out_Domain": eic, "contract_MarketAgreement.type": "A01",
+        "periodStart": start_utc.strftime("%Y%m%d%H%M"), "periodEnd": end_utc.strftime("%Y%m%d%H%M"),
+    }, timeout=60)
+    r.raise_for_status()
+    root = ET.fromstring(r.content)
+    for el in root.iter():
+        el.tag = el.tag.split("}", 1)[-1]
+    quarters = {}
+    for period in root.iter("Period"):
+        start = datetime.datetime.strptime(period.find("timeInterval/start").text, "%Y-%m-%dT%H:%MZ")
+        end = datetime.datetime.strptime(period.find("timeInterval/end").text, "%Y-%m-%dT%H:%MZ")
+        step = {"PT15M": 15, "PT30M": 30, "PT60M": 60}.get(period.find("resolution").text)
+        if not step:
+            continue
+        points = {int(pt.find("position").text): float(pt.find("price.amount").text) for pt in period.iter("Point")}
+        n = int((end - start).total_seconds() // 60 // step)
+        price = None
+        for pos in range(1, n + 1):
+            price = points.get(pos, price)
+            if price is None:
+                continue
+            t0 = start + datetime.timedelta(minutes=(pos - 1) * step)
+            for k in range(step // 15):
+                quarters[t0 + datetime.timedelta(minutes=15 * k)] = price
+    return quarters
+
+
+def day_ahead_by_paris_day(quarters):
+    """Regroupe les quarts d'heure par jour de Paris : {date: [(heure locale, prix), ...]}."""
+    days = {}
+    for t, price in sorted(quarters.items()):
+        local = t.replace(tzinfo=datetime.timezone.utc).astimezone(PARIS)
+        days.setdefault(local.date().isoformat(), []).append((local, price))
+    return days
+
+
+def summarize_day_ahead(rows):
+    """Statistiques d'une journée (liste de (heure locale, prix) au quart d'heure)."""
+    hours = {}
+    for local, price in rows:
+        hours.setdefault(local.strftime("%H"), []).append(price)
+    hourly = [[h, round(sum(v) / len(v), 2)] for h, v in sorted(hours.items())]
+    values = [p for _, p in rows]
+    peak = [p for local, p in rows if 8 <= local.hour < 20] if rows[0][0].weekday() < 5 else []
+    low = min(hourly, key=lambda x: x[1])
+    high = max(hourly, key=lambda x: x[1])
+    return {
+        "avg": round(sum(values) / len(values), 2),
+        "peak": round(sum(peak) / len(peak), 2) if peak else None,
+        "min": {"hour": low[0], "value": low[1]},
+        "max": {"hour": high[0], "value": high[1]},
+        "negative_hours": sum(1 for _, v in hourly if v < 0),
+        "hourly": hourly,
+    }
+
+
+def update_day_ahead():
+    if not ENTSOE_API_KEY:
+        print("ENTSOE_API_KEY manquant, prix day-ahead non mis à jour.")
+        return
+    existing = load_json(DAY_AHEAD_PATH, {})
+    today = datetime.datetime.now(PARIS).date()
+    start = datetime.datetime.combine(today - datetime.timedelta(days=1), datetime.time(), PARIS)
+    end = datetime.datetime.combine(today + datetime.timedelta(days=2), datetime.time(), PARIS)
+    start_utc = start.astimezone(datetime.timezone.utc).replace(tzinfo=None)
+    end_utc = end.astimezone(datetime.timezone.utc).replace(tzinfo=None)
+
+    fr = dict(existing.get("fr", {}))
+    neighbors = {k: dict(v) for k, v in existing.get("neighbors", {}).items()}
+    for code, eic in ENTSOE_ZONES.items():
+        try:
+            days = day_ahead_by_paris_day(fetch_entsoe_day_ahead(eic, start_utc, end_utc))
+        except Exception as e:
+            print(f"Erreur day-ahead ENTSO-E ({code}): {e}")
+            continue
+        for date, rows in days.items():
+            if len(rows) < 92:   # journée incomplète (bord de la fenêtre demandée)
+                continue
+            if code == "FR":
+                fr[date] = summarize_day_ahead(rows)
+            else:
+                neighbors.setdefault(code, {})[date] = round(sum(p for _, p in rows) / len(rows), 2)
+
+    if not fr:
+        print("Day-ahead : aucune donnée France, on garde le fichier existant.")
+        return
+    keep = sorted(fr)[-DAY_AHEAD_KEEP_DAYS:]
+    fr = {d: fr[d] for d in keep}
+    for i, d in enumerate(keep[1:], start=1):
+        prev = fr[keep[i - 1]]["avg"]
+        fr[d]["change_pct"] = round((fr[d]["avg"] - prev) / abs(prev) * 100, 1) if prev else None
+        fr[d]["prev_value"] = prev
+        fr[d]["prev_date"] = keep[i - 1]
+    neighbors = {k: {d: v[d] for d in sorted(v) if d in fr} for k, v in neighbors.items()}
+    out = {
+        "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
+        "source": "ENTSO-E",
+        "latest": keep[-1],
+        "fr": fr,
+        "neighbors": neighbors,
+    }
+    with open(DAY_AHEAD_PATH, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+    print("Day-ahead :", ", ".join(f"{d} {fr[d]['avg']} €/MWh" for d in keep[-2:]))
+
+
 # ===== Conversion des prix du gaz en €/MWh (unité européenne) =====
 # Les sources américaines (OilPriceAPI, EIA, FMI) donnent des $/MMBtu. On garde ces valeurs
 # et on ajoute l'équivalent en €/MWh, avec le taux de référence de la BCE du jour
@@ -915,6 +1050,7 @@ def main():
     update_gas_world()
     enrich_gas_world()
     update_gas_storage()
+    update_day_ahead()
 
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:

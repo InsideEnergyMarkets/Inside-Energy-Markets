@@ -27,6 +27,7 @@ jobs:
           RTE_BASE64_KEY: ${{ secrets.RTE_BASE64_KEY }}
           OILPRICEAPI_KEY: ${{ secrets.OILPRICEAPI_KEY }}
           GIE_API_KEY: ${{ secrets.GIE_API_KEY }}
+          ENTSOE_API_KEY: ${{ secrets.ENTSOE_API_KEY }}
         run: python scripts/fetch_market_data.py
 
       - name: Commit updated data

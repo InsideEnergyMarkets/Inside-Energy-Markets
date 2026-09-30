@@ -84,6 +84,7 @@
           </div>
         </div>
         <div class="pw-chart"><canvas id="chart-canvas-spot" aria-label="{{ mk.spot_chart_aria }}"></canvas></div>
+        {% if site.data.day_ahead.latest %}<a class="mk-open da-open" href="{{ u.day_ahead | relative_url }}">{{ mk.day_ahead_link }} <span aria-hidden="true">→</span></a>{% endif %}
       </div>
 
       <div class="pw-mix">

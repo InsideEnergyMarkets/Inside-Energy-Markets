@@ -1,0 +1,74 @@
+{% comment %}
+  Page « Prix de l'électricité demain » (prix-electricite-demain/ et en/electricity-price-tomorrow/).
+  Données : _data/day_ahead.json (ENTSO-E, via scripts/fetch_market_data.py). La journée affichée est
+  la plus récente publiée : demain après l'enchère de la mi-journée, sinon aujourd'hui. Le badge
+  « Demain » / « Aujourd'hui » est posé par le script du layout, d'après la date du visiteur.
+{% endcomment %}
+{% include i18n.html %}
+{% assign da = t.da %}
+{% assign dad = site.data.day_ahead %}
+{% assign d = dad.latest %}
+{% assign day = dad.fr[d] %}
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">{{ da.eyebrow }}</p>
+    <h1>{{ da.title }}</h1>
+    <p class="lead-sm">{{ da.lead }}</p>
+  </div>
+</section>
+
+<section class="mk-section da-section">
+  <div class="wrap">
+    {% if day %}
+    {% assign wd = d | date: "%w" | plus: 0 %}
+    <div class="pw-card da-card">
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">{{ da.avg_label }}</p>
+          <span class="da-when" data-da-date="{{ d }}" hidden></span>
+        </div>
+        <p class="da-date">{{ t.weekdays[wd] | capitalize }} {% include date.html date=d %}</p>
+        <p class="pw-value">{{ day.avg | round: 2 | replace: ".", dec }} <small>€/MWh</small>{% include price-change.html entry=day %}</p>
+        <div class="pw-stats da-stats">
+          <div><span>{{ da.peak }}</span><strong>{% if day.peak != nil %}{{ day.peak | round: 0 }} €{% else %}-{% endif %}</strong></div>
+          <div><span>{{ da.cheapest }}</span><strong>{{ day.min.hour | plus: 0 }} h · {{ day.min.value | round: 0 }} €</strong></div>
+          <div><span>{{ da.dearest }}</span><strong>{{ day.max.hour | plus: 0 }} h · {{ day.max.value | round: 0 }} €</strong></div>
+        </div>
+        {% if day.negative_hours > 0 %}<p class="da-neg">{{ da.negative | replace: "%n", day.negative_hours }}</p>{% endif %}
+        <p class="pw-sub da-src">ENTSO-E Transparency Platform</p>
+      </div>
+      <div class="pw-mix da-hours">
+        <p class="pw-label">{{ da.hourly_label }}</p>
+        <div class="da-chart"><canvas id="da-chart" aria-label="{{ da.chart_aria }}"></canvas></div>
+      </div>
+    </div>
+    <script>
+      window.daHourly = { rows: {{ day.hourly | jsonify }}, unit: "€/MWh" };
+    </script>
+
+    {% assign nb = dad.neighbors %}
+    <div class="da-compare">
+      <h2 class="da-h2">{{ da.compare_title }}</h2>
+      <p class="mk-lead">{{ da.compare_lead }}</p>
+      <div class="da-compare-card">
+        <div class="da-compare-chart" style="height: {{ da.zone_order.size | plus: 1 | times: 38 | plus: 30 }}px"><canvas id="da-compare-chart" aria-label="{{ da.compare_aria }}"></canvas></div>
+        <p class="da-compare-src">ENTSO-E Transparency Platform</p>
+      </div>
+      <script>
+        window.daNeighbors = { fr: {{ da.zones.FR | jsonify }}, rows: [{"name": {{ da.zones.FR | jsonify }}, "value": {{ day.avg }}, "fr": true}{% for code in da.zone_order %}{% assign zone = nb[code] %}{% assign v = zone[d] %}{% if v != nil %}, {"name": {{ da.zones[code] | jsonify }}, "value": {{ v }}}{% endif %}{% endfor %}] };
+      </script>
+    </div>
+    {% else %}
+    <p class="mk-lead">{{ da.pending }}</p>
+    {% endif %}
+
+    <div class="da-explain">
+      <h2 class="da-h2">{{ da.how_title }}</h2>
+      {% for para in da.how %}<p>{{ para }}</p>{% endfor %}
+      <p class="da-links">
+        <a href="{{ u.markets | relative_url }}#{{ t.ids.power }}">{{ da.link_markets }} <span aria-hidden="true">→</span></a>
+        <a href="{{ u.episodes | relative_url }}">{{ da.link_episodes }} <span aria-hidden="true">→</span></a>
+      </p>
+    </div>
+  </div>
+</section>

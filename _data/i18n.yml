@@ -12,6 +12,7 @@ fr:
   close: "Fermer"
   contact: "Me contacter"
   to: "au"
+  weekdays: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
   months: [janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
   url:
     home: "/"
@@ -19,6 +20,7 @@ fr:
     markets: "/marches/"
     blog: "/blog/"
     about: "/about/"
+    day_ahead: "/prix-electricite-demain/"
   ids:
     power: electricite
     gas: gaz
@@ -131,6 +133,37 @@ fr:
     path_iem_launched: "Le podcast, lancé en %m %y, puis ce site : analyses et données de marché en direct."
     themes_kicker: "Les sujets du podcast"
     themes: ["Mix électrique français", "Réseaux", "Renouvelables et intermittence", "Gaz naturel et GNL", "Taxes et fiscalité", "Formation des prix", "Marchés spot et à terme", "Volatilité", "Couverture et instruments financiers", "Stratégies d'achat"]
+  da:
+    eyebrow: "Électricité · France"
+    title: "Prix de l'électricité demain"
+    lead: "Le prix day-ahead de l'électricité en France, heure par heure, fixé la veille lors de l'enchère européenne."
+    avg_label: "Prix day-ahead, moyenne de la journée"
+    peak: "Pointe (8 h-20 h)"
+    cheapest: "Heure la moins chère"
+    dearest: "Heure la plus chère"
+    negative: "Prix négatif pendant %n h dans la journée."
+    hourly_label: "Prix heure par heure (€/MWh)"
+    chart_aria: "Prix day-ahead de l'électricité en France, heure par heure"
+    compare_title: "La France et ses voisins"
+    compare_lead: "Moyenne de la même journée dans les pays interconnectés avec la France."
+    compare_aria: "Prix day-ahead moyen de la journée, France et pays voisins"
+    zones:
+      FR: "France"
+      DE: "Allemagne-Luxembourg"
+      BE: "Belgique"
+      NL: "Pays-Bas"
+      CH: "Suisse"
+      IT: "Italie (Nord)"
+      ES: "Espagne"
+    zone_order: [DE, BE, NL, CH, IT, ES]
+    pending: "Prix en cours de récupération."
+    how_title: "Comment est fixé le prix de demain ?"
+    how:
+      - "Chaque jour avant midi, producteurs, fournisseurs et traders envoient leurs offres d'achat et de vente pour le lendemain. L'enchère européenne croise toutes ces offres et publie, vers 13 h, un prix pour chaque quart d'heure de la journée suivante, zone par zone."
+      - "Le prix de base est la moyenne de la journée entière. La pointe couvre les heures de 8 h à 20 h des jours ouvrés, quand la consommation est la plus forte. Quand le solaire et l'éolien produisent plus que ce que le système peut absorber, le prix peut devenir négatif : les producteurs paient alors pour injecter leur électricité."
+      - "Les écarts entre la France et ses voisins reflètent les capacités d'échange aux frontières. Quand ces interconnexions sont saturées, les prix des deux côtés se séparent."
+    link_markets: "Le marché de l'électricité en direct"
+    link_episodes: "Comprendre la formation des prix en podcast"
   quotes:
     spot: "Spot France"
     hormuz: "Ormuz"
@@ -186,6 +219,7 @@ fr:
     power_fr: "Électricité FR"
     power_lead: "Prix de gros du jour et façon dont l'électricité est produite en ce moment."
     spot_label: "Prix spot, moyenne du jour"
+    day_ahead_link: "Prix de demain, heure par heure"
     avg7: "Moyenne 7 j"
     history: "Historique"
     spot_chart_aria: "Prix spot de l'électricité, historique"
@@ -265,6 +299,9 @@ fr:
     updated: "Données marché mises à jour le"
   js:
     locale: "fr-FR"
+    da_tomorrow: "Demain"
+    da_today: "Aujourd'hui"
+    da_gap: "écart avec la France"
     colon: " : "
     source: "Source : "
     episode: "Épisode"
@@ -331,6 +368,7 @@ en:
   close: "Close"
   contact: "Get in touch"
   to: "to"
+  weekdays: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
   months: [January, February, March, April, May, June, July, August, September, October, November, December]
   url:
     home: "/en/"
@@ -338,6 +376,7 @@ en:
     markets: "/en/markets/"
     blog: "/en/blog/"
     about: "/en/about/"
+    day_ahead: "/en/electricity-price-tomorrow/"
   ids:
     power: electricity
     gas: gas
@@ -450,6 +489,37 @@ en:
     path_iem_launched: "The podcast, launched in %m %y, then this site: analysis and live market data."
     themes_kicker: "Podcast topics"
     themes: ["The French power mix", "Grids", "Renewables and intermittency", "Natural gas and LNG", "Energy taxes", "Price formation", "Spot and forward markets", "Volatility", "Hedging and financial instruments", "Procurement strategies"]
+  da:
+    eyebrow: "Power · France"
+    title: "Electricity price tomorrow"
+    lead: "The French day-ahead electricity price, hour by hour, set the day before in the European auction."
+    avg_label: "Day-ahead price, daily average"
+    peak: "Peak (8am-8pm)"
+    cheapest: "Cheapest hour"
+    dearest: "Most expensive hour"
+    negative: "Negative price for %n h during the day."
+    hourly_label: "Hourly price (€/MWh)"
+    chart_aria: "French day-ahead electricity price, hour by hour"
+    compare_title: "France and its neighbours"
+    compare_lead: "Average for the same day in the countries interconnected with France."
+    compare_aria: "Average day-ahead price for the day, France and neighbouring countries"
+    zones:
+      FR: "France"
+      DE: "Germany-Luxembourg"
+      BE: "Belgium"
+      NL: "Netherlands"
+      CH: "Switzerland"
+      IT: "Italy (North)"
+      ES: "Spain"
+    zone_order: [DE, BE, NL, CH, IT, ES]
+    pending: "Prices are being retrieved."
+    how_title: "How is tomorrow's price set?"
+    how:
+      - "Every day before noon, producers, suppliers and traders submit their buy and sell orders for the next day. The European auction matches all these orders and publishes, around 1pm (Paris time), a price for every quarter-hour of the following day, zone by zone."
+      - "The baseload price is the average over the whole day. Peak covers 8am to 8pm on working days, when demand is highest. When solar and wind produce more than the system can absorb, the price can turn negative: producers then pay to feed in their power."
+      - "Price gaps between France and its neighbours reflect cross-border capacity. When interconnectors are congested, prices on each side split apart."
+    link_markets: "Live power market data"
+    link_episodes: "Understand price formation in the podcast"
   quotes:
     spot: "France spot"
     hormuz: "Hormuz"
@@ -505,6 +575,7 @@ en:
     power_fr: "French power"
     power_lead: "Today's wholesale price and how electricity is being generated right now."
     spot_label: "Spot price, daily average"
+    day_ahead_link: "Tomorrow's price, hour by hour"
     avg7: "7-day average"
     history: "History"
     spot_chart_aria: "Electricity spot price, history"
@@ -584,6 +655,9 @@ en:
     updated: "Market data updated"
   js:
     locale: "en-GB"
+    da_tomorrow: "Tomorrow"
+    da_today: "Today"
+    da_gap: "gap with France"
     colon: ": "
     source: "Source: "
     episode: "Episode"
