@@ -1115,7 +1115,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   var day = function (d) { var p = (d || '').split('-'); return p.length === 3 ? p[2] + '/' + p[1] : ''; };
   function result(p, price) {
     var sign = p.dir === 'short' ? -1 : 1;
-    return { pnl: (price - p.entry) * p.qty * sign, pct: (price - p.entry) / p.entry * 100 * sign };
+    // « || 0 » évite d'afficher « -0,00 » pour une position courte sans variation
+    return { pnl: (price - p.entry) * p.qty * sign || 0, pct: (price - p.entry) / p.entry * 100 * sign || 0 };
   }
   function cell(text, cls) { var td = document.createElement('td'); if (cls) td.className = cls; td.textContent = text; return td; }
   function pnlCell(r) {
