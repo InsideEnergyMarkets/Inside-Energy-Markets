@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-01T18:48:53+00:00",
+ "updated_at": "2026-10-01T20:46:05+00:00",
  "stats": {
-  "total_30d": 21,
-  "attacks_30d": 15,
+  "total_30d": 22,
+  "attacks_30d": 16,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 15
+    "n": 16
    },
    {
     "place": "Golfe d'Aden",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-147",
+   "number": 147,
+   "date": "2026-10-01T20:00:00Z",
+   "type": "Attack",
+   "lat": 26.3833,
+   "lon": 56.4167,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "Tanker",
+   "summary": "UKMTO has received a third-party report of a tanker being stuck by an unknown projectile while transiting the Strait of Hormuz, resulting in a fire. Crew have been reported safe, damage assessment and environmental impact is unknown at time of report."
+  },
   {
    "id": "UKMTO-2026-146",
    "number": 146,
