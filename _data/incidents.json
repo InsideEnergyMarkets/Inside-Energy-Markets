@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-02T12:50:37+00:00",
+ "updated_at": "2026-10-02T14:48:34+00:00",
  "stats": {
-  "total_30d": 22,
-  "attacks_30d": 16,
+  "total_30d": 21,
+  "attacks_30d": 15,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 16
+    "n": 15
    },
    {
     "place": "Golfe d'Aden",
