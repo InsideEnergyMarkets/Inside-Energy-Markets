@@ -4,6 +4,7 @@ date: 2026-09-09
 image: /assets/img/gnl-cargo.jpg
 tags: [LNG, Gas, Geopolitics]
 ref: gnl-europe
+redirect_from: /en/blog/lng-new-backbone-european-gas/
 ---
 
 Since 2022, Europe has changed gas suppliers without really changing its dependence. The Russian pipeline has given way to the American LNG carrier, and this shift is deeply reshaping the geopolitics of energy on the continent.

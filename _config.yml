@@ -5,7 +5,7 @@ url: "https://insideenergymarkets.com"
 baseurl: ""
 
 markdown: kramdown
-permalink: /blog/:title/
+permalink: /analyses/:title/
 
 collections:
   episodes:
@@ -38,7 +38,7 @@ defaults:
       layout: post
       lang: en
       locale: en_GB
-      permalink: /en/blog/:title/
+      permalink: /en/analysis/:title/
   - scope:
       path: "en"
     values:
@@ -66,6 +66,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
+  - jekyll-redirect-from
 
 logo: /assets/img/hero.png
 twitter:

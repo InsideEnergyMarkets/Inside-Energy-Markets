@@ -50,7 +50,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 ## Deux langues (FR à la racine, EN sous /en/)
 
 - Chaque page = un fichier court par langue (`index.html` / `en/index.html`, `marches/` / `en/markets/`,
-  `episodes/`, `blog/`, `about/`) qui inclut le même gabarit `_includes/pages/<page>.html`.
+  `episodes/`, `analyses/` (`en/analysis/`), `about/`) qui inclut le même gabarit `_includes/pages/<page>.html`.
   Front matter : `ref` (relie les deux versions pour le sélecteur FR | EN et les `hreflang`), `lang` via
   les `defaults` de `_config.yml` (tout ce qui est sous `en/` est en anglais).
 - Textes : `_data/i18n.yml` (sections `fr` et `en`, mêmes clés ; `js:` pour les scripts du layout, lus via
@@ -95,11 +95,11 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
-- Rubrique « Analyses » / « Analysis » (ex-Blog, adresse /blog/ inchangée) : en tête la note de marché de la semaine
+- Rubrique « Analyses » / « Analysis » (ex-Blog ; adresses /analyses/ et /en/analysis/, anciennes /blog/ redirigées par jekyll-redirect-from) : en tête la note de marché de la semaine
   (`id="notes"`), puis les articles, puis les notes précédentes. Pas de pages /notes/.
 - Note de marché hebdo : `scripts/generate_note.py` (workflow `weekly-note.yml`, lundi 05:00 UTC, puis IndexNow) écrit
-  `_notes/AAAA-SS-fr.md` / `-en.md` (collection, gabarit `_layouts/note.html`, permaliens `/blog/note-de-marche-AAAA-sSS/`
-  et `/en/blog/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn). Format inspiré des notes hebdo de
+  `_notes/AAAA-SS-fr.md` / `-en.md` (collection, gabarit `_layouts/note.html`, permaliens `/analyses/note-de-marche-AAAA-sSS/`
+  et `/en/analysis/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn). Format inspiré des notes hebdo de
   fournisseurs (titre, contexte d'actus, rubriques à puces + graphique `canvas[data-nt-chart]`, « Lecture clé »).
   Phrases construites depuis les données uniquement. Le corps du fichier = « Le mot de Tom » (facultatif).
   Une note existante n'est jamais écrasée (sauf `--force`).

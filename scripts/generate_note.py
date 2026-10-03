@@ -449,7 +449,7 @@ def write_note(s, c, lang, week, force):
     front = {
         "layout": "note", "lang": lang, "ref": f"note-{year}-{wk:02d}", "title": title,
         "description": n["intro"] + " " + n["reading"], "date": note_date(end),
-        "permalink": f"/blog/note-de-marche-{year}-s{wk:02d}/" if lang == "fr" else f"/en/blog/market-note-{year}-w{wk:02d}/",
+        "permalink": f"/analyses/note-de-marche-{year}-s{wk:02d}/" if lang == "fr" else f"/en/analysis/market-note-{year}-w{wk:02d}/",
         "week": wk, "year": year, "period_start": s["start"], "period_end": s["end"],
         **n,
     }
