@@ -708,11 +708,12 @@
     "spot_eur_mwh": 172.52,
     "spot_source": "RTE",
     "mix_shares": {
-      "nucleaire": 73.7,
+      "nucleaire": 74.0,
       "gaz": 9.4,
-      "hydraulique": 7.4,
-      "eolien": 7.1,
-      "bioenergies": 2.4
+      "hydraulique": 8.6,
+      "eolien": 5.2,
+      "bioenergies": 2.3,
+      "solaire": 0.5
     }
   }
 ]

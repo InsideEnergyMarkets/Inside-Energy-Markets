@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T00:09:39.605834Z",
+  "updated_at": "2026-10-03T06:15:01.808565Z",
   "brent": {
     "price_usd": 102.61,
     "date": "2026-10-02",
@@ -33,16 +33,17 @@
     "change_pct": 2.3
   },
   "mix_france": {
-    "date_heure": "2026-10-02T23:45:00+00:00",
+    "date_heure": "2026-10-03T05:45:00+00:00",
     "shares": {
-      "nucleaire": 73.7,
+      "nucleaire": 74.0,
       "gaz": 9.4,
-      "hydraulique": 7.4,
-      "eolien": 7.1,
-      "bioenergies": 2.4
+      "hydraulique": 8.6,
+      "eolien": 5.2,
+      "bioenergies": 2.3,
+      "solaire": 0.5
     },
     "top_source": "nucleaire",
-    "top_share": 73.7,
+    "top_share": 74.0,
     "co2_intensity": 52
   },
   "spot_price_france": {
