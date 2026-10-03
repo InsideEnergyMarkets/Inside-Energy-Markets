@@ -1466,6 +1466,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     if (c.type === 'detail') {
       ntDetail(cv, c, 30);
       var fig = cv.closest('.nt-dc'), btns = fig && fig.querySelectorAll('[data-nt-period] [data-period]');
+      // Série encore courte (ex. historique en cours de constitution) : les boutons n'apporteraient rien
+      if (c.labels.length < 8 && fig) { var bx = fig.querySelector('[data-nt-period]'); if (bx) bx.hidden = true; btns = []; }
       (btns || []).forEach(function (b) {
         b.addEventListener('click', function () {
           btns.forEach(function (x) { x.classList.toggle('active', x === b); });

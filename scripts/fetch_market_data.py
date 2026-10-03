@@ -1043,7 +1043,7 @@ def backfill_futures(history):
         return
     today = datetime.date.today()
     state = load_json(BACKFILL_STATE, {})
-    if state.get("last") == today.isoformat():
+    if state.get("last") == today.isoformat() or state.get("unavailable"):
         return
     since = (today - datetime.timedelta(days=30)).isoformat()
     have = {h["date"] for h in history if h.get("brent_usd") is not None and h["date"] >= since}
@@ -1068,10 +1068,16 @@ def backfill_futures(history):
                 set_history_value(history, day, field, round(float(row["price"]), 2), "OilPriceAPI")
                 added += 1
         print(f"Rattrapage OilPriceAPI : {added} valeurs ajoutées")
+    except requests.HTTPError as e:
+        print(f"Erreur rattrapage OilPriceAPI: {e}")
+        if e.response is not None and e.response.status_code == 402:
+            # Historique réservé aux offres payantes : on ne redemande plus (supprimer le fichier pour réessayer)
+            state["unavailable"] = True
     except Exception as e:
         print(f"Erreur rattrapage OilPriceAPI: {e}")
+    state["last"] = today.isoformat()
     with open(BACKFILL_STATE, "w", encoding="utf-8") as fh:
-        json.dump({"last": today.isoformat()}, fh)
+        json.dump(state, fh)
 
 
 def history_entry(history, date):
