@@ -719,12 +719,11 @@ if (navToggle) {
     if (!window.mktChartData || !window.mktChartData[key] || typeof Chart === 'undefined') return false;
     if (!modal) buildModal();
     modalState = { key: key, days: cardDays[key] || 30, ma: false, compare: false, title: title, trigger: trigger };
-    // Depuis l'accueil : liens vers la rubrique concernée et vers la page Marchés
+    // Depuis l'accueil : lien direct vers la rubrique concernée de la page Marchés
     var links = modal.querySelector('.mkt-modal-links'), sec = trigger && trigger.getAttribute('data-section-url');
     links.hidden = !sec;
     links.innerHTML = sec
-      ? '<a class="btn btn-primary" href="' + sec + '">' + iemT.see_section.replace('%n', trigger.getAttribute('data-section')) + ' <span aria-hidden="true">→</span></a>' +
-        '<a class="btn btn-ghost" href="' + trigger.getAttribute('data-markets-url') + '">' + iemT.see_markets + '</a>'
+      ? '<a class="btn btn-primary" href="' + sec + '">' + iemT.see_section.replace('%n', trigger.getAttribute('data-section')) + ' <span aria-hidden="true">→</span></a>'
       : '';
     modal.querySelector('.mkt-modal-box').style.borderTopColor = window.mktChartData[key].color;
     modal.hidden = false;
