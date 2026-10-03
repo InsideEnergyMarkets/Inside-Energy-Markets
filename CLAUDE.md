@@ -19,9 +19,10 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Repli systématique : si une source échoue, on garde la dernière valeur connue.
 - Montrer un aperçu avant de commiter sur `main` (sauf petits changements quand Tom dit
   « pousse directement »). Regrouper les vérifications, éviter les allers-retours inutiles.
-- Code couleur des variations de prix : hausse en rouge, baisse en vert.
+- Code couleur des variations de prix : hausse en vert, baisse en rouge (convention des marchés, demandée par Tom
+  en oct. 2026 ; exception : stocks de gaz vs an dernier).
 - Charte (ne pas réintroduire d'autres styles) : marine = structure, sarcelle `#00817d` = actions et liens
-  (`#4fd1c5` sur fond sombre), orange = « en direct » et sélection, rouge / vert = hausse / baisse seulement.
+  (`#4fd1c5` sur fond sombre), orange = « en direct » et sélection, vert / rouge = hausse / baisse seulement.
   Boutons pilule : `.btn-primary` (sarcelle plein), `.btn-ghost` (contour), `.btn-listen` (petit, cartes).
   Liens d'action « … → » : petite pilule avec la flèche dans un `<span>` (`.section-head a`, `.mk-open`, `.inc-all`).
   Chiffres et dates dans la langue de la page (`| replace: ".", dec`, `{% include date.html date=… %}`).
@@ -94,7 +95,17 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - `_layouts/default.html` : nav, footer, Chart.js et tous les scripts (graphiques, vue agrandie,
   base 100, cartes AIS, bandeau d'actus, carte Leaflet des incidents, sommaire).
   Vérifier la fermeture des IIFE `})();` après chaque modification.
-- Blog : article le plus récent « à la une », étiquettes (`tags:` dans le front matter), temps de lecture
+- Rubrique « Analyses » / « Analysis » (ex-Blog, adresse /blog/ inchangée) : en tête la note de marché de la semaine
+  (`id="notes"`), puis les articles, puis les notes précédentes. Pas de pages /notes/.
+- Note de marché hebdo : `scripts/generate_note.py` (workflow `weekly-note.yml`, lundi 05:00 UTC, puis IndexNow) écrit
+  `_notes/AAAA-SS-fr.md` / `-en.md` (collection, gabarit `_layouts/note.html`, permaliens `/blog/note-de-marche-AAAA-sSS/`
+  et `/en/blog/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn). Format inspiré des notes hebdo de
+  fournisseurs (titre, contexte d'actus, rubriques à puces + graphique `canvas[data-nt-chart]`, « Lecture clé »).
+  Phrases construites depuis les données uniquement. Le corps du fichier = « Le mot de Tom » (facultatif).
+  Une note existante n'est jamais écrasée (sauf `--force`).
+- Pages de référence (SEO, FAQ + FAQPage) : `/prix-baril-brent/`, `/prix-gazole/`, `/stocks-gaz-europe/` (+ EN),
+  gabarit `_includes/pages/reference.html`, blocs partagés avec /marches/ dans `_includes/blocks/`.
+- Articles : article le plus récent « à la une », étiquettes (`tags:` dans le front matter), temps de lecture
   (`reading-time.html`), partage LinkedIn, encadré auteur, article précédent / suivant. Flux RSS `/feed.xml`
   (jekyll-feed) gardé sans bouton visible (Tom n'en veut pas).
 - À propos : chiffres du podcast calculés depuis `podcast.json` (mois de lancement forcé par `podcast_start` dans `_config.yml`), parcours sans dates (à compléter par Tom),
@@ -149,8 +160,10 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   intégré (barre en bas + grande vue, script dans `_layouts/default.html`, boutons `[data-play]` au dos des cartes
   et de la pochette du hero, qui prend le dernier épisode présent dans le flux). Un épisode absent du flux
   (ex. EP 10 en attente) n'a ni durée ni « Écouter ici ». Les écoutes passent par Spotify for Creators (stats).
-- `news.json` : titres RSS d'Al Jazeera, France 24, Le Monde, EIA, BBC filtrés sur le titre
-  (« Iran » seul exige un terme énergie/maritime), 3 derniers jours.
+- `news.json` : flux RSS (FEEDS dans le script) : spécialisés énergie non filtrés (Le Monde Énergies, Connaissance
+  des Énergies, EIA, Commission européenne) et généralistes filtrés sur le titre (Guardian, BBC, Al Jazeera, France 24,
+  Le Monde) ; « Iran » seul exige un terme énergie. 14 titres par langue, 3 par source, 5 jours.
+  Testés et indisponibles : AIE, CRE, OPEP, IRENA, Ofgem, ENTSO-E.
 - `incidents.json` : flux UKMTO `https://sccd.royalnavy.mod.uk/api/ukmto/all` (celui de leur
   carte ; Open Government Licence v3.0, citer « UKMTO · Open Government Licence v3.0 »), 12 mois,
   lieux et types traduits, noms de navires anonymisés donc non affichés, stats 30 j.

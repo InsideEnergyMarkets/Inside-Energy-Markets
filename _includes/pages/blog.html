@@ -1,4 +1,5 @@
-{% comment %}Page Blog (blog/index.html en français, en/blog/index.html en anglais) : articles de la langue de la page.{% endcomment %}
+{% comment %}Page Analyses (blog/ et en/blog/) : la note de marché de la semaine en tête, puis les articles,
+  puis les notes précédentes. Notes : collection _notes (scripts/generate_note.py).{% endcomment %}
 {% include i18n.html %}
 <section class="episodes-header">
   <div class="wrap">
@@ -10,7 +11,21 @@
 
 <section class="block">
   <div class="wrap">
+    {% assign lnotes = site.notes | where: "lang", lang | sort: "date" | reverse %}
+    {% if lnotes.size > 0 %}
+    {% assign note = lnotes | first %}
+    <div class="section-head" id="notes"><h2>{{ t.blog.notes_title }}</h2></div>
+    <a class="nt-feature" href="{{ note.url | relative_url }}">
+      <span class="pw-label">{{ t.note.eyebrow }} · {{ t.note.week }} {{ note.week }} · {% include date.html date=note.period_end %}</span>
+      <strong>{{ note.headline }}</strong>
+      <span class="nt-feature-lede">{{ note.intro }}</span>
+      <span class="nt-feature-tiles">{% for tl in note.tiles limit: 4 %}<span><small>{{ tl.label }}</small>{{ tl.value }}{{ tl.unit }}{% if tl.change %}<em class="nt-tile-change--{{ tl.dir }}">{{ tl.change }}</em>{% endif %}</span>{% endfor %}</span>
+      <span class="mk-open">{{ t.note.read }} <span aria-hidden="true">→</span></span>
+    </a>
+    {% endif %}
+
     {% assign posts = site.posts | where: "lang", lang %}
+    {% if posts.size > 0 and lnotes.size > 0 %}<div class="section-head bl-more-head"><h2>{{ t.blog.articles }}</h2></div>{% endif %}
     {% if posts.size > 0 %}
     {% assign featured = posts | first %}
     <a class="bl-featured" href="{{ featured.url | relative_url }}">
@@ -46,6 +61,15 @@
     {% endif %}
     {% else %}
     <p>{{ t.blog.soon }}</p>
+    {% endif %}
+
+    {% if lnotes.size > 1 %}
+    <div class="section-head bl-more-head"><h2>{{ t.blog.notes_older }}</h2></div>
+    <ul class="nt-list">
+      {% for n in lnotes offset: 1 %}
+      <li><a href="{{ n.url | relative_url }}"><span>{{ t.note.week }} {{ n.week }} · {% include date.html date=n.period_end %}</span><strong>{{ n.headline }}</strong><small>{{ n.intro }}</small></a></li>
+      {% endfor %}
+    </ul>
     {% endif %}
 
     <aside class="bl-follow">

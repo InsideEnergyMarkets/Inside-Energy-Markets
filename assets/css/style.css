@@ -893,8 +893,8 @@ footer .socials a:hover {
   padding: 3px 9px;
   border-radius: 4px;
 }
-.market-trend.up { color: #ff6b5b; background: rgba(255, 107, 91, 0.12); }
-.market-trend.down { color: #3ddc97; background: rgba(61, 220, 151, 0.12); }
+.market-trend.up { color: #3ddc97; background: rgba(61, 220, 151, 0.12); }
+.market-trend.down { color: #ff6b5b; background: rgba(255, 107, 91, 0.12); }
 .market-trend.flat { color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.06); }
 
 .market-card .market-label {
@@ -1339,8 +1339,8 @@ footer .socials a:hover {
   font-size: 18px;
   color: #fff;
 }
-.mkt-weekly-value.up { color: #ff6b5b; }
-.mkt-weekly-value.down { color: #3ddc97; }
+.mkt-weekly-value.up { color: #3ddc97; }
+.mkt-weekly-value.down { color: #ff6b5b; }
 
 @media (max-width: 760px) {
   .strait-grid {
@@ -1397,8 +1397,8 @@ footer .socials a:hover {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.65);
 }
-.mkt-badge.up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
-.mkt-badge.down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.mkt-badge.up { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.mkt-badge.down { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
 
 .mkt-sparkline {
   width: 100%;
@@ -1943,8 +1943,8 @@ footer .socials a:hover {
 .mk-glance-label { font-size: 12px; color: #5a6b7b; }
 .mk-glance-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #17255f; }
 .mk-glance-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: #5a6b7b; }
-.mk-glance-value.up { color: #d9463a; }
-.mk-glance-value.down { color: #1f9d6b; }
+.mk-glance-value.up { color: #1f9d6b; }
+.mk-glance-value.down { color: #d9463a; }
 .mk-glance-sub { font-size: 12px; color: #5a6b7b; }
 
 .mk-section { padding: 44px 0 28px; scroll-margin-top: 120px; }
@@ -2099,8 +2099,8 @@ a.hq-row:hover { background: rgba(255, 255, 255, 0.05); color: #fff; text-decora
   padding: 2px 8px; border-radius: 999px; white-space: nowrap; vertical-align: middle;
 }
 .px-change small { font-weight: 500; font-size: 11px; opacity: 0.75; margin-left: 2px; }
-.px-change--up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
-.px-change--down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.px-change--up { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.px-change--down { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
 .px-change--flat { color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.08); }
 .market-change { margin: 2px 0 6px; }
 .pw-value .px-change { margin-left: 12px; font-size: 14px; }
@@ -2759,8 +2759,8 @@ html.has-player .nav-ep { display: none; }
 .oil-pump-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; line-height: 1.2; }
 .oil-pump-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
 .oil-pump-chg { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.6); }
-.oil-pump-chg.is-up { color: #ff6b5b; }
-.oil-pump-chg.is-down { color: #3ddc97; }
+.oil-pump-chg.is-up { color: #3ddc97; }
+.oil-pump-chg.is-down { color: #ff6b5b; }
 .oil-dec-title { margin: 0 0 8px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
 .oil-dec { display: flex; height: 16px; border-radius: 6px; overflow: hidden; }
 .oil-dec span { display: block; height: 100%; }
@@ -2790,8 +2790,8 @@ html.has-player .nav-ep { display: none; }
 .nt-tile-value { font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #17255f; }
 .nt-tile-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: #5a6b7b; }
 .nt-tile-change { font: 700 12px 'Inter', sans-serif; }
-.nt-tile-change--up { color: #d9463a; }
-.nt-tile-change--down { color: #1f9d6b; }
+.nt-tile-change--up { color: #1f9d6b; }
+.nt-tile-change--down { color: #d9463a; }
 .nt-tile-change--flat { color: #5a6b7b; }
 .nt-section p { line-height: 1.65; }
 .nt-src { font-size: 12.5px; color: #5a6b7b; }
@@ -2840,3 +2840,31 @@ html.has-player .nav-ep { display: none; }
 .footer-links span { font-weight: 700; opacity: 0.7; }
 .footer-links a { color: inherit; opacity: 0.85; text-decoration: none; }
 .footer-links a:hover { opacity: 1; text-decoration: underline; }
+.nt-page .nt-tiles { margin: 6px 0 4px; }
+.nt-box-label { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font: 700 12px 'Inter', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #00817d; }
+.nt-context ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.nt-context li { padding-left: 16px; position: relative; line-height: 1.5; }
+.nt-context li::before { content: '•'; position: absolute; left: 2px; color: #00817d; font-weight: 700; }
+.nt-context a { color: #17255f; text-decoration: none; }
+.nt-context a:hover { color: #00817d; text-decoration: underline; }
+.nt-context span { font-size: 12px; color: #5a6b7b; }
+.nt-icon--context { background: #5a6b7b; }
+.nt-icon--power { background: #00817d; }
+.nt-icon--gas { background: #e8b33a; }
+.nt-icon--oil { background: #e8703a; }
+.nt-icon--sea { background: #2f6f8f; }
+.nt-section-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: center; }
+.nt-section-grid--text { grid-template-columns: minmax(0, 1fr); }
+.nt-bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.nt-bullets li { padding-left: 16px; position: relative; line-height: 1.55; }
+.nt-bullets li::before { content: '•'; position: absolute; left: 2px; font-weight: 700; color: #17255f; }
+.nt-chart { margin: 0; background: #fff; border: 1px solid #d8e1e6; border-radius: 12px; padding: 12px; }
+.nt-chart-box { position: relative; height: 210px; }
+.nt-chart-box canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.nt-reading { margin: 30px 0 10px; padding: 16px 20px; border-radius: 12px; background: #17255f; color: #fff; }
+.nt-reading .nt-box-label { color: #4fd1c5; }
+.nt-reading p:last-child { margin: 0; line-height: 1.6; }
+.nt-feature-tiles em { font-style: normal; font: 700 11px 'Inter', sans-serif; }
+.nt-feature-tiles em.nt-tile-change--up { color: #3ddc97; }
+.nt-feature-tiles em.nt-tile-change--down { color: #ff6b5b; }
+@media (max-width: 760px) { .nt-section-grid { grid-template-columns: minmax(0, 1fr); } }

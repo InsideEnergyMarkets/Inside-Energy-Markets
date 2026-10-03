@@ -61,7 +61,7 @@ jobs:
           # Adresses des notes qui viennent d'être créées, plus les deux pages d'archive
           URLS=$(while read f; do grep -h '^permalink:' "_notes/$f"; done < new_notes.txt \
             | sed -E 's#permalink: "([^"]+)"#https://insideenergymarkets.com\1#' | jq -R . \
-            | jq -s '. + ["https://insideenergymarkets.com/notes/", "https://insideenergymarkets.com/en/notes/"]')
+            | jq -s '. + ["https://insideenergymarkets.com/blog/", "https://insideenergymarkets.com/en/blog/"]')
           curl -s -o /dev/null -w "IndexNow : %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
             -H "Content-Type: application/json; charset=utf-8" \
             -d "{\"host\":\"insideenergymarkets.com\",\"key\":\"ba5fdc11ee8578d5540c332e9933f73f\",\"keyLocation\":\"https://insideenergymarkets.com/ba5fdc11ee8578d5540c332e9933f73f.txt\",\"urlList\":$URLS}"

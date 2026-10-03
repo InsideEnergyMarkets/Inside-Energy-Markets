@@ -52,7 +52,6 @@
     <ul class="nav-links">
       <li><a href="{{ u.episodes | relative_url }}">{{ t.nav.episodes }}</a></li>
       <li><a href="{{ u.markets | relative_url }}">{{ t.nav.markets }}</a></li>
-      <li><a href="{{ u.notes | relative_url }}">{{ t.nav.notes }}</a></li>
       <li><a href="{{ u.blog | relative_url }}">{{ t.nav.blog }}</a></li>
       <li><a href="{{ u.about | relative_url }}">{{ t.nav.about }}</a></li>
       <li class="nav-lang"><a href="{{ alt_url | relative_url }}" hreflang="{{ other }}" lang="{{ other }}" title="{{ t.nav.switch_title }}"><i class="fa-solid fa-globe" aria-hidden="true"></i>{{ t.nav.switch }}</a></li>
@@ -1384,6 +1383,42 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     return '<li style="--c:' + k.color + '"><div class="inc-meta"><time>' + day + '</time><span class="inc-tag">' + k.label +
            '</span><span class="inc-where">' + esc(where) + '</span></div><p class="inc-sum">' + esc(i.summary) + '</p></li>';
   }).join('');
+})();
+</script>
+<script>
+// ===== Graphiques des notes de marché (données dans l'attribut data-nt-chart) =====
+(function () {
+  if (typeof Chart === 'undefined') return;
+  document.querySelectorAll('canvas[data-nt-chart]').forEach(function (cv) {
+    var old = Chart.getChart(cv);
+    if (old) old.destroy();
+    var c = JSON.parse(cv.getAttribute('data-nt-chart'));
+    var bar = c.type === 'bar';
+    var ds = c.series.map(function (s) {
+      return { label: s.name, data: s.data, borderColor: s.color, backgroundColor: bar ? s.color + 'cc' : s.color + '1f',
+               borderDash: s.dashed ? [5, 4] : [], fill: !bar && !s.dashed, tension: 0.3, pointRadius: 0,
+               pointHoverRadius: 3, borderWidth: 2, borderRadius: 4, spanGaps: true };
+    });
+    if (c.ref !== null && c.ref !== undefined) {
+      ds.push({ type: 'line', label: c.ref_label, data: c.labels.map(function () { return c.ref; }), borderColor: '#94a3b8',
+                borderDash: [4, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 0, fill: false });
+    }
+    new Chart(cv, {
+      type: c.type, data: { labels: c.labels, datasets: ds },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: ds.length > 1, position: 'bottom', labels: { boxWidth: 12, color: '#5a6b7b', font: { size: 11 } } },
+          tooltip: { callbacks: { label: function (x) {
+            return x.dataset.label + iemT.colon + x.parsed.y.toLocaleString(iemT.locale) + ' ' + c.unit; } } }
+        },
+        scales: {
+          x: { ticks: { color: '#5a6b7b', font: { size: 11 }, maxTicksLimit: 7, maxRotation: 0 }, grid: { display: false } },
+          y: { beginAtZero: c.unit === '%' || c.unit.indexOf('tankers') === 0, ticks: { color: '#5a6b7b', font: { size: 11 } }, grid: { color: 'rgba(23, 37, 95, 0.07)' } }
+        }
+      }
+    });
+  });
 })();
 </script>
 </body>
