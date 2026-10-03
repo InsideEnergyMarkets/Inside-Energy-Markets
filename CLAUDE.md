@@ -104,6 +104,11 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   et `/en/analysis/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn). Format inspiré des notes hebdo de
   fournisseurs (titre, contexte d'actus, rubriques à puces + graphique `canvas[data-nt-chart]`, « Lecture clé »).
   Phrases construites depuis les données uniquement. Le corps du fichier = « Le mot de Tom » (facultatif).
+  Format retenu (A, oct. 2026) : Lecture clé, tuiles, puis par rubrique (électricité, gaz, pétrole) 3 puces et un graphique
+  détaillé 30 j (`chart.type: detail`, fond marine, semaine en surbrillance, 5 chiffres), presse en bas. Pas d'Ormuz ni de
+  détroits (données PortWatch en retard). Autres formats gardés pour des notes « focus » : `scripts/note_formats.py`
+  (B base 100, C éditorial, D 3 chiffres, E électricité à la loupe) + 5 textes LinkedIn. LinkedIn retenu : titre,
+  Lecture clé, une ligne-chiffre par marché (⚡ 🔥 🛢️), lien.
   Une note existante n'est jamais écrasée (sauf `--force`).
 - Pages de référence (SEO, FAQ + FAQPage) : `/prix-baril-brent/`, `/prix-gazole/`, `/stocks-gaz-europe/` (+ EN),
   gabarit `_includes/pages/reference.html`, blocs partagés avec /marches/ dans `_includes/blocks/`.

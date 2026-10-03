@@ -2913,10 +2913,10 @@ html.has-player .nav-ep { display: none; }
 .nt-dc-head span { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
 .nt-dc-chart { position: relative; height: 250px; }
 .nt-dc-chart canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
-.nt-dc-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 14px; }
-.nt-dc-stat { padding: 11px 13px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+.nt-dc-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+.nt-dc-stat { min-width: 0; padding: 10px 11px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
 .nt-dc-stat span { display: block; font-size: 12px; color: rgba(255, 255, 255, 0.6); }
-.nt-dc-stat strong { display: block; margin: 4px 0 2px; font: 700 19px 'JetBrains Mono', monospace; color: #fff; }
+.nt-dc-stat strong { display: block; margin: 4px 0 2px; font: 700 17px 'JetBrains Mono', monospace; color: #fff; }
 .nt-dc-stat strong small { font: 600 11px 'Inter', sans-serif; color: rgba(255, 255, 255, 0.55); }
 .nt-dc-stat em { font-style: normal; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
 .nt-dc-stat .nt-dc-up { color: #3ddc97; }
