@@ -1423,9 +1423,12 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       var x = ch.scales.x, a = -1, b = c.labels.length - 1;
       for (var i = 0; i < c.labels.length; i++) { if (c.labels[i] >= c.band[0]) { a = i; break; } }
       if (a < 0) return;
-      var x0 = x.getPixelForValue(a) - 6, x1 = Math.min(x.getPixelForValue(b) + 6, ch.chartArea.right), k = ch.ctx;
+      var x0 = Math.max(x.getPixelForValue(a) - 6, ch.chartArea.left), x1 = Math.min(x.getPixelForValue(b) + 6, ch.chartArea.right), k = ch.ctx;
       k.save(); k.fillStyle = 'rgba(232, 112, 58, 0.13)'; k.fillRect(x0, ch.chartArea.top, x1 - x0, ch.chartArea.bottom - ch.chartArea.top);
-      k.fillStyle = 'rgba(232, 112, 58, 0.95)'; k.font = '600 11px Inter, sans-serif'; k.fillText(c.band_label, x0 + 6, ch.chartArea.top + 13); k.restore();
+      k.fillStyle = 'rgba(232, 112, 58, 0.95)'; k.font = '600 11px Inter, sans-serif';
+      // Étiquette toujours lisible : recalée à gauche si la bande touche le bord droit (vue 7 j)
+      var tw = k.measureText(c.band_label).width, tx = Math.max(ch.chartArea.left + 4, Math.min(x0 + 6, ch.chartArea.right - tw - 6));
+      k.fillText(c.band_label, tx, ch.chartArea.top + 13); k.restore();
     } };
     new Chart(cv, {
       type: 'line', plugins: [band],

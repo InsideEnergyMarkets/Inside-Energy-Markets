@@ -251,7 +251,7 @@ def build(s, c, lang, week):
     sp = s.get("spot")
     if sp:
         chg = (sp["avg"] - sp["prev_avg"]) / sp["prev_avg"] * 100 if sp["prev_avg"] else None
-        tiles.append({"label": "Électricité, spot moyen" if fr else "Power, average spot", "value": num(sp["avg"], lang),
+        tiles.append({"key": "power", "label": "Électricité France" if fr else "French power", "sub": "moyenne de la semaine" if fr else "weekly average", "value": num(sp["avg"], lang),
                       "unit": " €/MWh", "change": pct(chg, lang) if chg is not None else None,
                       "dir": direction(chg) if chg is not None else "flat"})
         if chg is not None:
@@ -280,7 +280,7 @@ def build(s, c, lang, week):
     pg = s.get("peg")
     if pg:
         chg = (pg["avg"] - pg["prev_avg"]) / pg["prev_avg"] * 100 if pg["prev_avg"] else None
-        tiles.append({"label": "Gaz France (PEG), moyenne" if fr else "French gas (PEG), average", "value": num(pg["avg"], lang),
+        tiles.append({"key": "gas", "label": "Gaz France (PEG)" if fr else "French gas (PEG)", "sub": "moyenne de la semaine" if fr else "weekly average", "value": num(pg["avg"], lang),
                       "unit": " €/MWh", "change": pct(chg, lang) if chg is not None else None,
                       "dir": direction(chg) if chg is not None else "flat"})
         if chg is not None:
@@ -293,7 +293,7 @@ def build(s, c, lang, week):
                  + f", between €{num(pg['low'][1], lang)} and €{num(pg['high'][1], lang)}/MWh depending on the day.")
     eu, frs = s.get("storage_eu"), s.get("storage_fr")
     if eu:
-        tiles.append({"label": "Stocks de gaz UE" if fr else "EU gas storage", "value": num(eu["full"], lang, 1), "unit": " %",
+        tiles.append({"key": "storage", "label": "Stocks de gaz UE" if fr else "EU gas storage", "sub": "remplissage, sur une semaine" if fr else "full, week on week", "value": num(eu["full"], lang, 1), "unit": " %",
                       "change": f"{signed(eu['week'], lang)} pt" if eu["week"] is not None else None,
                       "dir": direction(eu["week"]) if eu["week"] is not None else "flat"})
         vs = ""
@@ -312,7 +312,7 @@ def build(s, c, lang, week):
     b = []
     br = s.get("brent")
     if br:
-        tiles.append({"label": "Brent", "value": num(br["last"], lang), "unit": " $/baril" if fr else " $/bbl",
+        tiles.append({"key": "oil", "label": "Brent", "sub": "clôture de la semaine" if fr else "weekly close", "value": num(br["last"], lang), "unit": " $/baril" if fr else " $/bbl",
                       "change": pct(br["change"], lang), "dir": direction(br["change"])})
         movers.append(("le Brent", "Brent", "Brent", br["change"]))
         b.append(f"Brent (contrat à terme ICE, premier mois) : {num(br['last'], lang)} $ le baril à la clôture de la semaine "
@@ -441,16 +441,16 @@ def write_linkedin(front, week, s):
     lines = [f"[NOTE DE MARCHÉ HEBDO] {front['headline']}", ""]
     if front["reading"]:
         lines += [f"👉 {front['reading']}", ""]
-    tiles = {t["label"]: t for t in front["tiles"]}
-    for emoji, label, what in (("⚡", "Électricité, spot moyen", "électricité France, moyenne de la semaine"),
-                               ("🔥", "Gaz France (PEG), moyenne", "gaz France (PEG), moyenne de la semaine"),
-                               ("🔥", "Stocks de gaz UE", "stocks de gaz européens"),
-                               ("🛢️", "Brent", "Brent, clôture de la semaine")):
+    tiles = {t.get("key"): t for t in front["tiles"]}
+    for emoji, label, what in (("⚡", "power", "électricité France, moyenne de la semaine"),
+                               ("🔥", "gas", "gaz France (PEG), moyenne de la semaine"),
+                               ("🔥", "storage", "stocks de gaz européens"),
+                               ("🛢️", "oil", "Brent, clôture de la semaine")):
         t = tiles.get(label)
         if t:
             chg = f" ({t['change']})" if t.get("change") else ""
             eu = s.get("storage_eu") or {}
-            if label == "Stocks de gaz UE" and eu.get("ly") is not None:
+            if label == "storage" and eu.get("ly") is not None:
                 chg = f", {num(abs(eu['ly']), 'fr', 1)} points {'au-dessus' if eu['ly'] > 0 else 'en dessous'} de l'an dernier"
             lines.append(f"{emoji} {t['value']}{t['unit']} : {what}{chg}")
     lines += ["", f"📊 La note complète, avec les graphiques : https://insideenergymarkets.com{front['permalink']}", "",

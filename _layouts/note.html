@@ -42,7 +42,7 @@ layout: default
         <div class="nt-tile">
           <span class="nt-tile-label">{{ tl.label }}</span>
           <span class="nt-tile-value">{{ tl.value }}<small>{{ tl.unit }}</small></span>
-          {% if tl.change %}<span class="nt-tile-change nt-tile-change--{{ tl.dir }}">{{ tl.change }}</span>{% endif %}
+          <span class="nt-tile-foot">{% if tl.change %}<span class="nt-tile-change nt-tile-change--{{ tl.dir }}">{{ tl.change }}</span>{% endif %}{% if tl.sub %}<span class="nt-tile-sub">{{ tl.sub }}</span>{% endif %}</span>
         </div>
         {% endfor %}
       </div>
