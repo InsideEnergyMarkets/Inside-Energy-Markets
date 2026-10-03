@@ -24,7 +24,7 @@
 <script>
   window.mktChartData = {
     spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, sources: {{ hist | map: "spot_source" | jsonify }}, unit: "€/MWh", color: "#00817d" },
-    brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: {{ t.units.usd_bbl | jsonify }}, color: "#e8703a" },
+    brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: {{ t.units.usd_bbl | jsonify }}, color: "#e8703a", context: { name: {{ t.js.brent_spot | jsonify }}, points: {{ site.data.brent_year | jsonify }} } },
     peg: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "peg_eur_mwh" | jsonify }}, sources: {{ hist | map: "peg_source" | jsonify }}, unit: "€/MWh", color: "#e8b33a" },
     henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_eur_mwh" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "€/MWh", color: "#94a3b8" }
   };

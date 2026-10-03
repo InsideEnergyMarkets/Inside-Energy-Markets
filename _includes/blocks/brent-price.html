@@ -1,4 +1,5 @@
-{% comment %}Prix du Brent : valeur, variation, 7 jours, graphique 7/30/60 j. Variables : e (market.brent), e_label, mk.
+{% comment %}Prix du Brent (contrat à terme ICE, 1er mois) : valeur, variation, 7 jours, graphique 7/30/60 j avec le spot EIA
+en pointillés pour le contexte (autre produit, jamais dans les chiffres). Variables : e (market.brent), e_label, mk.
 Utilisé sur /marches/ et sur la page « Prix du Brent aujourd'hui ».{% endcomment %}
       <div class="pw-price">
         <div class="pw-top">
@@ -23,4 +24,5 @@ Utilisé sur /marches/ et sur la page « Prix du Brent aujourd'hui ».{% endcomm
           </div>
         </div>
         <div class="pw-chart"><canvas id="chart-canvas-brent" aria-label="{{ mk.brent_chart_aria }}"></canvas></div>
+        <p class="mt-legend"><span class="mt-sw mt-sw--orange"></span>{{ t.quotes.brent_kind | capitalize }} <span class="mt-sw mt-sw--dash"></span>{{ t.js.brent_spot }}</p>
       </div>

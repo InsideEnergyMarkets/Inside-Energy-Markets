@@ -2941,3 +2941,6 @@ html.has-player .nav-ep { display: none; }
 .nt-kc-c--flat { color: rgba(255, 255, 255, 0.6); }
 .nt-kc-s { position: relative; height: 46px; margin-top: auto; padding-top: 6px; }
 @media (max-width: 760px) { .nt-kcs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Légende : spot EIA du Brent en pointillés (contexte) */
+.mt-sw--dash { background: none; border-top: 2px dashed rgba(232, 112, 58, 0.7); height: 0; border-radius: 0; vertical-align: middle; }

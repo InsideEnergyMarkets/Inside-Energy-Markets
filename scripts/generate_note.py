@@ -238,8 +238,20 @@ def make_chart(kind, c, s, lang, week):
         "gas": ("Gaz France (PEG)" if fr else "French gas (PEG)",
                 "Prix moyen de chaque journée gazière" if fr else "Average price of each gas day"),
         "oil": ("Brent", "Contrat à terme ICE, premier mois" if fr else "ICE futures, front month")}[kind]
-    return {"type": "detail", "title": title, "sub": sub, "unit": unit, "labels": [d for d, _ in pts],
-            "series": [{"name": title, "color": COLORS[kind], "data": [round(v, 2) for _, v in pts]}],
+    labels, series_out = [d for d, _ in pts], [{"name": title, "color": COLORS[kind], "data": [round(v, 2) for _, v in pts]}]
+    if kind == "oil":
+        # Spot EIA du Brent (autre produit) : tracé à part, en pointillés, pour le contexte
+        since = (datetime.date.fromisoformat(s["end"]) - datetime.timedelta(days=60)).isoformat()
+        spot = {p["date"]: p["v"] for p in (load("brent_year.json", []) or []) if since < p["date"] <= s["end"]}
+        if spot:
+            fut = dict(pts)
+            labels = sorted(set(fut) | set(spot))
+            series_out = [{"name": "Brent, contrat à terme ICE" if fr else "Brent, ICE futures", "color": COLORS[kind],
+                           "data": [round(fut[d], 2) if d in fut else None for d in labels]},
+                          {"name": "Brent spot (EIA), pour contexte" if fr else "Brent spot (EIA), for context", "color": COLORS[kind],
+                           "dashed": True, "data": [spot.get(d) for d in labels]}]
+    return {"type": "detail", "title": title, "sub": sub, "unit": unit, "labels": labels,
+            "series": series_out,
             "band": [s["start"], s["end"]], "band_label": f"Semaine {week}" if fr else f"Week {week}", "stats": stats}
 
 

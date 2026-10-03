@@ -25,7 +25,7 @@
     {% when "brent" %}
     <script>
       window.mktChartData = {
-        brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: "$/b", color: "#e8703a" }
+        brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: "$/b", color: "#e8703a", context: { name: {{ t.js.brent_spot | jsonify }}, points: {{ site.data.brent_year | jsonify }} } }
       };
     </script>
     {% assign wti = market.wti %}

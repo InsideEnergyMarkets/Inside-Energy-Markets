@@ -360,6 +360,25 @@ if (navToggle) {
     return { labels: labels.slice(start), values: values.slice(start), sources: sources.slice(start) };
   }
 
+  // Brent : le spot EIA (autre produit) est tracé à part, en pointillés. Les chiffres (dernier, plus bas,
+  // plus haut, moyenne) restent calculés sur les seuls contrats à terme (win).
+  function chartWindow(dataset, win, days) {
+    if (!dataset.context || !win.labels.length) return win;
+    var byDay = {}, ctxDay = {};
+    win.labels.forEach(function (d, i) { byDay[d] = i; });
+    (dataset.context.points || []).forEach(function (p) { ctxDay[p.date] = p.v; });
+    var last = win.labels[win.labels.length - 1], cutoff = parseDay(last);
+    cutoff.setDate(cutoff.getDate() - days);
+    var all = {};
+    win.labels.forEach(function (d) { all[d] = true; });
+    Object.keys(ctxDay).forEach(function (d) { if (parseDay(d) > cutoff && d <= last) all[d] = true; });
+    var labels = Object.keys(all).sort();
+    return { labels: labels,
+      values: labels.map(function (d) { return d in byDay ? win.values[byDay[d]] : null; }),
+      sources: labels.map(function (d) { return d in byDay ? win.sources[byDay[d]] : null; }),
+      context: labels.map(function (d) { return d in ctxDay ? ctxDay[d] : null; }) };
+  }
+
   function parseDay(s) {
     var p = s.split('-');
     return new Date(+p[0], +p[1] - 1, +p[2]);
@@ -416,6 +435,19 @@ if (navToggle) {
       pointHoverRadius: opts.large ? 4 : 0,
       borderWidth: opts.large ? 2.5 : 2,
     }];
+    if (win.context) {
+      datasets.push({
+        data: win.context, isContext: true,
+        borderColor: 'rgba(232, 112, 58, 0.55)',
+        borderDash: [3, 4],
+        borderWidth: 1.5,
+        fill: false,
+        tension: 0.25,
+        spanGaps: true,
+        pointRadius: 0,
+        pointHoverRadius: opts.large ? 3 : 0,
+      });
+    }
     if (opts.ma) {
       datasets.push({
         data: opts.ma,
@@ -445,7 +477,8 @@ if (navToggle) {
               title: function (items) { return items.length ? fmtDay(items[0].label) : ''; },
               label: function (ctx) {
                 var txt = fmtNum(ctx.parsed.y) + ' ' + (dataset.unit || '');
-                return ctx.datasetIndex === 1 ? iemT.ma7_label + txt : txt;
+                if (ctx.dataset.isContext) return dataset.context.name + iemT.colon + txt;
+                return ctx.datasetIndex > 0 ? iemT.ma7_label + txt : txt;
               },
               afterBody: function (items) {
                 var src = items.length && (win.sources[items[0].dataIndex] || dataset.source);
@@ -473,7 +506,7 @@ if (navToggle) {
     if (!canvas || typeof Chart === 'undefined') return;
     cardDays[key] = days;
     if (chartInstances[key]) chartInstances[key].destroy();
-    chartInstances[key] = new Chart(canvas.getContext('2d'), chartConfig(dataset, seriesWindow(dataset, days)));
+    chartInstances[key] = new Chart(canvas.getContext('2d'), chartConfig(dataset, chartWindow(dataset, seriesWindow(dataset, days), days)));
   }
 
   // ===== Vue agrandie =====
@@ -710,8 +743,9 @@ if (navToggle) {
       renderCompareStats(cmp);
       return;
     }
+    var cwin = chartWindow(dataset, win, modalState.days);
     modalChart = new Chart(ctx,
-      chartConfig(dataset, win, { large: true, ma: modalState.ma ? movingAverage(dataset, win.labels) : null }));
+      chartConfig(dataset, cwin, { large: true, ma: modalState.ma ? movingAverage(dataset, cwin.labels) : null }));
     renderStats(dataset, win);
   }
 
@@ -1413,7 +1447,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     from.setDate(from.getDate() - days);
     var keep = c.labels.map(function (d) { return new Date(d + 'T12:00:00') > from; });
     c = Object.assign({}, c, { labels: c.labels.filter(function (d, i) { return keep[i]; }),
-      series: [Object.assign({}, c.series[0], { data: c.series[0].data.filter(function (v, i) { return keep[i]; }) })] });
+      series: c.series.map(function (sr) { return Object.assign({}, sr, { data: sr.data.filter(function (v, i) { return keep[i]; }) }); }) });
     var old = Chart.getChart(cv);
     if (old) old.destroy();
     var s = c.series[0], ctx = cv.getContext('2d'), grad = ctx.createLinearGradient(0, 0, 0, 280);
@@ -1432,14 +1466,20 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     } };
     new Chart(cv, {
       type: 'line', plugins: [band],
-      data: { labels: c.labels, datasets: [{ label: s.name, data: s.data, borderColor: s.color, backgroundColor: grad, fill: true,
-        tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, spanGaps: true }] },
+      data: { labels: c.labels, datasets: c.series.map(function (sr) {
+        return sr.dashed
+          ? { label: sr.name, data: sr.data, borderColor: sr.color + '99', borderDash: [3, 4], borderWidth: 1.5, fill: false,
+              tension: 0.35, pointRadius: 0, pointHoverRadius: 3, spanGaps: true }
+          : { label: sr.name, data: sr.data, borderColor: sr.color, backgroundColor: grad, fill: true,
+              tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, spanGaps: true };
+      }) },
       options: {
         responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
         layout: { padding: { top: 18 } },
-        plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+        plugins: { legend: { display: c.series.length > 1, position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', boxWidth: 14, font: { size: 11 } } },
+          tooltip: { displayColors: false, callbacks: {
           title: function (it) { return it.length ? fmtD(it[0].label) : ''; },
-          label: function (x) { return x.parsed.y.toLocaleString(iemT.locale) + ' ' + c.unit; } } } },
+          label: function (x) { return (c.series.length > 1 ? x.dataset.label + iemT.colon : '') + x.parsed.y.toLocaleString(iemT.locale) + ' ' + c.unit; } } } },
         scales: {
           x: { ticks: { color: 'rgba(255,255,255,0.55)', font: { size: 11 }, maxTicksLimit: 7, maxRotation: 0,
                callback: function (v) { return fmtD(this.getLabelForValue(v)); } }, grid: { display: false } },
