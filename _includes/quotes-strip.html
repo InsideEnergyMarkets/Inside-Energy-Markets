@@ -22,7 +22,7 @@
 {% if q_fuel.gazole %}<a class="qs-item" href="{{ u.diesel | relative_url }}" title="{{ q.fuel_src }} · {{ q_fuel.date | date: '%d/%m' }}"><span class="qs-name">{{ q.diesel }}</span><span class="qs-val">{{ q_fuel.gazole | replace: ".", dec }} €/L</span></a>{% endif %}
 {% endcapture %}
 {% capture g_straits %}
-{% for k in "hormuz,bab_el_mandeb,malacca" | split: "," %}{% assign cp = market.chokepoints[k] %}{% if cp.status %}<a class="qs-item" href="{{ marches }}#{{ t.ids.sea }}" title="IMF PortWatch · {{ cp.date | date: '%d/%m' }}"><span class="qs-name">{{ q[k] }}</span><span class="qs-status {{ cp.status }}">{{ t.status_short[cp.status] }}</span></a>{% endif %}{% endfor %}
+{% assign cp_keys = "hormuz,bab_el_mandeb,malacca" | split: "," %}{% for k in cp_keys %}{% assign cp = market.chokepoints[k] %}{% if cp.status %}<a class="qs-item" href="{{ marches }}#{{ t.ids.sea }}" title="IMF PortWatch · {{ cp.date | date: '%d/%m' }}"><span class="qs-name">{{ q[k] }}</span><span class="qs-status {{ cp.status }}">{{ t.status_short[cp.status] }}</span></a>{% endif %}{% endfor %}
 {% endcapture %}
 {% if include.mode == "belt" %}
 <div class="qs qs--belt">
