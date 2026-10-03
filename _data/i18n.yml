@@ -264,9 +264,6 @@ fr:
     diesel: "Gazole"
     fuel_src: "Prix des carburants (data.economie.gouv.fr)"
     aria: "Cotations du moment"
-    g_prices: "Prix"
-    g_more: "Repères"
-    g_straits: "Détroits"
   news:
     aria: "Dernières informations"
     label_long: "Dernières "
@@ -761,9 +758,6 @@ en:
     diesel: "Diesel (France)"
     fuel_src: "French fuel prices (data.economie.gouv.fr)"
     aria: "Latest quotes"
-    g_prices: "Prices"
-    g_more: "Benchmarks"
-    g_straits: "Straits"
   news:
     aria: "Latest news"
     label_long: "Latest "

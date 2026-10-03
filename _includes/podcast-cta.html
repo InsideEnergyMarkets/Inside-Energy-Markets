@@ -1,6 +1,7 @@
 {% comment %}
   Bloc « Écouter le podcast » + « Venir en invité » (À propos, accueil, épisodes).
-  Paramètres : class (classe en plus sur la grille), hide_all (masque le lien « Tous les épisodes »).
+  Paramètres : class (classe en plus sur la grille), hide_all (masque le lien « Tous les épisodes »),
+  contact (accueil : carte « Échangeons » avec la photo à la place de « Venir en invité »).
 {% endcomment %}
 {% include i18n.html %}
 {% include latest-episode.html %}
@@ -18,12 +19,22 @@
           {% unless include.hide_all %}<a href="{{ u.episodes | relative_url }}"><i class="fa-solid fa-list" aria-hidden="true"></i>{{ t.cta.all_episodes }}</a>{% endunless %}
         </p>
       </div>
+      {% if include.contact %}
+      <div class="ab-cta hm-contact">
+        <img src="{{ '/assets/img/tom.webp' | relative_url }}" alt="Tom Moulard" width="112" height="112">
+        <div class="hm-contact-body">
+        <p class="ab-kicker">{{ t.cta.contact_kicker }}</p>
+        <h3>{{ t.cta.contact_title }}</h3>
+        <p class="ab-cta-text">{{ t.cta.contact_text }}</p>
+      {% else %}
       <div class="ab-cta">
         <p class="ab-kicker">{{ t.cta.guest_kicker }}</p>
         <p class="ab-cta-text">{{ t.cta.guest_text }}</p>
+      {% endif %}
         <div class="ab-cta-actions">
           <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q="><i class="fa-solid fa-envelope" aria-hidden="true"></i>{{ t.contact }}</button>
           <a class="btn btn-ghost" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
         </div>
+        {% if include.contact %}</div>{% endif %}
       </div>
     </div>

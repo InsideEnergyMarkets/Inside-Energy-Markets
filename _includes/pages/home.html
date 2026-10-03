@@ -10,7 +10,6 @@
         <a class="btn btn-primary" href="{{ u.episodes | relative_url }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.home.cta_listen }}</a>
         <a class="btn btn-ghost" href="{{ u.markets | relative_url }}"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>{{ t.home.cta_markets }}</a>
       </div>
-      <p class="preview-tag">Photo, version 1 : dans la présentation</p>
       <a class="hero-host" href="{{ u.about | relative_url }}">
         <img src="{{ '/assets/img/tom.webp' | relative_url }}" alt="Tom Moulard" width="56" height="56">
         <span><small>{{ t.cta.host_by }}</small><strong>Tom Moulard</strong><em>{{ t.cta.host_role }}</em></span>
@@ -51,10 +50,7 @@
 <section class="nw-section">
   <div class="wrap">
     {% include news-ticker.html %}
-    <p class="preview-tag">Cotations, version A : défilement vers le bas, groupe par groupe</p>
-    {% include quotes-strip.html mode="roll" %}
-    <p class="preview-tag">Cotations, version B : tapis roulant</p>
-    {% include quotes-strip.html mode="belt" %}
+    {% include quotes-strip.html %}
   </div>
 </section>
 
@@ -183,19 +179,6 @@
       <h2>{{ t.home.cta_title }}</h2>
       <a href="{{ u.about | relative_url }}">{{ t.nav.about }} <span aria-hidden="true">→</span></a>
     </div>
-    {% include podcast-cta.html %}
-    <p class="preview-tag">Photo, version 2 : plus bas, pour me contacter</p>
-    <div class="hm-contact">
-      <img src="{{ '/assets/img/tom.webp' | relative_url }}" alt="Tom Moulard" width="132" height="132">
-      <div class="hm-contact-body">
-        <p class="ab-kicker">{{ t.cta.contact_kicker }}</p>
-        <h3>{{ t.cta.contact_title }}</h3>
-        <p>{{ t.cta.contact_text }}</p>
-        <div class="ab-cta-actions">
-          <button type="button" class="btn btn-primary" data-contact="bW9jLnNiZWdkZWtAZHJhbHVvbS5tb3Q="><i class="fa-solid fa-envelope" aria-hidden="true"></i>{{ t.contact }}</button>
-          <a class="btn btn-ghost" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
-        </div>
-      </div>
-    </div>
+    {% include podcast-cta.html contact=true %}
   </div>
 </section>

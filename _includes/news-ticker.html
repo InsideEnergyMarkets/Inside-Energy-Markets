@@ -1,7 +1,7 @@
 {% comment %}
   Bandeau « Dernières infos » : titres repris des flux RSS (scripts/fetch_news.py).
   Un titre à la fois ; le script du layout passe au suivant toutes les 6 s en le faisant
-  glisser de bas en haut, et s'arrête au survol ou quand un titre a le focus.
+  descendre du haut, et s'arrête au survol ou quand un titre a le focus.
 {% endcomment %}
 {% include i18n.html %}
 {% assign news_all = site.data.news.items %}

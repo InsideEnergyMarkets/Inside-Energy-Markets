@@ -1,8 +1,7 @@
 {% comment %}
   Ligne de cotations sous le bandeau d'actus de l'accueil. Trois groupes : prix (spot France, Brent,
   Henry Hub), autres repères (WTI, stocks de gaz UE, gazole) et détroits (Ormuz, Bab-el-Mandeb, Malacca).
-  include.mode = "roll" : un groupe à la fois, le suivant descend (script du layout) ;
-  include.mode = "belt" : tapis roulant horizontal en CSS, arrêté au survol.
+  Tapis roulant horizontal en CSS (deux copies de la liste), arrêté au survol.
   Chaque cotation mène à sa rubrique de /marches/, source et date en infobulle. Hausse en vert, baisse en rouge.
 {% endcomment %}
 {% include i18n.html %}
@@ -24,7 +23,6 @@
 {% capture g_straits %}
 {% assign cp_keys = "hormuz,bab_el_mandeb,malacca" | split: "," %}{% for k in cp_keys %}{% assign cp = market.chokepoints[k] %}{% if cp.status %}<a class="qs-item" href="{{ marches }}#{{ t.ids.sea }}" title="IMF PortWatch · {{ cp.date | date: '%d/%m' }}"><span class="qs-name">{{ q[k] }}</span><span class="qs-status {{ cp.status }}">{{ t.status_short[cp.status] }}</span></a>{% endif %}{% endfor %}
 {% endcapture %}
-{% if include.mode == "belt" %}
 <div class="qs qs--belt">
   <div class="qs-belt" aria-label="{{ q.aria }}">
     {% for pass in (1..2) %}
@@ -35,13 +33,3 @@
   </div>
   <a class="qs-all" href="{{ marches }}">{{ q.all }}</a>
 </div>
-{% else %}
-<div class="qs qs--roll" aria-label="{{ q.aria }}">
-  <div class="qs-roll">
-    <div class="qs-group is-active"><span class="qs-tag">{{ q.g_prices }}</span>{{ g_prices }}</div>
-    <div class="qs-group"><span class="qs-tag">{{ q.g_more }}</span>{{ g_more }}</div>
-    <div class="qs-group"><span class="qs-tag">{{ q.g_straits }}</span>{{ g_straits }}</div>
-  </div>
-  <a class="qs-all" href="{{ marches }}">{{ q.all }}</a>
-</div>
-{% endif %}
