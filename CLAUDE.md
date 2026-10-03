@@ -137,7 +137,9 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   - Brent et Henry Hub : OilPriceAPI (date = `as_of`, week-end ramené au vendredi) = contrats à terme du premier mois
     (Brent ICE, `NATURAL_GAS_USD` = Henry Hub NYMEX, PAS le spot). Jamais mélangés avec le spot EIA : en cas d'échec,
     dernière valeur connue ; l'historique ne contient que des valeurs OilPriceAPI (rattrapage `past_month` en moyennes
-    journalières, une requête par jour au plus, état dans `_data/oilprice_backfill.json`). Le spot EIA ne sert qu'aux vues 12 mois.
+    journalières : refusé en offre gratuite (402), désactivé via `_data/oilprice_backfill.json` ; l'historique se constitue jour
+    après jour depuis le 25/09/2026). En attendant, le spot EIA (`brent_year.json`) est tracé en pointillés « pour contexte »
+    sur les graphiques Brent (`context` dans mktChartData, 2e série de la note) ; il n'entre jamais dans les chiffres.
   - Gaz France (PEG, zone TRF depuis la fusion des zones en 2018) : prix moyen journalier publié par NaTran (ex-GRTgaz),
     export CSV de la plateforme Smart (`smart.natrangroupe.com/api/v1/fr/prix_bourse/export/ZONE.csv`, sans clé) :
     moyenne pondérée de tous les produits échangés sur EEX pour la journée gazière. `market.peg`, `peg_eur_mwh` dans
