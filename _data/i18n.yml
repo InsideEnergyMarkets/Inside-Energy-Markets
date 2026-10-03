@@ -434,6 +434,8 @@ fr:
     updated: "Données marché mises à jour le"
   js:
     locale: "fr-FR"
+    see_section: "Voir la rubrique %n"
+    see_markets: "Voir la page Marchés"
     da_tomorrow: "Demain"
     production: "Production"
     consumption: "Consommation"
@@ -928,6 +930,8 @@ en:
     updated: "Market data updated"
   js:
     locale: "en-GB"
+    see_section: "See the %n section"
+    see_markets: "See the Markets page"
     da_tomorrow: "Tomorrow"
     production: "Production"
     consumption: "Consumption"

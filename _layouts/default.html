@@ -500,11 +500,18 @@ if (navToggle) {
         '</div>' +
         '<div class="mkt-modal-chart"><canvas id="mkt-modal-canvas"></canvas></div>' +
         '<div class="mkt-modal-stats"></div>' +
+        '<div class="mkt-modal-links" hidden></div>' +
       '</div>';
     document.body.appendChild(modal);
 
     modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
     modal.querySelector('.mkt-modal-close').addEventListener('click', closeModal);
+    // Un lien du pied mène à /marches/ : on referme sans rendre le focus au déclencheur
+    modal.querySelector('.mkt-modal-links').addEventListener('click', function (e) {
+      if (!e.target.closest('a')) return;
+      modalState.trigger = null;
+      closeModal();
+    });
     modal.querySelectorAll('[data-period]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         modalState.days = parseInt(btn.getAttribute('data-period'), 10);
@@ -709,14 +716,22 @@ if (navToggle) {
   }
 
   function openModal(key, title, trigger) {
-    if (!window.mktChartData || !window.mktChartData[key] || typeof Chart === 'undefined') return;
+    if (!window.mktChartData || !window.mktChartData[key] || typeof Chart === 'undefined') return false;
     if (!modal) buildModal();
     modalState = { key: key, days: cardDays[key] || 30, ma: false, compare: false, title: title, trigger: trigger };
+    // Depuis l'accueil : liens vers la rubrique concernée et vers la page Marchés
+    var links = modal.querySelector('.mkt-modal-links'), sec = trigger && trigger.getAttribute('data-section-url');
+    links.hidden = !sec;
+    links.innerHTML = sec
+      ? '<a class="btn btn-primary" href="' + sec + '">' + iemT.see_section.replace('%n', trigger.getAttribute('data-section')) + ' <span aria-hidden="true">→</span></a>' +
+        '<a class="btn btn-ghost" href="' + trigger.getAttribute('data-markets-url') + '">' + iemT.see_markets + '</a>'
+      : '';
     modal.querySelector('.mkt-modal-box').style.borderTopColor = window.mktChartData[key].color;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     renderModal();
     modal.querySelector('.mkt-modal-close').focus();
+    return true;
   }
 
   function closeModal() {
@@ -1227,8 +1242,10 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     });
   });
   document.querySelectorAll('[data-expand]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      window.mktCharts.open(btn.getAttribute('data-expand'), btn.getAttribute('data-title'), btn);
+    btn.addEventListener('click', function (e) {
+      // Sur un lien (accueil), ctrl/cmd-clic garde l'ouverture de la page dans un onglet
+      if (btn.tagName === 'A' && (e.ctrlKey || e.metaKey || e.shiftKey || e.button)) return;
+      if (window.mktCharts.open(btn.getAttribute('data-expand'), btn.getAttribute('data-title'), btn)) e.preventDefault();
     });
   });
 

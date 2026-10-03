@@ -2898,3 +2898,10 @@ html.has-player .nav-ep { display: none; }
 .hm-contact-body { flex: 1; min-width: 0; }
 @media (max-width: 760px) { .ab-cta-grid--contact { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .ab-cta.hm-contact { flex-direction: column; align-items: center; text-align: center; } .hm-contact .ab-cta-actions { justify-content: center; } }
+
+/* Vue détaillée ouverte depuis l'accueil : liens vers la rubrique et la page Marchés */
+.mkt-modal-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+.mkt-modal-links[hidden] { display: none; }
+.mkt-modal-links .btn-ghost { color: #fff; border-color: rgba(255, 255, 255, 0.3); }
+.mkt-modal-links .btn-ghost:hover { border-color: #4fd1c5; color: #4fd1c5; }
+@media (max-width: 640px) { .mkt-modal-links { justify-content: stretch; } .mkt-modal-links .btn { flex: 1; justify-content: center; } }
