@@ -2925,3 +2925,19 @@ html.has-player .nav-ep { display: none; }
 .nt-dc-stat .nt-dc-up { color: #3ddc97; }
 .nt-dc-stat .nt-dc-down { color: #ff6b5b; }
 @media (max-width: 640px) { .nt-dc { padding: 16px 14px; } .nt-dc-chart { height: 210px; } .nt-dc-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Note de marché : chiffres clés en cartes marine avec mini-courbe */
+.nt-kcs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 6px 0 4px; }
+.nt-kc { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 14px 14px 8px; border-radius: 16px; background: linear-gradient(160deg, #1b2a6b, #0d1638); color: #fff; }
+.nt-kc-l { font-size: 12px; color: rgba(255, 255, 255, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nt-kc-l i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; }
+.nt-kc-v { font: 700 24px 'JetBrains Mono', monospace; white-space: nowrap; }
+.nt-kc-v small { margin-left: 3px; font: 600 12px 'Inter', sans-serif; color: rgba(255, 255, 255, 0.55); }
+.nt-kc-f { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; }
+.nt-kc-f em { font-style: normal; font-size: 11px; color: rgba(255, 255, 255, 0.5); }
+.nt-kc-c { font: 700 13px 'JetBrains Mono', monospace; white-space: nowrap; }
+.nt-kc-c--up { color: #3ddc97; }
+.nt-kc-c--down { color: #ff6b5b; }
+.nt-kc-c--flat { color: rgba(255, 255, 255, 0.6); }
+.nt-kc-s { position: relative; height: 46px; margin-top: auto; padding-top: 6px; }
+@media (max-width: 760px) { .nt-kcs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -246,6 +246,7 @@ def make_chart(kind, c, s, lang, week):
 def build(s, c, lang, week):
     """Contenu de la note dans une langue : titre, intro, contexte, tuiles, rubriques à puces, lecture clé."""
     fr = lang == "fr"
+    cs = c  # séries des graphiques (le nom c est réutilisé plus bas)
     tiles, sections, movers = [], [], []
 
     sp = s.get("spot")
@@ -293,7 +294,7 @@ def build(s, c, lang, week):
                  + f", between €{num(pg['low'][1], lang)} and €{num(pg['high'][1], lang)}/MWh depending on the day.")
     eu, frs = s.get("storage_eu"), s.get("storage_fr")
     if eu:
-        tiles.append({"key": "storage", "label": "Stocks de gaz UE" if fr else "EU gas storage", "sub": "remplissage, sur une semaine" if fr else "full, week on week", "value": num(eu["full"], lang, 1), "unit": " %",
+        tiles.append({"key": "storage", "label": "Stocks de gaz UE" if fr else "EU gas storage", "sub": "en une semaine" if fr else "week on week", "value": num(eu["full"], lang, 1), "unit": " %",
                       "change": f"{signed(eu['week'], lang)} pt" if eu["week"] is not None else None,
                       "dir": direction(eu["week"]) if eu["week"] is not None else "flat"})
         vs = ""
@@ -385,6 +386,14 @@ def build(s, c, lang, week):
              f"ce qu'il faut retenir sur l'électricité, le gaz et le pétrole." if fr else
              f"Week of {date_long(start, lang).replace(' ' + str(start.year), '') if start.year == end.year else date_long(start, lang)} to {date_long(end, lang)}: "
              f"what to remember on electricity, gas and oil.")
+    eu_pts = [p["full"] for p in (load("gas_storage.json", {}) or {}).get("eu", []) if p["date"] <= s["end"]]
+    sparks = {"power": [round(v, 2) for _, v in cs.get("power", [])][-30:], "gas": [round(v, 2) for _, v in cs.get("gas", [])][-30:],
+              "oil": [round(v, 2) for _, v in cs.get("oil", [])][-30:], "storage": eu_pts[-60:]}
+    tile_colors = {"power": "#4fd1c5", "gas": "#e8b33a", "storage": "#94a3b8", "oil": "#e8703a"}
+    for t in tiles:
+        t["color"] = tile_colors.get(t.get("key"), "#4fd1c5")
+        if len(sparks.get(t.get("key")) or []) > 1:
+            t["spark"] = sparks[t["key"]]
     return {"headline": headline, "intro": intro, "context": context, "tiles": tiles, "sections": sections,
             "reading": " ".join(reading)}
 

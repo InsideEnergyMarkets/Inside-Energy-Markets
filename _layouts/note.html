@@ -37,12 +37,13 @@ layout: default
       </aside>
       {% endif %}
 
-      <div class="nt-tiles">
+      <div class="nt-kcs">
         {% for tl in page.tiles %}
-        <div class="nt-tile">
-          <span class="nt-tile-label">{{ tl.label }}</span>
-          <span class="nt-tile-value">{{ tl.value }}<small>{{ tl.unit }}</small></span>
-          <span class="nt-tile-foot">{% if tl.change %}<span class="nt-tile-change nt-tile-change--{{ tl.dir }}">{{ tl.change }}</span>{% endif %}{% if tl.sub %}<span class="nt-tile-sub">{{ tl.sub }}</span>{% endif %}</span>
+        <div class="nt-kc">
+          <span class="nt-kc-l"><i style="background: {{ tl.color | default: '#4fd1c5' }}"></i>{{ tl.label }}</span>
+          <span class="nt-kc-v">{{ tl.value }}<small>{{ tl.unit }}</small></span>
+          <span class="nt-kc-f">{% if tl.change %}<span class="nt-kc-c nt-kc-c--{{ tl.dir }}">{% if tl.dir == "up" %}▲{% elsif tl.dir == "down" %}▼{% endif %} {{ tl.change }}</span>{% endif %}{% if tl.sub %}<em>{{ tl.sub }}</em>{% endif %}</span>
+          {% if tl.spark %}<span class="nt-kc-s"><canvas data-nt-spark="{{ tl.spark | jsonify }}" data-color="{{ tl.color }}" aria-hidden="true"></canvas></span>{% endif %}
         </div>
         {% endfor %}
       </div>
