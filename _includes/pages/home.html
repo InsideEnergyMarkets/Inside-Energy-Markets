@@ -129,15 +129,6 @@
       {% endif %}
     </div>
 
-    {% assign last_note = site.notes | where: "lang", lang | sort: "date" | last %}
-    {% if last_note %}
-    <a class="hm-note" href="{{ last_note.url | relative_url }}">
-      <span class="hm-note-tag"><i class="fa-solid fa-file-lines" aria-hidden="true"></i>{{ t.note.home_title }} · {{ t.note.week }} {{ last_note.week }}</span>
-      <span class="hm-note-lede">{{ last_note.headline }}</span>
-      <span class="hm-note-cta">{{ t.note.read }} <span aria-hidden="true">→</span></span>
-    </a>
-    {% endif %}
-
     {% if market.updated_at %}
     <p class="mkt-updated-footer"><span class="live-dot"></span>{{ t.updated }} {{ market.updated_at | date: t.datetime_fmt }}</p>
     {% endif %}
@@ -146,10 +137,20 @@
 
 <section class="block alt">
   <div class="wrap">
+    {% assign last_note = site.notes | where: "lang", lang | sort: "date" | last %}
+    {% if last_note %}
+    <div class="section-head">
+      <h2>{{ t.blog.notes_title }}</h2>
+      <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true">→</span></a>
+    </div>
+    {% include note-feature.html note=last_note %}
+    <div class="section-head bl-more-head"><h2>{{ t.home.latest_posts }}</h2></div>
+    {% else %}
     <div class="section-head">
       <h2>{{ t.home.latest_posts }}</h2>
       <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true">→</span></a>
     </div>
+    {% endif %}
     <div class="card-grid card-grid--blog">
       {% assign lposts = site.posts | where: "lang", lang %}
       {% for post in lposts limit: 3 %}

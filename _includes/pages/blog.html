@@ -15,13 +15,7 @@
     {% if lnotes.size > 0 %}
     {% assign note = lnotes | first %}
     <div class="section-head" id="notes"><h2>{{ t.blog.notes_title }}</h2></div>
-    <a class="nt-feature" href="{{ note.url | relative_url }}">
-      <span class="pw-label">{{ t.note.eyebrow }} · {{ t.note.week }} {{ note.week }} · {% include date.html date=note.period_end %}</span>
-      <strong>{{ note.headline }}</strong>
-      <span class="nt-feature-lede">{{ note.intro }}</span>
-      <span class="nt-feature-tiles">{% for tl in note.tiles limit: 4 %}<span><small>{{ tl.label }}</small>{{ tl.value }}{{ tl.unit }}{% if tl.change %}<em class="nt-tile-change--{{ tl.dir }}">{{ tl.change }}</em>{% endif %}</span>{% endfor %}</span>
-      <span class="mk-open">{{ t.note.read }} <span aria-hidden="true">→</span></span>
-    </a>
+    {% include note-feature.html note=note %}
     {% endif %}
 
     {% assign posts = site.posts | where: "lang", lang %}

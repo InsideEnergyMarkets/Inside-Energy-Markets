@@ -96,7 +96,7 @@ fr:
     inc_reported: "signalés, dont %n attaques"
     see_map: "Voir la carte"
     latest_posts: "Derniers articles"
-    all_blog: "Tout le blog"
+    all_blog: "Toutes les analyses"
     cta_title: "Écouter, participer"
   eps:
     eyebrow: "TOUS LES ÉPISODES"
@@ -579,7 +579,7 @@ en:
     inc_reported: "reported, including %n attacks"
     see_map: "See the map"
     latest_posts: "Latest articles"
-    all_blog: "All articles"
+    all_blog: "All analysis"
     cta_title: "Listen, take part"
   eps:
     eyebrow: "ALL EPISODES"

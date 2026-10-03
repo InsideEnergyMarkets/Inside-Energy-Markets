@@ -1,0 +1,8 @@
+{% comment %}Carte « note de marché de la semaine » (page Analyses et accueil) : include.note.{% endcomment %}
+<a class="nt-feature" href="{{ include.note.url | relative_url }}">
+  <span class="pw-label">{{ t.note.eyebrow }} · {{ t.note.week }} {{ include.note.week }} · {% include date.html date=include.note.period_end %}</span>
+  <strong>{{ include.note.headline }}</strong>
+  <span class="nt-feature-lede">{{ include.note.reading | default: include.note.intro }}</span>
+  <span class="nt-feature-tiles">{% for tl in include.note.tiles limit: 4 %}<span><small>{{ tl.label }}</small>{{ tl.value }}{{ tl.unit }}{% if tl.change %}<em class="nt-tile-change--{{ tl.dir }}">{{ tl.change }}</em>{% endif %}</span>{% endfor %}</span>
+  <span class="mk-open">{{ t.note.read }} <span aria-hidden="true">→</span></span>
+</a>
