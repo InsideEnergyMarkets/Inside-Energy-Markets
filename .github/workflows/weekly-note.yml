@@ -74,7 +74,7 @@ jobs:
             _linkedin/*.txt
 
       - name: Notify search engines (IndexNow)
-        if: steps.commit.outputs.new == 'yes'
+        if: steps.commit.outputs.new == 'yes' && github.ref == 'refs/heads/main'
         run: |
           # Laisse le temps à GitHub Pages de publier les nouvelles pages
           sleep 120
