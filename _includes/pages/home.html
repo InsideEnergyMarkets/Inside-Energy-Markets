@@ -129,6 +129,15 @@
       {% endif %}
     </div>
 
+    {% assign last_note = site.notes | where: "lang", lang | sort: "date" | last %}
+    {% if last_note %}
+    <a class="hm-note" href="{{ last_note.url | relative_url }}">
+      <span class="hm-note-tag"><i class="fa-solid fa-file-lines" aria-hidden="true"></i>{{ t.note.home_title }} · {{ t.note.week }} {{ last_note.week }}</span>
+      <span class="hm-note-lede">{{ last_note.lede }}</span>
+      <span class="hm-note-cta">{{ t.note.read }} <span aria-hidden="true">→</span></span>
+    </a>
+    {% endif %}
+
     {% if market.updated_at %}
     <p class="mkt-updated-footer"><span class="live-dot"></span>{{ t.updated }} {{ market.updated_at | date: t.datetime_fmt }}</p>
     {% endif %}

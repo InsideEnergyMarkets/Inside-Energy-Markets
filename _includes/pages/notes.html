@@ -1,0 +1,37 @@
+{% comment %}
+  Archive des notes de marché (notes/ et en/notes/) : la plus récente en avant, puis les autres.
+{% endcomment %}
+{% include i18n.html %}
+{% assign nt = t.note %}
+{% assign lnotes = site.notes | where: "lang", lang | sort: "date" | reverse %}
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">{{ nt.archive_eyebrow }}</p>
+    <h1>{{ nt.archive_title }}</h1>
+    <p class="lead-sm">{{ nt.archive_lead }}</p>
+  </div>
+</section>
+
+<section class="mk-section">
+  <div class="wrap">
+    {% if lnotes.size > 0 %}
+    {% assign first = lnotes | first %}
+    <a class="nt-feature" href="{{ first.url | relative_url }}">
+      <span class="pw-label">{{ nt.latest }} · {{ nt.week }} {{ first.week }}</span>
+      <strong>{{ first.title }}</strong>
+      <span class="nt-feature-lede">{{ first.lede }}</span>
+      <span class="nt-feature-tiles">{% for tl in first.tiles limit: 4 %}<span><small>{{ tl.label }}</small>{{ tl.value }}{{ tl.unit }}</span>{% endfor %}</span>
+      <span class="mk-open">{{ nt.read }} <span aria-hidden="true">→</span></span>
+    </a>
+    {% if lnotes.size > 1 %}
+    <ul class="nt-list">
+      {% for n in lnotes offset: 1 %}
+      <li><a href="{{ n.url | relative_url }}"><span>{{ nt.week }} {{ n.week }}</span><strong>{{ n.title }}</strong><small>{{ n.lede }}</small></a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% else %}
+    <p class="mk-lead">{{ nt.empty }}</p>
+    {% endif %}
+  </div>
+</section>

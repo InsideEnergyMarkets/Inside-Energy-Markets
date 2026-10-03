@@ -1,0 +1,38 @@
+{% comment %}Prix moyens à la pompe, variation 7 j et décomposition du litre de gazole. Variables : fuel, e (Brent), mk.
+Utilisé dans la fenêtre de /marches/ et sur la page « Prix du gazole aujourd'hui ».{% endcomment %}
+        {% if fuel.gazole %}
+        {% assign ch = fuel.change_7d %}
+        <div class="oil-pump">
+          <div><span class="oil-pump-name">{{ mk.diesel }}</span><span class="oil-pump-value">{% include money2.html value=fuel.gazole %} <small>€/L</small></span>
+            {% if ch.since %}<span class="oil-pump-chg {% if ch.gazole_cts > 0 %}is-up{% elsif ch.gazole_cts < 0 %}is-down{% endif %}">{% if ch.gazole_cts > 0 %}▲ +{% elsif ch.gazole_cts < 0 %}▼ {% endif %}{{ ch.gazole_cts | replace: ".", dec }} c€ {{ mk.over_7d }}</span>{% endif %}</div>
+          <div><span class="oil-pump-name">SP95-E10</span><span class="oil-pump-value">{% include money2.html value=fuel.e10 %} <small>€/L</small></span>
+            {% if ch.since %}<span class="oil-pump-chg {% if ch.e10_cts > 0 %}is-up{% elsif ch.e10_cts < 0 %}is-down{% endif %}">{% if ch.e10_cts > 0 %}▲ +{% elsif ch.e10_cts < 0 %}▼ {% endif %}{{ ch.e10_cts | replace: ".", dec }} c€ {{ mk.over_7d }}</span>{% endif %}</div>
+        </div>
+        {% assign usd_eur = site.data.fx.latest.usd_per_eur %}
+        {% if e.price_usd and usd_eur %}
+        {% assign p_total = fuel.gazole %}
+        {% assign p_crude = e.price_usd | divided_by: usd_eur | divided_by: 158.987 %}
+        {% assign vat_rate = tax.tva | plus: 1 %}
+        {% assign p_vat = p_total | times: tax.tva | divided_by: vat_rate %}
+        {% assign p_ticpe = tax.ticpe.gazole %}
+        {% assign p_rest = p_total | minus: p_vat | minus: p_ticpe | minus: p_crude %}
+        {% assign w_crude = p_crude | times: 100 | divided_by: p_total | round: 1 %}
+        {% assign w_rest = p_rest | times: 100 | divided_by: p_total | round: 1 %}
+        {% assign w_ticpe = p_ticpe | times: 100 | divided_by: p_total | round: 1 %}
+        {% assign w_vat = p_vat | times: 100 | divided_by: p_total | round: 1 %}
+        {% capture gz_txt %}{% include money2.html value=fuel.gazole %}{% endcapture %}
+        <p class="oil-dec-title">{{ mk.litre_title | replace: "%n", gz_txt }}</p>
+        <div class="oil-dec" role="img" aria-label="{{ mk.litre_aria }}">
+          <span class="oil-dec--crude" style="width: {{ w_crude }}%"></span><span class="oil-dec--rest" style="width: {{ w_rest }}%"></span><span class="oil-dec--ticpe" style="width: {{ w_ticpe }}%"></span><span class="oil-dec--vat" style="width: {{ w_vat }}%"></span>
+        </div>
+        <ul class="oil-dec-legend">
+          <li><i class="oil-dec--crude" aria-hidden="true"></i>{{ mk.part_crude }}<b>{% include money2.html value=p_crude %} €</b></li>
+          <li><i class="oil-dec--rest" aria-hidden="true"></i>{{ mk.part_rest }}<b>{% include money2.html value=p_rest %} €</b></li>
+          <li><i class="oil-dec--ticpe" aria-hidden="true"></i>{{ mk.part_ticpe }}<b>{% include money2.html value=p_ticpe %} €</b></li>
+          <li><i class="oil-dec--vat" aria-hidden="true"></i>{{ mk.part_vat }}<b>{% include money2.html value=p_vat %} €</b></li>
+        </ul>
+        {% endif %}
+        <p class="mt-src">{{ mk.pump_src | replace: "%n", fuel.stations }} {{ fuel.date | date: "%d/%m" }} · DGCCRF · {{ mk.tax_src }}</p>
+        {% else %}
+        <p class="pw-sub">{{ mk.pending }}</p>
+        {% endif %}

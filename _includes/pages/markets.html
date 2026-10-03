@@ -197,48 +197,7 @@
         <div class="pw-chart pw-chart--tall"><canvas id="chart-canvas-henryhub" aria-label="{{ mk.hh_chart_aria }}"></canvas></div>
       </div>
 
-      <div class="pw-mix">
-        <p class="pw-label">{{ mk.storage_label }}</p>
-        {% if st and st.eu and st.eu.size > 0 %}
-        {% assign eu = st.eu | last %}
-        {% assign fr = st.fr | last %}
-        {% assign y = eu.date | slice: 0, 4 | plus: 0 | minus: 1 %}
-        {% assign ly_date = eu.date | slice: 4, 6 | prepend: y %}
-        {% assign eu_ly = st.eu | where: "date", ly_date | first %}
-        {% assign fr_ly = st.fr | where: "date", ly_date | first %}
-        <div class="pw-co2 gs-level">
-          <span class="pw-co2-value">{{ eu.full | round: 1 | replace: ".", dec }}<small>%</small></span>
-          <span class="pw-co2-text"><strong>{{ mk.storage_full }}</strong>{% assign twh = eu.twh | round: 0 %}{{ mk.storage_twh | replace: '%n', twh }}</span>
-        </div>
-        <div class="gs-bar" role="img" aria-label="{{ mk.storage_aria }} {{ eu.full | round: 1 }} %{% if eu_ly %}, {{ mk.vs_last_year_aria }} {{ eu_ly.full | round: 1 }} %{% endif %}">
-          <span style="width: {{ eu.full }}%"></span>
-          {% if eu_ly %}<i style="left: {{ eu_ly.full }}%" title="{{ mk.same_date_ly }}"></i>{% endif %}
-        </div>
-        <p class="gs-bar-legend"><span>0 %</span>{% if eu_ly %}<span class="gs-ly-mark" style="left: {{ eu_ly.full }}%">▲ {{ mk.last_year }}</span>{% endif %}<span>100 %</span></p>
-        <div class="pw-stats pw-stats--mix">
-          {% if eu_ly %}
-          {% assign d_eu = eu.full | minus: eu_ly.full | round: 1 %}
-          <div><span>{{ mk.eu_vs_ly }}</span><strong class="{% if d_eu < 0 %}gs-down{% else %}gs-up{% endif %}">{% if d_eu > 0 %}+{% endif %}{{ d_eu | replace: ".", dec }} {{ mk.pts }}</strong></div>
-          {% endif %}
-          {% if fr %}
-          <div><span>{{ mk.france }}{% if fr_ly %} ({{ mk.last_year }}{{ t.colon }}{{ fr_ly.full | round: 0 }} %){% endif %}</span><strong>{{ fr.full | round: 1 | replace: ".", dec }} %</strong></div>
-          {% endif %}
-        </div>
-        <div class="pw-chart-head">
-          <span>{{ mk.storage_chart_head }}</span>
-          <div class="mkt-period-btns" id="gs-btns">
-            <button type="button" class="period-btn active" data-zone="eu">{{ mk.eu }}</button>
-            <button type="button" class="period-btn" data-zone="fr">{{ mk.france }}</button>
-          </div>
-        </div>
-        <div class="pw-chart pw-chart--tall"><canvas id="gs-chart" aria-label="{{ mk.storage_chart_aria }}"></canvas></div>
-        <p class="mt-legend gz-legend"><span class="gz-sw gz-sw--europe"></span>{{ eu.date | slice: 0, 4 }} <span class="gz-sw gz-sw--ly"></span>{{ y }}</p>
-        <p class="pw-sub">{{ mk.reading_of }} {{ eu.date | date: "%d/%m" }} · GIE AGSI+</p>
-        <script>window.mktGasStorage = {{ st | jsonify }};</script>
-        {% else %}
-        <p class="pw-sub">{{ mk.pending }}</p>
-        {% endif %}
-      </div>
+      {% include blocks/gas-storage.html %}
     </div>
 
     <div class="mk-more-row">
@@ -328,30 +287,7 @@
     {% if lang == "en" %}{% assign e_label = e.date | date: "%d/%m/%Y" %}{% if e.date_label_en %}{% assign e_label = e.date_label_en %}{% endif %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
     {% if lang == "en" %}{% assign refp = t.cp.ref_period %}{% else %}{% assign refp = ormuz.ref_period %}{% endif %}
     <div class="pw-card">
-      <div class="pw-price">
-        <div class="pw-top">
-          <p class="pw-label">{{ mk.brent_label }}</p>
-          <button type="button" class="period-btn pw-expand" data-expand="brent" data-title="Brent" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
-        </div>
-        {% if e %}
-        <p class="pw-value">{{ e.price_usd | replace: ".", dec }} <small>{{ t.units.usd_bbl }}</small>{% include price-change.html entry=e %}</p>
-        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>
-        {% else %}<p class="pw-value">-</p>{% endif %}
-        <div class="pw-stats" data-week-stats="brent">
-          <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>
-          <div><span>{{ t.js.low }}</span><strong data-stat="min">-</strong></div>
-          <div><span>{{ t.js.high }}</span><strong data-stat="max">-</strong></div>
-        </div>
-        <div class="pw-chart-head">
-          <span>{{ mk.history }}</span>
-          <div class="mkt-period-btns" data-chart-controls="brent">
-            <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
-            <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
-            <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
-          </div>
-        </div>
-        <div class="pw-chart"><canvas id="chart-canvas-brent" aria-label="{{ mk.brent_chart_aria }}"></canvas></div>
-      </div>
+      {% include blocks/brent-price.html %}
 
       {% assign ob = site.data.oil_balance %}
       <div class="pw-mix">
@@ -460,42 +396,7 @@
         <h3 class="mkt-commodity-name" id="dlg-pump-title">{{ mk.pump_label }}</h3>
         <button type="button" class="mkt-modal-close" data-close aria-label="{{ t.close }}">&#x2715;</button>
       </header>
-        {% if fuel.gazole %}
-        {% assign ch = fuel.change_7d %}
-        <div class="oil-pump">
-          <div><span class="oil-pump-name">{{ mk.diesel }}</span><span class="oil-pump-value">{% include money2.html value=fuel.gazole %} <small>€/L</small></span>
-            {% if ch.since %}<span class="oil-pump-chg {% if ch.gazole_cts > 0 %}is-up{% elsif ch.gazole_cts < 0 %}is-down{% endif %}">{% if ch.gazole_cts > 0 %}▲ +{% elsif ch.gazole_cts < 0 %}▼ {% endif %}{{ ch.gazole_cts | replace: ".", dec }} c€ {{ mk.over_7d }}</span>{% endif %}</div>
-          <div><span class="oil-pump-name">SP95-E10</span><span class="oil-pump-value">{% include money2.html value=fuel.e10 %} <small>€/L</small></span>
-            {% if ch.since %}<span class="oil-pump-chg {% if ch.e10_cts > 0 %}is-up{% elsif ch.e10_cts < 0 %}is-down{% endif %}">{% if ch.e10_cts > 0 %}▲ +{% elsif ch.e10_cts < 0 %}▼ {% endif %}{{ ch.e10_cts | replace: ".", dec }} c€ {{ mk.over_7d }}</span>{% endif %}</div>
-        </div>
-        {% assign usd_eur = site.data.fx.latest.usd_per_eur %}
-        {% if e.price_usd and usd_eur %}
-        {% assign p_total = fuel.gazole %}
-        {% assign p_crude = e.price_usd | divided_by: usd_eur | divided_by: 158.987 %}
-        {% assign vat_rate = tax.tva | plus: 1 %}
-        {% assign p_vat = p_total | times: tax.tva | divided_by: vat_rate %}
-        {% assign p_ticpe = tax.ticpe.gazole %}
-        {% assign p_rest = p_total | minus: p_vat | minus: p_ticpe | minus: p_crude %}
-        {% assign w_crude = p_crude | times: 100 | divided_by: p_total | round: 1 %}
-        {% assign w_rest = p_rest | times: 100 | divided_by: p_total | round: 1 %}
-        {% assign w_ticpe = p_ticpe | times: 100 | divided_by: p_total | round: 1 %}
-        {% assign w_vat = p_vat | times: 100 | divided_by: p_total | round: 1 %}
-        {% capture gz_txt %}{% include money2.html value=fuel.gazole %}{% endcapture %}
-        <p class="oil-dec-title">{{ mk.litre_title | replace: "%n", gz_txt }}</p>
-        <div class="oil-dec" role="img" aria-label="{{ mk.litre_aria }}">
-          <span class="oil-dec--crude" style="width: {{ w_crude }}%"></span><span class="oil-dec--rest" style="width: {{ w_rest }}%"></span><span class="oil-dec--ticpe" style="width: {{ w_ticpe }}%"></span><span class="oil-dec--vat" style="width: {{ w_vat }}%"></span>
-        </div>
-        <ul class="oil-dec-legend">
-          <li><i class="oil-dec--crude" aria-hidden="true"></i>{{ mk.part_crude }}<b>{% include money2.html value=p_crude %} €</b></li>
-          <li><i class="oil-dec--rest" aria-hidden="true"></i>{{ mk.part_rest }}<b>{% include money2.html value=p_rest %} €</b></li>
-          <li><i class="oil-dec--ticpe" aria-hidden="true"></i>{{ mk.part_ticpe }}<b>{% include money2.html value=p_ticpe %} €</b></li>
-          <li><i class="oil-dec--vat" aria-hidden="true"></i>{{ mk.part_vat }}<b>{% include money2.html value=p_vat %} €</b></li>
-        </ul>
-        {% endif %}
-        <p class="mt-src">{{ mk.pump_src | replace: "%n", fuel.stations }} {{ fuel.date | date: "%d/%m" }} · DGCCRF · {{ mk.tax_src }}</p>
-        {% else %}
-        <p class="pw-sub">{{ mk.pending }}</p>
-        {% endif %}
+        {% include blocks/fuel-detail.html %}
     </dialog>
     {% endif %}
 
