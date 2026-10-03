@@ -51,7 +51,8 @@
       </div>
     </div>
     {% capture price_txt %}{{ e.price_usd | replace: ".", dec }}{% endcapture %}
-    {% capture ans1 %}{{ sx.a_price | replace: "%n", price_txt | replace: "%m", e_label }}{% endcapture %}
+    {% assign e_day = e.date | date: "%d/%m/%Y" %}
+    {% capture ans1 %}{{ sx.a_price | replace: "%n", price_txt | replace: "%m", e_day }}{% endcapture %}
     {% assign faq = "" | split: "" | push: sx.q_price | push: ans1 | push: sx.q_wti | push: sx.a_wti | push: sx.q_pump | push: sx.a_pump %}
     {% assign anchor = t.ids.oil %}
 
@@ -65,6 +66,7 @@
     </div>
     {% capture gz %}{% include money2.html value=fuel.gazole %}{% endcapture %}
     {% capture e10 %}{% include money2.html value=fuel.e10 %}{% endcapture %}
+    {% assign gz = gz | strip %}{% assign e10 = e10 | strip %}
     {% capture ans1 %}{{ sx.a_price | replace: "%n", gz | replace: "%m", e10 }}{% endcapture %}
     {% assign w_tax = w_ticpe | plus: w_vat | round: 0 %}
     {% capture ans2 %}{{ sx.a_taxes | replace: "%n", w_tax }}{% endcapture %}

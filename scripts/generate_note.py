@@ -322,6 +322,15 @@ def write_texts(s, lang):
     return lede_txt, tiles, sections, news
 
 
+def note_date(end):
+    """Lundi 0 h (Paris) qui suit la semaine. Si la note est générée avant (essai en cours de
+    semaine), on prend l'instant présent : Jekyll ne publie pas les contenus datés dans le futur."""
+    monday = datetime.datetime.combine(end + datetime.timedelta(days=1), datetime.time(0, 0),
+                                       tzinfo=datetime.timezone(datetime.timedelta(hours=2)))
+    now = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=5)
+    return min(monday, now).strftime("%Y-%m-%d %H:%M:%S %z")
+
+
 def yaml_value(v):
     return json.dumps(v, ensure_ascii=False)
 
@@ -341,7 +350,7 @@ def write_note(s, lang, week, force):
         title = f"Note de marché, semaine {wk} : du {start.day}{'er' if start.day == 1 else ''} {MONTHS['fr'][start.month - 1] if start.month != end.month else ''} au {date_long(end, lang)}".replace("  ", " ")
     front = {
         "layout": "note", "lang": lang, "ref": f"note-{year}-{wk:02d}", "title": title,
-        "description": lede, "date": f"{(end + datetime.timedelta(days=1)).isoformat()} 07:00:00 +0200",
+        "description": lede, "date": note_date(end),
         "permalink": f"/notes/{slug}/" if lang == "fr" else f"/en/notes/{slug}/",
         "week": wk, "year": year, "period_start": s["start"], "period_end": s["end"],
         "lede": lede, "tiles": tiles, "sections": sections, "news": news,
