@@ -176,12 +176,9 @@ def compute(week_start):
     return s
 
 
-STATUS = {"fr": {"fluide": "fluide", "partiel": "partiellement perturbé", "ferme": "fortement perturbé",
-                 "arret": "quasi à l'arrêt"},
-          "en": {"fluide": "flowing normally", "partiel": "partly disrupted", "ferme": "heavily disrupted",
-                 "arret": "almost at a standstill"}}
 SOAR_FR = "s'envole"
-COLORS = {"power": "#00817d", "gas": "#e8b33a", "oil": "#e8703a", "sea": "#2f6f8f", "ref": "#94a3b8"}
+COLORS = {"power": "#00817d", "gas": "#e8b33a", "oil": "#e8703a"}
+ORMUZ = re.compile(r"ormuz|hormuz", re.I)
 
 
 def short_day(date, lang):
@@ -195,64 +192,51 @@ def ddmm(date):
 
 
 def chart_series(week_start):
-    """Données des petits graphiques de la note (une série par rubrique)."""
-    start, end = week_start.isoformat(), (week_start + datetime.timedelta(days=6)).isoformat()
+    """Séries des graphiques détaillés : 30 jours jusqu'à la fin de la semaine (spot, Henry Hub, Brent)."""
+    end = (week_start + datetime.timedelta(days=6)).isoformat()
+    since = (week_start + datetime.timedelta(days=6) - datetime.timedelta(days=30)).isoformat()
     hist = load("market_history.json", [])
-    c = {}
-    c["power"] = [(d, v) for d, v in series(hist, "spot_eur_mwh") if start <= d <= end]
-    since30 = (week_start - datetime.timedelta(days=23)).isoformat()
-    c["oil"] = [(d, v) for d, v in series(hist, "brent_usd") if since30 <= d <= end]
-    storage = load("gas_storage.json", {}) or {}
-    eu = [p for p in storage.get("eu", []) if p["date"] <= end]
-    by_date = {p["date"]: p["full"] for p in storage.get("eu", [])}
-    since = (week_start - datetime.timedelta(days=84)).isoformat()
-    pts = [p for p in eu if p["date"] >= since][::7] + ([eu[-1]] if eu else [])
-    seen, gas = set(), []
-    for p in pts:
-        if p["date"] in seen:
-            continue
-        seen.add(p["date"])
-        d = datetime.date.fromisoformat(p["date"])
-        gas.append((p["date"], p["full"], by_date.get(d.replace(year=d.year - 1).isoformat())))
-    c["gas"] = gas
-    rows = (load("chokepoints_history.json", {}) or {}).get("hormuz", [])
-    vals = [r for r in rows if r.get("n_tanker") is not None and r["date"] <= end]
-    ma = []
-    for i, r in enumerate(vals):
-        win = [x["n_tanker"] for x in vals[max(0, i - 6):i + 1]]
-        ma.append((r["date"], round(sum(win) / len(win), 1)))
-    c["sea"] = ma[-60:]
-    c["sea_ref"] = ((load("market.json", {}) or {}).get("chokepoints", {}).get("hormuz") or {}).get("ref_tanker")
-    return c
+    return {k: [(d, v) for d, v in series(hist, f) if since < d <= end]
+            for k, f in (("power", "spot_eur_mwh"), ("gas", "henry_hub_eur_mwh"), ("oil", "brent_usd"))}
 
 
-def make_chart(kind, c, s, lang):
+def make_chart(kind, c, s, lang, week):
+    """Graphique détaillé d'une rubrique : courbe 30 jours (semaine en surbrillance) et cinq chiffres."""
     fr = lang == "fr"
-    if kind == "power" and c["power"]:
-        ref = s["spot"]["prev_avg"]
-        return {"type": "bar", "unit": "€/MWh", "labels": [short_day(d, lang) for d, _ in c["power"]],
-                "series": [{"name": "Spot moyen du jour" if fr else "Daily average spot", "color": COLORS["power"],
-                            "data": [round(v, 2) for _, v in c["power"]]}],
-                "ref": round(ref, 2) if ref else None,
-                "ref_label": "Moyenne de la semaine précédente" if fr else "Previous week's average"}
-    if kind == "gas" and c["gas"]:
-        y = c["gas"][-1][0][:4]
-        return {"type": "line", "unit": "%", "labels": [ddmm(d) for d, _, _ in c["gas"]],
-                "series": [{"name": f"UE {y}" if fr else f"EU {y}", "color": COLORS["gas"], "data": [v for _, v, _ in c["gas"]]},
-                           {"name": f"UE {int(y) - 1}" if fr else f"EU {int(y) - 1}", "color": COLORS["ref"], "dashed": True,
-                            "data": [ly for _, _, ly in c["gas"]]}]}
-    if kind == "oil" and c["oil"]:
-        return {"type": "line", "unit": "$/b", "labels": [ddmm(d) for d, _ in c["oil"]],
-                "series": [{"name": "Brent", "color": COLORS["oil"], "data": [v for _, v in c["oil"]]}]}
-    if kind == "sea" and c["sea"]:
-        return {"type": "line", "unit": "tankers/j" if fr else "tankers/d", "labels": [ddmm(d) for d, _ in c["sea"]],
-                "series": [{"name": "Tankers par jour à Ormuz (moyenne 7 j)" if fr else "Tankers a day through Hormuz (7-day avg)",
-                            "color": COLORS["sea"], "data": [v for _, v in c["sea"]]}],
-                "ref": c["sea_ref"], "ref_label": "Normale (janv.-oct. 2023)" if fr else "Normal (Jan-Oct 2023)"}
-    return None
+    pts = c.get(kind) or []
+    inside = [(d, v) for d, v in pts if s["start"] <= d <= s["end"]]
+    if not inside:
+        return None
+    unit = {"power": "€/MWh", "gas": "€/MWh", "oil": "$/b"}[kind]
+    last_d, last = inside[-1]
+    lo, hi = min(inside, key=lambda p: p[1]), max(inside, key=lambda p: p[1])
+    avg = sum(v for _, v in inside) / len(inside)
+    stats = [{"label": "Dernier" if fr else "Latest", "value": num(last, lang), "unit": unit, "sub": day_label(last_d, lang)}]
+    if kind == "power":
+        sp = s["spot"]
+        chg = (sp["avg"] - sp["prev_avg"]) / sp["prev_avg"] * 100 if sp.get("prev_avg") else None
+        if chg is not None:
+            stats.append({"label": "Moyenne vs sem. préc." if fr else "Average vs prev. week", "value": pct(chg, lang), "unit": "",
+                          "sub": (f"{num(sp['avg'], lang)} contre {num(sp['prev_avg'], lang)} €/MWh" if fr else
+                                  f"{num(sp['avg'], lang)} vs {num(sp['prev_avg'], lang)} €/MWh"), "dir": direction(chg)})
+    else:
+        mv = s["hh" if kind == "gas" else "brent"]
+        stats.append({"label": "Sur la semaine" if fr else "On the week", "value": pct(mv["change"], lang), "unit": "",
+                      "sub": f"{signed(mv['last'] - mv['ref'], lang, 2)} {unit}", "dir": direction(mv["change"])})
+    stats += [{"label": "Plus bas" if fr else "Low", "value": num(lo[1], lang), "unit": unit, "sub": day_label(lo[0], lang)},
+              {"label": "Plus haut" if fr else "High", "value": num(hi[1], lang), "unit": unit, "sub": day_label(hi[0], lang)},
+              {"label": "Moyenne" if fr else "Average", "value": num(avg, lang), "unit": unit,
+               "sub": (f"semaine {week}" if fr else f"week {week}")}]
+    title, sub = {
+        "power": ("Électricité FR" if fr else "French power", "Prix spot, 30 jours" if fr else "Spot price, 30 days"),
+        "gas": ("Henry Hub", "Prix de référence américain, 30 jours" if fr else "US benchmark price, 30 days"),
+        "oil": ("Brent", "Baril de mer du Nord, 30 jours" if fr else "North Sea barrel, 30 days")}[kind]
+    return {"type": "detail", "title": title, "sub": sub, "unit": unit, "labels": [d for d, _ in pts],
+            "series": [{"name": title, "color": COLORS[kind], "data": [round(v, 2) for _, v in pts]}],
+            "band": [s["start"], s["end"]], "band_label": f"Semaine {week}" if fr else f"Week {week}", "stats": stats}
 
 
-def build(s, c, lang):
+def build(s, c, lang, week):
     """Contenu de la note dans une langue : titre, intro, contexte, tuiles, rubriques à puces, lecture clé."""
     fr = lang == "fr"
     tiles, sections, movers = [], [], []
@@ -283,7 +267,7 @@ def build(s, c, lang):
             b.append(f"Production : nucléaire {num(m['nuclear'], lang, 0)} %, renouvelables {num(m['renewables'], lang, 0)} %, gaz {num(m['gas'], lang, 0)} %." if fr else
                      f"Generation: nuclear {num(m['nuclear'], lang, 0)}%, renewables {num(m['renewables'], lang, 0)}%, gas {num(m['gas'], lang, 0)}%.")
         sections.append({"key": "power", "title": "Électricité" if fr else "Electricity", "icon": "fa-bolt", "emoji": "⚡",
-                         "bullets": b, "chart": make_chart("power", c, s, lang), "source": "RTE, Energy-Charts / SMARD"})
+                         "bullets": b, "chart": make_chart("power", c, s, lang, week), "source": "RTE, Energy-Charts / SMARD"})
 
     b = []
     hh = s.get("hh")
@@ -300,16 +284,17 @@ def build(s, c, lang):
         tiles.append({"label": "Stocks de gaz UE" if fr else "EU gas storage", "value": num(eu["full"], lang, 1), "unit": " %",
                       "change": f"{signed(eu['week'], lang)} pt" if eu["week"] is not None else None,
                       "dir": direction(eu["week"]) if eu["week"] is not None else "flat"})
-        b.append((f"Stocks européens : {num(eu['full'], lang, 1)} % de remplissage" + (f" ({signed(eu['week'], lang)} point en une semaine)." if eu["week"] is not None else ".")) if fr else
-                 (f"European storage: {num(eu['full'], lang, 1)}% full" + (f" ({signed(eu['week'], lang)} pt in a week)." if eu["week"] is not None else ".")))
+        vs = ""
         if eu["ly"] is not None:
-            b.append(f"Par rapport à l'an dernier : {num(abs(eu['ly']), lang, 1)} points {'au-dessus' if eu['ly'] > 0 else 'en dessous'} à la même date." if fr else
-                     f"Against last year: {num(abs(eu['ly']), lang, 1)} pts {'above' if eu['ly'] > 0 else 'below'} on the same date.")
+            vs = (f", {num(abs(eu['ly']), lang, 1)} points {'au-dessus' if eu['ly'] > 0 else 'en dessous'} de l'an dernier" if fr else
+                  f", {num(abs(eu['ly']), lang, 1)} pts {'above' if eu['ly'] > 0 else 'below'} last year")
+        b.append((f"Stocks européens : {num(eu['full'], lang, 1)} % de remplissage" + (f" ({signed(eu['week'], lang)} point en une semaine)" if eu["week"] is not None else "") + vs + ".") if fr else
+                 (f"European storage: {num(eu['full'], lang, 1)}% full" + (f" ({signed(eu['week'], lang)} pt in a week)" if eu["week"] is not None else "") + vs + "."))
         if frs:
             b.append(f"France : {num(frs['full'], lang, 1)} % de remplissage." if fr else f"France: {num(frs['full'], lang, 1)}% full.")
     if b:
         sections.append({"key": "gas", "title": "Gaz" if fr else "Gas", "icon": "fa-fire-flame-simple", "emoji": "🔥",
-                         "bullets": b, "chart": make_chart("gas", c, s, lang),
+                         "bullets": b, "chart": make_chart("gas", c, s, lang, week),
                          "source": "OilPriceAPI, EIA, GIE AGSI+" + (", taux BCE" if fr else ", ECB rates")})
 
     b = []
@@ -322,12 +307,16 @@ def build(s, c, lang):
                  f"{num(br['last'], lang)} $ en fin de semaine ({pct(br['change'], lang)})." if fr else
                  f"Brent: between ${num(br['low'][1], lang)} and ${num(br['high'][1], lang)} a barrel, "
                  f"${num(br['last'], lang)} at the end of the week ({pct(br['change'], lang)}).")
+    extra = []
     if "spread" in s:
-        b.append(f"Écart Brent-WTI : {num(s['spread'], lang)} $ par baril." if fr else f"Brent-WTI spread: ${num(s['spread'], lang)} a barrel.")
+        extra.append(f"écart Brent-WTI {num(s['spread'], lang)} $ par baril" if fr else f"Brent-WTI spread ${num(s['spread'], lang)} a barrel")
     us = s.get("us_stocks")
     if us:
-        b.append(f"Stocks de brut américains : {signed(us['change'], lang)} million{'s' if abs(us['change']) >= 2 else ''} de barils, à {num(us['mb'], lang, 1)} millions." if fr else
-                 f"US crude inventories: {signed(us['change'], lang)} million barrels, to {num(us['mb'], lang, 1)} million.")
+        extra.append(f"stocks de brut américains {signed(us['change'], lang)} million{'s' if abs(us['change']) >= 2 else ''} de barils, à {num(us['mb'], lang, 1)} millions" if fr else
+                     f"US crude inventories {signed(us['change'], lang)} million barrels, to {num(us['mb'], lang, 1)} million")
+    if extra:
+        txt = " ; ".join(extra)
+        b.append(txt[0].upper() + txt[1:] + ".")
     fu = s.get("fuel")
     if fu and "gazole" in fu:
         g = fu["gazole"]
@@ -337,45 +326,14 @@ def build(s, c, lang):
                  + ((f", SP95-E10 {num(fu['e10']['last'], lang, 3)} €/L." if fr else f", SP95-E10 €{num(fu['e10']['last'], lang, 3)}/L.") if "e10" in fu else "."))
     if b:
         sections.append({"key": "oil", "title": "Pétrole et carburants" if fr else "Oil and fuels", "icon": "fa-oil-well", "emoji": "🛢️",
-                         "bullets": b, "chart": make_chart("oil", c, s, lang),
+                         "bullets": b, "chart": make_chart("oil", c, s, lang, week),
                          "source": "OilPriceAPI, EIA" + (", prix des carburants (data.economie.gouv.fr)" if fr else ", French fuel prices (data.economie.gouv.fr)")})
-
-    b = []
-    st = s["straits"]
-    h = st.get("hormuz") or {}
-    names = {"bab_el_mandeb": ("Bab-el-Mandeb", "Bab el-Mandeb"), "malacca": ("Malacca", "Malacca")}
-    if h.get("pct") is not None:
-        status = STATUS[lang].get(h["status"], "")
-        tiles.append({"label": "Trafic à Ormuz" if fr else "Hormuz traffic", "value": str(h["pct"]),
-                      "unit": " % de la normale" if fr else "% of normal", "change": status, "dir": "flat"})
-        b.append(f"Ormuz : {h['pct']} % du trafic normal ({status}), données au {ddmm(h['date'])}." if fr else
-                 f"Hormuz: {h['pct']}% of normal traffic ({status}), data as of {ddmm(h['date'])}.")
-        other = [f"{names[k][0 if fr else 1]} {st[k]['pct']} %" if fr else f"{names[k][1]} {st[k]['pct']}%"
-                 for k in names if (st.get(k) or {}).get("pct") is not None]
-        if other:
-            b.append(("Autres détroits : " if fr else "Other straits: ") + ", ".join(other) + ".")
-    inc = s["incidents"]
-    if inc["total"]:
-        top = inc["top"]
-        place = top[0] if fr else (inc["top_en"] or top[0])
-        if not fr and place.startswith(("Strait", "Gulf", "Red Sea", "Northern", "Southern", "Indian", "Somali", "Arabian")):
-            place = "the " + place
-        all_there = top[1] == inc["total"]
-        b.append((f"Incidents signalés au UKMTO : {inc['total']}, dont {inc['attacks']} attaque{'s' if inc['attacks'] > 1 else ''}, "
-                  + (f"{'tous ' if inc['total'] > 1 else ''}{where_fr(place)}." if all_there else f"surtout {where_fr(place)} ({top[1]}).")) if fr else
-                 (f"Incidents reported to UKMTO: {inc['total']}, including {inc['attacks']} attack{'s' if inc['attacks'] != 1 else ''}, "
-                  + (f"all around {place}." if all_there else f"mostly around {place} ({top[1]}).")))
-    else:
-        b.append("Aucun incident en mer signalé au UKMTO cette semaine." if fr else "No incident at sea reported to UKMTO this week.")
-    sections.append({"key": "sea", "title": "Routes maritimes et sécurité" if fr else "Shipping routes and security", "icon": "fa-ship",
-                     "emoji": "🚢", "bullets": b, "chart": make_chart("sea", c, s, lang),
-                     "source": "IMF PortWatch, UKMTO (Open Government Licence v3.0)"})
 
     # Contexte : les titres de la semaine (sources fiables, avec lien), dans la langue de la page
     # (sans doublon : un même sujet publié deux fois par un média n'apparaît qu'une fois)
     context = []
     for n in s["news"]:
-        if n.get("lang", "en") != lang:
+        if n.get("lang", "en") != lang or ORMUZ.search(n["title"]):
             continue
         words = {w for w in re.findall(r"\w+", n["title"].lower()) if len(w) > 4}
         if any(len(words & c["_w"]) >= 3 for c in context):
@@ -398,8 +356,6 @@ def build(s, c, lang):
             reading.append("Semaine marquée par " + " et ".join(
                 f"{'la hausse' if m[3] > 0 else 'le repli'} {('de l’' + m[0][2:]) if m[0].startswith('l’') else ('de ' + m[0]) if m[0].startswith(('l', 'L')) else ('du ' + m[0])} ({pct(m[3], lang)})"
                 .replace("de le ", "du ").replace("de l'", "de l'") for m in top2) + ".")
-        if h.get("status") in ("arret", "ferme"):
-            reading.append("Le détroit d'Ormuz reste quasi fermé au trafic : un facteur de tension durable pour le pétrole et le GNL.")
         if eu and eu["ly"] is not None and eu["ly"] < -5:
             reading.append("Les stocks de gaz européens abordent l'hiver nettement en dessous de l'an dernier, ce qui rend le marché sensible au froid.")
     else:
@@ -410,15 +366,13 @@ def build(s, c, lang):
         if top2:
             reading.append("A week marked by " + " and ".join(
                 f"{'a rise' if m[3] > 0 else 'a fall'} in {m[1]} ({pct(m[3], lang)})" for m in top2) + ".")
-        if h.get("status") in ("arret", "ferme"):
-            reading.append("The Strait of Hormuz remains almost closed to traffic: a lasting source of tension for oil and LNG.")
         if eu and eu["ly"] is not None and eu["ly"] < -5:
             reading.append("European gas storage heads into winter well below last year, leaving the market sensitive to cold weather.")
     start, end = datetime.date.fromisoformat(s["start"]), datetime.date.fromisoformat(s["end"])
     intro = (f"Semaine du {date_long(start, lang).replace(' ' + str(start.year), '') if start.year == end.year else date_long(start, lang)} au {date_long(end, lang)} : "
-             f"ce qu'il faut retenir sur l'électricité, le gaz, le pétrole et les routes maritimes." if fr else
+             f"ce qu'il faut retenir sur l'électricité, le gaz et le pétrole." if fr else
              f"Week of {date_long(start, lang).replace(' ' + str(start.year), '') if start.year == end.year else date_long(start, lang)} to {date_long(end, lang)}: "
-             f"what to remember on electricity, gas, oil and shipping routes.")
+             f"what to remember on electricity, gas and oil.")
     return {"headline": headline, "intro": intro, "context": context, "tiles": tiles, "sections": sections,
             "reading": " ".join(reading)}
 
@@ -442,7 +396,7 @@ def write_note(s, c, lang, week, force):
     if os.path.exists(path) and not force:
         print(f"Note déjà présente, conservée : {path}")
         return None
-    n = build(s, c, lang)
+    n = build(s, c, lang, wk)
     end = datetime.date.fromisoformat(s["end"])
     title = (f"Note de marché, semaine {wk} : {n['headline'][0].lower() + n['headline'][1:]}" if lang == "fr" else
              f"Market note, week {wk}: {n['headline'][0].lower() + n['headline'][1:]}")
@@ -466,24 +420,28 @@ def write_note(s, c, lang, week, force):
     return front
 
 
-def write_linkedin(front, week):
-    """Texte prêt à coller sur LinkedIn, au format des notes de marché du secteur (émojis, puces)."""
+def write_linkedin(front, week, s):
+    """Texte prêt à coller sur LinkedIn : titre, lecture clé, un chiffre fort par rubrique, lien."""
     if not front:
         return
     os.makedirs(LINKEDIN_DIR, exist_ok=True)
     year, wk = week
-    lines = [f"[NOTE DE MARCHÉ HEBDO] {front['headline']}", "", front["intro"], ""]
-    if front["context"]:
-        lines.append("🔍 CONTEXTE")
-        lines += [f"• {c['title']} ({c['source']})" for c in front["context"][:3]]
-        lines.append("")
-    for sec in front["sections"]:
-        lines.append(f"{sec['emoji']} {sec['title'].upper()}")
-        lines += [f"• {b}" for b in sec["bullets"]]
-        lines.append("")
+    lines = [f"[NOTE DE MARCHÉ HEBDO] {front['headline']}", ""]
     if front["reading"]:
-        lines += [f"👉 Lecture clé : {front['reading']}", ""]
-    lines += [f"La note complète, avec les graphiques : https://insideenergymarkets.com{front['permalink']}", "",
+        lines += [f"👉 {front['reading']}", ""]
+    tiles = {t["label"]: t for t in front["tiles"]}
+    for emoji, label, what in (("⚡", "Électricité, spot moyen", "électricité France, moyenne de la semaine"),
+                               ("🔥", "Stocks de gaz UE", "stocks de gaz européens"),
+                               ("🔥", "Henry Hub", "gaz américain (Henry Hub), fin de semaine"),
+                               ("🛢️", "Brent", "Brent, fin de semaine")):
+        t = tiles.get(label)
+        if t:
+            chg = f" ({t['change']})" if t.get("change") else ""
+            eu = s.get("storage_eu") or {}
+            if label == "Stocks de gaz UE" and eu.get("ly") is not None:
+                chg = f", {num(abs(eu['ly']), 'fr', 1)} points {'au-dessus' if eu['ly'] > 0 else 'en dessous'} de l'an dernier"
+            lines.append(f"{emoji} {t['value']}{t['unit']} : {what}{chg}")
+    lines += ["", f"📊 La note complète, avec les graphiques : https://insideenergymarkets.com{front['permalink']}", "",
               "#énergie #marchésdelénergie #électricité #gaz #pétrole"]
     with open(os.path.join(LINKEDIN_DIR, f"{year}-{wk:02d}.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines) + "\n")
@@ -506,7 +464,7 @@ def main():
     c = chart_series(week_start)
     fr = write_note(s, c, "fr", week, args.force)
     write_note(s, c, "en", week, args.force)
-    write_linkedin(fr, week)
+    write_linkedin(fr, week, s)
     return 0
 
 

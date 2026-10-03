@@ -50,6 +50,18 @@ layout: default
       {% for sec in page.sections %}
       <section class="nt-section nt-section--{{ sec.key }}">
         <h2 class="nt-h2"><span class="nt-icon nt-icon--{{ sec.key }}"><i class="fa-solid {{ sec.icon }}" aria-hidden="true"></i></span>{{ sec.title }}</h2>
+        {% if sec.chart.type == "detail" %}
+        <ul class="nt-bullets">
+          {% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}
+        </ul>
+        <figure class="nt-dc">
+          <div class="nt-dc-head"><h3>{{ sec.chart.title }}</h3><span>{{ sec.chart.sub }}</span></div>
+          <div class="nt-dc-chart"><canvas data-nt-chart="{{ sec.chart | jsonify | escape }}" aria-label="{{ sec.chart.title }} : {{ sec.chart.sub }}"></canvas></div>
+          <div class="nt-dc-stats">
+            {% for st in sec.chart.stats %}<div class="nt-dc-stat"><span>{{ st.label }}</span><strong{% if st.dir %} class="nt-dc-{{ st.dir }}"{% endif %}>{{ st.value }}{% if st.unit != "" %}<small> {{ st.unit }}</small>{% endif %}</strong><em>{{ st.sub }}</em></div>{% endfor %}
+          </div>
+        </figure>
+        {% else %}
         <div class="nt-section-grid{% unless sec.chart %} nt-section-grid--text{% endunless %}">
           <ul class="nt-bullets">
             {% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}
@@ -60,6 +72,7 @@ layout: default
           </figure>
           {% endif %}
         </div>
+        {% endif %}
         <p class="nt-src">{{ nt.sources }}{{ t.colon }}{{ sec.source }} · <a href="{{ u.markets | relative_url }}#{{ t.ids[sec.key] }}">{{ nt.see_detail }} <span aria-hidden="true">→</span></a></p>
       </section>
       {% endfor %}
