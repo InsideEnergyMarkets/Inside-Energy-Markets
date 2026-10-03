@@ -910,6 +910,30 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   window.iemTimers.push(setInterval(next, 6000));
 });
 
+// ===== Cotations de l'accueil, version « roll » : un groupe à la fois, le suivant descend =====
+document.querySelectorAll('.qs--roll').forEach(function (bar) {
+  var groups = bar.querySelectorAll('.qs-group');
+  if (groups.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { bar.classList.add('is-static'); return; }
+  var current = 0, paused = false;
+  groups.forEach(function (g, i) { if (i) g.setAttribute('inert', ''); });
+  function next() {
+    if (paused || document.hidden) return;
+    var leaving = groups[current];
+    current = (current + 1) % groups.length;
+    leaving.classList.remove('is-active');
+    leaving.classList.add('is-leaving');
+    leaving.setAttribute('inert', '');
+    groups[current].classList.add('is-active');
+    groups[current].removeAttribute('inert');
+    setTimeout(function () { leaving.classList.remove('is-leaving'); }, 650);
+  }
+  bar.addEventListener('mouseenter', function () { paused = true; });
+  bar.addEventListener('mouseleave', function () { paused = false; });
+  bar.addEventListener('focusin', function () { paused = true; });
+  bar.addEventListener('focusout', function () { paused = false; });
+  window.iemTimers.push(setInterval(next, 4500));
+});
+
 // ===== Exportations de GNL des États-Unis (EIA, mensuel) =====
 (function () {
   var canvas = document.getElementById('lng-chart');

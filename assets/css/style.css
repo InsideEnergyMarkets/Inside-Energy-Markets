@@ -2685,8 +2685,8 @@ html.has-player .nav-ep { display: none; }
 .qs-name { font-size: 12px; font-weight: 600; color: #5a6b7b; }
 .qs-val { font-weight: 700; font-variant-numeric: tabular-nums; }
 .qs-chg { font-size: 12px; font-weight: 700; }
-.qs-chg--up { color: #c53030; }
-.qs-chg--down { color: #1f8a55; }
+.qs-chg--up { color: #1f8a55; }
+.qs-chg--down { color: #c53030; }
 .qs-status { font-size: 12px; font-weight: 700; }
 .qs-status.ferme { color: #c53030; }
 .qs-status.partiel { color: #b7791f; }
@@ -2699,7 +2699,6 @@ html.has-player .nav-ep { display: none; }
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .qs-all:hover { border-color: var(--teal); background: rgba(0, 129, 125, 0.06); color: var(--deep); text-decoration: none; }
-@media (max-width: 640px) { .qs { display: none; } }
 
 /* Détroit quasi à l'arrêt (< 15 % du trafic normal) : même rouge que « fortement perturbé »,
    badge plein pour le distinguer */
@@ -2870,3 +2869,43 @@ html.has-player .nav-ep { display: none; }
 @media (max-width: 760px) { .nt-section-grid { grid-template-columns: minmax(0, 1fr); } }
 .nt-reading--top { margin: 0 0 22px; }
 .nt-page .nt-context { margin-top: 30px; }
+
+/* ===== Cotations de l'accueil : version A (roll) et version B (tapis roulant) ===== */
+.qs--roll, .qs--belt { flex-wrap: nowrap; gap: 14px; }
+.qs-roll { position: relative; flex: 1; min-width: 0; height: 26px; overflow: hidden; }
+.qs-group { position: absolute; inset: 0; display: flex; align-items: center; gap: 22px; white-space: nowrap; opacity: 0; transform: translateY(-100%); transition: transform 0.6s ease, opacity 0.6s ease; }
+.qs-group.is-active { opacity: 1; transform: none; }
+.qs-group.is-leaving { opacity: 0; transform: translateY(100%); }
+.qs--roll.is-static .qs-roll { height: auto; }
+.qs--roll.is-static .qs-group { position: static; opacity: 1; transform: none; flex-wrap: wrap; margin: 2px 0; }
+.qs-tag { flex: none; min-width: 64px; font: 700 10px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: #e8703a; }
+.qs-belt { position: relative; flex: 1; min-width: 0; display: flex; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+.qs-belt-track { flex: none; display: flex; align-items: center; gap: 24px; padding-right: 24px; animation: qs-belt 45s linear infinite; }
+.qs-belt:hover .qs-belt-track, .qs-belt:focus-within .qs-belt-track { animation-play-state: paused; }
+.qs-sep { width: 5px; height: 5px; border-radius: 50%; background: #e8703a; opacity: 0.6; flex: none; }
+@keyframes qs-belt { to { transform: translateX(-100%); } }
+@media (prefers-reduced-motion: reduce) { .qs-belt { overflow-x: auto; } .qs-belt-track { animation: none; } .qs-belt-track + .qs-belt-track { display: none; } }
+@media (max-width: 640px) {
+  .qs-tag { display: none; }
+  .qs-group { gap: 14px; }
+  .qs-all { display: none; }
+}
+
+/* ===== Photo de Tom : version 1 (présentation) et version 2 (contact) ===== */
+.hero-host { display: inline-flex; align-items: center; gap: 12px; margin-top: 26px; padding: 6px 18px 6px 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; text-decoration: none; transition: background 0.15s ease; }
+.hero-host:hover { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; }
+.hero-host img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid #4fd1c5; }
+.hero-host span { display: flex; flex-direction: column; line-height: 1.25; }
+.hero-host small { font-size: 11px; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+.hero-host strong { font-size: 15px; }
+.hero-host em { font-style: normal; font-size: 12px; color: rgba(255, 255, 255, 0.7); }
+.hm-contact { display: flex; align-items: center; gap: 28px; margin-top: 22px; padding: 26px 30px; border-radius: 16px; background: #fff; border: 1px solid var(--line); }
+.hm-contact img { flex: none; width: 132px; height: 132px; border-radius: 50%; object-fit: cover; border: 3px solid #00817d; }
+.hm-contact h3 { margin: 4px 0 6px; font-size: 22px; }
+.hm-contact p { margin: 0 0 14px; }
+.hm-contact-body { flex: 1; }
+@media (max-width: 640px) { .hm-contact { flex-direction: column; text-align: center; padding: 22px 18px; } .hm-contact .ab-cta-actions { justify-content: center; } }
+
+/* APERÇU : étiquettes des variantes, à retirer avant publication */
+.preview-tag { display: block; width: fit-content; margin: 14px 0 4px; padding: 3px 10px; border-radius: 6px; background: #fde68a; color: #7c2d12; font: 700 12px 'Inter', sans-serif; }
