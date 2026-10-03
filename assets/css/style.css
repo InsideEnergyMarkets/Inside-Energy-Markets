@@ -2868,3 +2868,5 @@ html.has-player .nav-ep { display: none; }
 .nt-feature-tiles em.nt-tile-change--up { color: #3ddc97; }
 .nt-feature-tiles em.nt-tile-change--down { color: #ff6b5b; }
 @media (max-width: 760px) { .nt-section-grid { grid-template-columns: minmax(0, 1fr); } }
+.nt-reading--top { margin: 0 0 22px; }
+.nt-page .nt-context { margin-top: 30px; }
