@@ -1,6 +1,6 @@
 {% comment %}
   Ligne de cotations sous le bandeau d'actus de l'accueil. Trois groupes : prix (spot France, Brent,
-  Henry Hub), autres repères (WTI, stocks de gaz UE, gazole) et détroits (Ormuz, Bab-el-Mandeb, Malacca).
+  gaz France PEG), autres repères (WTI, stocks de gaz UE, gazole) et détroits (Ormuz, Bab-el-Mandeb, Malacca).
   Tapis roulant horizontal en CSS (deux copies de la liste), arrêté au survol.
   Chaque cotation mène à sa rubrique de /marches/, source et date en infobulle. Hausse en vert, baisse en rouge.
 {% endcomment %}
@@ -8,12 +8,12 @@
 {% assign market = site.data.market %}
 {% assign marches = u.markets | relative_url %}
 {% assign q = t.quotes %}
-{% assign q_brent = market.brent %}{% assign q_wti = market.wti %}{% assign q_hh = market.henry_hub %}{% assign q_spot = market.spot_price_france %}
+{% assign q_brent = market.brent %}{% assign q_wti = market.wti %}{% assign q_peg = market.peg %}{% assign q_spot = market.spot_price_france %}
 {% assign q_st = site.data.gas_storage.eu | last %}{% assign q_fuel = site.data.fuel %}
 {% capture g_prices %}
 {% if q_spot.price_eur_mwh %}{% assign e = q_spot %}{% include quote-item.html name=q.spot value=q_spot.price_eur_mwh unit="€/MWh" anchor=t.ids.power expand="spot" section=t.mk.toc_power %}{% endif %}
 {% if q_brent.price_usd %}{% assign e = q_brent %}{% include quote-item.html name="Brent" value=q_brent.price_usd unit="$" anchor=t.ids.oil expand="brent" section=t.mk.toc_oil %}{% endif %}
-{% if q_hh.price_eur_mwh %}{% assign e = q_hh %}{% include quote-item.html name="Henry Hub" value=q_hh.price_eur_mwh unit="€/MWh" anchor=t.ids.gas expand="henryhub" section=t.mk.toc_gas %}{% endif %}
+{% if q_peg.price_eur_mwh %}{% assign e = q_peg %}{% include quote-item.html name=q.peg value=q_peg.price_eur_mwh unit="€/MWh" anchor=t.ids.gas expand="peg" section=t.mk.toc_gas %}{% endif %}
 {% endcapture %}
 {% capture g_more %}
 {% if q_wti.price_usd %}{% assign e = q_wti %}{% include quote-item.html name="WTI" value=q_wti.price_usd unit="$" anchor=t.ids.oil %}{% endif %}

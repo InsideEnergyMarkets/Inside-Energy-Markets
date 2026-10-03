@@ -7,7 +7,7 @@ Utilisé sur /marches/ et sur la page « Prix du Brent aujourd'hui ».{% endcomm
         </div>
         {% if e %}
         <p class="pw-value">{{ e.price_usd | replace: ".", dec }} <small>{{ t.units.usd_bbl }}</small>{% include price-change.html entry=e %}</p>
-        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>
+        <p class="pw-sub">{{ e_label }} · {{ e.source }}, {{ t.quotes.brent_kind }}</p>
         {% else %}<p class="pw-value">-</p>{% endif %}
         <div class="pw-stats" data-week-stats="brent">
           <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>

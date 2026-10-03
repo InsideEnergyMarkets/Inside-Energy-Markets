@@ -82,24 +82,24 @@
     {% assign marches = u.markets | relative_url %}
     {% assign spot = market.spot_price_france %}
     {% assign brent = market.brent %}
-    {% assign hh = market.henry_hub %}
+    {% assign peg = market.peg %}
     {% if lang == "en" %}
-    {% assign spot_label = spot.date | date: "%d/%m/%Y" %}{% if spot.date_label_en %}{% assign spot_label = spot.date_label_en %}{% endif %}{% assign brent_label = brent.date | date: "%d/%m/%Y" %}{% if brent.date_label_en %}{% assign brent_label = brent.date_label_en %}{% endif %}{% assign hh_label = hh.date | date: "%d/%m/%Y" %}{% if hh.date_label_en %}{% assign hh_label = hh.date_label_en %}{% endif %}
+    {% assign spot_label = spot.date | date: "%d/%m/%Y" %}{% if spot.date_label_en %}{% assign spot_label = spot.date_label_en %}{% endif %}{% assign brent_label = brent.date | date: "%d/%m/%Y" %}{% if brent.date_label_en %}{% assign brent_label = brent.date_label_en %}{% endif %}{% assign peg_label = peg.date_label_en | default: peg.date %}
     {% else %}
-    {% assign spot_label = spot.date_label | default: spot.date %}{% assign brent_label = brent.date_label | default: brent.date %}{% assign hh_label = hh.date_label | default: hh.date %}
+    {% assign spot_label = spot.date_label | default: spot.date %}{% assign brent_label = brent.date_label | default: brent.date %}{% assign peg_label = peg.date_label | default: peg.date %}
     {% endif %}
     {% assign hist = site.data.market_history %}
     <script>
       window.mktChartData = {
         spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, sources: {{ hist | map: "spot_source" | jsonify }}, unit: "€/MWh", color: "#00817d" },
         brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: {{ t.units.usd_bbl | jsonify }}, color: "#e8703a" },
-        henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_eur_mwh" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "€/MWh", color: "#e8b33a" }
+        peg: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "peg_eur_mwh" | jsonify }}, sources: {{ hist | map: "peg_source" | jsonify }}, unit: "€/MWh", color: "#e8b33a" }
       };
     </script>
     <div class="hq-board">
       <div class="hq-row hq-head" aria-hidden="true"><span>{{ t.home.col_market }}</span><span>{{ t.home.col_last }}</span><span>{{ t.home.col_change }}</span><span>{{ t.home.col_30d }}</span></div>
       <a class="hq-row" href="{{ marches }}#{{ t.ids.power }}" data-expand="spot" data-title="{{ t.mk.power_fr }}" data-section="{{ t.mk.toc_power }}" data-section-url="{{ marches }}#{{ t.ids.power }}">
-        <span class="hq-name">{{ t.mk.power_fr }}<small>{{ spot.source | default: "RTE" }} · {{ spot_label }}</small></span>
+        <span class="hq-name">{{ t.mk.power_fr }}<small>{{ spot.source | default: "RTE" }}, {{ t.quotes.spot_kind }} · {{ spot_label }}</small></span>
         {% if spot %}
         <span class="hq-value">{{ spot.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small></span>
         <span class="hq-change">{% include price-change.html entry=spot %}</span>
@@ -107,19 +107,19 @@
         {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
       <a class="hq-row" href="{{ marches }}#{{ t.ids.oil }}" data-expand="brent" data-title="Brent" data-section="{{ t.mk.toc_oil }}" data-section-url="{{ marches }}#{{ t.ids.oil }}">
-        <span class="hq-name">Brent<small>{{ brent.source }} · {{ brent_label }}</small></span>
+        <span class="hq-name">Brent<small>{{ brent.source }}, {{ t.quotes.brent_kind }} · {{ brent_label }}</small></span>
         {% if brent %}
         <span class="hq-value">{{ brent.price_usd | replace: ".", dec }} <small>{{ t.units.usd_bbl }}</small></span>
         <span class="hq-change">{% include price-change.html entry=brent %}</span>
         <span class="hq-trend">{% include sparkline.html key="brent_usd" %}</span>
         {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
-      <a class="hq-row" href="{{ marches }}#{{ t.ids.gas }}" data-expand="henryhub" data-title="Henry Hub" data-section="{{ t.mk.toc_gas }}" data-section-url="{{ marches }}#{{ t.ids.gas }}">
-        <span class="hq-name">Henry Hub<small>{{ hh.source }} · {{ hh_label }}</small></span>
-        {% if hh %}
-        <span class="hq-value">{% if hh.price_eur_mwh %}{{ hh.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small>{% else %}{{ hh.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small>{% endif %}</span>
-        <span class="hq-change">{% include price-change.html entry=hh %}</span>
-        <span class="hq-trend">{% include sparkline.html key="henry_hub_eur_mwh" %}</span>
+      <a class="hq-row" href="{{ marches }}#{{ t.ids.gas }}" data-expand="peg" data-title="{{ t.quotes.peg }}" data-section="{{ t.mk.toc_gas }}" data-section-url="{{ marches }}#{{ t.ids.gas }}">
+        <span class="hq-name">{{ t.quotes.peg }}<small>{{ peg.source }} · {{ peg_label }}</small></span>
+        {% if peg %}
+        <span class="hq-value">{{ peg.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small></span>
+        <span class="hq-change">{% include price-change.html entry=peg %}</span>
+        <span class="hq-trend">{% include sparkline.html key="peg_eur_mwh" %}</span>
         {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
       <a class="hq-row" href="{{ marches }}#{{ t.ids.sea }}">

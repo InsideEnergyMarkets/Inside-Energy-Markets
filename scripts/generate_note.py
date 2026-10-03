@@ -125,6 +125,11 @@ def compute(week_start):
                     "renewables": sum(sum(m.get(k, 0) for k in RENEWABLES) for m in mixes) / len(mixes),
                     "gas": sum(m.get("gaz", 0) for m in mixes) / len(mixes)}
 
+    peg = [(d, v) for d, v in series(hist, "peg_eur_mwh") if start <= d <= end]
+    peg_prev = [v for d, v in series(hist, "peg_eur_mwh") if prev_start <= d < start]
+    if peg:
+        s["peg"] = {"avg": sum(v for _, v in peg) / len(peg), "high": max(peg, key=lambda p: p[1]),
+                    "low": min(peg, key=lambda p: p[1]), "prev_avg": sum(peg_prev) / len(peg_prev) if peg_prev else None}
     s["brent"] = weekly_move(series(hist, "brent_usd"), start, end)
     s["hh"] = weekly_move(series(hist, "henry_hub_eur_mwh"), start, end)
 
@@ -192,12 +197,12 @@ def ddmm(date):
 
 
 def chart_series(week_start):
-    """Séries des graphiques détaillés : 30 jours jusqu'à la fin de la semaine (spot, Henry Hub, Brent)."""
+    """Séries des graphiques détaillés : 60 jours jusqu'à la fin de la semaine (boutons 7 / 30 / 60 j)."""
     end = (week_start + datetime.timedelta(days=6)).isoformat()
-    since = (week_start + datetime.timedelta(days=6) - datetime.timedelta(days=30)).isoformat()
+    since = (week_start + datetime.timedelta(days=6) - datetime.timedelta(days=60)).isoformat()
     hist = load("market_history.json", [])
     return {k: [(d, v) for d, v in series(hist, f) if since < d <= end]
-            for k, f in (("power", "spot_eur_mwh"), ("gas", "henry_hub_eur_mwh"), ("oil", "brent_usd"))}
+            for k, f in (("power", "spot_eur_mwh"), ("gas", "peg_eur_mwh"), ("oil", "brent_usd"))}
 
 
 def make_chart(kind, c, s, lang, week):
@@ -212,15 +217,15 @@ def make_chart(kind, c, s, lang, week):
     lo, hi = min(inside, key=lambda p: p[1]), max(inside, key=lambda p: p[1])
     avg = sum(v for _, v in inside) / len(inside)
     stats = [{"label": "Dernier" if fr else "Latest", "value": num(last, lang), "unit": unit, "sub": day_label(last_d, lang)}]
-    if kind == "power":
-        sp = s["spot"]
+    if kind in ("power", "gas"):
+        sp = s["spot" if kind == "power" else "peg"]
         chg = (sp["avg"] - sp["prev_avg"]) / sp["prev_avg"] * 100 if sp.get("prev_avg") else None
         if chg is not None:
             stats.append({"label": "Moyenne vs sem. préc." if fr else "Average vs prev. week", "value": pct(chg, lang), "unit": "",
                           "sub": (f"{num(sp['avg'], lang)} contre {num(sp['prev_avg'], lang)} €/MWh" if fr else
                                   f"{num(sp['avg'], lang)} vs {num(sp['prev_avg'], lang)} €/MWh"), "dir": direction(chg)})
     else:
-        mv = s["hh" if kind == "gas" else "brent"]
+        mv = s["brent"]
         stats.append({"label": "Sur la semaine" if fr else "On the week", "value": pct(mv["change"], lang), "unit": "",
                       "sub": f"{signed(mv['last'] - mv['ref'], lang, 2)} {unit}", "dir": direction(mv["change"])})
     stats += [{"label": "Plus bas" if fr else "Low", "value": num(lo[1], lang), "unit": unit, "sub": day_label(lo[0], lang)},
@@ -228,9 +233,11 @@ def make_chart(kind, c, s, lang, week):
               {"label": "Moyenne" if fr else "Average", "value": num(avg, lang), "unit": unit,
                "sub": (f"semaine {week}" if fr else f"week {week}")}]
     title, sub = {
-        "power": ("Électricité FR" if fr else "French power", "Prix spot, 30 jours" if fr else "Spot price, 30 days"),
-        "gas": ("Henry Hub", "Prix de référence américain, 30 jours" if fr else "US benchmark price, 30 days"),
-        "oil": ("Brent", "Baril de mer du Nord, 30 jours" if fr else "North Sea barrel, 30 days")}[kind]
+        "power": ("Électricité FR" if fr else "French power",
+                  "Spot day-ahead, moyenne de chaque jour" if fr else "Day-ahead spot, daily average"),
+        "gas": ("Gaz France (PEG)" if fr else "French gas (PEG)",
+                "Prix moyen de chaque journée gazière" if fr else "Average price of each gas day"),
+        "oil": ("Brent", "Contrat à terme ICE, premier mois" if fr else "ICE futures, front month")}[kind]
     return {"type": "detail", "title": title, "sub": sub, "unit": unit, "labels": [d for d, _ in pts],
             "series": [{"name": title, "color": COLORS[kind], "data": [round(v, 2) for _, v in pts]}],
             "band": [s["start"], s["end"]], "band_label": f"Semaine {week}" if fr else f"Week {week}", "stats": stats}
@@ -270,15 +277,20 @@ def build(s, c, lang, week):
                          "bullets": b, "chart": make_chart("power", c, s, lang, week), "source": "RTE, Energy-Charts / SMARD"})
 
     b = []
-    hh = s.get("hh")
-    if hh:
-        tiles.append({"label": "Henry Hub", "value": num(hh["last"], lang), "unit": " €/MWh",
-                      "change": pct(hh["change"], lang), "dir": direction(hh["change"])})
-        movers.append(("le gaz américain", "US gas", "Henry Hub", hh["change"]))
-        b.append(f"Henry Hub (États-Unis) : entre {num(hh['low'][1], lang)} et {num(hh['high'][1], lang)} €/MWh, "
-                 f"{num(hh['last'], lang)} €/MWh en fin de semaine ({pct(hh['change'], lang)})." if fr else
-                 f"Henry Hub (US): between €{num(hh['low'][1], lang)} and €{num(hh['high'][1], lang)}/MWh, "
-                 f"€{num(hh['last'], lang)}/MWh at the end of the week ({pct(hh['change'], lang)}).")
+    pg = s.get("peg")
+    if pg:
+        chg = (pg["avg"] - pg["prev_avg"]) / pg["prev_avg"] * 100 if pg["prev_avg"] else None
+        tiles.append({"label": "Gaz France (PEG), moyenne" if fr else "French gas (PEG), average", "value": num(pg["avg"], lang),
+                      "unit": " €/MWh", "change": pct(chg, lang) if chg is not None else None,
+                      "dir": direction(chg) if chg is not None else "flat"})
+        if chg is not None:
+            movers.append(("le gaz français", "French gas", "PEG", chg))
+        b.append(f"Gaz France (PEG) : {num(pg['avg'], lang)} €/MWh en moyenne"
+                 + (f", contre {num(pg['prev_avg'], lang)} la semaine précédente ({pct(chg, lang)})" if chg is not None else "")
+                 + f", entre {num(pg['low'][1], lang)} et {num(pg['high'][1], lang)} €/MWh selon les jours." if fr else
+                 f"French gas (PEG): €{num(pg['avg'], lang)}/MWh on average"
+                 + (f", against {num(pg['prev_avg'], lang)} the previous week ({pct(chg, lang)})" if chg is not None else "")
+                 + f", between €{num(pg['low'][1], lang)} and €{num(pg['high'][1], lang)}/MWh depending on the day.")
     eu, frs = s.get("storage_eu"), s.get("storage_fr")
     if eu:
         tiles.append({"label": "Stocks de gaz UE" if fr else "EU gas storage", "value": num(eu["full"], lang, 1), "unit": " %",
@@ -295,7 +307,7 @@ def build(s, c, lang, week):
     if b:
         sections.append({"key": "gas", "title": "Gaz" if fr else "Gas", "icon": "fa-fire-flame-simple", "emoji": "🔥",
                          "bullets": b, "chart": make_chart("gas", c, s, lang, week),
-                         "source": "OilPriceAPI, EIA, GIE AGSI+" + (", taux BCE" if fr else ", ECB rates")})
+                         "source": "NaTran (Smart), GIE AGSI+"})
 
     b = []
     br = s.get("brent")
@@ -303,10 +315,10 @@ def build(s, c, lang, week):
         tiles.append({"label": "Brent", "value": num(br["last"], lang), "unit": " $/baril" if fr else " $/bbl",
                       "change": pct(br["change"], lang), "dir": direction(br["change"])})
         movers.append(("le Brent", "Brent", "Brent", br["change"]))
-        b.append(f"Brent : entre {num(br['low'][1], lang)} et {num(br['high'][1], lang)} $ le baril, "
-                 f"{num(br['last'], lang)} $ en fin de semaine ({pct(br['change'], lang)})." if fr else
-                 f"Brent: between ${num(br['low'][1], lang)} and ${num(br['high'][1], lang)} a barrel, "
-                 f"${num(br['last'], lang)} at the end of the week ({pct(br['change'], lang)}).")
+        b.append(f"Brent (contrat à terme ICE, premier mois) : {num(br['last'], lang)} $ le baril à la clôture de la semaine "
+                 f"({pct(br['change'], lang)} sur une semaine), entre {num(br['low'][1], lang)} et {num(br['high'][1], lang)} $." if fr else
+                 f"Brent (ICE futures, front month): ${num(br['last'], lang)} a barrel at the weekly close "
+                 f"({pct(br['change'], lang)} on the week), between ${num(br['low'][1], lang)} and ${num(br['high'][1], lang)}.")
     extra = []
     if "spread" in s:
         extra.append(f"écart Brent-WTI {num(s['spread'], lang)} $ par baril" if fr else f"Brent-WTI spread ${num(s['spread'], lang)} a barrel")
@@ -327,7 +339,7 @@ def build(s, c, lang, week):
     if b:
         sections.append({"key": "oil", "title": "Pétrole et carburants" if fr else "Oil and fuels", "icon": "fa-oil-well", "emoji": "🛢️",
                          "bullets": b, "chart": make_chart("oil", c, s, lang, week),
-                         "source": "OilPriceAPI, EIA" + (", prix des carburants (data.economie.gouv.fr)" if fr else ", French fuel prices (data.economie.gouv.fr)")})
+                         "source": "OilPriceAPI (ICE), EIA" + (", prix des carburants (data.economie.gouv.fr)" if fr else ", French fuel prices (data.economie.gouv.fr)")})
 
     # Contexte : les titres de la semaine (sources fiables, avec lien), dans la langue de la page
     # (sans doublon : un même sujet publié deux fois par un média n'apparaît qu'une fois)
@@ -431,9 +443,9 @@ def write_linkedin(front, week, s):
         lines += [f"👉 {front['reading']}", ""]
     tiles = {t["label"]: t for t in front["tiles"]}
     for emoji, label, what in (("⚡", "Électricité, spot moyen", "électricité France, moyenne de la semaine"),
+                               ("🔥", "Gaz France (PEG), moyenne", "gaz France (PEG), moyenne de la semaine"),
                                ("🔥", "Stocks de gaz UE", "stocks de gaz européens"),
-                               ("🔥", "Henry Hub", "gaz américain (Henry Hub), fin de semaine"),
-                               ("🛢️", "Brent", "Brent, fin de semaine")):
+                               ("🛢️", "Brent", "Brent, clôture de la semaine")):
         t = tiles.get(label)
         if t:
             chg = f" ({t['change']})" if t.get("change") else ""

@@ -1,308 +1,255 @@
 [
   {
     "date": "2026-08-04",
-    "brent_usd": 86.47,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.74,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 134.63,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.12
+    "peg_eur_mwh": 57.86,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-05",
-    "brent_usd": 86.65,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.6,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 98.83,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 7.68
+    "peg_eur_mwh": 53.53,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-06",
-    "brent_usd": 89.65,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.6,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 97.28,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 7.69
+    "peg_eur_mwh": 55.38,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-07",
-    "brent_usd": 87.62,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.56,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 106.26,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 7.57
+    "peg_eur_mwh": 55.94,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-08",
     "spot_eur_mwh": 93.84,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 55.0,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-09",
     "spot_eur_mwh": 90.93,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 56.01,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-10",
-    "brent_usd": 92.74,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.72,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 125.99,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.03
+    "peg_eur_mwh": 59.59,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-11",
-    "brent_usd": 93.26,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.79,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 115.13,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.25
+    "peg_eur_mwh": 60.13,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-12",
-    "brent_usd": 92.52,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 141.2,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.33
+    "peg_eur_mwh": 60.59,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-13",
-    "brent_usd": 92.03,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 154.68,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.34
+    "peg_eur_mwh": 60.43,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-14",
-    "brent_usd": 92.02,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.79,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 145.74,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.23
+    "peg_eur_mwh": 61.5,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-15",
     "spot_eur_mwh": 122.27,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 62.94,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-16",
     "spot_eur_mwh": 138.15,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 64.0,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-17",
-    "brent_usd": 92.43,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.77,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 177.35,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.15
+    "peg_eur_mwh": 62.67,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-18",
-    "brent_usd": 95.29,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 162.21,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.31
+    "peg_eur_mwh": 63.56,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-19",
-    "brent_usd": 92.37,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.94,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 165.78,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.64
+    "peg_eur_mwh": 63.81,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-20",
-    "brent_usd": 94.0,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.94,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 143.12,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.59
+    "peg_eur_mwh": 65.28,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-21",
-    "brent_usd": 96.92,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 152.8,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.22
+    "peg_eur_mwh": 66.25,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-22",
     "spot_eur_mwh": 100.62,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 66.34,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-23",
     "spot_eur_mwh": 76.47,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 66.02,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-24",
-    "brent_usd": 92.71,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.83,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 105.45,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.28
+    "peg_eur_mwh": 67.8,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-25",
-    "brent_usd": 88.24,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.7,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 153.92,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 7.9
+    "peg_eur_mwh": 66.53,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-26",
-    "brent_usd": 87.77,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.81,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 159.84,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.22
+    "peg_eur_mwh": 65.27,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-27",
-    "brent_usd": 90.18,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.89,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 156.6,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.47
+    "peg_eur_mwh": 67.43,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-28",
-    "brent_usd": 89.75,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.82,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 134.28,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.26
+    "peg_eur_mwh": 67.76,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-29",
     "spot_eur_mwh": 65.33,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 65.36,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-30",
     "spot_eur_mwh": 72.61,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 66.32,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-08-31",
-    "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 81.84,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.53
+    "peg_eur_mwh": 69.29,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-01",
-    "brent_usd": 96.02,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 148.72,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.54
+    "peg_eur_mwh": 71.71,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-02",
-    "brent_usd": 97.59,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.88,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 163.6,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.49
+    "peg_eur_mwh": 73.61,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-03",
-    "brent_usd": 100.52,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.95,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 138.34,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.67
+    "peg_eur_mwh": 71.16,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-04",
-    "brent_usd": 102.24,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.92,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 110.12,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.57
+    "peg_eur_mwh": 70.7,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-05",
     "spot_eur_mwh": 79.08,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 77.3,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-06",
     "spot_eur_mwh": 113.02,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 74.95,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-07",
-    "brent_usd": 104.47,
-    "brent_source": "EIA",
     "spot_eur_mwh": 163.24,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 73.75,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-08",
-    "brent_usd": 106.12,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 149.69,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.52
+    "peg_eur_mwh": 75.41,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-09",
@@ -313,13 +260,10 @@
       "gaz": 8.8,
       "bioenergies": 1.8
     },
-    "brent_usd": 109.51,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.81,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 149.47,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.23
+    "peg_eur_mwh": 78.6,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-10",
@@ -330,13 +274,10 @@
       "gaz": 8.8,
       "bioenergies": 1.8
     },
-    "brent_usd": 120.98,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.76,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 172.76,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.11
+    "peg_eur_mwh": 80.18,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-11",
@@ -347,13 +288,10 @@
       "gaz": 8.8,
       "bioenergies": 1.8
     },
-    "brent_usd": 118.06,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.71,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 176.71,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 7.98
+    "peg_eur_mwh": 80.29,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-12",
@@ -366,7 +304,9 @@
       "bioenergies": 1.9
     },
     "spot_eur_mwh": 130.85,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 82.01,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-13",
@@ -379,7 +319,9 @@
       "bioenergies": 2.4
     },
     "spot_eur_mwh": 129.94,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 82.13,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-14",
@@ -391,13 +333,10 @@
       "gaz": 7.0,
       "bioenergies": 2.0
     },
-    "brent_usd": 121.25,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.85,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 216.33,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.42
+    "peg_eur_mwh": 84.47,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-15",
@@ -409,13 +348,10 @@
       "gaz": 4.3,
       "bioenergies": 2.2
     },
-    "brent_usd": 130.8,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.97,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 170.63,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.78
+    "peg_eur_mwh": 84.43,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-16",
@@ -427,13 +363,10 @@
       "gaz": 3.6,
       "bioenergies": 1.9
     },
-    "brent_usd": 127.84,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 3.0,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 178.28,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.87
+    "peg_eur_mwh": 80.21,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-17",
@@ -445,13 +378,10 @@
       "gaz": 1.2,
       "bioenergies": 2.0
     },
-    "brent_usd": 121.18,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 127.12,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.62
+    "peg_eur_mwh": 78.44,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-18",
@@ -463,13 +393,10 @@
       "gaz": 5.9,
       "bioenergies": 1.9
     },
-    "brent_usd": 119.66,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.97,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 119.74,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.84
+    "peg_eur_mwh": 78.47,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-19",
@@ -482,7 +409,9 @@
       "bioenergies": 2.2
     },
     "spot_eur_mwh": 50.96,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 79.21,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-20",
@@ -495,7 +424,9 @@
       "bioenergies": 2.5
     },
     "spot_eur_mwh": 59.17,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 80.95,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-21",
@@ -507,13 +438,10 @@
       "gaz": 6.2,
       "bioenergies": 1.9
     },
-    "brent_usd": 116.15,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.93,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 142.3,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.7
+    "peg_eur_mwh": 75.69,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-22",
@@ -525,13 +453,10 @@
       "gaz": 7.0,
       "bioenergies": 1.7
     },
-    "brent_usd": 114.89,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 2.9,
-    "henry_hub_source": "EIA",
     "spot_eur_mwh": 159.12,
     "spot_source": "Energy-Charts / SMARD",
-    "henry_hub_eur_mwh": 8.63
+    "peg_eur_mwh": 72.86,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-23",
@@ -545,11 +470,8 @@
     },
     "spot_eur_mwh": 148.95,
     "spot_source": "Energy-Charts / SMARD",
-    "brent_usd": 117.45,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 3.06,
-    "henry_hub_source": "EIA",
-    "henry_hub_eur_mwh": 9.15
+    "peg_eur_mwh": 73.55,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-24",
@@ -563,11 +485,8 @@
     },
     "spot_eur_mwh": 158.11,
     "spot_source": "Energy-Charts / SMARD",
-    "brent_usd": 120.92,
-    "brent_source": "EIA",
-    "henry_hub_usd_mmbtu": 3.0,
-    "henry_hub_source": "EIA",
-    "henry_hub_eur_mwh": 9.01
+    "peg_eur_mwh": 74.67,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-25",
@@ -585,7 +504,9 @@
     "spot_source": "Energy-Charts / SMARD",
     "henry_hub_usd_mmbtu": 3.16,
     "henry_hub_source": "OilPriceAPI",
-    "henry_hub_eur_mwh": 9.46
+    "henry_hub_eur_mwh": 9.46,
+    "peg_eur_mwh": 71.99,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-26",
@@ -598,7 +519,9 @@
       "bioenergies": 2.1
     },
     "spot_eur_mwh": 148.2,
-    "spot_source": "Energy-Charts / SMARD"
+    "spot_source": "Energy-Charts / SMARD",
+    "peg_eur_mwh": 72.95,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-27",
@@ -611,7 +534,9 @@
       "solaire": 0.7
     },
     "spot_eur_mwh": 115.41,
-    "spot_source": "RTE"
+    "spot_source": "RTE",
+    "peg_eur_mwh": 72.35,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-28",
@@ -629,7 +554,9 @@
     },
     "brent_usd": 105.92,
     "brent_source": "OilPriceAPI",
-    "henry_hub_eur_mwh": 9.15
+    "henry_hub_eur_mwh": 9.15,
+    "peg_eur_mwh": 72.92,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-29",
@@ -647,7 +574,9 @@
     },
     "brent_usd": 102.94,
     "brent_source": "OilPriceAPI",
-    "henry_hub_eur_mwh": 9.14
+    "henry_hub_eur_mwh": 9.14,
+    "peg_eur_mwh": 69.42,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-09-30",
@@ -665,7 +594,9 @@
     },
     "henry_hub_eur_mwh": 9.04,
     "brent_usd": 97.57,
-    "brent_source": "OilPriceAPI"
+    "brent_source": "OilPriceAPI",
+    "peg_eur_mwh": 70.07,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-10-01",
@@ -683,7 +614,9 @@
     },
     "henry_hub_eur_mwh": 8.94,
     "brent_usd": 102.44,
-    "brent_source": "OilPriceAPI"
+    "brent_source": "OilPriceAPI",
+    "peg_eur_mwh": 72.26,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-10-02",
@@ -701,7 +634,9 @@
     },
     "henry_hub_eur_mwh": 9.15,
     "brent_usd": 102.61,
-    "brent_source": "OilPriceAPI"
+    "brent_source": "OilPriceAPI",
+    "peg_eur_mwh": 72.71,
+    "peg_source": "NaTran"
   },
   {
     "date": "2026-10-03",
@@ -714,6 +649,8 @@
       "eolien": 5.2,
       "bioenergies": 2.3,
       "solaire": 0.5
-    }
+    },
+    "peg_eur_mwh": 73.97,
+    "peg_source": "NaTran"
   }
 ]

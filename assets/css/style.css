@@ -2908,7 +2908,8 @@ html.has-player .nav-ep { display: none; }
 
 /* Note de marché : graphique détaillé par rubrique (même allure que la vue agrandie de /marches/) */
 .nt-dc { margin: 14px 0 6px; padding: 20px 22px; border-radius: 18px; background: linear-gradient(160deg, #1b2a6b, #0d1638); color: #fff; }
-.nt-dc-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 10px; }
+.nt-dc-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 14px; margin-bottom: 10px; }
+.nt-dc-head > div:first-child { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
 .nt-dc-head h3 { margin: 0; font: 400 28px 'Bebas Neue', sans-serif; letter-spacing: 0.4px; color: #fff; }
 .nt-dc-head span { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
 .nt-dc-chart { position: relative; height: 250px; }

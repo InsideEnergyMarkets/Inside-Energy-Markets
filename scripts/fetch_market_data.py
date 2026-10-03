@@ -1,7 +1,10 @@
 """
 Récupère les données marché et les écrit dans _data/market.json :
-- Brent (OilPriceAPI -> secret OILPRICEAPI_KEY, repli sur EIA -> secret EIA_API_KEY)
-- Henry Hub, gaz naturel US (OilPriceAPI, repli sur EIA)
+- Brent : contrat à terme ICE du premier mois (OilPriceAPI -> secret OILPRICEAPI_KEY)
+- Henry Hub : contrat à terme NYMEX du premier mois (OilPriceAPI)
+  (en cas d'échec on garde la dernière valeur : on ne mélange jamais contrat à terme et spot EIA)
+- Gaz France (PEG, zone TRF) : prix moyen journalier publié par NaTran (ex-GRTgaz) sur sa plateforme
+  de transparence Smart (export CSV, sans clé)
 - Mix électrique France en temps réel (RTE eco2mix API v2, aucune clé requise)
 - Prix spot électricité France day-ahead, moyenne journalière des prix horaires
   (RTE Wholesale Market v3, OAuth2 -> secret RTE_BASE64_KEY)
@@ -140,34 +143,14 @@ def fetch_brent_oilpriceapi(code="BRENT_CRUDE_USD"):
 
 
 def fetch_brent(existing):
+    """Brent ICE premier mois. En cas d'échec, dernière valeur connue (jamais le spot EIA : autre produit)."""
     try:
         result = fetch_brent_oilpriceapi()
         if result:
             return result
     except Exception as e:
-        print(f"Erreur Brent (OilPriceAPI), repli sur EIA: {e}")
-
-    if not EIA_API_KEY:
-        print("EIA_API_KEY manquant, on garde l'ancienne valeur Brent.")
-        return existing.get("brent")
-    try:
-        url = (
-            "https://api.eia.gov/v2/petroleum/pri/spt/data/"
-            f"?api_key={EIA_API_KEY}&frequency=daily&data[0]=value"
-            "&facets[series][]=RBRTE&sort[0][column]=period&sort[0][direction]=desc&length=1"
-        )
-        r = requests.get(url, timeout=20)
-        r.raise_for_status()
-        row = r.json()["response"]["data"][0]
-        return {
-            "price_usd": round(float(row["value"]), 2),
-            "date": row["period"],
-            "unit": "USD/baril",
-            "source": "EIA",
-        }
-    except Exception as e:
-        print(f"Erreur Brent (EIA): {e}")
-        return existing.get("brent")
+        print(f"Erreur Brent (OilPriceAPI), on garde l'ancienne valeur: {e}")
+    return existing.get("brent")
 
 
 def fetch_henry_hub_oilpriceapi():
@@ -192,34 +175,50 @@ def fetch_henry_hub_oilpriceapi():
 
 
 def fetch_henry_hub(existing):
+    """Henry Hub NYMEX premier mois. En cas d'échec, dernière valeur connue (jamais le spot EIA)."""
     try:
         result = fetch_henry_hub_oilpriceapi()
         if result:
             return result
     except Exception as e:
-        print(f"Erreur Henry Hub (OilPriceAPI), repli sur EIA: {e}")
+        print(f"Erreur Henry Hub (OilPriceAPI), on garde l'ancienne valeur: {e}")
+    return existing.get("henry_hub")
 
-    if not EIA_API_KEY:
-        print("EIA_API_KEY manquant, on garde l'ancienne valeur Henry Hub.")
-        return existing.get("henry_hub")
+
+PEG_URL = "https://smart.natrangroupe.com/api/v1/fr/prix_bourse/export/ZONE.csv"
+
+
+def fetch_peg(existing, days=70):
+    """Gaz France (PEG, zone TRF) : prix moyen journalier publié par NaTran (moyenne pondérée de tous
+    les produits échangés sur EEX pour la journée gazière). Renvoie (entrée market.json, {date: prix})."""
+    today = datetime.datetime.now(PARIS).date()
+    start = today - datetime.timedelta(days=days)
     try:
-        url = (
-            "https://api.eia.gov/v2/natural-gas/pri/fut/data/"
-            f"?api_key={EIA_API_KEY}&frequency=daily&data[0]=value"
-            "&facets[series][]=RNGWHHD&sort[0][column]=period&sort[0][direction]=desc&length=1"
-        )
-        r = requests.get(url, timeout=20)
+        r = requests.get(PEG_URL, params={"startDate": start.isoformat(), "endDate": today.isoformat()},
+                         headers={"User-Agent": "InsideEnergyMarkets/1.0 (+https://insideenergymarkets.com)"}, timeout=30)
         r.raise_for_status()
-        row = r.json()["response"]["data"][0]
-        return {
-            "price_usd_mmbtu": round(float(row["value"]), 2),
-            "date": row["period"],
-            "unit": "USD/MMBtu",
-            "source": "EIA",
+        daily = {}
+        for row in csv.reader(io.StringIO(r.content.decode("utf-8-sig")), delimiter=";"):
+            if len(row) < 3 or not row[0][:2].isdigit():
+                continue
+            try:
+                day = datetime.datetime.strptime(row[0].strip(), "%d/%m/%Y").date()
+                daily[day.isoformat()] = round(float(row[2].strip().replace(",", ".")), 2)
+            except ValueError:
+                continue
+        if not daily:
+            raise ValueError("aucune ligne de prix dans l'export")
+        last = max(daily)
+        d = datetime.date.fromisoformat(last)
+        entry = {
+            "price_eur_mwh": daily[last], "date": last, "unit": "EUR/MWh", "source": "NaTran",
+            "date_label": f"Moyenne du {JOURS[d.weekday()]} {d:%d/%m}",
+            "date_label_en": f"Average on {DAYS_EN[d.weekday()]} {d:%d/%m}",
         }
+        return entry, daily
     except Exception as e:
-        print(f"Erreur Henry Hub (EIA): {e}")
-        return existing.get("henry_hub")
+        print(f"Erreur PEG (NaTran), on garde l'ancienne valeur: {e}")
+        return existing.get("peg"), {}
 
 
 def fetch_mix_france(existing):
@@ -1031,7 +1030,48 @@ SOURCE_FIELDS = {
     "brent_usd": "brent_source",
     "henry_hub_usd_mmbtu": "henry_hub_source",
     "spot_eur_mwh": "spot_source",
+    "peg_eur_mwh": "peg_source",
 }
+BACKFILL_STATE = os.path.join(os.path.dirname(__file__), "..", "_data", "oilprice_backfill.json")
+
+
+def backfill_futures(history):
+    """Jours de cotation manquants des 30 derniers jours (Brent, Henry Hub) : moyennes journalières
+    OilPriceAPI (une seule requête pour les deux séries), au plus une fois par jour. Même produit que le
+    cours du jour (contrats à terme du premier mois) ; ne remplace jamais une valeur."""
+    if not OILPRICEAPI_KEY:
+        return
+    today = datetime.date.today()
+    state = load_json(BACKFILL_STATE, {})
+    if state.get("last") == today.isoformat():
+        return
+    since = (today - datetime.timedelta(days=30)).isoformat()
+    have = {h["date"] for h in history if h.get("brent_usd") is not None and h["date"] >= since}
+    weekdays = [(today - datetime.timedelta(days=k)).isoformat() for k in range(1, 31)
+                if (today - datetime.timedelta(days=k)).weekday() < 5]
+    if sum(1 for d in weekdays if d not in have) <= 2:  # jours fériés de bourse : pas de requête
+        return
+    codes = {"BRENT_CRUDE_USD": "brent_usd", "NATURAL_GAS_USD": "henry_hub_usd_mmbtu"}
+    try:
+        r = requests.get("https://api.oilpriceapi.com/v1/prices/past_month",
+                         params={"by_code": ",".join(codes), "interval": "daily", "per_page": 500},
+                         headers={"Authorization": f"Token {OILPRICEAPI_KEY}"}, timeout=30)
+        r.raise_for_status()
+        rows = (r.json().get("data") or {}).get("prices", [])
+        added = 0
+        for row in rows:
+            field, day = codes.get(row.get("code")), (oilpriceapi_date(row) or "")[:10]
+            if not field or not day or is_weekend(day) or row.get("price") is None:
+                continue
+            entry = next((h for h in history if h.get("date") == day), {})
+            if entry.get(field) is None:
+                set_history_value(history, day, field, round(float(row["price"]), 2), "OilPriceAPI")
+                added += 1
+        print(f"Rattrapage OilPriceAPI : {added} valeurs ajoutées")
+    except Exception as e:
+        print(f"Erreur rattrapage OilPriceAPI: {e}")
+    with open(BACKFILL_STATE, "w", encoding="utf-8") as fh:
+        json.dump({"last": today.isoformat()}, fh)
 
 
 def history_entry(history, date):
@@ -1055,8 +1095,18 @@ def is_weekend(date_str):
     return datetime.date.fromisoformat(date_str[:10]).weekday() >= 5
 
 
-def append_to_history(history, data, spot_daily):
+def append_to_history(history, data, spot_daily, peg_daily=None):
     today = datetime.date.today().isoformat()
+
+    # Brent et Henry Hub : uniquement les contrats à terme (OilPriceAPI). Les anciennes valeurs spot
+    # de l'EIA sont retirées de ces séries (autre produit : le mélange faussait courbes et variations).
+    for h in history:
+        for field, src, extra in (("brent_usd", "brent_source", None),
+                                  ("henry_hub_usd_mmbtu", "henry_hub_source", "henry_hub_eur_mwh")):
+            if h.get(src) == "EIA":
+                h.pop(field, None); h.pop(src, None)
+                if extra:
+                    h.pop(extra, None)
 
     # Brent et Henry Hub ne cotent pas le week-end : une valeur datée samedi ou
     # dimanche n'est que la clôture du vendredi répétée
@@ -1070,17 +1120,11 @@ def append_to_history(history, data, spot_daily):
         set_history_value(history, henry["date"], "henry_hub_usd_mmbtu",
                           henry.get("price_usd_mmbtu"), henry.get("source", "EIA"))
 
-    # Jours de cotation encore vides (run manqué, panne OilPriceAPI) : comblés avec
-    # l'EIA, qui publie avec quelques jours de retard. Ne remplace jamais une valeur.
-    if EIA_API_KEY:
-        for series, field in (("RBRTE", "brent_usd"), ("RNGWHHD", "henry_hub_usd_mmbtu")):
-            try:
-                for day, value in fetch_eia_series(series, 15).items():
-                    entry = next((h for h in history if h.get("date") == day), {})
-                    if entry.get(field) is None:
-                        set_history_value(history, day, field, value, "EIA")
-            except Exception as e:
-                print(f"Erreur complément EIA {series}: {e}")
+    backfill_futures(history)
+
+    # Gaz France (PEG) : chaque journée gazière publiée par NaTran (valeurs définitives, on les réécrit)
+    for day, price in (peg_daily or {}).items():
+        set_history_value(history, day, "peg_eur_mwh", price, "NaTran")
 
     # Spot : moyenne journalière de chaque journée complète renvoyée par RTE
     for day, price in spot_daily.items():
@@ -1099,6 +1143,8 @@ def append_to_history(history, data, spot_daily):
         eur = mmbtu_usd_to_mwh_eur(h.get("henry_hub_usd_mmbtu"), usd_per_eur_on(h["date"]))
         if eur is not None:
             h["henry_hub_eur_mwh"] = eur
+        # Un jour sans aucune valeur (ex. ancien spot EIA retiré) ne sert plus à rien
+    history = [h for h in history if len(h) > 1]
 
     os.makedirs(os.path.dirname(HISTORY_PATH), exist_ok=True)
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:
@@ -1165,6 +1211,7 @@ CHANGE_FIELDS = {
     "spot_price_france": ("price_eur_mwh", "spot_eur_mwh"),
     "brent": ("price_usd", "brent_usd"),
     "henry_hub": ("price_eur_mwh", "henry_hub_eur_mwh"),
+    "peg": ("price_eur_mwh", "peg_eur_mwh"),
 }
 
 
@@ -1189,12 +1236,14 @@ def main():
     update_fx()
     spot = fetch_spot_price_france(existing)
     spot_daily = spot.pop("daily", {}) if spot else {}
+    peg, peg_daily = fetch_peg(existing)
 
     data = {
         "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
         "brent": label_quote(fetch_brent(existing)),
         "wti": fetch_wti(existing),
         "henry_hub": add_henry_hub_eur(label_quote(fetch_henry_hub(existing))),
+        "peg": peg,
         "mix_france": fetch_mix_france(existing),
         "spot_price_france": spot,
         "chokepoints": fetch_chokepoint_traffic(existing),
@@ -1215,7 +1264,7 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     history = load_history()
-    history = append_to_history(history, data, spot_daily)
+    history = append_to_history(history, data, spot_daily, peg_daily)
 
     add_changes(data, history)
     with open(DATA_PATH, "w", encoding="utf-8") as f:

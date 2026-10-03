@@ -112,5 +112,16 @@
       "pct_capacity": 80,
       "status": "fluide"
     }
+  },
+  "peg": {
+    "price_eur_mwh": 73.97,
+    "date": "2026-10-03",
+    "unit": "EUR/MWh",
+    "source": "NaTran",
+    "date_label": "Moyenne du sam. 03/10",
+    "date_label_en": "Average on Sat 03/10",
+    "prev_value": 72.71,
+    "prev_date": "2026-10-02",
+    "change_pct": 1.7
   }
 }

@@ -561,7 +561,7 @@ if (navToggle) {
   // ===== Comparaison base 100 =====
   // Chaque série est divisée par sa première valeur de la période (x 100) :
   // 110 = +10 % depuis le début de la période, quelle que soit l'unité
-  var seriesNames = { spot: iemT.series_spot, brent: 'Brent', henryhub: 'Henry Hub' };
+  var seriesNames = { spot: iemT.series_spot, brent: 'Brent', henryhub: 'Henry Hub', peg: iemT.series_peg };
 
   // Ligne pointillée au niveau 100
   var baseLine = {
@@ -1406,7 +1406,16 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 (function () {
   if (typeof Chart === 'undefined') return;
   // Graphique détaillé (même allure que la vue agrandie de /marches/), semaine de la note en surbrillance
-  function ntDetail(cv, c) {
+  function ntDetail(cv, c, days) {
+    // Fenêtre de N jours calendaires jusqu'à la dernière date de la note (boutons 7 / 30 / 60 j)
+    days = days || 30;
+    var lastD = new Date(c.labels[c.labels.length - 1] + 'T12:00:00'), from = new Date(lastD);
+    from.setDate(from.getDate() - days);
+    var keep = c.labels.map(function (d) { return new Date(d + 'T12:00:00') > from; });
+    c = Object.assign({}, c, { labels: c.labels.filter(function (d, i) { return keep[i]; }),
+      series: [Object.assign({}, c.series[0], { data: c.series[0].data.filter(function (v, i) { return keep[i]; }) })] });
+    var old = Chart.getChart(cv);
+    if (old) old.destroy();
     var s = c.series[0], ctx = cv.getContext('2d'), grad = ctx.createLinearGradient(0, 0, 0, 280);
     grad.addColorStop(0, s.color + '66'); grad.addColorStop(1, s.color + '00');
     var fmtD = function (d) { return new Date(d + 'T12:00:00').toLocaleDateString(iemT.locale, { day: 'numeric', month: 'short' }); };
@@ -1439,7 +1448,17 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     var old = Chart.getChart(cv);
     if (old) old.destroy();
     var c = JSON.parse(cv.getAttribute('data-nt-chart'));
-    if (c.type === 'detail') { ntDetail(cv, c); return; }
+    if (c.type === 'detail') {
+      ntDetail(cv, c, 30);
+      var fig = cv.closest('.nt-dc'), btns = fig && fig.querySelectorAll('[data-nt-period] [data-period]');
+      (btns || []).forEach(function (b) {
+        b.addEventListener('click', function () {
+          btns.forEach(function (x) { x.classList.toggle('active', x === b); });
+          ntDetail(cv, c, parseInt(b.getAttribute('data-period'), 10));
+        });
+      });
+      return;
+    }
     var bar = c.type === 'bar';
     var ds = c.series.map(function (s) {
       return { label: s.name, data: s.data, borderColor: s.color, backgroundColor: bar ? s.color + 'cc' : s.color + '1f',

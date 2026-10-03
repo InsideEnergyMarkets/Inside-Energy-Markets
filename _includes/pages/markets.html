@@ -25,7 +25,8 @@
   window.mktChartData = {
     spot: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "spot_eur_mwh" | jsonify }}, sources: {{ hist | map: "spot_source" | jsonify }}, unit: "€/MWh", color: "#00817d" },
     brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: {{ t.units.usd_bbl | jsonify }}, color: "#e8703a" },
-    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_eur_mwh" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "€/MWh", color: "#e8b33a" }
+    peg: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "peg_eur_mwh" | jsonify }}, sources: {{ hist | map: "peg_source" | jsonify }}, unit: "€/MWh", color: "#e8b33a" },
+    henryhub: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "henry_hub_eur_mwh" | jsonify }}, sources: {{ hist | map: "henry_hub_source" | jsonify }}, unit: "€/MWh", color: "#94a3b8" }
   };
   window.mktChokepoints = {{ site.data.chokepoints_history | jsonify }};
   window.mktBrentYear = {{ site.data.brent_year | jsonify }};
@@ -167,40 +168,47 @@
       </div>
     </header>
 
-    {% assign e = market.henry_hub %}
+    {% assign e = market.peg %}
     {% assign st = site.data.gas_storage %}
-    {% if lang == "en" %}{% assign e_label = e.date | date: "%d/%m/%Y" %}{% if e.date_label_en %}{% assign e_label = e.date_label_en %}{% endif %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
+    {% if lang == "en" %}{% assign e_label = e.date_label_en | default: e.date %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
     <div class="pw-card">
       <div class="pw-price">
         <div class="pw-top">
-          <p class="pw-label">{{ mk.hh_label }}</p>
-          <button type="button" class="period-btn pw-expand" data-expand="henryhub" data-title="Henry Hub" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
+          <p class="pw-label">{{ mk.peg_label }}</p>
+          <button type="button" class="period-btn pw-expand" data-expand="peg" data-title="{{ t.quotes.peg }}" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
         </div>
         {% if e %}
-        {% if e.price_eur_mwh %}<p class="pw-value">{{ e.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small>{% include price-change.html entry=e %}</p>
-        <p class="pw-sub">{{ e_label }} · {{ e.source }}, {{ mk.fx_note }} ({{ e.price_usd_mmbtu | replace: ".", dec }} $/MMBtu)</p>{% else %}<p class="pw-value">{{ e.price_usd_mmbtu | replace: ".", dec }} <small>$/MMBtu</small>{% include price-change.html entry=e %}</p>
-        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>{% endif %}
+        <p class="pw-value">{{ e.price_eur_mwh | replace: ".", dec }} <small>€/MWh</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e_label }} · {{ mk.peg_source }}</p>
         {% else %}<p class="pw-value">-</p>{% endif %}
-        <div class="pw-stats" data-week-stats="henryhub">
+        <div class="pw-stats" data-week-stats="peg">
           <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>
           <div><span>{{ t.js.low }}</span><strong data-stat="min">-</strong></div>
           <div><span>{{ t.js.high }}</span><strong data-stat="max">-</strong></div>
         </div>
         <div class="pw-chart-head">
           <span>{{ mk.history }}</span>
-          <div class="mkt-period-btns" data-chart-controls="henryhub">
+          <div class="mkt-period-btns" data-chart-controls="peg">
             <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
             <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
             <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
           </div>
         </div>
-        <div class="pw-chart pw-chart--tall"><canvas id="chart-canvas-henryhub" aria-label="{{ mk.hh_chart_aria }}"></canvas></div>
+        <div class="pw-chart pw-chart--tall"><canvas id="chart-canvas-peg" aria-label="{{ mk.peg_chart_aria }}"></canvas></div>
       </div>
 
       {% include blocks/gas-storage.html %}
     </div>
 
     <div class="mk-more-row">
+      {% assign hh = market.henry_hub %}
+      {% if hh.price_eur_mwh %}
+      <button type="button" class="mk-link-tile" data-expand="henryhub" data-title="Henry Hub">
+        <i class="fa-solid fa-flag-usa" aria-hidden="true"></i>
+        <span><strong>{{ mk.hh_tile }}</strong>{{ hh.price_eur_mwh | replace: ".", dec }} €/MWh ({{ hh.price_usd_mmbtu | replace: ".", dec }} $/MMBtu) · {{ mk.hh_tile_sub }}</span>
+        <b aria-hidden="true">↗</b>
+      </button>
+      {% endif %}
       {% assign gw = site.data.gas_world %}
       {% if gw and gw.europe %}
       {% assign gw_eu = gw.europe | last %}

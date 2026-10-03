@@ -55,7 +55,12 @@ layout: default
           {% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}
         </ul>
         <figure class="nt-dc">
-          <div class="nt-dc-head"><h3>{{ sec.chart.title }}</h3><span>{{ sec.chart.sub }}</span></div>
+          <div class="nt-dc-head"><div><h3>{{ sec.chart.title }}</h3><span>{{ sec.chart.sub }}</span></div>
+            <div class="mkt-period-btns" data-nt-period>
+              <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
+              <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
+              <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
+            </div></div>
           <div class="nt-dc-chart"><canvas data-nt-chart="{{ sec.chart | jsonify | escape }}" aria-label="{{ sec.chart.title }} : {{ sec.chart.sub }}"></canvas></div>
           <div class="nt-dc-stats">
             {% for st in sec.chart.stats %}<div class="nt-dc-stat"><span>{{ st.label }}</span><strong{% if st.dir %} class="nt-dc-{{ st.dir }}"{% endif %}>{{ st.value }}{% if st.unit != "" %}<small> {{ st.unit }}</small>{% endif %}</strong><em>{{ st.sub }}</em></div>{% endfor %}
