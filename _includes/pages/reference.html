@@ -1,0 +1,122 @@
+{% comment %}
+  Pages de référence orientées recherche (une question = une page) : page.kind = brent, diesel ou storage.
+  Elles réutilisent les blocs de /marches/ (_includes/blocks/), puis une explication et une FAQ dont les
+  réponses reprennent les chiffres du jour (avec le balisage FAQPage de schema.org).
+{% endcomment %}
+{% include i18n.html %}
+{% assign mk = t.mk %}
+{% assign sx = t.seo[page.kind] %}
+{% assign market = site.data.market %}
+{% assign hist = site.data.market_history %}
+{% assign e = market.brent %}
+{% if lang == "en" %}{% assign e_label = e.date | date: "%d/%m/%Y" %}{% if e.date_label_en %}{% assign e_label = e.date_label_en %}{% endif %}{% else %}{% assign e_label = e.date_label | default: e.date %}{% endif %}
+<section class="episodes-header">
+  <div class="wrap">
+    <p class="eyebrow">{{ sx.eyebrow }}</p>
+    <h1>{{ sx.title }}</h1>
+    <p class="lead-sm">{{ sx.lead }}</p>
+  </div>
+</section>
+
+<section class="mk-section ref-section">
+  <div class="wrap">
+    {% case page.kind %}
+
+    {% when "brent" %}
+    <script>
+      window.mktChartData = {
+        brent: { labels: {{ hist | map: "date" | jsonify }}, values: {{ hist | map: "brent_usd" | jsonify }}, sources: {{ hist | map: "brent_source" | jsonify }}, unit: "$/b", color: "#e8703a" }
+      };
+    </script>
+    {% assign wti = market.wti %}
+    {% assign oy = site.data.oil_year %}
+    <div class="pw-card">
+      {% include blocks/brent-price.html %}
+      <div class="pw-mix">
+        <p class="pw-label">{{ sx.compare_label }}</p>
+        {% if wti.price_usd %}
+        {% assign spread = e.price_usd | minus: wti.price_usd | round: 2 %}
+        <div class="pw-stats">
+          <div><span>Brent</span><strong>{% include money2.html value=e.price_usd %} $</strong></div>
+          <div><span>WTI</span><strong>{% include money2.html value=wti.price_usd %} $</strong></div>
+          <div><span>{{ mk.spread }}</span><strong>{% include money2.html value=spread %} $</strong></div>
+        </div>
+        {% endif %}
+        {% if oy and oy.size > 0 %}
+        <div class="pw-chart pw-chart--tall"><canvas id="oil-year-chart" aria-label="{{ mk.wti_chart_aria }}"></canvas></div>
+        <p class="mt-legend"><span class="mt-sw mt-sw--orange"></span>Brent <span class="mt-sw mt-sw--yellow"></span>WTI</p>
+        <script>window.mktOilYear = {{ oy | jsonify }};</script>
+        {% endif %}
+        <p class="pw-sub">{{ wti.source }} ({{ mk.today }}) · EIA ({{ mk.spot_12m }})</p>
+      </div>
+    </div>
+    {% capture price_txt %}{{ e.price_usd | replace: ".", dec }}{% endcapture %}
+    {% assign e_day = e.date | date: "%d/%m/%Y" %}
+    {% capture ans1 %}{{ sx.a_price | replace: "%n", price_txt | replace: "%m", e_day }}{% endcapture %}
+    {% assign faq = "" | split: "" | push: sx.q_price | push: ans1 | push: sx.q_wti | push: sx.a_wti | push: sx.q_pump | push: sx.a_pump %}
+    {% assign anchor = t.ids.oil %}
+
+    {% when "diesel" %}
+    {% assign fuel = site.data.fuel %}
+    {% assign tax = site.data.fuel_taxes %}
+    <div class="pw-card pw-card--single">
+      <div class="pw-price">
+        {% include blocks/fuel-detail.html %}
+      </div>
+    </div>
+    {% capture gz %}{% include money2.html value=fuel.gazole %}{% endcapture %}
+    {% capture e10 %}{% include money2.html value=fuel.e10 %}{% endcapture %}
+    {% assign gz = gz | strip %}{% assign e10 = e10 | strip %}
+    {% capture ans1 %}{{ sx.a_price | replace: "%n", gz | replace: "%m", e10 }}{% endcapture %}
+    {% assign w_tax = w_ticpe | plus: w_vat | round: 0 %}
+    {% capture ans2 %}{{ sx.a_taxes | replace: "%n", w_tax }}{% endcapture %}
+    {% assign faq = "" | split: "" | push: sx.q_price | push: ans1 | push: sx.q_taxes | push: ans2 | push: sx.q_lag | push: sx.a_lag %}
+    {% assign anchor = t.ids.oil %}
+
+    {% when "storage" %}
+    {% assign st = site.data.gas_storage %}
+    <div class="pw-card pw-card--single">
+      {% include blocks/gas-storage.html %}
+    </div>
+    {% capture full_txt %}{{ eu.full | round: 1 | replace: ".", dec }}{% endcapture %}
+    {% if d_eu != nil %}
+    {% assign d_abs = d_eu | abs %}{% capture d_txt %}{{ d_abs | replace: ".", dec }}{% endcapture %}
+    {% if d_eu >= 0 %}{% capture vs %}{{ sx.vs_ly_above | replace: "%n", d_txt }}{% endcapture %}{% else %}{% capture vs %}{{ sx.vs_ly_below | replace: "%n", d_txt }}{% endcapture %}{% endif %}
+    {% endif %}
+    {% capture ans1 %}{{ sx.a_level | replace: "%n", full_txt | replace: "%m", vs }}{% endcapture %}
+    {% capture fr_full %}{{ fr.full | round: 1 | replace: ".", dec }}{% endcapture %}
+    {% assign fr_twh = fr.twh | round: 0 %}
+    {% capture ans2 %}{{ sx.a_france | replace: "%n", fr_full | replace: "%m", fr_twh }}{% endcapture %}
+    {% assign faq = "" | split: "" | push: sx.q_level | push: ans1 | push: sx.q_france | push: ans2 | push: sx.q_why | push: sx.a_why %}
+    {% assign anchor = t.ids.gas %}
+    {% endcase %}
+
+    <div class="da-explain ref-explain">
+      <h2 class="da-h2">{{ sx.how_title }}</h2>
+      {% for para in sx.how %}<p>{{ para }}</p>{% endfor %}
+
+      <h2 class="da-h2">{{ t.seo.faq }}</h2>
+      <div class="ref-faq">
+        {% for i in (0..2) %}{% assign qi = i | times: 2 %}{% assign ai = qi | plus: 1 %}
+        <details{% if i == 0 %} open{% endif %}><summary>{{ faq[qi] }}</summary><p>{{ faq[ai] | strip }}</p></details>
+        {% endfor %}
+      </div>
+
+      <h2 class="da-h2">{{ t.seo.more }}</h2>
+      {% assign last_note = site.notes | where: "lang", lang | sort: "date" | last %}
+      <p class="da-links">
+        <a href="{{ u.markets | relative_url }}#{{ anchor }}">{{ t.seo.markets_link }} <span aria-hidden="true">→</span></a>
+        {% if last_note %}<a href="{{ last_note.url | relative_url }}">{{ t.seo.note_link }} <span aria-hidden="true">→</span></a>{% endif %}
+        {% if page.kind != "brent" %}<a href="{{ u.brent | relative_url }}">{{ t.seo.brent.short }} <span aria-hidden="true">→</span></a>{% endif %}
+        {% if page.kind != "diesel" %}<a href="{{ u.diesel | relative_url }}">{{ t.seo.diesel.short }} <span aria-hidden="true">→</span></a>{% endif %}
+        {% if page.kind != "storage" %}<a href="{{ u.storage | relative_url }}">{{ t.seo.storage.short }} <span aria-hidden="true">→</span></a>{% endif %}
+      </p>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+{% for i in (0..2) %}{% assign qi = i | times: 2 %}{% assign ai = qi | plus: 1 %}{% assign a_clean = faq[ai] | strip | strip_html %}{"@type": "Question", "name": {{ faq[qi] | jsonify }}, "acceptedAnswer": {"@type": "Answer", "text": {{ a_clean | jsonify }}}}{% unless i == 2 %},{% endunless %}
+{% endfor %}]}
+</script>

@@ -10,6 +10,9 @@ permalink: /blog/:title/
 collections:
   episodes:
     output: false
+  # Notes de marché hebdomadaires (scripts/generate_note.py), adresse dans le front matter
+  notes:
+    output: true
 
 lang: fr
 locale: fr_FR

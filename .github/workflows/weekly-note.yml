@@ -1,0 +1,67 @@
+name: Weekly market note
+
+on:
+  schedule:
+    # Lundi 05:00 UTC (7 h à Paris en été, 6 h en hiver), après le cron des données de minuit
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "Semaine ISO à (re)générer, ex. 2026-W40 (vide = dernière semaine complète)"
+        required: false
+      force:
+        description: "Réécrire une note existante (efface le mot de Tom)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  note:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate note
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.week }}" ]; then ARGS="--week ${{ inputs.week }}"; fi
+          if [ "${{ inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
+          python scripts/generate_note.py $ARGS
+
+      - name: Commit note
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add _notes/ _linkedin/
+          if git diff --quiet --cached; then echo "new=" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git diff --cached --name-only -- _notes/ | sed -E 's#_notes/##' > new_notes.txt
+          git commit -m "Note de marché hebdomadaire"
+          git pull --rebase
+          git push
+          echo "new=yes" >> "$GITHUB_OUTPUT"
+
+      - name: LinkedIn text in the run summary
+        if: steps.commit.outputs.new == 'yes'
+        run: |
+          f=$(ls -t _linkedin/*.txt | head -1)
+          { echo '### Texte LinkedIn prêt à coller'; echo '```'; cat "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Notify search engines (IndexNow)
+        if: steps.commit.outputs.new == 'yes'
+        run: |
+          # Laisse le temps à GitHub Pages de publier les nouvelles pages
+          sleep 120
+          # Adresses des notes qui viennent d'être créées, plus les deux pages d'archive
+          URLS=$(while read f; do grep -h '^permalink:' "_notes/$f"; done < new_notes.txt \
+            | sed -E 's#permalink: "([^"]+)"#https://insideenergymarkets.com\1#' | jq -R . \
+            | jq -s '. + ["https://insideenergymarkets.com/blog/", "https://insideenergymarkets.com/en/blog/"]')
+          curl -s -o /dev/null -w "IndexNow : %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"insideenergymarkets.com\",\"key\":\"ba5fdc11ee8578d5540c332e9933f73f\",\"keyLocation\":\"https://insideenergymarkets.com/ba5fdc11ee8578d5540c332e9933f73f.txt\",\"urlList\":$URLS}"

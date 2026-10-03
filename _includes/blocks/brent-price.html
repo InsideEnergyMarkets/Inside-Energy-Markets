@@ -1,0 +1,26 @@
+{% comment %}Prix du Brent : valeur, variation, 7 jours, graphique 7/30/60 j. Variables : e (market.brent), e_label, mk.
+Utilisé sur /marches/ et sur la page « Prix du Brent aujourd'hui ».{% endcomment %}
+      <div class="pw-price">
+        <div class="pw-top">
+          <p class="pw-label">{{ mk.brent_label }}</p>
+          <button type="button" class="period-btn pw-expand" data-expand="brent" data-title="Brent" aria-label="{{ t.js.expand_chart }}" title="{{ t.js.expand }}">&#x2922;</button>
+        </div>
+        {% if e %}
+        <p class="pw-value">{{ e.price_usd | replace: ".", dec }} <small>{{ t.units.usd_bbl }}</small>{% include price-change.html entry=e %}</p>
+        <p class="pw-sub">{{ e_label }} · {{ e.source }}</p>
+        {% else %}<p class="pw-value">-</p>{% endif %}
+        <div class="pw-stats" data-week-stats="brent">
+          <div><span>{{ mk.avg7 }}</span><strong data-stat="avg">-</strong></div>
+          <div><span>{{ t.js.low }}</span><strong data-stat="min">-</strong></div>
+          <div><span>{{ t.js.high }}</span><strong data-stat="max">-</strong></div>
+        </div>
+        <div class="pw-chart-head">
+          <span>{{ mk.history }}</span>
+          <div class="mkt-period-btns" data-chart-controls="brent">
+            <button type="button" class="period-btn" data-period="7">{{ t.js.d7 }}</button>
+            <button type="button" class="period-btn active" data-period="30">{{ t.js.d30 }}</button>
+            <button type="button" class="period-btn" data-period="60">{{ t.js.d60 }}</button>
+          </div>
+        </div>
+        <div class="pw-chart"><canvas id="chart-canvas-brent" aria-label="{{ mk.brent_chart_aria }}"></canvas></div>
+      </div>

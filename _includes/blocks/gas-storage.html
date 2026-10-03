@@ -1,0 +1,44 @@
+{% comment %}Remplissage des stocks de gaz UE / France (GIE AGSI+) avec graphique année / an dernier.
+Utilisé sur /marches/ et sur la page « Stocks de gaz en Europe ».{% endcomment %}
+      <div class="pw-mix">
+        <p class="pw-label">{{ mk.storage_label }}</p>
+        {% if st and st.eu and st.eu.size > 0 %}
+        {% assign eu = st.eu | last %}
+        {% assign fr = st.fr | last %}
+        {% assign y = eu.date | slice: 0, 4 | plus: 0 | minus: 1 %}
+        {% assign ly_date = eu.date | slice: 4, 6 | prepend: y %}
+        {% assign eu_ly = st.eu | where: "date", ly_date | first %}
+        {% assign fr_ly = st.fr | where: "date", ly_date | first %}
+        <div class="pw-co2 gs-level">
+          <span class="pw-co2-value">{{ eu.full | round: 1 | replace: ".", dec }}<small>%</small></span>
+          <span class="pw-co2-text"><strong>{{ mk.storage_full }}</strong>{% assign twh = eu.twh | round: 0 %}{{ mk.storage_twh | replace: '%n', twh }}</span>
+        </div>
+        <div class="gs-bar" role="img" aria-label="{{ mk.storage_aria }} {{ eu.full | round: 1 }} %{% if eu_ly %}, {{ mk.vs_last_year_aria }} {{ eu_ly.full | round: 1 }} %{% endif %}">
+          <span style="width: {{ eu.full }}%"></span>
+          {% if eu_ly %}<i style="left: {{ eu_ly.full }}%" title="{{ mk.same_date_ly }}"></i>{% endif %}
+        </div>
+        <p class="gs-bar-legend"><span>0 %</span>{% if eu_ly %}<span class="gs-ly-mark" style="left: {{ eu_ly.full }}%">▲ {{ mk.last_year }}</span>{% endif %}<span>100 %</span></p>
+        <div class="pw-stats pw-stats--mix">
+          {% if eu_ly %}
+          {% assign d_eu = eu.full | minus: eu_ly.full | round: 1 %}
+          <div><span>{{ mk.eu_vs_ly }}</span><strong class="{% if d_eu < 0 %}gs-down{% else %}gs-up{% endif %}">{% if d_eu > 0 %}+{% endif %}{{ d_eu | replace: ".", dec }} {{ mk.pts }}</strong></div>
+          {% endif %}
+          {% if fr %}
+          <div><span>{{ mk.france }}{% if fr_ly %} ({{ mk.last_year }}{{ t.colon }}{{ fr_ly.full | round: 0 }} %){% endif %}</span><strong>{{ fr.full | round: 1 | replace: ".", dec }} %</strong></div>
+          {% endif %}
+        </div>
+        <div class="pw-chart-head">
+          <span>{{ mk.storage_chart_head }}</span>
+          <div class="mkt-period-btns" id="gs-btns">
+            <button type="button" class="period-btn active" data-zone="eu">{{ mk.eu }}</button>
+            <button type="button" class="period-btn" data-zone="fr">{{ mk.france }}</button>
+          </div>
+        </div>
+        <div class="pw-chart pw-chart--tall"><canvas id="gs-chart" aria-label="{{ mk.storage_chart_aria }}"></canvas></div>
+        <p class="mt-legend gz-legend"><span class="gz-sw gz-sw--europe"></span>{{ eu.date | slice: 0, 4 }} <span class="gz-sw gz-sw--ly"></span>{{ y }}</p>
+        <p class="pw-sub">{{ mk.reading_of }} {{ eu.date | date: "%d/%m" }} · GIE AGSI+</p>
+        <script>window.mktGasStorage = {{ st | jsonify }};</script>
+        {% else %}
+        <p class="pw-sub">{{ mk.pending }}</p>
+        {% endif %}
+      </div>

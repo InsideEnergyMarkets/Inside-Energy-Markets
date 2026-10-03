@@ -28,24 +28,41 @@ NEWS_PATH = os.path.join(DATA_DIR, "news.json")
 INCIDENTS_PATH = os.path.join(DATA_DIR, "incidents.json")
 HEADERS = {"User-Agent": "InsideEnergyMarkets/1.0 (+https://insideenergymarkets.com/)"}
 
+# Sources : (adresse du flux, langue des titres, filtre). Les flux spécialisés dans l'énergie
+# sont repris tels quels (filtre False) ; les flux généralistes passent par un filtre sur le titre.
+# La version anglaise du site ne montre que les titres en anglais.
 FEEDS = {
-    "Al Jazeera": "https://www.aljazeera.com/xml/rss/all.xml",
-    "France 24": "https://www.france24.com/fr/moyen-orient/rss",
-    "Le Monde": "https://www.lemonde.fr/international/rss_full.xml",
-    "EIA": "https://www.eia.gov/rss/todayinenergy.xml",
-    "BBC": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
+    # Spécialisés énergie (les rubriques énergie du Guardian mélangent d'autres sujets : filtrées)
+    "Le Monde Énergies": ("https://www.lemonde.fr/energies/rss_full.xml", "fr", False),
+    "Connaissance des Énergies": ("https://www.connaissancedesenergies.org/rss.xml", "fr", False),
+    "EIA": ("https://www.eia.gov/rss/todayinenergy.xml", "en", False),
+    "European Commission": ("https://energy.ec.europa.eu/node/2/rss_en", "en", False),
+    "The Guardian": ("https://www.theguardian.com/environment/energy/rss", "en", True),
+    "The Guardian Oil": ("https://www.theguardian.com/business/oil/rss", "en", True),
+    # Généralistes : seulement les titres liés à l'énergie
+    "BBC": ("https://feeds.bbci.co.uk/news/business/rss.xml", "en", True),
+    "BBC Middle East": ("https://feeds.bbci.co.uk/news/world/middle_east/rss.xml", "en", True),
+    "Al Jazeera": ("https://www.aljazeera.com/xml/rss/all.xml", "en", True),
+    "France 24": ("https://www.france24.com/fr/moyen-orient/rss", "fr", True),
+    "Le Monde": ("https://www.lemonde.fr/international/rss_full.xml", "fr", True),
+    "Le Monde Économie": ("https://www.lemonde.fr/economie/rss_full.xml", "fr", True),
+    "France 24 Éco": ("https://www.france24.com/fr/eco-tech/rss", "fr", True),
 }
-# Langue des titres : la version anglaise du site ne montre que les titres en anglais
-FEED_LANG = {"France 24": "fr", "Le Monde": "fr"}
-NEWS_MAX = 20
-NEWS_MAX_AGE_DAYS = 3
+# Nom affiché quand une même rédaction a plusieurs flux
+SOURCE_NAME = {"The Guardian Oil": "The Guardian", "BBC Middle East": "BBC", "Le Monde Énergies": "Le Monde",
+               "Le Monde Économie": "Le Monde", "France 24 Éco": "France 24"}
+NEWS_PER_LANG = 14
+NEWS_PER_SOURCE = 3
+NEWS_MAX_AGE_DAYS = 5
 
-# Filtre sur le titre seul (la description fait remonter trop d'articles hors sujet).
-# « Iran » seul est trop large : on l'exige avec un terme énergie ou maritime.
-TOPIC = re.compile(r"hormuz|ormuz|red sea|mer rouge|houthi|bab.el.mandeb|tanker|pétrolier|\bbrent\b|\blng\b|\bgnl\b"
-                   r"|\bopec\b|\bopep\b|oil price|prix du pétrole|\bcrude\b|\bbrut\b", re.I)
-IRAN = re.compile(r"\biran", re.I)
-ENERGY = re.compile(r"\boil\b|pétrol|tanker|\bship|navire|strait|détroit|\bgas\b|\bgaz\b|export|sanction|crude|énergie|energy", re.I)
+# Filtre des flux généralistes, sur le titre seul (la description fait remonter trop d'articles
+# hors sujet). « Iran » seul est trop large : on l'exige avec un terme énergie ou maritime.
+TOPIC = re.compile(r"hormuz|ormuz|red sea|mer rouge|bab.el.mandeb|tanker|pétrolier|brent|wti|lng|gnl"
+                   r"|opec|opep|oil|crude|brut|pétrol|gas|gaz|electricit|électricit"
+                   r"|power price|nuclear|nucléaire|energy|énergie|énergétique|carburant|diesel|gazole|fuel"
+                   r"|renewable|renouvelable|wind farm|éolien|solar|solaire|refiner|raffin", re.I)
+IRAN = re.compile(r"iran", re.I)
+ENERGY = re.compile(r"oil|pétrol|tanker|ship|navire|strait|détroit|gas|gaz|export|sanction|crude|énergie|energy", re.I)
 
 UKMTO_URL = "https://sccd.royalnavy.mod.uk/api/ukmto/all"
 INCIDENTS_KEEP_DAYS = 365
@@ -76,32 +93,34 @@ def now_utc():
 # ===== Actualités =====
 
 def is_relevant(title):
-    return bool(TOPIC.search(title) or (IRAN.search(title) and ENERGY.search(title)))
+    if IRAN.search(title) and not ENERGY.search(title):
+        return False
+    return bool(TOPIC.search(title))
 
 
-def fetch_feed(source, url):
+def fetch_feed(source, url, lang, filtered):
     r = requests.get(url, headers=HEADERS, timeout=20)
     r.raise_for_status()
     items = []
     for it in ET.fromstring(r.content).findall(".//item"):
         title = " ".join((it.findtext("title") or "").split())
         link = (it.findtext("link") or "").strip()
-        if not title or not link.startswith("http") or not is_relevant(title):
+        if not title or not link.startswith("http") or (filtered and not is_relevant(title)):
             continue
         try:
             when = parsedate_to_datetime(it.findtext("pubDate")).astimezone(datetime.timezone.utc)
         except Exception:
             continue
-        items.append({"title": title, "url": link, "source": source, "lang": FEED_LANG.get(source, "en"),
+        items.append({"title": title, "url": link, "source": SOURCE_NAME.get(source, source), "lang": lang,
                       "date": when.isoformat(timespec="seconds")})
     return items
 
 
 def update_news():
     items, failures = [], []
-    for source, url in FEEDS.items():
+    for source, (url, lang, filtered) in FEEDS.items():
         try:
-            items.extend(fetch_feed(source, url))
+            items.extend(fetch_feed(source, url, lang, filtered))
         except Exception as e:
             failures.append(source)
             print(f"Erreur flux {source}: {e}")
@@ -109,16 +128,21 @@ def update_news():
         print("Aucun titre récupéré, on garde les actualités précédentes.")
         return
 
+    # Les plus récents d'abord, sans doublon, au plus NEWS_PER_SOURCE par média et
+    # NEWS_PER_LANG par langue (pour que les versions française et anglaise soient fournies)
     cutoff = (now_utc() - datetime.timedelta(days=NEWS_MAX_AGE_DAYS)).isoformat()
-    seen, news = set(), []
+    seen, per_source, per_lang, news = set(), {}, {}, []
     for item in sorted(items, key=lambda n: n["date"], reverse=True):
         key = re.sub(r"\W+", "", item["title"].lower())[:80]
-        if key in seen or item["date"] < cutoff:
+        src, lang = item["source"], item["lang"]
+        if key in seen or item["date"] < cutoff or per_source.get(src, 0) >= NEWS_PER_SOURCE                 or per_lang.get(lang, 0) >= NEWS_PER_LANG:
             continue
         seen.add(key)
+        per_source[src] = per_source.get(src, 0) + 1
+        per_lang[lang] = per_lang.get(lang, 0) + 1
         news.append(item)
-    write_json(NEWS_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "items": news[:NEWS_MAX]})
-    print(f"Actualités : {len(news[:NEWS_MAX])} titres ({len(FEEDS) - len(failures)}/{len(FEEDS)} flux OK)")
+    write_json(NEWS_PATH, {"updated_at": now_utc().isoformat(timespec="seconds"), "items": news})
+    print(f"Actualités : {len(news)} titres {per_lang} ({len(FEEDS) - len(failures)}/{len(FEEDS)} flux OK)")
 
 
 # ===== Incidents UKMTO =====

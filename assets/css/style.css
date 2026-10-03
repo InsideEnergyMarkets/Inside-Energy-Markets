@@ -893,8 +893,8 @@ footer .socials a:hover {
   padding: 3px 9px;
   border-radius: 4px;
 }
-.market-trend.up { color: #ff6b5b; background: rgba(255, 107, 91, 0.12); }
-.market-trend.down { color: #3ddc97; background: rgba(61, 220, 151, 0.12); }
+.market-trend.up { color: #3ddc97; background: rgba(61, 220, 151, 0.12); }
+.market-trend.down { color: #ff6b5b; background: rgba(255, 107, 91, 0.12); }
 .market-trend.flat { color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.06); }
 
 .market-card .market-label {
@@ -1339,8 +1339,8 @@ footer .socials a:hover {
   font-size: 18px;
   color: #fff;
 }
-.mkt-weekly-value.up { color: #ff6b5b; }
-.mkt-weekly-value.down { color: #3ddc97; }
+.mkt-weekly-value.up { color: #3ddc97; }
+.mkt-weekly-value.down { color: #ff6b5b; }
 
 @media (max-width: 760px) {
   .strait-grid {
@@ -1397,8 +1397,8 @@ footer .socials a:hover {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.65);
 }
-.mkt-badge.up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
-.mkt-badge.down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.mkt-badge.up { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.mkt-badge.down { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
 
 .mkt-sparkline {
   width: 100%;
@@ -1943,8 +1943,8 @@ footer .socials a:hover {
 .mk-glance-label { font-size: 12px; color: #5a6b7b; }
 .mk-glance-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #17255f; }
 .mk-glance-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: #5a6b7b; }
-.mk-glance-value.up { color: #d9463a; }
-.mk-glance-value.down { color: #1f9d6b; }
+.mk-glance-value.up { color: #1f9d6b; }
+.mk-glance-value.down { color: #d9463a; }
 .mk-glance-sub { font-size: 12px; color: #5a6b7b; }
 
 .mk-section { padding: 44px 0 28px; scroll-margin-top: 120px; }
@@ -2099,8 +2099,8 @@ a.hq-row:hover { background: rgba(255, 255, 255, 0.05); color: #fff; text-decora
   padding: 2px 8px; border-radius: 999px; white-space: nowrap; vertical-align: middle;
 }
 .px-change small { font-weight: 500; font-size: 11px; opacity: 0.75; margin-left: 2px; }
-.px-change--up { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
-.px-change--down { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.px-change--up { color: #3ddc97; background: rgba(61, 220, 151, 0.14); }
+.px-change--down { color: #ff6b5b; background: rgba(255, 107, 91, 0.14); }
 .px-change--flat { color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.08); }
 .market-change { margin: 2px 0 6px; }
 .pw-value .px-change { margin-left: 12px; font-size: 14px; }
@@ -2759,8 +2759,8 @@ html.has-player .nav-ep { display: none; }
 .oil-pump-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; line-height: 1.2; }
 .oil-pump-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
 .oil-pump-chg { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.6); }
-.oil-pump-chg.is-up { color: #ff6b5b; }
-.oil-pump-chg.is-down { color: #3ddc97; }
+.oil-pump-chg.is-up { color: #3ddc97; }
+.oil-pump-chg.is-down { color: #ff6b5b; }
 .oil-dec-title { margin: 0 0 8px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
 .oil-dec { display: flex; height: 16px; border-radius: 6px; overflow: hidden; }
 .oil-dec span { display: block; height: 100%; }
@@ -2778,3 +2778,95 @@ html.has-player .nav-ep { display: none; }
 .mt-sw--yellow { border-top-color: #e8b33a; }
 .oil-bal-when { margin: -8px 0 8px; font-size: 11px; color: rgba(255, 255, 255, 0.45); }
 .oil-bal-fc { margin-left: 10px; color: rgba(255, 255, 255, 0.45); }
+
+/* ===== Notes de marché hebdomadaires ===== */
+.nt-h2 { display: flex; align-items: center; gap: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.5px; color: #17255f; margin: 34px 0 12px; }
+.nt-icon { width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #17255f; color: #fff; font-size: 14px; flex: none; }
+.nt-tom { background: #fff; border: 1px solid #d8e1e6; border-left: 4px solid #00817d; border-radius: 12px; padding: 16px 20px; margin-bottom: 8px; }
+.nt-tom p:last-child { margin-bottom: 0; }
+.nt-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.nt-tile { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px; border-radius: 12px; background: #fff; border: 1px solid #d8e1e6; }
+.nt-tile-label { font-size: 12px; color: #5a6b7b; }
+.nt-tile-value { font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #17255f; }
+.nt-tile-value small { font-family: 'Inter', sans-serif; font-size: 12px; color: #5a6b7b; }
+.nt-tile-change { font: 700 12px 'Inter', sans-serif; }
+.nt-tile-change--up { color: #1f9d6b; }
+.nt-tile-change--down { color: #d9463a; }
+.nt-tile-change--flat { color: #5a6b7b; }
+.nt-section p { line-height: 1.65; }
+.nt-src { font-size: 12.5px; color: #5a6b7b; }
+.nt-src a { color: #00817d; font-weight: 600; text-decoration: none; }
+.nt-news { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.nt-news li { padding: 10px 14px; background: #fff; border: 1px solid #d8e1e6; border-radius: 10px; }
+.nt-news a { color: #17255f; font-weight: 600; text-decoration: none; }
+.nt-news a:hover { color: #00817d; }
+.nt-news span { display: block; font-size: 12px; color: #5a6b7b; margin-top: 2px; }
+
+.nt-feature {
+  display: flex; flex-direction: column; gap: 10px; padding: 24px 26px; border-radius: 16px; text-decoration: none; color: #fff;
+  background: linear-gradient(160deg, #17255f 0%, #0d1638 100%); box-shadow: 0 16px 40px rgba(23, 37, 95, 0.18);
+}
+.nt-feature strong { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 0.5px; font-weight: 400; }
+.nt-feature-lede { color: rgba(255, 255, 255, 0.75); }
+.nt-feature-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.nt-feature-tiles > span { display: flex; flex-direction: column; padding: 10px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); font-family: 'JetBrains Mono', monospace; font-size: 17px; }
+.nt-feature-tiles small { font-family: 'Inter', sans-serif; font-size: 11px; color: rgba(255, 255, 255, 0.55); }
+.nt-feature .mk-open { align-self: flex-start; }
+.nt-list { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.nt-list a { display: flex; flex-direction: column; gap: 2px; padding: 14px 18px; border-radius: 12px; background: #fff; border: 1px solid #d8e1e6; text-decoration: none; color: #17255f; }
+.nt-list a:hover { border-color: #00817d; }
+.nt-list span { font: 700 11px 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; color: #00817d; }
+.nt-list small { color: #5a6b7b; }
+
+.hm-note {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; padding: 14px 18px; border-radius: 12px;
+  background: rgba(79, 209, 197, 0.1); border: 1px solid rgba(79, 209, 197, 0.25); color: #fff; text-decoration: none;
+}
+.hm-note:hover { background: rgba(79, 209, 197, 0.16); }
+.hm-note-tag { display: inline-flex; align-items: center; gap: 8px; font: 700 12px 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; color: #4fd1c5; }
+.hm-note-lede { flex: 1; min-width: 220px; font-size: 14px; color: rgba(255, 255, 255, 0.85); }
+.hm-note-cta { font: 600 13px 'Inter', sans-serif; color: #4fd1c5; }
+
+/* ===== Pages de référence (Brent, gazole, stocks de gaz) ===== */
+.pw-card--single { grid-template-columns: minmax(0, 1fr); }
+.pw-card--single .pw-mix { border-left: none; background: none; }
+.ref-explain { max-width: 780px; }
+.ref-faq { display: flex; flex-direction: column; gap: 8px; }
+.ref-faq details { background: #fff; border: 1px solid #d8e1e6; border-radius: 12px; padding: 12px 16px; }
+.ref-faq summary { cursor: pointer; font-weight: 700; color: #17255f; }
+.ref-faq details[open] summary { color: #00817d; }
+.ref-faq p { margin: 8px 0 0; line-height: 1.6; }
+.footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; }
+.footer-links span { font-weight: 700; opacity: 0.7; }
+.footer-links a { color: inherit; opacity: 0.85; text-decoration: none; }
+.footer-links a:hover { opacity: 1; text-decoration: underline; }
+.nt-page .nt-tiles { margin: 6px 0 4px; }
+.nt-box-label { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font: 700 12px 'Inter', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #00817d; }
+.nt-context ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.nt-context li { padding-left: 16px; position: relative; line-height: 1.5; }
+.nt-context li::before { content: '•'; position: absolute; left: 2px; color: #00817d; font-weight: 700; }
+.nt-context a { color: #17255f; text-decoration: none; }
+.nt-context a:hover { color: #00817d; text-decoration: underline; }
+.nt-context span { font-size: 12px; color: #5a6b7b; }
+.nt-icon--context { background: #5a6b7b; }
+.nt-icon--power { background: #00817d; }
+.nt-icon--gas { background: #e8b33a; }
+.nt-icon--oil { background: #e8703a; }
+.nt-icon--sea { background: #2f6f8f; }
+.nt-section-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: center; }
+.nt-section-grid--text { grid-template-columns: minmax(0, 1fr); }
+.nt-bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.nt-bullets li { padding-left: 16px; position: relative; line-height: 1.55; }
+.nt-bullets li::before { content: '•'; position: absolute; left: 2px; font-weight: 700; color: #17255f; }
+.nt-chart { margin: 0; background: #fff; border: 1px solid #d8e1e6; border-radius: 12px; padding: 12px; }
+.nt-chart-box { position: relative; height: 210px; }
+.nt-chart-box canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.nt-reading { margin: 30px 0 10px; padding: 16px 20px; border-radius: 12px; background: #17255f; color: #fff; }
+.nt-reading .nt-box-label { color: #4fd1c5; }
+.nt-reading p:last-child { margin: 0; line-height: 1.6; }
+.nt-feature-tiles em { font-style: normal; font: 700 11px 'Inter', sans-serif; }
+.nt-feature-tiles em.nt-tile-change--up { color: #3ddc97; }
+.nt-feature-tiles em.nt-tile-change--down { color: #ff6b5b; }
+@media (max-width: 760px) { .nt-section-grid { grid-template-columns: minmax(0, 1fr); } }
+.nt-reading--top { margin: 0 0 22px; }
+.nt-page .nt-context { margin-top: 30px; }
