@@ -1,12 +1,19 @@
 {
- "updated_at": "2026-10-03T11:01:12+00:00",
+ "updated_at": "2026-10-03T16:41:44+00:00",
  "items": [
   {
-   "title": "G7 to release 100 million barrels of oil and diesel, will it curb prices?",
-   "url": "https://www.aljazeera.com/news/2026/10/3/g7-to-release-100-million-barrels-of-oil-and-diesel-will-it-curb-prices?traffic_source=rss",
-   "source": "Al Jazeera",
+   "title": "Réserves stratégiques de pétrole : 325 millions de barils « libérés » depuis mars, selon l’Agence internationale de l’énergie",
+   "url": "https://www.lemonde.fr/planete/article/2026/10/03/reserves-strategiques-de-petrole-325-millions-de-barils-liberes-depuis-mars_6787795_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-03T12:14:32+00:00"
+  },
+  {
+   "title": "Soaring diesel prices take their toll on US farmers in midwest corn belt",
+   "url": "https://www.theguardian.com/us-news/2026/oct/03/diesel-prices-midwest-farmers",
+   "source": "The Guardian",
    "lang": "en",
-   "date": "2026-10-03T09:27:38+00:00"
+   "date": "2026-10-03T12:00:59+00:00"
   },
   {
    "title": "Georgia Meloni prête à relancer le nucléaire quarante ans après l’abandon de l’atome par l’Italie",
@@ -21,13 +28,6 @@
    "source": "BBC",
    "lang": "en",
    "date": "2026-10-03T04:38:31+00:00"
-  },
-  {
-   "title": "G7 nations bow to US pressure and avoid crippling diesel ban",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/3/g7-nations-bow-to-us-pressure-and-avoid-crippling-diesel-ban?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-03T03:54:58+00:00"
   },
   {
    "title": "Sous la pression de Donald Trump, le G7 annonce un déblocage de 100 millions de barils de pétrole",
@@ -65,13 +65,6 @@
    "date": "2026-10-02T15:50:05+00:00"
   },
   {
-   "title": "Emmanuel Macron annonce que les pays du G7 vont prélever sur leurs stocks « jusqu’à 100 millions de barils » pour faire baisser les prix",
-   "url": "https://www.lemonde.fr/international/article/2026/10/02/emmanuel-macron-annonce-que-les-pays-du-g7-vont-prelever-sur-leurs-stocks-jusqu-a-100-millions-de-barils-pour-faire-baisser-les-prix_6787163_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-02T14:39:05+00:00"
-  },
-  {
    "title": "U.S. natural gas production reached a record high in July 2026",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68225",
    "source": "EIA",
@@ -105,13 +98,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-10-01T16:49:01+00:00"
-  },
-  {
-   "title": "Crude oil exports from strait of Hormuz largely return to pre-war levels",
-   "url": "https://www.theguardian.com/business/2026/oct/01/crude-oil-exports-strait-of-hormuz-transport-gulf-region-diesel",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-01T15:52:14+00:00"
   },
   {
    "title": "U.S. exports of propane reached records in the first half of 2026",
