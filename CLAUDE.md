@@ -27,7 +27,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   Liens d'action « … → » : petite pilule avec la flèche dans un `<span>` (`.section-head a`, `.mk-open`, `.inc-all`).
   Chiffres et dates dans la langue de la page (`| replace: ".", dec`, `{% include date.html date=… %}`).
 - TTF et JKM quotidiens : payants chez OilPriceAPI (offre Developer, 19 $/mois ; l'offre gratuite ne couvre que
-  WTI, Brent, Henry Hub, Waha). Absents tant que Tom n'a pas pris l'offre. Le PEG (France) est exclu : non fiable.
+  WTI, Brent, Henry Hub, Waha). Absents tant que Tom n'a pas pris l'offre. Le PEG vient de NaTran (le code PEG d'OilPriceAPI était non fiable).
 
 ## Environnement local (Windows)
 
@@ -104,8 +104,10 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   et `/en/analysis/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn). Format inspiré des notes hebdo de
   fournisseurs (titre, contexte d'actus, rubriques à puces + graphique `canvas[data-nt-chart]`, « Lecture clé »).
   Phrases construites depuis les données uniquement. Le corps du fichier = « Le mot de Tom » (facultatif).
-  Format retenu (A, oct. 2026) : Lecture clé, tuiles, puis par rubrique (électricité, gaz, pétrole) 3 puces et un graphique
-  détaillé 30 j (`chart.type: detail`, fond marine, semaine en surbrillance, 5 chiffres), presse en bas. Pas d'Ormuz ni de
+  Moyennes : électricité et PEG = moyenne simple des moyennes journalières de la semaine contre celle de la semaine
+  précédente ; Brent = clôture contre clôture.
+  Format retenu (A, oct. 2026) : Lecture clé, tuiles, puis par rubrique (électricité, gaz PEG, pétrole) 3 puces et un graphique
+  détaillé (60 j stockés, boutons 7/30/60 j, 30 par défaut) (`chart.type: detail`, fond marine, semaine en surbrillance, 5 chiffres), presse en bas. Pas d'Ormuz ni de
   détroits (données PortWatch en retard). Autres formats gardés pour des notes « focus » : `scripts/note_formats.py`
   (B base 100, C éditorial, D 3 chiffres, E électricité à la loupe) + 5 textes LinkedIn. LinkedIn retenu : titre,
   Lecture clé, une ligne-chiffre par marché (⚡ 🔥 🛢️), lien.
@@ -132,8 +134,14 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 
 `scripts/fetch_market_data.py` (workflow `update-market-data.yml`, cron 0/6/12/18 h UTC) :
 - `market.json` : prix du jour + `date_label`, `change_pct` / `prev_value` / `prev_date`.
-  - Brent et Henry Hub : OilPriceAPI (date = `as_of`, week-end ramené au vendredi), repli EIA.
-    `NATURAL_GAS_USD` = spot Henry Hub. Brent OilPriceAPI = future ICE front-month (EIA = spot).
+  - Brent et Henry Hub : OilPriceAPI (date = `as_of`, week-end ramené au vendredi) = contrats à terme du premier mois
+    (Brent ICE, `NATURAL_GAS_USD` = Henry Hub NYMEX, PAS le spot). Jamais mélangés avec le spot EIA : en cas d'échec,
+    dernière valeur connue ; l'historique ne contient que des valeurs OilPriceAPI (rattrapage `past_month` en moyennes
+    journalières, une requête par jour au plus, état dans `_data/oilprice_backfill.json`). Le spot EIA ne sert qu'aux vues 12 mois.
+  - Gaz France (PEG, zone TRF depuis la fusion des zones en 2018) : prix moyen journalier publié par NaTran (ex-GRTgaz),
+    export CSV de la plateforme Smart (`smart.natrangroupe.com/api/v1/fr/prix_bourse/export/ZONE.csv`, sans clé) :
+    moyenne pondérée de tous les produits échangés sur EEX pour la journée gazière. `market.peg`, `peg_eur_mwh` dans
+    l'historique. Remplace le Henry Hub partout (accueil, tapis, note, LinkedIn, rubrique Gaz) ; Henry Hub = tuile secondaire.
   - Spot électricité : RTE Wholesale Market v3 (ne renvoie que le jour en cours ; moyenne des
     prix quart d'heure de la journée).
   - Mix et CO2 : RTE éCO2mix (`where=nucleaire is not null` obligatoire), parts triées.
