@@ -34,6 +34,12 @@ jobs:
           if [ "${{ inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
           python scripts/generate_note.py $ARGS
 
+      - name: LinkedIn visuals (Chrome sans interface)
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.week }}" ]; then ARGS="--week ${{ inputs.week }}"; fi
+          python scripts/linkedin_visual.py $ARGS
+
       - name: Commit note
         id: commit
         run: |
@@ -47,11 +53,25 @@ jobs:
           git push
           echo "new=yes" >> "$GITHUB_OUTPUT"
 
-      - name: LinkedIn text in the run summary
+      - name: LinkedIn text and visuals in the run summary
         if: steps.commit.outputs.new == 'yes'
         run: |
           f=$(ls -t _linkedin/*.txt | head -1)
-          { echo '### Texte LinkedIn prêt à coller'; echo '```'; cat "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          base="${f%.txt}"
+          { echo '### Texte LinkedIn prêt à coller'; echo '```'; cat "$f"; echo '```'
+            echo '### Visuels (à télécharger aussi dans « Artifacts » en bas de cette page)'
+            for png in "$base"-*.png; do
+              [ -e "$png" ] && echo "![$(basename "$png")](https://github.com/${{ github.repository }}/raw/main/$png)"
+            done; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: LinkedIn visuals as a downloadable artifact
+        if: steps.commit.outputs.new == 'yes'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkedin
+          path: |
+            _linkedin/*.png
+            _linkedin/*.txt
 
       - name: Notify search engines (IndexNow)
         if: steps.commit.outputs.new == 'yes'

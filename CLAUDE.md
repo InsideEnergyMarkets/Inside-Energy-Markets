@@ -101,7 +101,9 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   (`id="notes"`), puis les articles, puis les notes précédentes. Pas de pages /notes/.
 - Note de marché hebdo : `scripts/generate_note.py` (workflow `weekly-note.yml`, lundi 05:00 UTC, puis IndexNow) écrit
   `_notes/AAAA-SS-fr.md` / `-en.md` (collection, gabarit `_layouts/note.html`, permaliens `/analyses/note-de-marche-AAAA-sSS/`
-  et `/en/analysis/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn). Format inspiré des notes hebdo de
+  et `/en/analysis/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn), puis `scripts/linkedin_visual.py` dessine les visuels LinkedIn
+  (`_linkedin/AAAA-SS-1.png` chiffres + courbe ; `-2.png` base 100 si chaque série couvre 15 jours) en HTML photographié par
+  Chrome sans interface ; résumé du workflow (texte + images) et artefact « linkedin » à télécharger. Format inspiré des notes hebdo de
   fournisseurs (titre, contexte d'actus, rubriques à puces + graphique `canvas[data-nt-chart]`, « Lecture clé »).
   Phrases construites depuis les données uniquement. Le corps du fichier = « Le mot de Tom » (facultatif).
   Moyennes : électricité et PEG = moyenne simple des moyennes journalières de la semaine contre celle de la semaine
