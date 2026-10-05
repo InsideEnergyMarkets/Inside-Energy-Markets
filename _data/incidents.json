@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-05T14:49:34+00:00",
+ "updated_at": "2026-10-05T16:48:35+00:00",
  "stats": {
-  "total_30d": 29,
+  "total_30d": 28,
   "attacks_30d": 21,
   "top_places": [
    {
@@ -15,9 +15,9 @@
     "n": 2
    },
    {
-    "place": "Océan Indien",
-    "place_en": "Indian Ocean",
-    "n": 2
+    "place": "Bab-el-Mandeb",
+    "place_en": "Bab el-Mandeb",
+    "n": 1
    }
   ]
  },
