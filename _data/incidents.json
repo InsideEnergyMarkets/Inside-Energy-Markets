@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-05T08:49:01+00:00",
+ "updated_at": "2026-10-05T10:48:04+00:00",
  "stats": {
-  "total_30d": 25,
+  "total_30d": 26,
   "attacks_30d": 18,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 18
+    "n": 19
    },
    {
     "place": "Golfe d'Aden",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-152",
+   "number": 152,
+   "date": "2026-10-05T08:27:00Z",
+   "type": "Suspicious Activity",
+   "lat": 26.3833,
+   "lon": 56.3167,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "Merchant",
+   "summary": "UKMTO has received a report of an incident 11NM north of Khasab, Oman. A tanker transiting the Strait of Hormuz inbound was hailed by the IRGC and instructed to turn back or the vessel would be targeted."
+  },
   {
    "id": "UKMTO-2026-151",
    "number": 151,
