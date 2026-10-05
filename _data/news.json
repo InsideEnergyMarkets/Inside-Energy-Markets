@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-10-05T12:53:20+00:00",
+ "updated_at": "2026-10-05T14:49:33+00:00",
  "items": [
+  {
+   "title": "Crude oil prices and refinery margins generally increased throughout the third quarter",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68245",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-10-05T14:00:00+00:00"
+  },
+  {
+   "title": "Is Iran charging a toll to allow oil traffic through Hormuz?",
+   "url": "https://www.aljazeera.com/news/2026/10/5/is-iran-charging-a-toll-to-allow-oil-traffic-through-hormuz?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-05T13:11:42+00:00"
+  },
   {
    "title": "Grève des électriciens et gaziers : les syndicats suspendent leur mouvement pour le maintien du « tarif agent », après le recul du gouvernement",
    "url": "https://www.lemonde.fr/economie/article/2026/10/05/les-syndicats-de-l-energie-suspendent-leur-mouvement-pour-le-maintien-du-tarif-agent-apres-le-report-de-la-reforme-du-gouvernement_6788526_3234.html",
@@ -35,6 +49,13 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-05T07:30:04+00:00"
+  },
+  {
+   "title": "Électrification et numérique : quatre leviers pour accélérer",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/electrification-et-numerique-quatre-leviers-pour-accelerer",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-10-05T00:00:00+00:00"
   },
   {
    "title": "Soaring diesel prices take their toll on US farmers in midwest corn belt",
@@ -133,13 +154,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-01T00:00:00+00:00"
-  },
-  {
-   "title": "U.S. electricity use for electric vehicles increasing at a slower pace in 2026",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68224",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-09-30T14:00:00+00:00"
   }
  ]
 }
