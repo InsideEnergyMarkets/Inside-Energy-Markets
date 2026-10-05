@@ -1,39 +1,39 @@
 {
-  "updated_at": "2026-10-04T18:12:00.454638Z",
+  "updated_at": "2026-10-05T00:10:30.216298Z",
   "brent": {
-    "price_usd": 102.61,
+    "price_usd": 102.38,
     "date": "2026-10-02",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 02/10 (bourse fermée le week-end)",
-    "date_label_en": "Close on Fri 02/10 (market closed at weekends)",
+    "date_label": "Dernier cours connu : ven. 02/10",
+    "date_label_en": "Last known price: Fri 02/10",
     "prev_value": 102.44,
     "prev_date": "2026-10-01",
-    "change_pct": 0.2
+    "change_pct": -0.1
   },
   "wti": {
-    "price_usd": 90.82,
+    "price_usd": 90.86,
     "date": "2026-10-02",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 02/10 (bourse fermée le week-end)",
-    "date_label_en": "Close on Fri 02/10 (market closed at weekends)"
+    "date_label": "Dernier cours connu : ven. 02/10",
+    "date_label_en": "Last known price: Fri 02/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.03,
-    "date": "2026-10-02",
+    "price_usd_mmbtu": 3.02,
+    "date": "2026-10-05",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Clôture du ven. 02/10 (bourse fermée le week-end)",
-    "date_label_en": "Close on Fri 02/10 (market closed at weekends)",
-    "price_eur_mwh": 9.21,
+    "date_label": "Cours du lun. 05/10",
+    "date_label_en": "Price on Mon 05/10",
+    "price_eur_mwh": 9.18,
     "usd_per_eur": 1.1225,
-    "prev_value": 8.94,
-    "prev_date": "2026-10-01",
-    "change_pct": 3.0
+    "prev_value": 9.21,
+    "prev_date": "2026-10-02",
+    "change_pct": -0.3
   },
   "peg": {
-    "price_eur_mwh": 73.96,
+    "price_eur_mwh": 73.92,
     "date": "2026-10-04",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,38 +41,37 @@
     "date_label_en": "Average on Sun 04/10",
     "prev_value": 74.18,
     "prev_date": "2026-10-03",
-    "change_pct": -0.3
+    "change_pct": -0.4
   },
   "mix_france": {
-    "date_heure": "2026-10-04T17:45:00+00:00",
+    "date_heure": "2026-10-04T23:45:00+00:00",
     "shares": {
-      "nucleaire": 72.5,
-      "hydraulique": 12.7,
-      "gaz": 6.3,
-      "eolien": 6.0,
-      "bioenergies": 2.0,
-      "solaire": 0.5
+      "nucleaire": 82.8,
+      "eolien": 5.8,
+      "hydraulique": 5.8,
+      "gaz": 3.3,
+      "bioenergies": 2.3
     },
     "top_source": "nucleaire",
-    "top_share": 72.5,
-    "co2_intensity": 37
+    "top_share": 82.8,
+    "co2_intensity": 26
   },
   "spot_price_france": {
-    "price_eur_mwh": 167.52,
-    "date": "2026-10-04",
-    "date_label": "Moyenne du dim. 04/10",
-    "date_label_en": "Average for Sun 04/10",
+    "price_eur_mwh": 169.84,
+    "date": "2026-10-05",
+    "date_label": "Moyenne du lun. 05/10",
+    "date_label_en": "Average for Mon 05/10",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 172.52,
-    "prev_date": "2026-10-03",
-    "change_pct": -2.9
+    "prev_value": 167.52,
+    "prev_date": "2026-10-04",
+    "change_pct": 1.4
   },
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-09-27",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-09-23",
       "days_averaged": 5,
       "n_tanker": 1.6,
@@ -90,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-09-27",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-09-23",
       "days_averaged": 5,
       "n_tanker": 9.8,
@@ -108,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-09-27",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-09-23",
       "days_averaged": 5,
       "n_tanker": 71.6,
