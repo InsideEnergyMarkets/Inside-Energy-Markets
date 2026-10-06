@@ -102,10 +102,13 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Note de marché hebdo : `scripts/generate_note.py` (workflow `weekly-note.yml`, lundi 05:00 UTC, puis IndexNow) écrit
   `_notes/AAAA-SS-fr.md` / `-en.md` (collection, gabarit `_layouts/note.html`, permaliens `/analyses/note-de-marche-AAAA-sSS/`
   et `/en/analysis/market-note-AAAA-wSS/`) et `_linkedin/AAAA-SS.txt` (texte LinkedIn), puis `scripts/linkedin_visual.py` dessine les visuels LinkedIn
-  (`_linkedin/AAAA-SS-1.png` chiffres + courbe ; `-2.png` base 100 si chaque série couvre 15 jours) en HTML photographié par
+  (`_linkedin/AAAA-SS-1.png` : cartes Électricité et Gaz France façon page Marchés, courbe 30 j + moyenne hebdo en marches,
+  bandeau stocks UE / Brent ; copié dans `assets/img/notes/AAAA-SS.png` = `image` de la note FR, carte de l'accueil et og:image ; `-2.png` base 100 si chaque série couvre 15 jours) en HTML photographié par
   Chrome sans interface ; résumé du workflow (texte + images) et artefact « linkedin » à télécharger. Format inspiré des notes hebdo de
   fournisseurs (titre, contexte d'actus, rubriques à puces + graphique `canvas[data-nt-chart]`, « Lecture clé »).
   Phrases construites depuis les données uniquement. Le corps du fichier = « Le mot de Tom » (facultatif).
+  Mix de la semaine : production réelle au quart d'heure (Energy-Charts `public_power`), jamais les instantanés du site
+  (un relevé le soir, sans solaire). Brent : « dernier cours » (relevé OilPriceAPI), pas le règlement officiel ICE.
   Moyennes : électricité et PEG = moyenne simple des moyennes journalières de la semaine contre celle de la semaine
   précédente ; Brent = clôture contre clôture.
   Format retenu (A, oct. 2026) : Lecture clé, tuiles, puis par rubrique (électricité, gaz PEG, pétrole) 3 puces et un graphique
