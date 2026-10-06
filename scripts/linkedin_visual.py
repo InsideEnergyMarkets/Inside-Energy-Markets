@@ -92,7 +92,7 @@ h1 { font:400 92px/0.98 'Bebas Neue'; margin:54px 0 10px; letter-spacing:.5px; }
 .mcs { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .mcs span { display:flex; flex-direction:column; padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.05); font:600 15px Inter; color:rgba(255,255,255,.6); }
 .mcs b { font:700 22px 'JetBrains Mono'; color:#fff; margin-top:2px; } .mcs em { font-style:normal; font-size:14px; color:rgba(255,255,255,.5); }
-.mct { margin:14px 0 4px; font:600 16px Inter; color:rgba(255,255,255,.6); } .mcc { position:relative; flex:1; min-height:0; }
+.mct { margin:14px 0 4px; font:600 16px Inter; color:rgba(255,255,255,.6); } .mct .lgw { display:inline-block; width:22px; height:3px; background:#fff; vertical-align:middle; margin:0 8px 0 4px; } .mcc { position:relative; flex:1; min-height:0; }
 .sts { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
 .st { padding:16px 22px; border-radius:18px; background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.1); }
 .stv { margin:6px 0 2px; font:700 36px/1 'JetBrains Mono'; } .stv small { font:600 18px Inter; color:rgba(255,255,255,.6); margin-left:6px; }
@@ -126,13 +126,18 @@ if (D.bars) {
 }
 if (D.bars_multi) {
   D.bars_multi.forEach(function (B) {
-    var vals = { id:'v', afterDatasetsDraw:function(ch){ var c=ch.ctx; c.save(); c.font='700 17px JetBrains Mono'; c.textAlign='center';
-      ch.getDatasetMeta(0).data.forEach(function(b, i){ c.fillStyle = i === B.hi ? '#e8703a' : 'rgba(255,255,255,.75)';
-        c.fillText(String(Math.round(B.data[i])), b.x, b.y - 8); }); c.restore(); } };
-    var ob = JSON.parse(JSON.stringify(base)); ob.layout = { padding:{ top:26 } };
-    ob.scales = { x:{ ticks:{ color:'rgba(255,255,255,.65)', font:{ size:15, weight:'600' } }, grid:{ display:false } }, y:{ display:false, beginAtZero:true } };
-    new Chart(document.getElementById(B.id), { type:'bar', plugins:[vals], data:{ labels:B.labels, datasets:[{ data:B.data, borderRadius:7,
-      backgroundColor:B.data.map(function(_, i){ return i === B.hi ? '#e8703a' : B.color + '88'; }) }] }, options:ob });
+    var cv = document.getElementById(B.id), g = cv.getContext('2d').createLinearGradient(0, 0, 0, 380);
+    g.addColorStop(0, B.color + '55'); g.addColorStop(1, B.color + '00');
+    var band = { id:'b', beforeDraw:function(ch){ var x=ch.scales.x, a=B.labels.findIndex(function(l){ return l>=B.band; }); if (a<0) return;
+      var x0=Math.max(x.getPixelForValue(a)-6, ch.chartArea.left), x1=ch.chartArea.right, c=ch.ctx; c.save(); c.fillStyle='rgba(232,112,58,.16)';
+      c.fillRect(x0,ch.chartArea.top,x1-x0,ch.chartArea.bottom-ch.chartArea.top); c.fillStyle='#e8703a'; c.font='700 15px Inter';
+      var w=c.measureText(B.band_label).width; c.fillText(B.band_label, Math.max(ch.chartArea.left+4, Math.min(x0+6, x1-w-6)), ch.chartArea.top-8); c.restore(); } };
+    var ds = [{ data:B.data, borderColor:B.color, backgroundColor:g, fill:true, tension:.35, borderWidth:3, pointRadius:0, spanGaps:true }];
+    if (B.step) ds.push({ data:B.step, borderColor:'rgba(255,255,255,.9)', borderWidth:2.5, stepped:'middle', fill:false, pointRadius:0, spanGaps:true });
+    var ol = JSON.parse(JSON.stringify(base)); ol.layout = { padding:{ top:20 } };
+    ol.scales = { x:{ ticks:{ color:'rgba(255,255,255,.6)', font:{ size:14 }, maxTicksLimit:4, maxRotation:0, callback:function(v){ return fd(this.getLabelForValue(v)); } }, grid:{ display:false } },
+                  y:{ ticks:{ color:'rgba(255,255,255,.6)', font:{ size:14 }, maxTicksLimit:5 }, grid:{ color:'rgba(255,255,255,.08)' } } };
+    new Chart(cv, { type:'line', plugins:[band], data:{ labels:B.labels, datasets:ds }, options:ol });
   });
 }
 if (D.base) {
@@ -190,16 +195,19 @@ def build_pages(note, wk):
         st = {x["label"]: x for x in ch["stats"]}
         chg = st.get("Moyenne vs sem. préc.", {})
         arrow = "▲" if chg.get("dir") == "up" else "▼" if chg.get("dir") == "down" else "="
-        rows = weekly(ch)
         lo, hi = st.get("Plus bas", {}), st.get("Plus haut", {})
         html_card = (f"<div class='mc'><p class='mcl'><i style='background:{COLORS[key]}'></i>{name}</p>"
                      f"<p class='mcv'>{e(st['Moyenne']['value'])}<small>€/MWh</small></p>"
                      f"<p class='mcp {chg.get('dir', 'flat')}'>{arrow} {e(chg.get('value', ''))}<em>vs semaine précédente</em></p>"
                      f"<div class='mcs'><span>Plus bas<b>{e(lo.get('value', '-'))}</b><em>{e(lo.get('sub', ''))}</em></span>"
                      f"<span>Plus haut<b>{e(hi.get('value', '-'))}</b><em>{e(hi.get('sub', ''))}</em></span></div>"
-                     f"<p class='mct'>Moyenne de chaque semaine</p><div class='mcc'><canvas id='{cid}'></canvas></div></div>")
-        return html_card, {"id": cid, "labels": [f"S{k[1]}" for k, _ in rows], "data": [round(v, 1) for _, v in rows],
-                           "hi": len(rows) - 1, "color": COLORS[key]}
+                     f"<p class='mct'>30 jours · <i class='lgw'></i>moyenne de chaque semaine</p><div class='mcc'><canvas id='{cid}'></canvas></div></div>")
+        # Même graphique que la note : prix de chaque jour, moyenne de chaque semaine en marches, semaine en surbrillance
+        keep = [i for i, d in enumerate(ch["labels"]) if d > (end - datetime.timedelta(days=30)).isoformat()]
+        step = next((sr for sr in ch["series"] if sr.get("step")), None)
+        return html_card, {"id": cid, "labels": [ch["labels"][i] for i in keep], "data": [ch["series"][0]["data"][i] for i in keep],
+                           "step": [step["data"][i] for i in keep] if step else None, "color": COLORS[key],
+                           "band": note["period_start"], "band_label": f"Semaine {wk}"}
 
     c1, b1 = market_card("power", "Électricité France · spot", "c1")
     c2, b2 = market_card("gas", "Gaz France (PEG) · spot", "c2")
