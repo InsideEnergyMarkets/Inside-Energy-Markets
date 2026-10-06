@@ -250,6 +250,15 @@ def make_chart(kind, c, s, lang, week):
                            "data": [round(fut[d], 2) if d in fut else None for d in labels]},
                           {"name": "Brent spot (EIA), pour contexte" if fr else "Brent spot (EIA), for context", "color": COLORS[kind],
                            "dashed": True, "data": [spot.get(d) for d in labels]}]
+    if kind in ("power", "gas"):
+        # Moyenne de chaque semaine (lundi-dimanche), en marches : la tendance hebdomadaire ressort malgré
+        # les fortes variations d'un jour à l'autre
+        weeks = {}
+        for d, v in pts:
+            weeks.setdefault(datetime.date.fromisoformat(d).isocalendar()[:2], []).append(v)
+        avg = {k: sum(v) / len(v) for k, v in weeks.items()}
+        series_out.append({"name": "Moyenne de la semaine" if fr else "Weekly average", "color": "#ffffff", "step": True,
+                           "data": [round(avg[datetime.date.fromisoformat(d).isocalendar()[:2]], 2) for d in labels]})
     return {"type": "detail", "title": title, "sub": sub, "unit": unit, "labels": labels,
             "series": series_out,
             "band": [s["start"], s["end"]], "band_label": f"Semaine {week}" if fr else f"Week {week}", "stats": stats}

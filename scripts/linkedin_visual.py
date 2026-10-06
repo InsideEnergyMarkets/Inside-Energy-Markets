@@ -99,6 +99,15 @@ if (D.line) {
     var w=c.measureText(D.line.band_label).width; c.fillText(D.line.band_label, Math.min(x0+8, x1-w-8), ch.chartArea.top+22); c.restore(); } };
   new Chart(cv, { type:'line', plugins:[band], data:{ labels:D.line.labels, datasets:[{ data:D.line.data, borderColor:D.line.color, backgroundColor:g, fill:true, tension:.35, borderWidth:4, pointRadius:0 }] }, options:base });
 }
+if (D.bars) {
+  var vals = { id:'v', afterDatasetsDraw:function(ch){ var c=ch.ctx; c.save(); c.font='700 22px JetBrains Mono'; c.textAlign='center';
+    ch.getDatasetMeta(0).data.forEach(function(b, i){ c.fillStyle = i === D.bars.hi ? '#e8703a' : 'rgba(255,255,255,.8)';
+      c.fillText(String(Math.round(D.bars.data[i])), b.x, b.y - 12); }); c.restore(); } };
+  var ob = JSON.parse(JSON.stringify(base)); ob.layout = { padding:{ top:34 } };
+  ob.scales = { x:{ ticks:{ color:'rgba(255,255,255,.7)', font:{ size:20, weight:'600' } }, grid:{ display:false } }, y:{ display:false, beginAtZero:true } };
+  new Chart(document.getElementById('c'), { type:'bar', plugins:[vals], data:{ labels:D.bars.labels, datasets:[{ data:D.bars.data, borderRadius:10,
+    backgroundColor:D.bars.data.map(function(_, i){ return i === D.bars.hi ? '#e8703a' : D.bars.color + '88'; }) }] }, options:ob });
+}
 if (D.base) {
   var o = JSON.parse(JSON.stringify(base)); o.plugins.legend = { display:true, position:'top', align:'start', labels:{ color:'#fff', font:{ size:20, weight:'600' }, boxWidth:26, filter:function(i){ return i.text !== 'Base 100'; } } };
   o.scales.x.ticks.callback = ax.x.ticks.callback;
@@ -140,12 +149,17 @@ def build_pages(note, wk):
 
     power = secs.get("power", {}).get("chart")
     if power:
-        pts = last_days(power)
+        # Moyenne du spot par semaine (semaines d'au moins 5 jours), 8 dernières : la hausse de la semaine se voit
+        weeks = {}
+        for d, v in zip(power["labels"], power["series"][0]["data"]):
+            if v is not None:
+                weeks.setdefault(datetime.date.fromisoformat(d).isocalendar()[:2], []).append(v)
+        rows = [(k, sum(v) / len(v)) for k, v in sorted(weeks.items()) if len(v) >= 5][-8:]
         body = (f"<div class='card'>{head(wk)}<h1>{title}</h1><p class='per'>{period}</p><div class='ks'>{tiles}</div>"
-                f"<div class='ch'><p class='cht'>Électricité France · prix spot day-ahead, 30 jours</p><div class='cv'><canvas id='c'></canvas></div></div>"
+                f"<div class='ch'><p class='cht'>Électricité France · prix spot, moyenne de chaque semaine (€/MWh)</p><div class='cv'><canvas id='c'></canvas></div></div>"
                 "<div class='foot'><span>insideenergymarkets.com</span><span>Sources : RTE, NaTran, GIE AGSI+, OilPriceAPI (ICE)</span></div></div>")
-        pages.append(page(body, {"line": {"labels": [d for d, _ in pts], "data": [v for _, v in pts], "color": COLORS["power"],
-                                          "band": note["period_start"], "band_label": f"Semaine {wk}"}}))
+        pages.append(page(body, {"bars": {"labels": [f"S{k[1]}" for k, _ in rows], "data": [round(v, 1) for _, v in rows],
+                                          "hi": len(rows) - 1, "color": COLORS["power"]}}))
 
     # Base 100 : seulement si les trois marchés couvrent au moins 15 jours de cotation
     names = {"power": "Électricité FR", "gas": "Gaz France (PEG)", "oil": "Brent"}

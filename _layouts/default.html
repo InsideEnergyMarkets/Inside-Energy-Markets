@@ -1467,6 +1467,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     new Chart(cv, {
       type: 'line', plugins: [band],
       data: { labels: c.labels, datasets: c.series.map(function (sr) {
+        if (sr.step) return { label: sr.name, data: sr.data, borderColor: 'rgba(255,255,255,0.85)', borderWidth: 2, stepped: 'middle',
+          fill: false, pointRadius: 0, pointHoverRadius: 3, spanGaps: true };
         return sr.dashed
           ? { label: sr.name, data: sr.data, borderColor: sr.color + '99', borderDash: [3, 4], borderWidth: 1.5, fill: false,
               tension: 0.35, pointRadius: 0, pointHoverRadius: 3, spanGaps: true }
