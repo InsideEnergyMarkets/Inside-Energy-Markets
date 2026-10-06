@@ -257,8 +257,8 @@ def make_chart(kind, c, s, lang, week):
         mv = s["brent"]
         stats.append({"label": "Sur la semaine" if fr else "On the week", "value": pct(mv["change"], lang), "unit": "",
                       "sub": f"{signed(mv['last'] - mv['ref'], lang, 2)} {unit}", "dir": direction(mv["change"])})
-    stats += [{"label": "Plus bas" if fr else "Low", "value": num(lo[1], lang), "unit": unit, "sub": day_label(lo[0], lang)},
-              {"label": "Plus haut" if fr else "High", "value": num(hi[1], lang), "unit": unit, "sub": day_label(hi[0], lang)},
+    stats += [{"label": "Plus bas journalier" if fr else "Daily low", "value": num(lo[1], lang), "unit": unit, "sub": day_label(lo[0], lang)},
+              {"label": "Plus haut journalier" if fr else "Daily high", "value": num(hi[1], lang), "unit": unit, "sub": day_label(hi[0], lang)},
               {"label": "Moyenne" if fr else "Average", "value": num(avg, lang), "unit": unit,
                "sub": (f"semaine {week}" if fr else f"week {week}")}]
     title, sub = {
@@ -506,8 +506,8 @@ def write_linkedin(front, week, s):
     br, eu_d = s.get("brent") or {}, (s.get("storage_eu") or {}).get("date")
     brent_day = f"dernier cours du {jour(datetime.date.fromisoformat(br['last_date']))}" if br.get("last_date") else "dernier cours de la semaine"
     stock_day = f" au {jour(datetime.date.fromisoformat(eu_d))}" if eu_d else ""
-    for emoji, label, what in (("⚡", "power", "électricité France (spot), moyenne du lundi au dimanche"),
-                               ("🔥", "gas", "gaz France (PEG spot), moyenne du lundi au dimanche"),
+    for emoji, label, what in (("⚡", "power", "électricité France (spot), moyenne de la semaine"),
+                               ("🔥", "gas", "gaz France (PEG spot), moyenne de la semaine"),
                                ("🔥", "storage", f"stocks de gaz européens{stock_day}"),
                                ("🛢️", "oil", f"Brent (M+1), {brent_day}")):
         t = tiles.get(label)

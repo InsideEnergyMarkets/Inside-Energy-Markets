@@ -195,12 +195,12 @@ def build_pages(note, wk):
         st = {x["label"]: x for x in ch["stats"]}
         chg = st.get("Moyenne vs sem. préc.", {})
         arrow = "▲" if chg.get("dir") == "up" else "▼" if chg.get("dir") == "down" else "="
-        lo, hi = st.get("Plus bas", {}), st.get("Plus haut", {})
+        lo, hi = st.get("Plus bas journalier", {}), st.get("Plus haut journalier", {})
         html_card = (f"<div class='mc'><p class='mcl'><i style='background:{COLORS[key]}'></i>{name}</p>"
                      f"<p class='mcv'>{e(st['Moyenne']['value'])}<small>€/MWh</small></p>"
                      f"<p class='mcp {chg.get('dir', 'flat')}'>{arrow} {e(chg.get('value', ''))}<em>vs semaine précédente</em></p>"
-                     f"<div class='mcs'><span>Plus bas<b>{e(lo.get('value', '-'))}</b><em>{e(lo.get('sub', ''))}</em></span>"
-                     f"<span>Plus haut<b>{e(hi.get('value', '-'))}</b><em>{e(hi.get('sub', ''))}</em></span></div>"
+                     f"<div class='mcs'><span>Plus bas journalier<b>{e(lo.get('value', '-'))}</b><em>{e(lo.get('sub', ''))}</em></span>"
+                     f"<span>Plus haut journalier<b>{e(hi.get('value', '-'))}</b><em>{e(hi.get('sub', ''))}</em></span></div>"
                      f"<p class='mct'>30 jours · <i class='lgw'></i>moyenne de chaque semaine</p><div class='mcc'><canvas id='{cid}'></canvas></div></div>")
         # Même graphique que la note : prix de chaque jour, moyenne de chaque semaine en marches, semaine en surbrillance
         keep = [i for i, d in enumerate(ch["labels"]) if d > (end - datetime.timedelta(days=30)).isoformat()]
