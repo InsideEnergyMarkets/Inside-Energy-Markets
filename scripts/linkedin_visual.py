@@ -3,6 +3,8 @@ Visuels LinkedIn de la note de marché (format portrait 4:5, 1080 x 1350), gén�
 - _linkedin/AAAA-SS-1.png : titre de la semaine, 4 chiffres clés, prix de l'électricité sur 30 jours ;
 - _linkedin/AAAA-SS-2.png : « Qui a le plus bougé en 30 jours ? » (base 100), seulement si les trois séries
   couvrent assez de jours.
+Le premier visuel est aussi publié sur le site (assets/img/notes/AAAA-SS.png) et déclaré comme `image` de la note
+française : carte de la note sur l'accueil et aperçu du lien quand la note est partagée.
 Les données viennent de la note française (_notes/AAAA-SS-fr.md). La page est dessinée en HTML (même charte que
 le site) puis photographiée par Chrome sans interface (installé sur les machines de GitHub Actions).
 
@@ -195,6 +197,21 @@ def shoot(chrome, html_path, png_path):
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
+def publish_on_site(png, year, wk):
+    """Copie du visuel dans assets/img/notes/ et champ `image` de la note française."""
+    rel = f"/assets/img/notes/{year}-{wk:02d}.png"
+    os.makedirs(os.path.join(ROOT, "assets", "img", "notes"), exist_ok=True)
+    shutil.copyfile(png, os.path.join(ROOT, rel.lstrip("/")))
+    path = os.path.join(NOTES_DIR, f"{year}-{wk:02d}-fr.md")
+    text = open(path, encoding="utf-8").read()
+    # Front matter = tout ce qui précède le deuxième « --- » ; on remplace (ou ajoute) la ligne image
+    head, sep, body = text.partition("\n---\n")
+    lines = [l for l in head.split("\n") if not l.startswith("image: ")]
+    lines.append(f'image: "{rel}"')
+    open(path, "w", encoding="utf-8", newline="\n").write("\n".join(lines) + sep + body)
+    print("Visuel publié :", rel)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--week", help="semaine ISO, ex. 2026-W40 (par défaut : la dernière semaine complète)")
@@ -223,6 +240,8 @@ def main():
         png = os.path.join(LINKEDIN_DIR, f"{year}-{wk:02d}-{i}.png")
         shoot(chrome, hp, png)
         print("Visuel écrit :", png, os.path.getsize(png), "octets")
+        if i == 1:
+            publish_on_site(png, year, wk)
     shutil.rmtree(tmp, ignore_errors=True)
     return 0
 

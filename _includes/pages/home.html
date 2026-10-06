@@ -155,7 +155,7 @@
       <h2>{{ t.blog.notes_title }}</h2>
       <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true">→</span></a>
     </div>
-    {% include note-feature.html note=last_note %}
+    {% include note-feature.html note=last_note visual=true %}
     <div class="section-head bl-more-head"><h2>{{ t.home.latest_posts }}</h2></div>
     {% else %}
     <div class="section-head">

@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _notes/ _linkedin/
+          git add _notes/ _linkedin/ assets/img/notes/
           if git diff --quiet --cached; then echo "new=" >> "$GITHUB_OUTPUT"; exit 0; fi
           git diff --cached --name-only -- _notes/ | sed -E 's#_notes/##' > new_notes.txt
           git commit -m "Note de marché hebdomadaire"

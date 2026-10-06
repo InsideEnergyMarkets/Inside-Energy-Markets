@@ -2944,3 +2944,9 @@ html.has-player .nav-ep { display: none; }
 
 /* Légende : spot EIA du Brent en pointillés (contexte) */
 .mt-sw--dash { background: none; border-top: 2px dashed rgba(232, 112, 58, 0.7); height: 0; border-radius: 0; vertical-align: middle; }
+
+/* Carte de la note sur l'accueil : visuel LinkedIn de la semaine + texte */
+.nt-feature--visual { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px; align-items: center; }
+.nt-feature--visual img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+.nt-feature-body { display: flex; flex-direction: column; gap: 12px; }
+@media (max-width: 700px) { .nt-feature--visual { grid-template-columns: minmax(0, 1fr); } .nt-feature--visual img { max-width: 360px; margin: 0 auto; } }
