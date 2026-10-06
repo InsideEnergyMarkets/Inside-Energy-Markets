@@ -2950,3 +2950,8 @@ html.has-player .nav-ep { display: none; }
 .nt-feature--visual img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
 .nt-feature-body { display: flex; flex-direction: column; gap: 12px; }
 @media (max-width: 700px) { .nt-feature--visual { grid-template-columns: minmax(0, 1fr); } .nt-feature--visual img { max-width: 360px; margin: 0 auto; } }
+
+/* Carte de la note : tout le bloc est cliquable, seul le bouton « Lire la note » réagit au survol */
+.nt-feature:hover, .nt-feature:focus-visible { text-decoration: none; color: #fff; }
+.nt-feature:hover .mk-open { border-color: #4fd1c5; background: rgba(255, 255, 255, 0.12); text-decoration: underline; }
+.nt-feature:hover .mk-open span { transform: translate(2px, -2px); }

@@ -2,7 +2,7 @@
   include.visual : avec le visuel LinkedIn de la note (champ image), à la place des chiffres.{% endcomment %}
 {% if include.visual and include.note.image %}
 <a class="nt-feature nt-feature--visual" href="{{ include.note.url | relative_url }}">
-  <img src="{{ include.note.image | relative_url }}" alt="{{ include.note.headline }}" width="1080" height="1350" loading="lazy">
+  <img src="{{ include.note.image | relative_url }}?v={{ site.time | date: '%s' }}" alt="{{ include.note.headline }}" width="1080" height="1350" loading="lazy">
   <span class="nt-feature-body">
     <span class="pw-label">{{ t.note.eyebrow }} · {{ t.note.week }} {{ include.note.week }} · {% include date.html date=include.note.period_end %}</span>
     <strong>{{ include.note.headline }}</strong>

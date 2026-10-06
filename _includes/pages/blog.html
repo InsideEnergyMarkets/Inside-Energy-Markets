@@ -15,7 +15,7 @@
     {% if lnotes.size > 0 %}
     {% assign note = lnotes | first %}
     <div class="section-head" id="notes"><h2>{{ t.blog.notes_title }}</h2></div>
-    {% include note-feature.html note=note %}
+    {% include note-feature.html note=note visual=true %}
     {% endif %}
 
     {% assign posts = site.posts | where: "lang", lang %}
