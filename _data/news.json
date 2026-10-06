@@ -1,12 +1,33 @@
 {
- "updated_at": "2026-10-06T14:47:30+00:00",
+ "updated_at": "2026-10-06T21:09:16+00:00",
  "items": [
   {
-   "title": "Hormuz ship attacks surge: Are increased oil exports sustainable?",
-   "url": "https://www.aljazeera.com/news/2026/10/6/hormuz-ship-attacks-surge-are-increased-oil-exports-sustainable?traffic_source=rss",
-   "source": "Al Jazeera",
+   "title": "Les exportations de pétrole du Golfe rebondissent au-delà de leurs niveaux d’avant-guerre",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/06/les-exportations-de-petrole-du-golfe-rebondissent-au-dela-de-leurs-niveaux-d-avant-guerre_6789050_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-06T16:30:06+00:00"
+  },
+  {
+   "title": "Energy Transition Investment Council - Call for applications",
+   "url": "https://energy.ec.europa.eu/news/energy-transition-investment-council-call-applications-2026-10-06_en",
+   "source": "European Commission",
    "lang": "en",
-   "date": "2026-10-06T14:15:09+00:00"
+   "date": "2026-10-06T15:54:04+00:00"
+  },
+  {
+   "title": "Emmanuel Macron assiste, de façon inattendue, au lancement d’un missile depuis un sous-marin nucléaire",
+   "url": "https://www.lemonde.fr/international/article/2026/10/06/emmanuel-macron-assiste-de-facon-inattendue-au-lancement-d-un-missile-m-51-depuis-la-mer_6789041_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-06T15:50:36+00:00"
+  },
+  {
+   "title": "Détroit d’Ormuz : 12 membres de l’équipage d’un pétrolier blessés",
+   "url": "https://www.lemonde.fr/international/article/2026/10/06/detroit-d-ormuz-12-membres-de-l-equipage-d-un-petrolier-blesses_6789034_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-06T15:05:25+00:00"
   },
   {
    "title": "Speech by President von der Leyen at the European Parliament plenary debate in preparation of the European Council meeting of 15-16 October 2026",
@@ -58,32 +79,11 @@
    "date": "2026-10-05T14:00:00+00:00"
   },
   {
-   "title": "Grève des électriciens et gaziers : les syndicats suspendent leur mouvement pour le maintien du « tarif agent », après le recul du gouvernement",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/05/les-syndicats-de-l-energie-suspendent-leur-mouvement-pour-le-maintien-du-tarif-agent-apres-le-report-de-la-reforme-du-gouvernement_6788526_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-05T11:40:56+00:00"
-  },
-  {
    "title": "Pétrole : les exportations du Moyen-Orient repassent au-dessus de leur niveau d’avant-guerre",
    "url": "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20261005-p%C3%A9trole-les-exportations-du-moyen-orient-repassent-au-dessus-de-leur-niveau-d-avant-guerre",
    "source": "France 24",
    "lang": "fr",
    "date": "2026-10-05T09:35:43+00:00"
-  },
-  {
-   "title": "« A cause des perturbations autour du détroit d’Ormuz, les pétroliers géants sont devenus des mines d’or flottantes »",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/05/a-cause-des-perturbations-autour-du-detroit-d-ormuz-les-petroliers-geants-sont-devenus-des-mines-d-or-flottantes_6788512_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-05T09:00:42+00:00"
-  },
-  {
-   "title": "Face au plan d’électrification du gouvernement français, le blues de la filière gazière",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/05/face-au-plan-d-electrification-du-gouvernement-francais-le-blues-de-la-filiere-gaziere_6788510_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-05T09:00:22+00:00"
   },
   {
    "title": "G7 Leaders' Statement on global energy security and market stability",
@@ -133,13 +133,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-10-02T14:00:00+00:00"
-  },
-  {
-   "title": "Energy Union Task Force meets to ensure coordination on diesel supplies and prices in Europe",
-   "url": "https://energy.ec.europa.eu/news/energy-union-task-force-meets-ensure-coordination-diesel-supplies-and-prices-europe-2026-10-02_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-02T09:55:32+00:00"
   },
   {
    "title": "Leasing social de pompes à chaleur : « un changement de paradigme »",
