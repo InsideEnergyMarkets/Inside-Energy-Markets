@@ -1,11 +1,13 @@
 [NOTE DE MARCHÉ HEBDO] L'électricité s'envole, le Brent recule
 
+📅 Semaine du lundi 28 septembre au dimanche 4 octobre 2026
+
 👉 Semaine marquée par la hausse de l'électricité (+21,5 %) et le repli du Brent (−3,4 %). Les stocks de gaz européens abordent l'hiver nettement en dessous de l'an dernier, ce qui rend le marché sensible au froid.
 
-⚡ 179,36 €/MWh : électricité France (spot), moyenne de la semaine (+21,5 %)
-🔥 72,21 €/MWh : gaz France (PEG spot), moyenne de la semaine (−1,7 %)
-🔥 72,7 % : stocks de gaz européens, 10,1 points en dessous de l'an dernier
-🛢️ 102,38 $/baril : Brent (M+1), dernier cours de la semaine (−3,4 %)
+⚡ 179,36 €/MWh : électricité France (spot), moyenne du lundi au dimanche (+21,5 %)
+🔥 72,21 €/MWh : gaz France (PEG spot), moyenne du lundi au dimanche (−1,7 %)
+🔥 72,7 % : stocks de gaz européens au dimanche 4 octobre, 10,1 points en dessous de l'an dernier
+🛢️ 102,38 $/baril : Brent (M+1), dernier cours du vendredi 2 octobre (−3,4 %)
 
 📊 La note complète, avec les graphiques : https://insideenergymarkets.com/analyses/note-de-marche-2026-s40/
 

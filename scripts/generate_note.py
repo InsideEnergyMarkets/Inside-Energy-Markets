@@ -497,14 +497,19 @@ def write_linkedin(front, week, s):
         return
     os.makedirs(LINKEDIN_DIR, exist_ok=True)
     year, wk = week
-    lines = [f"[NOTE DE MARCHÉ HEBDO] {front['headline']}", ""]
+    start, end = datetime.date.fromisoformat(front["period_start"]), datetime.date.fromisoformat(front["period_end"])
+    jour = lambda d, year=False: f"{DAYS['fr'][d.weekday()]} {d.day} {MONTHS['fr'][d.month - 1]}" + (f" {d.year}" if year else "")  # noqa: E731
+    lines = [f"[NOTE DE MARCHÉ HEBDO] {front['headline']}", "", f"📅 Semaine du {jour(start)} au {jour(end, True)}", ""]
     if front["reading"]:
         lines += [f"👉 {front['reading']}", ""]
     tiles = {t.get("key"): t for t in front["tiles"]}
-    for emoji, label, what in (("⚡", "power", "électricité France (spot), moyenne de la semaine"),
-                               ("🔥", "gas", "gaz France (PEG spot), moyenne de la semaine"),
-                               ("🔥", "storage", "stocks de gaz européens"),
-                               ("🛢️", "oil", "Brent (M+1), dernier cours de la semaine")):
+    br, eu_d = s.get("brent") or {}, (s.get("storage_eu") or {}).get("date")
+    brent_day = f"dernier cours du {jour(datetime.date.fromisoformat(br['last_date']))}" if br.get("last_date") else "dernier cours de la semaine"
+    stock_day = f" au {jour(datetime.date.fromisoformat(eu_d))}" if eu_d else ""
+    for emoji, label, what in (("⚡", "power", "électricité France (spot), moyenne du lundi au dimanche"),
+                               ("🔥", "gas", "gaz France (PEG spot), moyenne du lundi au dimanche"),
+                               ("🔥", "storage", f"stocks de gaz européens{stock_day}"),
+                               ("🛢️", "oil", f"Brent (M+1), {brent_day}")):
         t = tiles.get(label)
         if t:
             chg = f" ({t['change']})" if t.get("change") else ""
