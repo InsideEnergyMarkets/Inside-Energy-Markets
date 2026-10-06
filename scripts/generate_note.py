@@ -19,6 +19,7 @@ import json
 import os
 import re
 import sys
+import urllib.request
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 DATA = os.path.join(ROOT, "_data")
@@ -104,6 +105,36 @@ def weekly_move(points, start, end):
             "high": hi, "low": lo}
 
 
+GEN_EXCLUDED = ("Load", "Residual load", "Renewable share of load", "Renewable share of generation",
+                "Cross border electricity trading")
+RENEWABLE_TYPES = ("Solar", "Wind onshore", "Wind offshore", "Hydro Run-of-River", "Hydro water reservoir", "Biomass")
+
+
+def weekly_mix(start, end):
+    """Parts de la production française sur toute la semaine, à partir de la production réelle au quart d'heure
+    (Energy-Charts, Fraunhofer ISE, données ENTSO-E / RTE). Les instantanés du site ne conviennent pas : un seul
+    relevé par jour, le soir, sans solaire. En cas d'échec : None (la ligne n'est pas écrite plutôt que fausse)."""
+    url = ("https://api.energy-charts.info/public_power?country=fr"
+           f"&start={start}T00:00%2B02:00&end={(datetime.date.fromisoformat(end) + datetime.timedelta(days=1)).isoformat()}T00:00%2B02:00")
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "InsideEnergyMarkets/1.0"}), timeout=90) as r:
+            data = json.load(r)
+        energy = {}
+        for pt in data.get("production_types", []):
+            name = pt.get("name", "")
+            if name in GEN_EXCLUDED or "consumption" in name.lower():
+                continue
+            energy[name] = sum(v for v in pt.get("data", []) if v is not None and v > 0)
+        total = sum(energy.values())
+        if total <= 0 or "Nuclear" not in energy:
+            return None
+        return {"nuclear": energy["Nuclear"] / total * 100, "gas": energy.get("Fossil gas", 0) / total * 100,
+                "renewables": sum(energy.get(k, 0) for k in RENEWABLE_TYPES) / total * 100}
+    except Exception as e:
+        print(f"Mix de la semaine indisponible (Energy-Charts) : {e}")
+        return None
+
+
 def compute(week_start):
     start, end = week_start.isoformat(), (week_start + datetime.timedelta(days=6)).isoformat()
     prev_start = (week_start - datetime.timedelta(days=7)).isoformat()
@@ -119,11 +150,9 @@ def compute(week_start):
                      "prev_avg": sum(spot_prev) / len(spot_prev) if spot_prev else None,
                      "negative_days": sum(1 for _, v in spot if v < 0)}
 
-    mixes = [h["mix_shares"] for h in hist if h.get("mix_shares") and start <= h["date"] <= end]
-    if mixes:
-        s["mix"] = {"nuclear": sum(m.get("nucleaire", 0) for m in mixes) / len(mixes),
-                    "renewables": sum(sum(m.get(k, 0) for k in RENEWABLES) for m in mixes) / len(mixes),
-                    "gas": sum(m.get("gaz", 0) for m in mixes) / len(mixes)}
+    mix = weekly_mix(start, end)
+    if mix:
+        s["mix"] = mix
 
     peg = [(d, v) for d, v in series(hist, "peg_eur_mwh") if start <= d <= end]
     peg_prev = [v for d, v in series(hist, "peg_eur_mwh") if prev_start <= d < start]
@@ -293,10 +322,10 @@ def build(s, c, lang, week):
                 b.append(f"Negative daily average on {sp['negative_days']} day(s).")
         m = s.get("mix")
         if m:
-            b.append(f"Production : nucléaire {num(m['nuclear'], lang, 0)} %, renouvelables {num(m['renewables'], lang, 0)} %, gaz {num(m['gas'], lang, 0)} %." if fr else
-                     f"Generation: nuclear {num(m['nuclear'], lang, 0)}%, renewables {num(m['renewables'], lang, 0)}%, gas {num(m['gas'], lang, 0)}%.")
+            b.append(f"Production de la semaine : nucléaire {num(m['nuclear'], lang, 1)} %, renouvelables {num(m['renewables'], lang, 1)} %, gaz {num(m['gas'], lang, 1)} %." if fr else
+                     f"Generation over the week: nuclear {num(m['nuclear'], lang, 1)}%, renewables {num(m['renewables'], lang, 1)}%, gas {num(m['gas'], lang, 1)}%.")
         sections.append({"key": "power", "title": "Électricité" if fr else "Electricity", "icon": "fa-bolt", "emoji": "⚡",
-                         "bullets": b, "chart": make_chart("power", c, s, lang, week), "source": "RTE, Energy-Charts / SMARD"})
+                         "bullets": b, "chart": make_chart("power", c, s, lang, week), "source": "RTE, Energy-Charts (Fraunhofer ISE)"})
 
     b = []
     pg = s.get("peg")
@@ -334,13 +363,13 @@ def build(s, c, lang, week):
     b = []
     br = s.get("brent")
     if br:
-        tiles.append({"key": "oil", "label": "Brent", "sub": "M+1, clôture de la semaine" if fr else "M+1, weekly close", "value": num(br["last"], lang), "unit": " $/baril" if fr else " $/bbl",
+        tiles.append({"key": "oil", "label": "Brent", "sub": "M+1, dernier cours de la semaine" if fr else "M+1, last price of the week", "value": num(br["last"], lang), "unit": " $/baril" if fr else " $/bbl",
                       "change": pct(br["change"], lang), "dir": direction(br["change"])})
         movers.append(("le Brent", "Brent", "Brent", br["change"]))
-        b.append(f"Brent (contrat à terme ICE M+1) : {num(br['last'], lang)} $ le baril à la clôture de la semaine "
-                 f"({pct(br['change'], lang)} sur une semaine), entre {num(br['low'][1], lang)} et {num(br['high'][1], lang)} $." if fr else
-                 f"Brent (ICE futures M+1): ${num(br['last'], lang)} a barrel at the weekly close "
-                 f"({pct(br['change'], lang)} on the week), between ${num(br['low'][1], lang)} and ${num(br['high'][1], lang)}.")
+        b.append(f"Brent (contrat à terme ICE M+1) : {num(br['last'], lang)} $ le baril au dernier cours de la semaine "
+                 f"({pct(br['change'], lang)} sur une semaine), cours de fin de journée entre {num(br['low'][1], lang)} et {num(br['high'][1], lang)} $." if fr else
+                 f"Brent (ICE futures M+1): ${num(br['last'], lang)} a barrel at the last price of the week "
+                 f"({pct(br['change'], lang)} on the week), end-of-day prices between ${num(br['low'][1], lang)} and ${num(br['high'][1], lang)}.")
     extra = []
     if "spread" in s:
         extra.append(f"écart Brent-WTI {num(s['spread'], lang)} $ par baril" if fr else f"Brent-WTI spread ${num(s['spread'], lang)} a barrel")
@@ -475,7 +504,7 @@ def write_linkedin(front, week, s):
     for emoji, label, what in (("⚡", "power", "électricité France (spot), moyenne de la semaine"),
                                ("🔥", "gas", "gaz France (PEG spot), moyenne de la semaine"),
                                ("🔥", "storage", "stocks de gaz européens"),
-                               ("🛢️", "oil", "Brent (M+1), clôture de la semaine")):
+                               ("🛢️", "oil", "Brent (M+1), dernier cours de la semaine")):
         t = tiles.get(label)
         if t:
             chg = f" ({t['change']})" if t.get("change") else ""

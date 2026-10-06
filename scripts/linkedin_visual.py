@@ -83,6 +83,20 @@ h1 { font:400 92px/0.98 'Bebas Neue'; margin:54px 0 10px; letter-spacing:.5px; }
 .r { background:rgba(255,255,255,.06); border:2px solid rgba(255,255,255,.1); border-radius:20px; padding:18px 20px; }
 .r span { display:inline-grid; place-items:center; width:40px; height:40px; border-radius:50%; border:3px solid #e8703a; font:700 20px Inter; }
 .r b { display:block; margin:12px 0 4px; font:600 22px Inter; } .r strong { font:700 40px 'JetBrains Mono'; }
+.h1s { font-size:80px; margin-top:44px; }
+.mcs2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; flex:1; min-height:0; }
+.mc { display:flex; flex-direction:column; min-height:0; background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.1); border-radius:22px; padding:22px 24px 16px; }
+.mcl { margin:0; font:700 18px Inter; letter-spacing:.8px; text-transform:uppercase; color:rgba(255,255,255,.7); } .mcl i { display:inline-block; width:13px; height:13px; border-radius:50%; margin-right:9px; }
+.mcv { margin:10px 0 6px; font:700 58px/1 'JetBrains Mono'; } .mcv small { font:600 22px Inter; color:rgba(255,255,255,.6); margin-left:8px; }
+.mcp { margin:0 0 14px; font:700 24px 'JetBrains Mono'; } .mcp em { font:400 18px Inter; font-style:normal; color:rgba(255,255,255,.55); margin-left:8px; }
+.mcs { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.mcs span { display:flex; flex-direction:column; padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.05); font:600 15px Inter; color:rgba(255,255,255,.6); }
+.mcs b { font:700 22px 'JetBrains Mono'; color:#fff; margin-top:2px; } .mcs em { font-style:normal; font-size:14px; color:rgba(255,255,255,.5); }
+.mct { margin:14px 0 4px; font:600 16px Inter; color:rgba(255,255,255,.6); } .mcc { position:relative; flex:1; min-height:0; }
+.sts { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+.st { padding:16px 22px; border-radius:18px; background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.1); }
+.stv { margin:6px 0 2px; font:700 36px/1 'JetBrains Mono'; } .stv small { font:600 18px Inter; color:rgba(255,255,255,.6); margin-left:6px; }
+.stv span { font:700 20px 'JetBrains Mono'; margin-left:14px; } .st em { font-style:normal; font-size:16px; color:rgba(255,255,255,.55); }
 .foot { display:flex; justify-content:space-between; gap:20px; margin-top:26px; font:600 20px Inter; color:rgba(255,255,255,.55); } .foot span:first-child { color:#4fd1c5; }
 """
 
@@ -109,6 +123,17 @@ if (D.bars) {
   ob.scales = { x:{ ticks:{ color:'rgba(255,255,255,.7)', font:{ size:20, weight:'600' } }, grid:{ display:false } }, y:{ display:false, beginAtZero:true } };
   new Chart(document.getElementById('c'), { type:'bar', plugins:[vals], data:{ labels:D.bars.labels, datasets:[{ data:D.bars.data, borderRadius:10,
     backgroundColor:D.bars.data.map(function(_, i){ return i === D.bars.hi ? '#e8703a' : D.bars.color + '88'; }) }] }, options:ob });
+}
+if (D.bars_multi) {
+  D.bars_multi.forEach(function (B) {
+    var vals = { id:'v', afterDatasetsDraw:function(ch){ var c=ch.ctx; c.save(); c.font='700 17px JetBrains Mono'; c.textAlign='center';
+      ch.getDatasetMeta(0).data.forEach(function(b, i){ c.fillStyle = i === B.hi ? '#e8703a' : 'rgba(255,255,255,.75)';
+        c.fillText(String(Math.round(B.data[i])), b.x, b.y - 8); }); c.restore(); } };
+    var ob = JSON.parse(JSON.stringify(base)); ob.layout = { padding:{ top:26 } };
+    ob.scales = { x:{ ticks:{ color:'rgba(255,255,255,.65)', font:{ size:15, weight:'600' } }, grid:{ display:false } }, y:{ display:false, beginAtZero:true } };
+    new Chart(document.getElementById(B.id), { type:'bar', plugins:[vals], data:{ labels:B.labels, datasets:[{ data:B.data, borderRadius:7,
+      backgroundColor:B.data.map(function(_, i){ return i === B.hi ? '#e8703a' : B.color + '88'; }) }] }, options:ob });
+  });
 }
 if (D.base) {
   var o = JSON.parse(JSON.stringify(base)); o.plugins.legend = { display:true, position:'top', align:'start', labels:{ color:'#fff', font:{ size:20, weight:'600' }, boxWidth:26, filter:function(i){ return i.text !== 'Base 100'; } } };
@@ -149,19 +174,46 @@ def build_pages(note, wk):
     secs = {s["key"]: s for s in note["sections"]}
     pages = []
 
-    power = secs.get("power", {}).get("chart")
-    if power:
-        # Moyenne du spot par semaine (semaines d'au moins 5 jours), 8 dernières : la hausse de la semaine se voit
+    def weekly(chart):
+        """Moyenne de chaque semaine (au moins 5 jours cotés), 8 dernières."""
         weeks = {}
-        for d, v in zip(power["labels"], power["series"][0]["data"]):
+        for d, v in zip(chart["labels"], chart["series"][0]["data"]):
             if v is not None:
                 weeks.setdefault(datetime.date.fromisoformat(d).isocalendar()[:2], []).append(v)
-        rows = [(k, sum(v) / len(v)) for k, v in sorted(weeks.items()) if len(v) >= 5][-8:]
-        body = (f"<div class='card'>{head(wk)}<h1>{title}</h1><p class='per'>{period}</p><div class='ks'>{tiles}</div>"
-                f"<div class='ch'><p class='cht'>Électricité France · prix spot, moyenne de chaque semaine (€/MWh)</p><div class='cv'><canvas id='c'></canvas></div></div>"
+        return [(k, sum(v) / len(v)) for k, v in sorted(weeks.items()) if len(v) >= 5][-8:]
+
+    def market_card(key, name, cid):
+        """Carte façon page Marchés : moyenne de la semaine, variation, plus bas / plus haut, barres hebdo."""
+        ch = secs.get(key, {}).get("chart")
+        if not ch:
+            return "", None
+        st = {x["label"]: x for x in ch["stats"]}
+        chg = st.get("Moyenne vs sem. préc.", {})
+        arrow = "▲" if chg.get("dir") == "up" else "▼" if chg.get("dir") == "down" else "="
+        rows = weekly(ch)
+        lo, hi = st.get("Plus bas", {}), st.get("Plus haut", {})
+        html_card = (f"<div class='mc'><p class='mcl'><i style='background:{COLORS[key]}'></i>{name}</p>"
+                     f"<p class='mcv'>{e(st['Moyenne']['value'])}<small>€/MWh</small></p>"
+                     f"<p class='mcp {chg.get('dir', 'flat')}'>{arrow} {e(chg.get('value', ''))}<em>vs semaine précédente</em></p>"
+                     f"<div class='mcs'><span>Plus bas<b>{e(lo.get('value', '-'))}</b><em>{e(lo.get('sub', ''))}</em></span>"
+                     f"<span>Plus haut<b>{e(hi.get('value', '-'))}</b><em>{e(hi.get('sub', ''))}</em></span></div>"
+                     f"<p class='mct'>Moyenne de chaque semaine</p><div class='mcc'><canvas id='{cid}'></canvas></div></div>")
+        return html_card, {"id": cid, "labels": [f"S{k[1]}" for k, _ in rows], "data": [round(v, 1) for _, v in rows],
+                           "hi": len(rows) - 1, "color": COLORS[key]}
+
+    c1, b1 = market_card("power", "Électricité France · spot", "c1")
+    c2, b2 = market_card("gas", "Gaz France (PEG) · spot", "c2")
+    if b1 and b2:
+        tl = {t.get("key"): t for t in note["tiles"]}
+        strip = "".join(
+            f"<div class='st'><p class='kl'><i style='background:{COLORS[k]}'></i>{e(tl[k]['label'])}</p>"
+            f"<p class='stv'>{e(tl[k]['value'])}<small>{e(tl[k]['unit'].strip())}</small>"
+            f"<span class='{tl[k].get('dir', 'flat')}'>{e(tl[k].get('change') or '')}</span></p><em>{e(tl[k].get('sub', ''))}</em></div>"
+            for k in ("storage", "oil") if k in tl)
+        body = (f"<div class='card'>{head(wk)}<h1 class='h1s'>{title}</h1><p class='per'>{period}</p>"
+                f"<div class='mcs2'>{c1}{c2}</div><div class='sts'>{strip}</div>"
                 "<div class='foot'><span>insideenergymarkets.com</span><span>Sources : RTE, NaTran, GIE AGSI+, OilPriceAPI (ICE)</span></div></div>")
-        pages.append(page(body, {"bars": {"labels": [f"S{k[1]}" for k, _ in rows], "data": [round(v, 1) for _, v in rows],
-                                          "hi": len(rows) - 1, "color": COLORS["power"]}}))
+        pages.append(page(body, {"bars_multi": [b1, b2]}))
 
     # Base 100 : seulement si les trois marchés couvrent au moins 15 jours de cotation
     names = {"power": "Électricité FR", "gas": "Gaz France (PEG)", "oil": "Brent"}
