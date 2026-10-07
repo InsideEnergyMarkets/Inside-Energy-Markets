@@ -1,6 +1,13 @@
 {
- "updated_at": "2026-10-07T09:08:22+00:00",
+ "updated_at": "2026-10-07T17:30:51+00:00",
  "items": [
+  {
+   "title": "Mixed outlook for energy expenditures this winter",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68264",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-10-07T14:00:00+00:00"
+  },
   {
    "title": "Shell expects refineries to almost double the profit from every barrel of fuel made",
    "url": "https://www.theguardian.com/business/2026/oct/07/shell-refineries-forecast-to-make-double-the-profit-from-every-barrel-of-fuel",
@@ -9,25 +16,18 @@
    "date": "2026-10-07T08:30:16+00:00"
   },
   {
-   "title": "Fabriquer les données, le carburant de l’IA, devient très vite politique",
-   "url": "https://www.lemonde.fr/sciences/article/2026/10/07/fabriquer-les-donnees-le-carburant-de-l-ia-devient-tres-vite-politique_6789563_1650684.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-07T07:39:08+00:00"
-  },
-  {
-   "title": "Oman evacuates injured crew from attacked tanker in Strait of Hormuz",
-   "url": "https://www.aljazeera.com/news/2026/10/7/oman-evacuates-injured-crew-from-attacked-tanker-in-strait-of-hormuz?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-07T03:16:32+00:00"
-  },
-  {
    "title": "En Australie, la justice s’oppose à l’extension d’une mine de charbon",
    "url": "https://www.lemonde.fr/planete/article/2026/10/07/en-australie-la-justice-s-oppose-a-l-extension-d-une-mine-de-charbon_6789397_3244.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-07T02:36:26+00:00"
+  },
+  {
+   "title": "La crise au Moyen-Orient, un accélérateur de la transition bas carbone",
+   "url": "https://www.connaissancedesenergies.org/la-crise-au-moyen-orient-un-accelerateur-de-la-transition-bas-carbone",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-10-07T00:00:00+00:00"
   },
   {
    "title": "Les exportations de pétrole du Golfe rebondissent au-delà de leurs niveaux d’avant-guerre",
@@ -93,6 +93,13 @@
    "date": "2026-10-05T14:00:00+00:00"
   },
   {
+   "title": "Grève des électriciens et gaziers : les syndicats suspendent leur mouvement pour le maintien du « tarif agent », après le recul du gouvernement",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/05/les-syndicats-de-l-energie-suspendent-leur-mouvement-pour-le-maintien-du-tarif-agent-apres-le-report-de-la-reforme-du-gouvernement_6788526_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-05T11:40:56+00:00"
+  },
+  {
    "title": "Pétrole : les exportations du Moyen-Orient repassent au-dessus de leur niveau d’avant-guerre",
    "url": "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20261005-p%C3%A9trole-les-exportations-du-moyen-orient-repassent-au-dessus-de-leur-niveau-d-avant-guerre",
    "source": "France 24",
@@ -112,34 +119,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-05T00:00:00+00:00"
-  },
-  {
-   "title": "Watch: Why has UK diesel price hit an all time high?",
-   "url": "https://www.bbc.co.uk/news/videos/c6m2d3mpm7r8o?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-02T16:58:30+00:00"
-  },
-  {
-   "title": "Détroit d'Ormuz : pourquoi le grand retour du pétrole ne suffit pas à faire baisser les prix",
-   "url": "https://www.france24.com/fr/%C3%A9co-tech/20261002-d%C3%A9troit-ormuz-pourquoi-grand-retour-p%C3%A9trole-baisse-prix",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-10-02T16:55:23+00:00"
-  },
-  {
-   "title": "UK diesel prices top £2 a litre for first time, RAC says",
-   "url": "https://www.bbc.co.uk/news/articles/crn8e86y5n0zo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-02T15:50:05+00:00"
-  },
-  {
-   "title": "U.S. natural gas production reached a record high in July 2026",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68225",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-10-02T14:00:00+00:00"
   }
  ]
 }
