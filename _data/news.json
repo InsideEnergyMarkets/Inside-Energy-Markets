@@ -1,12 +1,33 @@
 {
- "updated_at": "2026-10-07T01:45:04+00:00",
+ "updated_at": "2026-10-07T09:08:22+00:00",
  "items": [
   {
-   "title": "EN DIRECT, guerre en Ukraine : une attaque de drones ukrainiens déclenche un vaste incendie sur un pétrolier au large de Sotchi, en Russie",
-   "url": "https://www.lemonde.fr/international/live/2026/10/06/en-direct-guerre-en-ukraine-des-relations-fortes-entre-kiev-et-israel-pourraient-certainement-contribuer-a-une-securite-commune-estime-volodymyr-zelensky_6787996_3210.html",
+   "title": "Shell expects refineries to almost double the profit from every barrel of fuel made",
+   "url": "https://www.theguardian.com/business/2026/oct/07/shell-refineries-forecast-to-make-double-the-profit-from-every-barrel-of-fuel",
+   "source": "The Guardian",
+   "lang": "en",
+   "date": "2026-10-07T08:30:16+00:00"
+  },
+  {
+   "title": "Fabriquer les données, le carburant de l’IA, devient très vite politique",
+   "url": "https://www.lemonde.fr/sciences/article/2026/10/07/fabriquer-les-donnees-le-carburant-de-l-ia-devient-tres-vite-politique_6789563_1650684.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-06T21:36:22+00:00"
+   "date": "2026-10-07T07:39:08+00:00"
+  },
+  {
+   "title": "Oman evacuates injured crew from attacked tanker in Strait of Hormuz",
+   "url": "https://www.aljazeera.com/news/2026/10/7/oman-evacuates-injured-crew-from-attacked-tanker-in-strait-of-hormuz?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-07T03:16:32+00:00"
+  },
+  {
+   "title": "En Australie, la justice s’oppose à l’extension d’une mine de charbon",
+   "url": "https://www.lemonde.fr/planete/article/2026/10/07/en-australie-la-justice-s-oppose-a-l-extension-d-une-mine-de-charbon_6789397_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-07T02:36:26+00:00"
   },
   {
    "title": "Les exportations de pétrole du Golfe rebondissent au-delà de leurs niveaux d’avant-guerre",
@@ -21,13 +42,6 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-06T15:54:04+00:00"
-  },
-  {
-   "title": "Emmanuel Macron assiste, de façon inattendue, au lancement d’un missile depuis un sous-marin nucléaire",
-   "url": "https://www.lemonde.fr/international/article/2026/10/06/emmanuel-macron-assiste-de-facon-inattendue-au-lancement-d-un-missile-m-51-depuis-la-mer_6789041_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-06T15:50:36+00:00"
   },
   {
    "title": "Speech by President von der Leyen at the European Parliament plenary debate in preparation of the European Council meeting of 15-16 October 2026",
@@ -100,20 +114,6 @@
    "date": "2026-10-05T00:00:00+00:00"
   },
   {
-   "title": "Soaring diesel prices take their toll on US farmers in midwest corn belt",
-   "url": "https://www.theguardian.com/us-news/2026/oct/03/diesel-prices-midwest-farmers",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-03T12:00:59+00:00"
-  },
-  {
-   "title": "G7 to release millions of barrels of oil and diesel after Trump threat",
-   "url": "https://www.bbc.co.uk/news/articles/ck87zg8jnwngo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-03T04:38:31+00:00"
-  },
-  {
    "title": "Watch: Why has UK diesel price hit an all time high?",
    "url": "https://www.bbc.co.uk/news/videos/c6m2d3mpm7r8o?at_medium=RSS&at_campaign=rss",
    "source": "BBC",
@@ -126,6 +126,13 @@
    "source": "France 24",
    "lang": "fr",
    "date": "2026-10-02T16:55:23+00:00"
+  },
+  {
+   "title": "UK diesel prices top £2 a litre for first time, RAC says",
+   "url": "https://www.bbc.co.uk/news/articles/crn8e86y5n0zo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC",
+   "lang": "en",
+   "date": "2026-10-02T15:50:05+00:00"
   },
   {
    "title": "U.S. natural gas production reached a record high in July 2026",
