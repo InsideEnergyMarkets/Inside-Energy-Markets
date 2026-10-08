@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-08T06:32:06+00:00",
+ "updated_at": "2026-10-08T15:48:39+00:00",
  "stats": {
-  "total_30d": 31,
-  "attacks_30d": 24,
+  "total_30d": 32,
+  "attacks_30d": 25,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 24
+    "n": 25
    },
    {
     "place": "Golfe d'Aden",
@@ -35,6 +35,20 @@
    "vessel_type_en": "Tanker",
    "vessel_name": "MERCHANT",
    "summary": "UKMTO has received a report of an incident 51NM north of Madinat ash Shamal, Qatar. A tanker has reported being struck by multiple projectiles."
+  },
+  {
+   "id": "UKMTO-2026-159",
+   "number": 159,
+   "date": "2026-10-06T17:09:00Z",
+   "type": "Attack",
+   "lat": 26.4167,
+   "lon": 56.4167,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "TKR",
+   "summary": "UKMTO has received a time-late report from a verified source, that a crude oil tanker was struck by an unknown projectile on the 06 OCT2026, while transiting the Strait of Hormuz. There have been no reported casualties."
   },
   {
    "id": "UKMTO-2026-157",
@@ -107,6 +121,20 @@
    "summary": "UKMTO has received a report of an incident 60NM south of Al Mukha, Yemen. The Company Security Officer reported a tanker sighting multiple explosions in close proximity to the vessel."
   },
   {
+   "id": "UKMTO-2026-153",
+   "number": 153,
+   "date": "2026-10-04T14:30:00Z",
+   "type": "Attack",
+   "lat": 26.4125,
+   "lon": 56.5183,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "MERCHANT",
+   "summary": "UKMTO has received a time-late report of an incident within the Strait of Hormuz. A verified source has reported that an LPG tanker transiting inbound has been struck by an unknown projectile."
+  },
+  {
    "id": "UKMTO-2026-150",
    "number": 150,
    "date": "2026-10-04T07:45:00Z",
@@ -119,20 +147,6 @@
    "vessel_type_en": "Tanker",
    "vessel_name": "",
    "summary": "UKMTO has received a report of an incident within the Strait of Hormuz. The Master of a tanker has reported being struck by unknown projectile, causing damage to the engine room."
-  },
-  {
-   "id": "UKMTO-2026-153",
-   "number": 153,
-   "date": "2026-10-03T14:30:00Z",
-   "type": "Attack",
-   "lat": 26.4125,
-   "lon": 56.5183,
-   "place": "Détroit d'Ormuz",
-   "place_en": "Strait of Hormuz",
-   "vessel_type": "Tanker",
-   "vessel_type_en": "Tanker",
-   "vessel_name": "MERCHANT",
-   "summary": "UKMTO has received a time-late report of an incident within the Strait of Hormuz. A verified source has reported that an LPG tanker transiting inbound has been struck by an unknown projectile."
   },
   {
    "id": "UKMTO-2026-155",
