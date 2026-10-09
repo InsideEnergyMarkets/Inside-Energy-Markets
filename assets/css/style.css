@@ -2297,7 +2297,7 @@ footer .socials a.footer-podcast-link { margin-left: 6px; }
 }
 .mk-open span, .inc-all span { color: #4fd1c5; transition: transform 0.15s ease; }
 .mk-open:hover, .inc-all:hover { border-color: #4fd1c5; background: rgba(255, 255, 255, 0.12); color: #fff; text-decoration: none; }
-.mk-open:hover span, .inc-all:hover span { transform: translate(2px, -2px); }
+.mk-open:hover span, .inc-all:hover span { transform: translateX(3px); }
 .inc-all:hover span { transform: translateX(3px); }
 .mk-open { margin-top: auto; align-self: flex-start; }
 .inc-all { align-self: flex-start; margin-top: auto; }
