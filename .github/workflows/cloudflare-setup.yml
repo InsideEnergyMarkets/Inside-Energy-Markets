@@ -1,0 +1,25 @@
+name: Cloudflare Pages, création du projet (une seule fois)
+
+# À lancer à la main une fois les secrets CLOUDFLARE_API_TOKEN et CLOUDFLARE_ACCOUNT_ID créés :
+# crée le projet « insideenergymarkets » puis publie le site une première fois.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Créer le projet Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create insideenergymarkets --production-branch=main
+      - uses: ./.github/actions/build-deploy
+        with:
+          api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

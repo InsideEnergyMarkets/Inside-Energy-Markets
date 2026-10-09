@@ -53,6 +53,13 @@ jobs:
           git push
           echo "new=yes" >> "$GITHUB_OUTPUT"
 
+      - name: Publier le site (Cloudflare Pages)
+        if: steps.commit.outputs.new == 'yes'
+        uses: ./.github/actions/build-deploy
+        with:
+          api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: LinkedIn text and visuals in the run summary
         if: steps.commit.outputs.new == 'yes'
         run: |
@@ -76,8 +83,8 @@ jobs:
       - name: Notify search engines (IndexNow)
         if: steps.commit.outputs.new == 'yes' && github.ref == 'refs/heads/main'
         run: |
-          # Laisse le temps à GitHub Pages de publier les nouvelles pages
-          sleep 120
+          # Laisse le temps à la publication d'être en ligne partout
+          sleep 30
           # Adresses des notes qui viennent d'être créées, plus les deux pages d'archive
           URLS=$(while read f; do grep -h '^permalink:' "_notes/$f"; done < new_notes.txt \
             | sed -E 's#permalink: "([^"]+)"#https://insideenergymarkets.com\1#' | jq -R . \
