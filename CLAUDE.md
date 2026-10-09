@@ -24,7 +24,9 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Charte (ne pas réintroduire d'autres styles) : marine = structure, sarcelle `#00817d` = actions et liens
   (`#4fd1c5` sur fond sombre), orange = « en direct » et sélection, vert / rouge = hausse / baisse seulement.
   Boutons pilule : `.btn-primary` (sarcelle plein), `.btn-ghost` (contour), `.btn-listen` (petit, cartes).
-  Liens d'action « … → » : petite pilule avec la flèche dans un `<span>` (`.section-head a`, `.mk-open`, `.inc-all`).
+  Liens d'action : petite pilule avec un chevron Font Awesome dans un `<span aria-hidden="true">`
+  (`<i class="fa-solid fa-chevron-right ico-arr"></i>` ; retour `fa-chevron-left` ; lien externe `fa-arrow-up-right-from-square ico-arr ico-ext` ; fenêtres et tuiles internes : chevron),
+  jamais les caractères → ← ↗ (`.section-head a`, `.mk-open`, `.inc-all`). Les flèches de contenu (« 179 → 180 ») restent.
   Chiffres et dates dans la langue de la page (`| replace: ".", dec`, `{% include date.html date=… %}`).
 - TTF et JKM quotidiens : payants chez OilPriceAPI (offre Developer, 19 $/mois ; l'offre gratuite ne couvre que
   WTI, Brent, Henry Hub, Waha). Absents tant que Tom n'a pas pris l'offre. Le PEG vient de NaTran (le code PEG d'OilPriceAPI était non fiable).

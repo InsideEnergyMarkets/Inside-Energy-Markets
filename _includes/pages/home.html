@@ -40,7 +40,7 @@
             <button type="button" class="ep-link ep-link--here" data-play data-audio="{{ latest_pod.audio | escape }}" data-number="{{ latest.number }}" data-title="{{ latest_title | escape }}" data-duration="{{ latest_pod.duration }}" data-spotify="{{ latest.spotify | default: 'https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA' }}" data-apple="{{ latest.apple | default: 'https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201' }}" data-linkedin="{{ latest.linkedin | default: 'https://www.linkedin.com/in/tom-moulard/' }}"><i class="fa-solid fa-play" aria-hidden="true"></i><span>{{ t.ep.listen_here }}</span><b>{{ l_min }}:{{ l_sec }}</b></button>
           </div>
           {% endif %}
-          <button type="button" class="ep-back-close" data-unflip><span aria-hidden="true">←</span> {{ t.ep.back }}</button>
+          <button type="button" class="ep-back-close" data-unflip><span aria-hidden="true"><i class="fa-solid fa-chevron-left ico-arr"></i></span> {{ t.ep.back }}</button>
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>{{ t.home.latest_episodes }}</h2>
-      <a href="{{ u.episodes | relative_url }}">{{ t.cta.all_episodes }} <span aria-hidden="true">→</span></a>
+      <a href="{{ u.episodes | relative_url }}">{{ t.cta.all_episodes }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
     </div>
     {% if lang == "en" %}<p class="lang-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ t.ep.in_french_note }}</p>{% endif %}
     <div class="card-grid card-grid--episodes">
@@ -74,7 +74,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>{{ t.home.markets_title }}</h2>
-      <a href="{{ u.markets | relative_url }}">{{ t.home.markets_all }} <span aria-hidden="true">→</span></a>
+      <a href="{{ u.markets | relative_url }}">{{ t.home.markets_all }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
     </div>
 
     {% assign market = site.data.market %}
@@ -136,7 +136,7 @@
       <div class="hq-row hq-incidents">
         <span class="hq-name"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{{ t.home.inc_title }}<small>UKMTO · {{ t.home.inc_period }}</small></span>
         <span class="hq-inc-text"><span><b>{{ inc.stats.total_30d }}</b> {{ t.home.inc_reported | replace: '%n', inc.stats.attacks_30d }}</span>{% if inc.stats.top_places.size > 0 %}<small>{% for tp in inc.stats.top_places %}{% if lang == "en" %}{{ tp.place_en | default: tp.place }}{% else %}{{ tp.place }}{% endif %} ({{ tp.n }}){% unless forloop.last %} · {% endunless %}{% endfor %}</small>{% endif %}</span>
-        <a class="inc-all" href="{{ marches }}#{{ t.ids.security }}">{{ t.home.see_map }} <span aria-hidden="true">→</span></a>
+        <a class="inc-all" href="{{ marches }}#{{ t.ids.security }}">{{ t.home.see_map }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
       </div>
       {% endif %}
     </div>
@@ -153,14 +153,14 @@
     {% if last_note %}
     <div class="section-head">
       <h2>{{ t.blog.notes_title }}</h2>
-      <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true">→</span></a>
+      <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
     </div>
     {% include note-feature.html note=last_note visual=true %}
     <div class="section-head bl-more-head"><h2>{{ t.home.latest_posts }}</h2></div>
     {% else %}
     <div class="section-head">
       <h2>{{ t.home.latest_posts }}</h2>
-      <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true">→</span></a>
+      <a href="{{ u.blog | relative_url }}">{{ t.home.all_blog }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
     </div>
     {% endif %}
     <div class="card-grid card-grid--blog">
@@ -185,7 +185,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>{{ t.home.cta_title }}</h2>
-      <a href="{{ u.about | relative_url }}">{{ t.nav.about }} <span aria-hidden="true">→</span></a>
+      <a href="{{ u.about | relative_url }}">{{ t.nav.about }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
     </div>
     {% include podcast-cta.html contact=true class="ab-cta-grid--contact" %}
   </div>

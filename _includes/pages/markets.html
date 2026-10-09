@@ -127,7 +127,7 @@
       <button type="button" class="mk-link-tile" data-dialog="dlg-da">
         <i class="fa-solid fa-bolt" aria-hidden="true"></i>
         <span><strong>{{ mk.day_ahead_link }}</strong>{{ t.weekdays[dwd] | capitalize }} {% include date.html date=dd %} · {{ dday.avg | round: 2 | replace: ".", dec }} €/MWh {{ mk.on_average }}</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
     </div>
     <dialog class="mk-dialog" id="dlg-da" aria-labelledby="dlg-da-title">
@@ -149,7 +149,7 @@
       <p class="mt-src">Source{{ t.colon }}ENTSO-E Transparency Platform</p>
       <div class="da-dlg-actions">
         {% include play-episode.html number=6 label=t.da.listen_ep6 cls="mk-open" %}
-        <a class="mk-open" href="{{ u.day_ahead | relative_url }}">{{ t.da.full_page }} <span aria-hidden="true">→</span></a>
+        <a class="mk-open" href="{{ u.day_ahead | relative_url }}">{{ t.da.full_page }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
       </div>
     </dialog>
     {% include day-ahead-data.html %}
@@ -206,7 +206,7 @@
       <button type="button" class="mk-link-tile" data-expand="henryhub" data-title="Henry Hub">
         <i class="fa-solid fa-flag-usa" aria-hidden="true"></i>
         <span><strong>{{ mk.hh_tile }}</strong>{{ hh.price_eur_mwh | replace: ".", dec }} €/MWh ({{ hh.price_usd_mmbtu | replace: ".", dec }} $/MMBtu) · {{ mk.hh_tile_sub }}</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
       {% assign gw = site.data.gas_world %}
@@ -219,7 +219,7 @@
       <button type="button" class="mk-link-tile" data-dialog="dlg-gw">
         <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
         <span><strong>{{ mk.gw_tile }}</strong>{{ mk.gw_tile_sub | replace: '%n', ratio }}</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
       {% assign lng = site.data.lng_exports %}
@@ -232,7 +232,7 @@
       <button type="button" class="mk-link-tile" data-dialog="dlg-lng">
         <i class="fa-solid fa-ship" aria-hidden="true"></i>
         <span><strong>{{ mk.lng_title }}</strong>{{ lng_last.bcfd | replace: ".", dec }} {{ t.js.bcfd }} {{ mk.in_month }} {{ t.months[m_idx] }} {{ lng_last.month | slice: 0, 4 }} · {% if lng_yoy > 0 %}+{% endif %}{{ lng_yoy }} % {{ mk.yoy }}</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
     </div>
@@ -330,7 +330,7 @@
       <button type="button" class="mk-link-tile" data-dialog="dlg-wti">
         <i class="fa-solid fa-flag-usa" aria-hidden="true"></i>
         <span><strong>WTI</strong>{% include money2.html value=wti.price_usd %} $ · {{ mk.spread_short }} {% include money2.html value=spread %} $</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
       {% if us and us.size > 1 %}
@@ -339,20 +339,20 @@
       <button type="button" class="mk-link-tile" data-dialog="dlg-us">
         <i class="fa-solid fa-oil-can" aria-hidden="true"></i>
         <span><strong>{{ mk.us_stocks }}</strong>{% if us_chg > 0 %}+{% endif %}{{ us_chg | replace: ".", dec }} {{ mk.mb }} {{ mk.in_week }}</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-hz-brent">
         <i class="fa-solid fa-ship" aria-hidden="true"></i>
         <span><strong>{{ mk.cmp_tile }}</strong>{{ mk.cmp_tile_sub }}</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% assign fuel = site.data.fuel %}
       {% if fuel.gazole %}
       <button type="button" class="mk-link-tile" data-dialog="dlg-pump">
         <i class="fa-solid fa-gas-pump" aria-hidden="true"></i>
         <span><strong>{{ mk.pump_label }}</strong>{{ mk.diesel }} {% include money2.html value=fuel.gazole %} € · SP95-E10 {% include money2.html value=fuel.e10 %} €</span>
-        <b aria-hidden="true">↗</b>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
     </div>

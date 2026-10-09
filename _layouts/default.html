@@ -41,7 +41,7 @@
       <span class="nav-ep-dot" aria-hidden="true"></span>
       <span class="nav-ep-tag">{{ t.note.eyebrow }} · {{ t.nav.week_short }}{{ nav_note.week }}</span>
       <span class="nav-ep-title">{{ nav_note.headline }}</span>
-      <span class="nav-note-arrow" aria-hidden="true">→</span>
+      <span class="nav-note-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span>
     </a>
     {% else %}
     {% include latest-episode.html %}
@@ -87,7 +87,7 @@
         <a class="linkedin" href="https://www.linkedin.com/in/tom-moulard/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
         <a class="spotify" href="https://open.spotify.com/show/4P5bMdv7UfIpFAiT7cyDJA" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a class="apple" href="https://podcasts.apple.com/us/podcast/inside-energy-markets/id6807057201" target="_blank" aria-label="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-        <a href="{{ u.episodes | relative_url }}" class="footer-podcast-link">{{ t.footer.all_episodes }} <span aria-hidden="true">→</span></a>
+        <a href="{{ u.episodes | relative_url }}" class="footer-podcast-link">{{ t.footer.all_episodes }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
       </div>
     </div>
   </footer>
@@ -768,7 +768,7 @@ if (navToggle) {
     var links = modal.querySelector('.mkt-modal-links'), sec = trigger && trigger.getAttribute('data-section-url');
     links.hidden = !sec;
     links.innerHTML = sec
-      ? '<a class="btn btn-primary" href="' + sec + '">' + iemT.see_section.replace('%n', trigger.getAttribute('data-section')) + ' <span aria-hidden="true">→</span></a>'
+      ? '<a class="btn btn-primary" href="' + sec + '">' + iemT.see_section.replace('%n', trigger.getAttribute('data-section')) + ' <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>'
       : '';
     modal.querySelector('.mkt-modal-box').style.borderTopColor = window.mktChartData[key].color;
     modal.hidden = false;

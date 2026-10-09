@@ -11,5 +11,5 @@
 {%- if pe_pod.audio -%}
 <button type="button"{% if include.cls %} class="{{ include.cls }}"{% endif %} data-play data-audio="{{ pe_pod.audio | escape }}" data-number="{{ include.number }}" data-title="{{ pe_title | escape }}" data-duration="{{ pe_pod.duration }}" data-spotify="{{ pe.spotify }}" data-apple="{{ pe.apple }}" data-linkedin="{{ pe.linkedin }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ include.label }}</button>
 {%- else -%}
-<a{% if include.cls %} class="{{ include.cls }}"{% endif %} href="{{ u.episodes | relative_url }}">{{ include.label }} <span aria-hidden="true">→</span></a>
+<a{% if include.cls %} class="{{ include.cls }}"{% endif %} href="{{ u.episodes | relative_url }}">{{ include.label }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
 {%- endif -%}
