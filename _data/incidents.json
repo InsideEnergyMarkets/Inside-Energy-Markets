@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-09T12:29:59+00:00",
+ "updated_at": "2026-10-09T17:08:53+00:00",
  "stats": {
-  "total_30d": 28,
-  "attacks_30d": 23,
+  "total_30d": 29,
+  "attacks_30d": 24,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -15,13 +15,27 @@
     "n": 2
    },
    {
-    "place": "Central Arabian Gulf",
-    "place_en": "Central Arabian Gulf",
+    "place": "Sud du golfe Persique",
+    "place_en": "Southern Arabian Gulf",
     "n": 1
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-160",
+   "number": 160,
+   "date": "2026-10-09T12:46:00Z",
+   "type": "Attack",
+   "lat": 25.7833,
+   "lon": 55.5667,
+   "place": "Sud du golfe Persique",
+   "place_en": "Southern Arabian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 13NM west of Al Jazeera, UAE. UKMTO has received reports from multiple sources that the vessel has been struck by an unknown projectile causing a fire which has since been extinguished."
+  },
   {
    "id": "UKMTO-2026-158",
    "number": 158,
