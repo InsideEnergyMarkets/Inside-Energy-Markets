@@ -1,0 +1,37 @@
+{% comment %}
+  Bandeau « En vidéo » (page Épisodes) : tout le bandeau mène à l'article du reportage,
+  « Regarder » et le bouton rond ouvrent la vidéo dans une fenêtre. Paramètre : v (entrée de _data/videos.yml).
+{% endcomment %}
+{% include i18n.html %}
+{% assign v = include.v %}
+{% if lang == "en" %}{% assign v_title = v.title_en | default: v.title %}{% assign v_desc = v.description_en | default: v.description %}{% else %}{% assign v_title = v.title %}{% assign v_desc = v.description %}{% endif %}
+{% assign v_min = v.duration | divided_by: 60 %}{% assign v_sec = v.duration | modulo: 60 %}{% if v_sec < 10 %}{% assign v_sec = v_sec | prepend: "0" %}{% endif %}
+{% assign v_post = site.posts | where: "ref", v.ref | where: "lang", lang | first %}
+{% assign dlg_id = "dlg-video-" | append: v.id %}
+<section class="vid-banner">
+  {% if v_post %}<a class="vid-banner-link" href="{{ v_post.url | relative_url }}" aria-label="{{ t.ep.read_report | replace: '%t', v_title }}"></a>{% endif %}
+  <div class="vid-banner-text">
+    <span class="vid-banner-badge">{{ t.ep.special }}</span>
+    <h2>{{ t.ep.on_video | replace: '%t', v_title }}</h2>
+    <p>{{ v_desc }}</p>
+    <div class="ep-actions">
+      <button type="button" class="btn-listen" data-dialog="{{ dlg_id }}" aria-label="{{ t.ep.watch_aria | replace: '%t', v_title }}"><i class="fa-solid fa-play" aria-hidden="true"></i>{{ t.ep.watch }}</button>
+      <span class="ep-duration"><i class="fa-regular fa-clock" aria-hidden="true"></i>{{ v_min }} min {{ v_sec }}</span>
+    </div>
+  </div>
+  <div class="vid-phone">
+    <img src="{{ v.poster | relative_url }}" alt="">
+    <button type="button" class="vid-play" data-dialog="{{ dlg_id }}" aria-label="{{ t.ep.watch_aria | replace: '%t', v_title }}"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+  </div>
+</section>
+
+<dialog class="mk-dialog vid-dlg" id="{{ dlg_id }}" aria-label="{{ v_title }}">
+  <button type="button" class="vid-dlg-close" data-close aria-label="{{ t.close }}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+  {% include video-phone.html v=v title=v_title %}
+  <div class="vid-dlg-side">
+    <p class="card-kicker">{{ t.ep.special }}</p>
+    <h3>{{ v_title }}</h3>
+    <p>{{ v_desc }}</p>
+    {% if v_post %}<a class="mk-open" href="{{ v_post.url | relative_url }}">{{ t.blog.read }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
+  </div>
+</dialog>

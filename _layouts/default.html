@@ -124,6 +124,26 @@ document.addEventListener('click', function (e) {
   var close = e.target.closest('[data-unflip]');
   if (close) epFlip(close.closest('.ep-flip'), false);
 });
+// ===== Reportages vidéo : le bouton rond lance la lecture ; vidéo et podcast ne jouent jamais en même temps =====
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-vid-play]');
+  if (!b) return;
+  var v = b.parentNode.querySelector('video');
+  if (v) v.play().catch(function () {});
+});
+document.addEventListener('play', function (e) {
+  if (e.target.tagName !== 'VIDEO') return;
+  var ph = e.target.closest('.vid-phone');
+  if (ph) ph.classList.add('is-started');
+  e.target.controls = true;   // contrôles natifs seulement une fois lancée (avant : affiche, bouton rond, durée)
+  if (player) player.audio.pause();
+  document.querySelectorAll('video').forEach(function (v) { if (v !== e.target) v.pause(); });
+}, true);
+// Pas de plein écran pour les reportages (le double clic sur la vidéo l'activerait malgré le bouton masqué)
+document.addEventListener('fullscreenchange', function () {
+  var fs = document.fullscreenElement;
+  if (fs && fs.closest && fs.closest('.vid-phone')) document.exitFullscreen();
+});
 // ===== Lecteur du podcast : barre fixée en bas de l'écran, créée au premier « Écouter ici » =====
 var player = null;
 function fmtTime(s) {
@@ -183,6 +203,7 @@ function buildPlayer() {
   audio.addEventListener('timeupdate', paint);
   audio.addEventListener('loadedmetadata', paint);
   audio.addEventListener('play', state);
+  audio.addEventListener('play', function () { document.querySelectorAll('video').forEach(function (v) { v.pause(); }); });
   audio.addEventListener('pause', state);
   audio.addEventListener('ended', state);
   toggle.addEventListener('click', function () { if (audio.paused) audio.play(); else audio.pause(); });
@@ -1317,6 +1338,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     btn.addEventListener('click', function () {
       dlg.showModal();
       document.body.style.overflow = 'hidden';
+      var vid = dlg.querySelector('video');
+      if (vid) vid.play().catch(function () {});
       // Graphiques créés quand la fenêtre était fermée : on les recale sur leur taille réelle
       if (window.Chart) dlg.querySelectorAll('canvas').forEach(function (c) {
         var ch = Chart.getChart(c);
@@ -1325,12 +1348,18 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     });
   });
   document.querySelectorAll('.mk-dialog').forEach(function (dlg) {
-    dlg.addEventListener('close', function () { document.body.style.overflow = ''; });
+    // Fermeture : on rend le défilement et on coupe la vidéo (aussi sur Échap et la croix, sans attendre l'événement close)
+    function shut() {
+      document.body.style.overflow = '';
+      dlg.querySelectorAll('video').forEach(function (v) { v.pause(); });
+    }
+    dlg.addEventListener('close', shut);
+    dlg.addEventListener('cancel', shut);
     dlg.addEventListener('click', function (e) {
       // Clic sur le fond assombri (hors de la fenêtre) ou sur la croix
       var r = dlg.getBoundingClientRect();
       var outside = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
-      if ((e.target === dlg && outside) || e.target.closest('[data-close]')) dlg.close();
+      if ((e.target === dlg && outside) || e.target.closest('[data-close]')) { dlg.close(); shut(); }
     });
   });
 })();

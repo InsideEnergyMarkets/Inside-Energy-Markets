@@ -1,0 +1,11 @@
+{% comment %}
+  Vidéo verticale dans un cadre de téléphone. Le bouton rond lance la lecture (script du layout),
+  puis les contrôles natifs apparaissent (ajoutés au lancement). Paramètre : v (entrée de _data/videos.yml).
+{% endcomment %}
+{% assign v = include.v %}
+{% assign v_min = v.duration | divided_by: 60 %}{% assign v_sec = v.duration | modulo: 60 %}{% if v_sec < 10 %}{% assign v_sec = v_sec | prepend: "0" %}{% endif %}
+<div class="vid-phone">
+  <video src="{{ v.file | relative_url }}" poster="{{ v.poster | relative_url }}" preload="none" playsinline controlslist="nofullscreen nodownload noremoteplayback" disablepictureinpicture></video>
+  <button type="button" class="vid-play" data-vid-play aria-label="{{ t.ep.watch_aria | replace: '%t', include.title }}"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+  <span class="vid-dur" aria-hidden="true">{{ v_min }}:{{ v_sec }}</span>
+</div>

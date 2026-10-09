@@ -13,6 +13,10 @@
     {% if lang == "en" %}<p class="lang-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ t.ep.in_french_note }}</p>{% endif %}
     {% assign all_episodes = site.data.episodes | reverse %}
 
+    {% comment %}Reportage vidéo marqué featured : bandeau « En vidéo » au-dessus du dernier épisode{% endcomment %}
+    {% assign fvideo = site.data.videos | where: "featured", true | first %}
+    {% if fvideo %}{% include video-banner.html v=fvideo %}{% endif %}
+
     {% assign featured = all_episodes | first %}
     {% include episode-card.html ep=featured featured=true %}
 

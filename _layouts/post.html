@@ -5,19 +5,29 @@ layout: default
 {% comment %}Article précédent / suivant parmi les articles de la même langue (du plus récent au plus ancien){% endcomment %}
 {% assign lposts = site.posts | where: "lang", lang %}
 {% assign newer = nil %}{% assign older = nil %}
+{% if page.video %}{% assign pvideo = site.data.videos | where: "id", page.video | first %}{% endif %}
 {% for p in lposts %}{% if p.url == page.url %}{% assign i_new = forloop.index0 | minus: 1 %}{% assign i_old = forloop.index0 | plus: 1 %}{% if i_new >= 0 %}{% assign newer = lposts[i_new] %}{% endif %}{% assign older = lposts[i_old] %}{% break %}{% endif %}{% endfor %}
 <article>
   <header class="episodes-header post-header-banner">
     <div class="wrap prose">
-      <p class="eyebrow">{{ t.blog.article }}</p>
+      <p class="eyebrow">{% if pvideo %}{{ t.blog.report }}{% else %}{{ t.blog.article }}{% endif %}</p>
       <h1>{{ page.title }}</h1>
       <p class="bl-post-meta">
         {% for tg in page.tags %}<span class="bl-tag bl-tag--dark">{{ tg }}</span>{% endfor %}
-        <span>{% include date.html date=page.date %}</span><span aria-hidden="true">·</span><span>{% include reading-time.html content=content %}</span><span aria-hidden="true">·</span><span>Tom Moulard</span>
+        <span>{% include date.html date=page.date %}</span><span aria-hidden="true">·</span><span>{% if pvideo %}{% assign pv_min = pvideo.duration | plus: 30 | divided_by: 60 %}{{ t.blog.video_min | replace: '%m', pv_min }}{% else %}{% include reading-time.html content=content %}{% endif %}</span><span aria-hidden="true">·</span><span>Tom Moulard</span>
       </p>
     </div>
   </header>
-  {% if page.image %}
+  {% if pvideo %}
+  {% comment %}Reportage vidéo : le téléphone au centre, deux tuiles de chiffres de chaque côté (deux colonnes sous la vidéo sur mobile){% endcomment %}
+  {% assign pv_min = pvideo.duration | plus: 30 | divided_by: 60 %}
+  <div class="vid-a4">
+    {% for k in pvideo.kpis %}{% if forloop.index == 1 or forloop.index == 3 %}<div class="vid-a4-col">{% endif %}
+      <div class="vid-a4-tile{% if k.accent %} is-accent{% endif %}"><b>{% if lang == "en" %}{{ k.v_en | default: k.v }}{% else %}{{ k.v }}{% endif %}</b><span>{% if lang == "en" %}{{ k.label_en | default: k.label }}{% else %}{{ k.label }}{% endif %}</span></div>
+    {% if forloop.index == 2 or forloop.last %}</div>{% endif %}{% if forloop.index == 2 %}
+    <figure class="vid-a4-phone">{% include video-phone.html v=pvideo title=page.title %}<figcaption>{{ t.blog.video_caption | replace: '%m', pv_min }}</figcaption></figure>{% endif %}{% endfor %}
+  </div>
+  {% elsif page.image %}
   <div class="post-hero-image">
     <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
   </div>

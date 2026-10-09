@@ -1,0 +1,21 @@
+# Vidéos (reportages hors-série). La vidéo marquée featured remplace l'épisode mis en avant sur /episodes/.
+# Fichiers : vidéo 720p compressée (< 25 Mo, limite Cloudflare Pages), affiche verticale, vignette 16:9.
+- id: gastech-2026
+  ref: gastech-2026                       # article lié (même ref en français et en anglais)
+  featured: true
+  title: "Gastech 2026, le tour du salon"
+  title_en: "Gastech 2026, a walk through the show"
+  description: "Les acteurs présents, les sujets du moment et pourquoi le gaz mondial s'est donné rendez-vous en Asie."
+  description_en: "Who was there, what everyone was talking about, and why the gas world met in Asia this year (in French)."
+  kicker: "Bangkok · 14-17 septembre 2026"
+  kicker_en: "Bangkok · 14-17 September 2026"
+  file: /assets/video/gastech-2026.mp4
+  poster: /assets/img/videos/gastech-2026-poster.jpg
+  thumb: /assets/img/videos/gastech-2026-thumb.jpg
+  duration: 125
+  # Tuiles autour du téléphone dans l'article (2 à gauche, 2 à droite) ; accent = valeur en sarcelle
+  kpis:
+    - { v: "50 000", v_en: "50,000", label: "professionnels attendus", label_en: "professionals expected" }
+    - { v: "ASIE", v_en: "ASIA", label: "au cœur de la croissance de la demande", label_en: "at the heart of demand growth", accent: true }
+    - { v: "800", v_en: "800", label: "intervenants de plus de 150 pays", label_en: "speakers from over 150 countries" }
+    - { v: "60 MD$", v_en: "$60BN", label: "d'accords lors de l'édition 2025", label_en: "in deals at the 2025 edition", accent: true }
