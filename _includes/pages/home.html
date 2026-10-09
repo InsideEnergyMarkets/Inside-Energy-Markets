@@ -60,6 +60,8 @@
       <h2>{{ t.home.latest_episodes }}</h2>
       <a href="{{ u.episodes | relative_url }}">{{ t.cta.all_episodes }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
     </div>
+    {% assign fvideo = site.data.videos | where: "featured", true | first %}
+    {% if fvideo %}{% include video-banner.html v=fvideo %}{% endif %}
     {% if lang == "en" %}<p class="lang-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ t.ep.in_french_note }}</p>{% endif %}
     <div class="card-grid card-grid--episodes">
       {% assign latest_episodes = site.data.episodes | reverse %}

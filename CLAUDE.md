@@ -127,7 +127,7 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
 - Reportages vidéo (hors-série) : `_data/videos.yml` (fichier 720p dans `assets/video/`, < 25 Mo pour Cloudflare Pages,
   affiche verticale + vignette 16:9 au texte centré dans `assets/img/videos/`, tuiles de chiffres). Article lié par `video: <id>`
   dans le front matter (même `ref` FR/EN) : `post.html` remplace l'image par le téléphone au centre et 4 tuiles autour.
-  La vidéo `featured` ajoute sur /episodes/ le bandeau « En vidéo » (`video-banner.html`) au-dessus du dernier épisode :
+  La vidéo `featured` ajoute le bandeau « En vidéo » (`video-banner.html`) au-dessus des épisodes (/episodes/ et accueil) :
   le bandeau mène à l'article, « Regarder » et le bouton rond ouvrent la fenêtre (`.mk-dialog.vid-dlg`, lecture à l'ouverture,
   pause à la fermeture). Pas de plein écran (choix de Tom) ; vidéo et podcast ne jouent jamais en même temps.
   Premier reportage : Gastech 2026 (Bangkok), vidéo montée avec Tom (sous-titres incrustés).
