@@ -40,6 +40,7 @@ fr:
     switch_title: "English version"
     new: "Nouveau"
     play_aria: "Écouter l'épisode %n ici"
+    week_short: "S"
   footer:
     all_episodes: "Voir tous les épisodes"
     landmarks: "Repères"
@@ -545,6 +546,7 @@ en:
     switch_title: "Version française"
     new: "New"
     play_aria: "Play episode %n here"
+    week_short: "W"
   footer:
     all_episodes: "All episodes"
     landmarks: "Key figures"

@@ -34,6 +34,16 @@
     <a href="{{ u.home | relative_url }}" class="brand-logo">
       <img src="{{ '/assets/img/hero.png' | relative_url }}" alt="Inside Energy Markets">
     </a>
+    {% comment %}Pastille du haut : la dernière note de marché de la langue de la page (sinon le dernier épisode){% endcomment %}
+    {% assign nav_note = site.notes | where: "lang", lang | sort: "date" | last %}
+    {% if nav_note %}
+    <a class="nav-ep nav-note" href="{{ nav_note.url | relative_url }}" aria-label="{{ t.note.eyebrow }}, {{ t.note.week | downcase }} {{ nav_note.week }}{{ t.colon }}{{ nav_note.headline | escape }}">
+      <span class="nav-ep-dot" aria-hidden="true"></span>
+      <span class="nav-ep-tag">{{ t.note.eyebrow }} · {{ t.nav.week_short }}{{ nav_note.week }}</span>
+      <span class="nav-ep-title">{{ nav_note.headline }}</span>
+      <span class="nav-note-arrow" aria-hidden="true">→</span>
+    </a>
+    {% else %}
     {% include latest-episode.html %}
     {% if latest %}
     {% if lang == "en" %}{% assign nav_ep_title = latest.title_en | default: latest.title %}{% else %}{% assign nav_ep_title = latest.title %}{% endif %}
@@ -45,6 +55,7 @@
       <span class="nav-ep-title">{{ nav_ep_title }}</span>
       <i class="fa-solid fa-play" aria-hidden="true"></i>
     </button>
+    {% endif %}
     {% endif %}
     <button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false">
       <i class="fa-solid fa-bars"></i>
