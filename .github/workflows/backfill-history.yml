@@ -23,9 +23,20 @@ jobs:
           OILPRICEAPI_KEY: ${{ secrets.OILPRICEAPI_KEY }}
         run: python scripts/backfill_history.py
       - name: Commit result
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add _data/market_history.json
-          git diff --quiet --cached || git commit -m "Backfill historique Brent, Henry Hub, Spot FR"
+          if git diff --quiet --cached; then echo "changed=" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git commit -m "Backfill historique Brent, Henry Hub, Spot FR"
+          git pull --rebase
           git push
+          echo "changed=yes" >> "$GITHUB_OUTPUT"
+
+      - name: Publier le site (Cloudflare Pages)
+        if: steps.commit.outputs.changed == 'yes'
+        uses: ./.github/actions/build-deploy
+        with:
+          api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

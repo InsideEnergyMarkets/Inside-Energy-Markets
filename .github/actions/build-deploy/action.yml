@@ -1,0 +1,50 @@
+name: Construire le site et l'envoyer à Cloudflare Pages
+description: >
+  Construit le site avec le même Jekyll que GitHub Pages puis l'envoie à Cloudflare Pages
+  (envoi direct : ne compte pas dans les constructions Cloudflare). Ne fait rien tant que
+  les secrets CLOUDFLARE_API_TOKEN et CLOUDFLARE_ACCOUNT_ID ne sont pas définis.
+  Sur main, n'envoie que si ce commit est bien le dernier de main (sinon le suivant s'en charge).
+
+inputs:
+  api_token:
+    description: secrets.CLOUDFLARE_API_TOKEN
+    required: false
+  account_id:
+    description: secrets.CLOUDFLARE_ACCOUNT_ID
+    required: false
+  branch:
+    description: "main = site en ligne ; autre nom = aperçu (adresse <branche>.insideenergymarkets.pages.dev)"
+    default: main
+
+runs:
+  using: composite
+  steps:
+    - name: Vérifier qu'il faut publier
+      id: check
+      shell: bash
+      run: |
+        if [ -z "${{ inputs.api_token }}" ] || [ -z "${{ inputs.account_id }}" ]; then
+          echo "Secrets Cloudflare absents : pas d'envoi."; echo "go=" >> "$GITHUB_OUTPUT"; exit 0
+        fi
+        if [ "${{ inputs.branch }}" = "main" ]; then
+          git fetch -q origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo "Un commit plus récent existe sur main : il sera publié par sa propre tâche."; echo "go=" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+        fi
+        echo "go=yes" >> "$GITHUB_OUTPUT"
+
+    - name: Construire le site (Jekyll de GitHub Pages)
+      if: steps.check.outputs.go == 'yes'
+      uses: actions/jekyll-build-pages@v1
+      with:
+        source: ./
+        destination: ./_site
+
+    - name: Envoyer à Cloudflare Pages
+      if: steps.check.outputs.go == 'yes'
+      uses: cloudflare/wrangler-action@v3
+      with:
+        apiToken: ${{ inputs.api_token }}
+        accountId: ${{ inputs.account_id }}
+        command: pages deploy _site --project-name=insideenergymarkets --branch=${{ inputs.branch }} --commit-dirty=true

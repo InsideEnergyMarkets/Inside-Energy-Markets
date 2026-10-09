@@ -1,7 +1,8 @@
 name: Aperçu (construction du site sur une branche apercu-*)
 
-# Construit le site avec le même Jekyll que GitHub Pages, sans le publier,
-# et met le résultat en téléchargement (artefact « site ») pour le vérifier avant fusion.
+# Construit le site avec le même Jekyll que GitHub Pages et le publie sur une adresse d'aperçu
+# Cloudflare (https://<branche>.insideenergymarkets.pages.dev, jamais le site en ligne).
+# Sans secrets Cloudflare : artefact « site » à télécharger, comme avant.
 on:
   push:
     branches: ["apercu-**"]
@@ -13,6 +14,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/jekyll-build-pages@v1
@@ -24,3 +27,10 @@ jobs:
           name: site
           path: _site
           retention-days: 3
+      - name: Publier l'aperçu (Cloudflare Pages)
+        if: env.CF_TOKEN != ''
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy _site --project-name=insideenergymarkets --branch=${{ github.ref_name }} --commit-dirty=true

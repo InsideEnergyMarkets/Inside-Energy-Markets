@@ -1,0 +1,22 @@
+name: Publier le site (Cloudflare Pages)
+
+# Publie le site à chaque modification poussée sur main (les commits des mises à jour
+# automatiques ne déclenchent pas ce workflow : elles publient elles-mêmes, voir
+# .github/actions/build-deploy).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-deploy
+        with:
+          api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
