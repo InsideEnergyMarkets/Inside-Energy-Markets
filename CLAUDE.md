@@ -211,6 +211,16 @@ Secrets GitHub : EIA_API_KEY, RTE_BASE64_KEY, OILPRICEAPI_KEY, GIE_API_KEY (+ RT
 
 ## En cours / à venir
 
+- Migration vers Cloudflare Pages (pour passer le dépôt en privé ; Tom ne veut plus que le code apparaisse dans
+  les moteurs de recherche). Prête et inactive : `.github/actions/build-deploy` (construit avec le Jekyll de
+  GitHub Pages et envoie en direct, ne compte pas dans les 500 constructions Cloudflare), `deploy-site.yml` (push sur
+  main), données et note hebdo publient elles-mêmes si elles ont changé, aperçus sur `<branche>.insideenergymarkets.pages.dev`,
+  `cloudflare-setup.yml` (création du projet, une fois). Étapes restantes : Tom crée le compte, le jeton (Cloudflare Pages :
+  Edit) et les secrets `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` ; lancer `cloudflare-setup.yml` ; vérifier
+  insideenergymarkets.pages.dev ; domaine personnalisé dans Cloudflare + DNS chez Infomaniak (Tom) ; dépôt privé ;
+  désactiver GitHub Pages ; retrait de la page GitHub dans Bing/Google. Quota Actions en privé gratuit : 2 000 min/mois
+  (estimation ~1 000) ; si besoin, actus toutes les 3 h ou petit budget de dépassement.
+
 - TTF quotidien si Tom prend l'offre OilPriceAPI Developer (question posée à leur support) : il irait en tête
   de la rubrique Gaz, au-dessus des stocks.
 - Pistes GIE : ALSI (terminaux GNL européens), IIP (indisponibilités, pour les signaux).
