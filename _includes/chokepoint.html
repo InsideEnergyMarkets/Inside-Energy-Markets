@@ -32,12 +32,12 @@
       frameborder="0" scrolling="no"></iframe>
     <div class="ais-fallback">
       <p>{{ t.cp.map_failed }}</p>
-      <a class="inc-all" href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">{{ t.cp.see_mt }} <span aria-hidden="true">↗</span></a>
+      <a class="inc-all" href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">{{ t.cp.see_mt }} <span aria-hidden="true"><i class="fa-solid fa-arrow-up-right ico-arr ico-ext"></i></span></a>
     </div>
   </div>
   <p class="mt-src">{{ t.cp.traffic }}{{ t.colon }}IMF PortWatch{% if cp.date %}, {{ t.cp.as_of }} {{ cp.date | date: "%d/%m" }}{% endif %} · {{ t.cp.map }}{{ t.colon }}MarineTraffic</p>
 
-  <button type="button" class="mk-open" data-dialog="dlg-{{ include.key }}">{{ t.cp.detail_btn }} <span aria-hidden="true">↗</span></button>
+  <button type="button" class="mk-open" data-dialog="dlg-{{ include.key }}">{{ t.cp.detail_btn }} <span aria-hidden="true"><i class="fa-solid fa-arrow-up-right ico-arr ico-ext"></i></span></button>
 </article>
 
 <dialog class="mk-dialog" id="dlg-{{ include.key }}" aria-labelledby="dlg-{{ include.key }}-title">

@@ -31,7 +31,7 @@
         <h2>{{ featured.title }}</h2>
         <p class="bl-meta">{% include date.html date=featured.date %} · {% include reading-time.html content=featured.content %}</p>
         <p class="bl-excerpt">{{ featured.excerpt | strip_html | truncatewords: 40 }}</p>
-        <span class="bl-read">{{ t.blog.read }} <span aria-hidden="true">→</span></span>
+        <span class="bl-read">{{ t.blog.read }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></span>
       </div>
     </a>
 

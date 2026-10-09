@@ -105,11 +105,11 @@
       <h2 class="da-h2">{{ t.seo.more }}</h2>
       {% assign last_note = site.notes | where: "lang", lang | sort: "date" | last %}
       <p class="da-links">
-        <a href="{{ u.markets | relative_url }}#{{ anchor }}">{{ t.seo.markets_link }} <span aria-hidden="true">→</span></a>
-        {% if last_note %}<a href="{{ last_note.url | relative_url }}">{{ t.seo.note_link }} <span aria-hidden="true">→</span></a>{% endif %}
-        {% if page.kind != "brent" %}<a href="{{ u.brent | relative_url }}">{{ t.seo.brent.short }} <span aria-hidden="true">→</span></a>{% endif %}
-        {% if page.kind != "diesel" %}<a href="{{ u.diesel | relative_url }}">{{ t.seo.diesel.short }} <span aria-hidden="true">→</span></a>{% endif %}
-        {% if page.kind != "storage" %}<a href="{{ u.storage | relative_url }}">{{ t.seo.storage.short }} <span aria-hidden="true">→</span></a>{% endif %}
+        <a href="{{ u.markets | relative_url }}#{{ anchor }}">{{ t.seo.markets_link }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
+        {% if last_note %}<a href="{{ last_note.url | relative_url }}">{{ t.seo.note_link }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
+        {% if page.kind != "brent" %}<a href="{{ u.brent | relative_url }}">{{ t.seo.brent.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
+        {% if page.kind != "diesel" %}<a href="{{ u.diesel | relative_url }}">{{ t.seo.diesel.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
+        {% if page.kind != "storage" %}<a href="{{ u.storage | relative_url }}">{{ t.seo.storage.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
       </p>
     </div>
   </div>

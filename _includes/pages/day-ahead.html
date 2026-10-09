@@ -61,7 +61,7 @@
       <h2 class="da-h2">{{ da.how_title }}</h2>
       {% for para in da.how %}<p>{{ para }}</p>{% endfor %}
       <p class="da-links">
-        <a href="{{ u.markets | relative_url }}#{{ t.ids.power }}">{{ da.link_markets }} <span aria-hidden="true">→</span></a>
+        <a href="{{ u.markets | relative_url }}#{{ t.ids.power }}">{{ da.link_markets }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>
         {% include play-episode.html number=6 label=da.link_episodes %}
       </p>
     </div>

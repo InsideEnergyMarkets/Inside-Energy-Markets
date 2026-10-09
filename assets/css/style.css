@@ -2960,3 +2960,7 @@ html.has-player .nav-note { display: inline-flex; }
 .nt-feature:hover, .nt-feature:focus-visible { text-decoration: none; color: #fff; }
 .nt-feature:hover .mk-open { border-color: #4fd1c5; background: rgba(255, 255, 255, 0.12); text-decoration: underline; }
 .nt-feature:hover .mk-open span { transform: translate(2px, -2px); }
+
+/* ===== Flèches des liens d'action : chevron Font Awesome (style A, oct. 2026) ===== */
+.ico-arr { font-size: 0.72em; line-height: 1; vertical-align: 0.06em; }
+.ico-ext { font-size: 0.78em; }
