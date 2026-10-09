@@ -2675,6 +2675,11 @@ html.has-player body { padding-bottom: 96px; }
 .nav-ep-title { max-width: 260px; overflow: hidden; text-overflow: ellipsis; color: rgba(255, 255, 255, 0.75); }
 .nav-ep i { font-size: 10px; color: #4fd1c5; }
 html.has-player .nav-ep { display: none; }
+html.has-player .nav-note { display: inline-flex; }
+.nav-note { text-decoration: none; }
+.nav-note:hover { text-decoration: none; }
+.nav-note-arrow { color: #4fd1c5; transition: transform 0.15s ease; }
+.nav-note:hover .nav-note-arrow { transform: translateX(3px); }
 @media (max-width: 1000px) { .nav-ep-title { display: none; } }
 @media (max-width: 760px) { .nav-ep { margin-left: 12px; padding: 5px 10px; font-size: 12px; } }
 
