@@ -1,19 +1,40 @@
 {
- "updated_at": "2026-10-10T06:16:38+00:00",
+ "updated_at": "2026-10-10T12:56:50+00:00",
  "items": [
+  {
+   "title": "Ukraine warns Trump-Putin diesel deal will bankroll Russia’s war",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/10/ukraine-warns-trump-putin-diesel-deal-will-bankroll-russias-war?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-10T12:33:07+00:00"
+  },
+  {
+   "title": "Why is US turning to Russia for diesel despite sanctions?",
+   "url": "https://www.aljazeera.com/news/2026/10/10/why-is-us-turning-to-russia-for-diesel-despite-sanctions?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-10T12:16:12+00:00"
+  },
+  {
+   "title": "Qu’est-ce que le marché européen de l’électricité, dont plusieurs candidats à la présidentielle veulent sortir ?",
+   "url": "https://www.lemonde.fr/les-decodeurs/article/2026/10/10/qu-est-ce-que-le-marche-europeen-de-l-electricite-dont-plusieurs-candidats-a-la-presidentielle-veulent-sortir_6790978_4355770.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-10T08:30:08+00:00"
+  },
+  {
+   "title": "Le fonds pétrolier norvégien et ses 2 000 milliards d’euros d’actifs, une bénédiction pour l’Etat-providence",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/10/le-fonds-petrolier-norvegien-et-ses-2-000-milliards-d-euros-d-actifs-une-benediction-pour-l-etat-providence_6790973_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-10T08:00:22+00:00"
+  },
   {
    "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
    "url": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS&at_campaign=rss",
    "source": "BBC",
    "lang": "en",
    "date": "2026-10-10T04:38:20+00:00"
-  },
-  {
-   "title": "Hours after Trump-Putin diesel deal, Ukraine strikes Russian fuel site",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/10/10-10-ukraine-drone-russia-oil-clip?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-10T04:30:34+00:00"
   },
   {
    "title": "Donald Trump et Vladimir Poutine signent un accord sur le gazole, au grand dam de l’Ukraine et de ses alliés",
@@ -28,20 +49,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-10-10T01:31:13+00:00"
-  },
-  {
-   "title": "L’exploitant du parc éolien de la baie de Saint-Brieuc, jugé pour une fuite de 170 litres d’huile en pleine mer, a été relaxé",
-   "url": "https://www.lemonde.fr/planete/article/2026/10/09/poursuivi-pour-pollution-l-exploitant-du-parc-eolien-de-la-baie-de-saint-brieuc-ailes-marines-relaxe_6790537_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-09T08:22:18+00:00"
-  },
-  {
-   "title": "Est-ce que les prix de l’essence vont continuer d’augmenter ?",
-   "url": "https://www.lemonde.fr/planete/article/2026/10/09/est-ce-que-les-prix-de-l-essence-vont-continuer-d-augmenter_6790506_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-09T04:00:16+00:00"
   },
   {
    "title": "Why are more roofs not made of solar tiles?",
@@ -126,13 +133,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-10-05T14:00:00+00:00"
-  },
-  {
-   "title": "Pétrole : les exportations du Moyen-Orient repassent au-dessus de leur niveau d’avant-guerre",
-   "url": "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20261005-p%C3%A9trole-les-exportations-du-moyen-orient-repassent-au-dessus-de-leur-niveau-d-avant-guerre",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-10-05T09:35:43+00:00"
   }
  ]
 }

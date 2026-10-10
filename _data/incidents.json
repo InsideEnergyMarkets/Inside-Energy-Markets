@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-10T06:16:38+00:00",
+ "updated_at": "2026-10-10T12:56:50+00:00",
  "stats": {
-  "total_30d": 29,
+  "total_30d": 28,
   "attacks_30d": 24,
   "top_places": [
    {
@@ -10,13 +10,13 @@
     "n": 24
    },
    {
-    "place": "Golfe d'Aden",
-    "place_en": "Gulf of Aden",
-    "n": 2
-   },
-   {
     "place": "Sud du golfe Persique",
     "place_en": "Southern Arabian Gulf",
+    "n": 1
+   },
+   {
+    "place": "Central Arabian Gulf",
+    "place_en": "Central Arabian Gulf",
     "n": 1
    }
   ]
