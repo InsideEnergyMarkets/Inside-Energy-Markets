@@ -1,26 +1,33 @@
 {
- "updated_at": "2026-10-09T22:49:34+00:00",
+ "updated_at": "2026-10-10T06:16:38+00:00",
  "items": [
   {
-   "title": "Trump announces deal for Russian diesel as Zelensky criticises 'gift to Putin'",
+   "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
    "url": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS&at_campaign=rss",
    "source": "BBC",
    "lang": "en",
-   "date": "2026-10-09T21:54:28+00:00"
+   "date": "2026-10-10T04:38:20+00:00"
   },
   {
-   "title": "EN DIRECT, guerre en Ukraine : le Kremlin confirme l’accord entre Donald Trump et Vladimir Poutine sur des livraisons massives de gazole russe",
-   "url": "https://www.lemonde.fr/international/live/2026/10/09/en-direct-guerre-en-ukraine-le-kremlin-confirme-l-accord-entre-donald-trump-et-vladimir-poutine-sur-des-livraisons-massives-de-diesel-russe_6787996_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-09T20:18:44+00:00"
-  },
-  {
-   "title": "Trump announces Russian diesel deal amid soaring US fuel prices",
-   "url": "https://www.aljazeera.com/economy/2026/10/9/trump-announces-russian-diesel-deal-amid-soaring-us-fuel-prices?traffic_source=rss",
+   "title": "Hours after Trump-Putin diesel deal, Ukraine strikes Russian fuel site",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/10/10-10-ukraine-drone-russia-oil-clip?traffic_source=rss",
    "source": "Al Jazeera",
    "lang": "en",
-   "date": "2026-10-09T19:47:33+00:00"
+   "date": "2026-10-10T04:30:34+00:00"
+  },
+  {
+   "title": "Donald Trump et Vladimir Poutine signent un accord sur le gazole, au grand dam de l’Ukraine et de ses alliés",
+   "url": "https://www.lemonde.fr/international/article/2026/10/10/un-accord-sur-le-gazole-entre-trump-et-poutine-au-grand-dam-de-l-ukraine-et-de-ses-allies_6790903_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-10T03:41:07+00:00"
+  },
+  {
+   "title": "Ukraine war briefing: Kyiv blasts peace talks as just ‘smokescreen’ for Trump‘s Russian diesel deal",
+   "url": "https://www.theguardian.com/world/2026/oct/10/ukraine-war-briefing-trumps-russian-diesel-deal-derided-as-weak-and-a-betrayal-of-ukraine-and-us-national-security",
+   "source": "The Guardian",
+   "lang": "en",
+   "date": "2026-10-10T01:31:13+00:00"
   },
   {
    "title": "L’exploitant du parc éolien de la baie de Saint-Brieuc, jugé pour une fuite de 170 litres d’huile en pleine mer, a été relaxé",
@@ -100,13 +107,6 @@
    "date": "2026-10-06T09:45:26+00:00"
   },
   {
-   "title": "‘It really hammers people’: Scottish islanders hit by highest diesel prices in UK",
-   "url": "https://www.theguardian.com/business/2026/oct/06/scottish-islanders-highest-level-diesel-prices-uk-hebrides-shetland",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-06T05:00:03+00:00"
-  },
-  {
    "title": "Trois idées reçues sur l’adaptation au changement climatique",
    "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/trois-idees-recues-sur-ladaptation-au-changement-climatique",
    "source": "Connaissance des Énergies",
@@ -133,13 +133,6 @@
    "source": "France 24",
    "lang": "fr",
    "date": "2026-10-05T09:35:43+00:00"
-  },
-  {
-   "title": "Électrification et numérique : quatre leviers pour accélérer",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/electrification-et-numerique-quatre-leviers-pour-accelerer",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-10-05T00:00:00+00:00"
   }
  ]
 }
