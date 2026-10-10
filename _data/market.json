@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-09T22:08:00.672238Z",
+  "updated_at": "2026-10-10T03:53:51.047148Z",
   "brent": {
-    "price_usd": 104.53,
+    "price_usd": 104.54,
     "date": "2026-10-09",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -33,7 +33,7 @@
     "change_pct": 2.6
   },
   "peg": {
-    "price_eur_mwh": 76.98,
+    "price_eur_mwh": 76.99,
     "date": "2026-10-09",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -44,17 +44,17 @@
     "change_pct": 0.0
   },
   "mix_france": {
-    "date_heure": "2026-10-09T21:45:00+00:00",
+    "date_heure": "2026-10-10T03:30:00+00:00",
     "shares": {
-      "nucleaire": 66.3,
-      "eolien": 24.8,
-      "hydraulique": 6.0,
-      "bioenergies": 1.8,
-      "gaz": 1.0
+      "nucleaire": 75.1,
+      "eolien": 16.0,
+      "hydraulique": 5.4,
+      "bioenergies": 2.3,
+      "gaz": 1.1
     },
     "top_source": "nucleaire",
-    "top_share": 66.3,
-    "co2_intensity": 14
+    "top_share": 75.1,
+    "co2_intensity": 17
   },
   "spot_price_france": {
     "price_eur_mwh": 51.26,
@@ -71,7 +71,7 @@
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-10-04",
-      "age_days": 5,
+      "age_days": 6,
       "period_start": "2026-09-30",
       "days_averaged": 5,
       "n_tanker": 0.8,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-10-04",
-      "age_days": 5,
+      "age_days": 6,
       "period_start": "2026-09-30",
       "days_averaged": 5,
       "n_tanker": 8.4,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-04",
-      "age_days": 5,
+      "age_days": 6,
       "period_start": "2026-09-30",
       "days_averaged": 5,
       "n_tanker": 72.0,
