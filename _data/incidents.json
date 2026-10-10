@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T18:47:14+00:00",
+ "updated_at": "2026-10-10T23:45:11+00:00",
  "stats": {
   "total_30d": 28,
   "attacks_30d": 24,
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-162",
+   "number": 162,
+   "date": "2026-10-10T19:20:00Z",
+   "type": "Attack",
+   "lat": 26.3667,
+   "lon": 56.5667,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "TANKER",
+   "summary": "UKMTO has received a report of an incident within the Strait of Hormuz. The Master of an outbound tanker reports being struck on the port side by an unknown projectile, causing a fire on board."
+  },
   {
    "id": "UKMTO-2026-160",
    "number": 160,

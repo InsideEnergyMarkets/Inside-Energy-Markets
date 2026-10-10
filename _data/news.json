@@ -1,12 +1,12 @@
 {
- "updated_at": "2026-10-10T18:47:13+00:00",
+ "updated_at": "2026-10-10T23:45:11+00:00",
  "items": [
   {
-   "title": "EN DIRECT, guerre en Ukraine : Donald Trump somme Volodymyr Zelensky d’arrêter de frapper les raffineries russes et affirme qu’il est « temps pour l’Ukraine d’avoir un nouveau président »",
-   "url": "https://www.lemonde.fr/international/live/2026/10/10/en-direct-guerre-en-ukraine-les-dernieres-informations_6787996_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-10T16:33:37+00:00"
+   "title": "Our place in the sun: Australia’s uptake of solar panels is already through the roof. How much higher could it get?",
+   "url": "https://www.theguardian.com/environment/2026/oct/11/australia-solar-panels-uptake-record-through-roof",
+   "source": "The Guardian",
+   "lang": "en",
+   "date": "2026-10-10T19:00:08+00:00"
   },
   {
    "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
@@ -44,6 +44,13 @@
    "date": "2026-10-10T01:31:13+00:00"
   },
   {
+   "title": "L’exploitant du parc éolien de la baie de Saint-Brieuc, jugé pour une fuite de 170 litres d’huile en pleine mer, a été relaxé",
+   "url": "https://www.lemonde.fr/planete/article/2026/10/09/poursuivi-pour-pollution-l-exploitant-du-parc-eolien-de-la-baie-de-saint-brieuc-ailes-marines-relaxe_6790537_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-09T08:22:18+00:00"
+  },
+  {
    "title": "Why are more roofs not made of solar tiles?",
    "url": "https://www.bbc.co.uk/news/articles/cdr7n610rmzo?at_medium=RSS&at_campaign=rss",
    "source": "BBC",
@@ -79,13 +86,6 @@
    "date": "2026-10-07T14:00:00+00:00"
   },
   {
-   "title": "Shell expects refineries to almost double the profit from every barrel of fuel made",
-   "url": "https://www.theguardian.com/business/2026/oct/07/shell-refineries-forecast-to-make-double-the-profit-from-every-barrel-of-fuel",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-07T08:30:16+00:00"
-  },
-  {
    "title": "La crise au Moyen-Orient, un accélérateur de la transition bas carbone",
    "url": "https://www.connaissancedesenergies.org/la-crise-au-moyen-orient-un-accelerateur-de-la-transition-bas-carbone",
    "source": "Connaissance des Énergies",
@@ -112,13 +112,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-06T00:00:00+00:00"
-  },
-  {
-   "title": "Les exportations de pétrole brut revenues à leur niveau d'avant-guerre",
-   "url": "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20261005-les-exportations-de-p%C3%A9trole-brut-revenues-%C3%A0-leur-niveau-d-avant-guerre",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-10-05T21:01:29+00:00"
   }
  ]
 }
