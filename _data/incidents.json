@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-10T23:45:11+00:00",
+ "updated_at": "2026-10-11T06:16:28+00:00",
  "stats": {
-  "total_30d": 28,
+  "total_30d": 29,
   "attacks_30d": 24,
   "top_places": [
    {
@@ -10,18 +10,32 @@
     "n": 24
    },
    {
-    "place": "Sud du golfe Persique",
-    "place_en": "Southern Arabian Gulf",
+    "place": "Golfe d'Oman",
+    "place_en": "Gulf of Oman",
     "n": 1
    },
    {
-    "place": "Central Arabian Gulf",
-    "place_en": "Central Arabian Gulf",
+    "place": "Sud du golfe Persique",
+    "place_en": "Southern Arabian Gulf",
     "n": 1
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-28082035",
+   "number": 28082035,
+   "date": "2026-10-10T23:35:00Z",
+   "type": "Advisory",
+   "lat": 24.9333,
+   "lon": 57.45,
+   "place": "Golfe d'Oman",
+   "place_en": "Gulf of Oman",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "TKR",
+   "summary": "UKMTO have received a report of an incident involving a tanker and military forces in the Gulf of Oman. Vessels are advised to consider the latest maritime security information and maintain awareness of the evolving operational environment. Authorities are aware and relevant investigations remain…"
+  },
   {
    "id": "UKMTO-2026-162",
    "number": 162,
