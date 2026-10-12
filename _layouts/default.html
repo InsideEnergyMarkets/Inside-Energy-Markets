@@ -1513,7 +1513,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   new Chart(cv, { type: 'line', data: { labels: D.weekly.map(function (w) { return w[0]; }), datasets: [{ data: D.weekly.map(function (w) { return w[1]; }),
     borderColor: 'rgba(232,112,58,0.9)', backgroundColor: g, fill: true, borderWidth: 1.8, tension: 0.2, pointRadius: 0 }] },
     options: { responsive: true, maintainAspectRatio: false, animation: false, events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: { x: { display: false }, y: { display: false, min: 0 } } } });
+      scales: { x: { display: false }, y: { display: false, grace: "8%" } } } });
 
   // Repères : côté (haut / bas) et hauteur choisis pour éviter tout chevauchement d'étiquettes ;
   // la hauteur de la frise s'adapte ensuite aux niveaux réellement utilisés
