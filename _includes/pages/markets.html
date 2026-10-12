@@ -40,6 +40,7 @@
     <a href="#{{ t.ids.oil }}"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>{{ mk.toc_oil }}</a>
     <a href="#{{ t.ids.sea }}"><i class="fa-solid fa-ship" aria-hidden="true"></i>{{ mk.toc_sea }}</a>
     <a href="#{{ t.ids.security }}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{{ mk.toc_security }}</a>
+    <a href="#{{ t.ids.shocks }}"><i class="fa-solid fa-landmark-flag" aria-hidden="true"></i>{{ mk.toc_shocks }}</a>
   </div>
 </nav>
 
@@ -457,3 +458,54 @@
     {% endif %}
   </div>
 </section>
+
+<!-- ===== 6. CHOCS GÉOPOLITIQUES ET PRIX DU PÉTROLE ===== -->
+{% assign shocks = site.data.oil_shocks %}
+{% assign sd = site.data.oil_shocks_data %}
+{% if shocks and sd and sd.weekly %}
+<section class="mk-section mk-section--alt" id="{{ t.ids.shocks }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--shocks"><i class="fa-solid fa-landmark-flag" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.shocks_title }}</h2>
+        <p class="mk-lead">{{ mk.shocks_lead }}</p>
+      </div>
+    </header>
+    <div class="sh-card">
+      <div class="pw-chart-head">
+        <span class="sh-legend"><i class="sh-dot sh-dot--geo"></i>{{ mk.shocks_geo }} <i class="sh-dot sh-dot--eco"></i>{{ mk.shocks_eco }}</span>
+        <button type="button" class="period-btn" data-shock-back hidden><span aria-hidden="true"><i class="fa-solid fa-chevron-left ico-arr"></i></span> {{ mk.shocks_back }}</button>
+      </div>
+      <div class="sh-chart"><canvas id="shocks-chart" aria-label="{{ mk.shocks_chart_aria }}"></canvas></div>
+      <p class="pw-sub">{{ mk.shocks_src }}</p>
+    </div>
+
+    <div class="sh-grid">
+      {% for ev in shocks %}{% assign st = sd.events[ev.id] %}{% if st %}
+      <button type="button" class="sh-ev sh-ev--{{ ev.type }}" data-shock="{{ ev.id }}" aria-pressed="false">
+        <span class="sh-ev-date">{% include date.html date=ev.date %}</span>
+        <strong>{% if lang == "en" %}{{ ev.en }}{% else %}{{ ev.fr }}{% endif %}</strong>
+        <span class="sh-ev-desc">{% if lang == "en" %}{{ ev.desc_en }}{% else %}{{ ev.desc_fr }}{% endif %}</span>
+        <span class="sh-ev-stats">
+          <span><small>{{ mk.shocks_j1 }}</small><b class="{% if st.j1.pct > 0 %}up{% elsif st.j1.pct < 0 %}down{% endif %}">{% if st.j1.pct > 0 %}+{% endif %}{{ st.j1.pct | replace: ".", dec }} %</b></span>
+          <span><small>{{ mk.shocks_j5 }}</small><b class="{% if st.j5.pct > 0 %}up{% elsif st.j5.pct < 0 %}down{% endif %}">{% if st.j5.pct > 0 %}+{% endif %}{{ st.j5.pct | replace: ".", dec }} %</b></span>
+          {% assign hi_abs = st.hi30.pct | abs %}{% assign lo_abs = st.lo30.pct | abs %}
+          {% if hi_abs >= lo_abs %}{% assign x = st.hi30 %}{% assign xl = mk.shocks_hi30 %}{% else %}{% assign x = st.lo30 %}{% assign xl = mk.shocks_lo30 %}{% endif %}
+          <span><small>{{ xl }}</small><b class="{% if x.pct > 0 %}up{% elsif x.pct < 0 %}down{% endif %}">{% if x.pct > 0 %}+{% endif %}{{ x.pct | replace: ".", dec }} %</b><em>{{ mk.shocks_after | replace: "%n", x.days }}</em></span>
+        </span>
+        <span class="sh-ev-before">{{ mk.shocks_before }}{{ t.colon }}{{ st.before.v | replace: ".", dec }} $</span>
+      </button>
+      {% endif %}{% endfor %}
+    </div>
+    <p class="sh-note">{{ mk.shocks_note }}</p>
+  </div>
+</section>
+<script>
+  window.mktShocks = {
+    weekly: {{ sd.weekly | jsonify }},
+    events: [{% for ev in shocks %}{% assign st = sd.events[ev.id] %}{% if st %}{ id: {{ ev.id | jsonify }}, date: {{ ev.date | date: "%Y-%m-%d" | jsonify }}, type: {{ ev.type | jsonify }},
+      name: {% if lang == "en" %}{{ ev.en | jsonify }}{% else %}{{ ev.fr | jsonify }}{% endif %}, window: {{ st.window | jsonify }} }{% unless forloop.last %},{% endunless %}{% endif %}{% endfor %}]
+  };
+</script>
+{% endif %}

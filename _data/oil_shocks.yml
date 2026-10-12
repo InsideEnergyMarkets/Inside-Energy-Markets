@@ -1,0 +1,88 @@
+# Grands événements et prix du pétrole (frise de /marches/#chocs).
+# Liste tenue à la main (validée par Tom). Les chiffres (prix avant, J+1, J+5, 30 jours) sont calculés par
+# scripts/fetch_market_data.py (update_oil_shocks) dans _data/oil_shocks_data.json.
+# type : geo (choc géopolitique) ou eco (choc économique ou décision de l'OPEP).
+- id: koweit
+  date: 1990-08-02
+  type: geo
+  fr: "Invasion du Koweït"
+  en: "Invasion of Kuwait"
+  desc_fr: "L'Irak envahit le Koweït."
+  desc_en: "Iraq invades Kuwait."
+- id: tempete
+  date: 1991-01-17
+  type: geo
+  fr: "Tempête du désert"
+  en: "Desert Storm"
+  desc_fr: "Début de l'offensive aérienne de la coalition contre l'Irak."
+  desc_en: "The coalition air campaign against Iraq begins."
+- id: onze-septembre
+  date: 2001-09-11
+  type: geo
+  fr: "11 septembre"
+  en: "September 11"
+  desc_fr: "Attentats du 11 septembre aux États-Unis."
+  desc_en: "The September 11 attacks in the United States."
+- id: irak
+  date: 2003-03-20
+  type: geo
+  fr: "Guerre d'Irak"
+  en: "Iraq War"
+  desc_fr: "Début de l'intervention militaire menée par les États-Unis en Irak."
+  desc_en: "The US-led military intervention in Iraq begins."
+- id: libye
+  date: 2011-02-15
+  type: geo
+  fr: "Printemps arabe et Libye"
+  en: "Arab Spring and Libya"
+  desc_fr: "Soulèvements du printemps arabe ; la production libyenne s'effondre."
+  desc_en: "Arab Spring uprisings; Libyan output collapses."
+- id: opep-2014
+  date: 2014-11-27
+  type: eco
+  fr: "L'OPEP ne réduit pas sa production"
+  en: "OPEC keeps output unchanged"
+  desc_fr: "L'OPEP décide de maintenir sa production malgré la chute des prix."
+  desc_en: "OPEC decides to hold output despite falling prices."
+- id: abqaiq
+  date: 2019-09-14
+  type: geo
+  fr: "Attaque d'Abqaiq"
+  en: "Abqaiq attack"
+  desc_fr: "Attaque de drones et de missiles contre les installations saoudiennes d'Abqaiq et Khurais."
+  desc_en: "Drone and missile attack on Saudi facilities at Abqaiq and Khurais."
+- id: covid
+  date: 2020-03-06
+  type: eco
+  fr: "Guerre des prix OPEP+ et Covid"
+  en: "OPEC+ price war and Covid"
+  desc_fr: "Échec de l'accord OPEP+ entre l'Arabie saoudite et la Russie, en pleine pandémie."
+  desc_en: "OPEC+ talks between Saudi Arabia and Russia collapse as the pandemic spreads."
+- id: ukraine
+  date: 2022-02-24
+  type: geo
+  fr: "Invasion de l'Ukraine"
+  en: "Invasion of Ukraine"
+  desc_fr: "La Russie envahit l'Ukraine."
+  desc_en: "Russia invades Ukraine."
+- id: mer-rouge
+  date: 2023-11-19
+  type: geo
+  fr: "Attaques en mer Rouge"
+  en: "Red Sea attacks"
+  desc_fr: "Les Houthis saisissent le Galaxy Leader : début des attaques contre les navires en mer Rouge."
+  desc_en: "The Houthis seize the Galaxy Leader: attacks on Red Sea shipping begin."
+- id: maduro
+  date: 2026-01-03
+  type: geo
+  fr: "Capture de Nicolás Maduro"
+  en: "Capture of Nicolás Maduro"
+  desc_fr: "Capture du président vénézuélien Nicolás Maduro."
+  desc_en: "Venezuelan president Nicolás Maduro is captured."
+- id: ormuz
+  date: 2026-02-28
+  type: geo
+  fr: "Crise d'Ormuz"
+  en: "Hormuz crisis"
+  desc_fr: "Début de la crise du détroit d'Ormuz."
+  desc_en: "The Strait of Hormuz crisis begins."

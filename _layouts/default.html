@@ -1476,6 +1476,93 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 })();
 </script>
 <script>
+// ===== /marches/ : chocs géopolitiques et prix du pétrole (vue d'ensemble, zoom au clic sur un événement) =====
+(function () {
+  var cv = document.getElementById('shocks-chart'), D = window.mktShocks;
+  if (!cv || !D || typeof Chart === 'undefined') return;
+  var old = Chart.getChart(cv);
+  if (old) old.destroy();
+  var COL = { geo: '#4fd1c5', eco: '#cbd5e1' }, tick = 'rgba(255,255,255,0.55)';
+  var fmtD = function (d, long) {
+    return new Date(d + 'T12:00:00').toLocaleDateString(iemT.locale, long ? { day: 'numeric', month: 'short', year: 'numeric' } : { month: 'short', year: 'numeric' });
+  };
+  var monday = function (d) { var x = new Date(d + 'T12:00:00'); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.toISOString().slice(0, 10); };
+  var chart = null, selected = null;
+
+  function overview() {
+    var labels = D.weekly.map(function (w) { return w[0]; }), idx = {};
+    labels.forEach(function (l, i) { idx[l] = i; });
+    var marks = labels.map(function () { return null; }), info = labels.map(function () { return null; });
+    D.events.forEach(function (e) {
+      var i = idx[monday(e.date)];
+      if (i === undefined) return;
+      marks[i] = D.weekly[i][1]; info[i] = e;
+    });
+    draw({ labels: labels, values: D.weekly.map(function (w) { return w[1]; }), marks: marks, info: info, long: false });
+  }
+
+  function zoom(e) {
+    var labels = e.window.map(function (w) { return w[0]; });
+    var i = labels.findIndex(function (l) { return l >= e.date; });
+    var marks = labels.map(function (_, k) { return k === i ? e.window[k][1] : null; });
+    var info = labels.map(function (_, k) { return k === i ? e : null; });
+    draw({ labels: labels, values: e.window.map(function (w) { return w[1]; }), marks: marks, info: info, long: true, event: e, at: i });
+  }
+
+  function draw(v) {
+    if (chart) chart.destroy();
+    var g = cv.getContext('2d').createLinearGradient(0, 0, 0, 320);
+    g.addColorStop(0, 'rgba(232,112,58,0.35)'); g.addColorStop(1, 'rgba(232,112,58,0)');
+    // Zoom : trait vertical au jour de l'événement
+    var vline = { id: 'shVline', afterDatasetsDraw: function (ch) {
+      if (v.at === undefined || v.at < 0) return;
+      var x = ch.scales.x.getPixelForValue(v.at), k = ch.ctx;
+      k.save(); k.strokeStyle = 'rgba(232,112,58,0.9)'; k.setLineDash([4, 4]); k.lineWidth = 1.5;
+      k.beginPath(); k.moveTo(x, ch.chartArea.top); k.lineTo(x, ch.chartArea.bottom); k.stroke(); k.restore();
+    } };
+    chart = new Chart(cv, {
+      type: 'line', plugins: [vline],
+      data: { labels: v.labels, datasets: [
+        { data: v.values, borderColor: '#e8703a', backgroundColor: g, fill: true, borderWidth: v.long ? 2.5 : 1.8, tension: 0.2, pointRadius: 0, pointHoverRadius: 3 },
+        { data: v.marks, showLine: false, pointRadius: v.long ? 0 : 6, pointHoverRadius: 8, pointBorderWidth: 2, pointBorderColor: '#0d1638',
+          pointBackgroundColor: v.info.map(function (e) { return e ? COL[e.type] : 'transparent'; }) }
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'nearest', axis: 'x', intersect: false },
+        onClick: function (evt, els) {
+          if (v.long) return;
+          var el = els.find(function (x) { return x.datasetIndex === 1 && v.info[x.index]; });
+          if (el) select(v.info[el.index].id);
+        },
+        plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+          title: function (it) { return it.length ? fmtD(it[0].label, true) : ''; },
+          label: function (x) {
+            if (x.datasetIndex === 1) return v.info[x.dataIndex] ? v.info[x.dataIndex].name : null;
+            return (v.long ? '' : iemT.shocks_weekly) + x.parsed.y.toLocaleString(iemT.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' $';
+          } } } },
+        scales: {
+          x: { ticks: { color: tick, font: { size: 11 }, maxTicksLimit: v.long ? 7 : 10, maxRotation: 0,
+               callback: function (val) { return fmtD(this.getLabelForValue(val), v.long); } }, grid: { display: false } },
+          y: { ticks: { color: tick, font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.07)' } }
+        }
+      }
+    });
+  }
+
+  var cards = document.querySelectorAll('[data-shock]'), back = document.querySelector('[data-shock-back]');
+  function select(id) {
+    selected = selected === id ? null : id;
+    cards.forEach(function (c) { var on = c.getAttribute('data-shock') === selected; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    if (back) back.hidden = !selected;
+    var e = D.events.find(function (x) { return x.id === selected; });
+    if (e) zoom(e); else overview();
+    if (e) cv.closest('.sh-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  cards.forEach(function (c) { c.addEventListener('click', function () { select(c.getAttribute('data-shock')); }); });
+  if (back) back.addEventListener('click', function () { select(null); });
+  overview();
+})();
+
 // ===== Page Analyses : carrousel des notes de marché (flèches, balayage, clavier) =====
 document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   var track = car.querySelector('.nt-track'), slides = car.querySelectorAll('.nt-slide'), pos = car.querySelector('.nt-pos');

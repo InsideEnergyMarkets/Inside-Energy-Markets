@@ -3075,3 +3075,31 @@ html.has-player .nav-note { display: inline-flex; }
 .nt-carousel--multi .nt-slide { flex-basis: 88%; }
 .nt-carousel .section-head { gap: 12px; }
 @media (max-width: 640px) { .nt-carousel--multi .nt-slide { flex-basis: 86%; } .nt-pos { display: none; } }
+
+/* /marches/ : chocs géopolitiques et prix du pétrole */
+.mk-head-icon--shocks { background: #17255f; }
+.sh-card { padding: 20px 22px 14px; border-radius: 18px; background: linear-gradient(160deg, #1b2a6b, #0d1638); color: #fff; }
+.sh-card .pw-chart-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.sh-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: rgba(255, 255, 255, 0.75); }
+.sh-dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: -6px; border: 2px solid #0d1638; }
+.sh-dot--geo { background: #4fd1c5; } .sh-dot--eco { background: #cbd5e1; }
+.sh-chart { position: relative; height: 340px; }
+.sh-card .pw-sub { margin: 10px 0 0; color: rgba(255, 255, 255, 0.55); }
+.sh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 18px; }
+.sh-ev { display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 14px 16px; border-radius: 14px; background: #fff;
+  border: 1px solid #d8e1e6; border-top: 3px solid #4fd1c5; font: inherit; color: #1a2433; cursor: pointer; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+.sh-ev--eco { border-top-color: #94a3b8; }
+.sh-ev:hover { box-shadow: 0 6px 18px rgba(23, 37, 95, 0.1); }
+.sh-ev.is-on { border-color: #e8703a; box-shadow: 0 0 0 2px rgba(232, 112, 58, 0.35); }
+.sh-ev-date { font: 700 11px 'Inter', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #5a6b7b; }
+.sh-ev strong { font-size: 16px; color: #17255f; }
+.sh-ev-desc { font-size: 13px; color: #5a6b7b; line-height: 1.4; }
+.sh-ev-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: auto; padding-top: 6px; }
+.sh-ev-stats > span { display: flex; flex-direction: column; padding: 6px 8px; border-radius: 8px; background: #f4f7f9; }
+.sh-ev-stats small { font-size: 10.5px; color: #5a6b7b; }
+.sh-ev-stats b { font: 700 14px 'JetBrains Mono', monospace; color: #17255f; }
+.sh-ev-stats b.up { color: #1f8a55; } .sh-ev-stats b.down { color: #c53030; }
+.sh-ev-stats em { font-style: normal; font-size: 10.5px; color: #5a6b7b; }
+.sh-ev-before { font-size: 12px; color: #5a6b7b; }
+.sh-note { margin: 14px 0 0; font-size: 12.5px; color: #5a6b7b; }
+@media (max-width: 640px) { .sh-chart { height: 260px; } }

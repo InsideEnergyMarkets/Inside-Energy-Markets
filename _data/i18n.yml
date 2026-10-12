@@ -31,6 +31,7 @@ fr:
     oil: petrole
     sea: routes-maritimes
     security: securite
+    shocks: chocs
   nav:
     episodes: "Épisodes"
     markets: "Marchés"
@@ -326,6 +327,21 @@ fr:
     toc_oil: "Pétrole"
     toc_sea: "Routes maritimes"
     toc_security: "Sécurité en mer"
+    toc_shocks: "Chocs et prix"
+    shocks_title: "Chocs géopolitiques et prix du pétrole"
+    shocks_lead: "Le Brent depuis 1987 et sa réaction aux grands événements : le lendemain, une semaine après et sur 30 jours. Cliquez sur un événement pour zoomer."
+    shocks_geo: "Choc géopolitique"
+    shocks_eco: "Choc économique ou décision de l'OPEP"
+    shocks_chart_aria: "Prix du Brent depuis 1987 et grands événements"
+    shocks_src: "Brent spot (Dated), moyenne hebdomadaire · EIA via FRED"
+    shocks_j1: "Lendemain"
+    shocks_j5: "À 5 jours"
+    shocks_hi30: "Plus haut 30 j"
+    shocks_lo30: "Plus bas 30 j"
+    shocks_after: "après %n j"
+    shocks_before: "Prix avant"
+    shocks_note: "Variations calculées par rapport au dernier prix avant l'événement, en jours de cotation pour le lendemain et les 5 jours, en jours calendaires pour les 30 jours. Sur 30 jours, d'autres facteurs que l'événement peuvent jouer."
+    shocks_back: "Toute la période"
     power_title: "Électricité France"
     power_fr: "Électricité FR"
     power_lead: "Prix de gros du jour et façon dont l'électricité est produite en ce moment."
@@ -499,6 +515,7 @@ fr:
     expand: "Agrandir"
     series_spot: "Électricité FR"
     series_peg: "Gaz France (PEG)"
+    shocks_weekly: "Moyenne de la semaine : "
     brent_spot: "Brent spot (EIA), pour contexte"
     cp_normal: "Normale : "
     cp_tankers: "Tankers/jour (moy. 7 j) : "
@@ -548,6 +565,7 @@ en:
     oil: oil
     sea: shipping-routes
     security: maritime-security
+    shocks: oil-shocks
   nav:
     episodes: "Episodes"
     markets: "Markets"
@@ -843,6 +861,21 @@ en:
     toc_oil: "Oil"
     toc_sea: "Shipping routes"
     toc_security: "Maritime security"
+    toc_shocks: "Shocks and prices"
+    shocks_title: "Geopolitical shocks and oil prices"
+    shocks_lead: "Brent since 1987 and its reaction to major events: the next day, a week later and over 30 days. Click an event to zoom in."
+    shocks_geo: "Geopolitical shock"
+    shocks_eco: "Economic shock or OPEC decision"
+    shocks_chart_aria: "Brent price since 1987 and major events"
+    shocks_src: "Brent spot (Dated), weekly average · EIA via FRED"
+    shocks_j1: "Next day"
+    shocks_j5: "After 5 days"
+    shocks_hi30: "30-day high"
+    shocks_lo30: "30-day low"
+    shocks_after: "after %n d"
+    shocks_before: "Price before"
+    shocks_note: "Changes against the last price before the event, in trading days for the next day and 5 days, in calendar days for 30 days. Over 30 days, factors other than the event may play a part."
+    shocks_back: "Whole period"
     power_title: "Electricity in France"
     power_fr: "French power"
     power_lead: "Today's wholesale price and how electricity is being generated right now."
@@ -1016,6 +1049,7 @@ en:
     expand: "Enlarge"
     series_spot: "French power"
     series_peg: "French gas (PEG)"
+    shocks_weekly: "Weekly average: "
     brent_spot: "Brent spot (EIA), for context"
     cp_normal: "Normal: "
     cp_tankers: "Tankers/day (7-day avg): "
