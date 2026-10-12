@@ -478,7 +478,7 @@
         <button type="button" class="period-btn" data-shock-back hidden><span aria-hidden="true"><i class="fa-solid fa-chevron-left ico-arr"></i></span> {{ mk.shocks_back }}</button>
       </div>
       <div class="sh-chart"><canvas id="shocks-chart" aria-label="{{ mk.shocks_chart_aria }}"></canvas></div>
-      <p class="pw-sub">{{ mk.shocks_src }}</p>
+      <p class="pw-sub" data-shock-src data-overview="{{ mk.shocks_src }}" data-zoom="{{ mk.shocks_src_daily }}">{{ mk.shocks_src }}</p>
     </div>
 
     <div class="sh-grid">
@@ -494,7 +494,7 @@
           {% if hi_abs >= lo_abs %}{% assign x = st.hi30 %}{% assign xl = mk.shocks_hi30 %}{% else %}{% assign x = st.lo30 %}{% assign xl = mk.shocks_lo30 %}{% endif %}
           <span><small>{{ xl }}</small><b class="{% if x.pct > 0 %}up{% elsif x.pct < 0 %}down{% endif %}">{% if x.pct > 0 %}+{% endif %}{{ x.pct | replace: ".", dec }} %</b><em>{{ mk.shocks_after | replace: "%n", x.days }}</em></span>
         </span>
-        <span class="sh-ev-before">{{ mk.shocks_before }}{{ t.colon }}{{ st.before.v | replace: ".", dec }} $</span>
+        <span class="sh-ev-before">{{ mk.shocks_before }}{{ t.colon }}{{ st.before.txt | default: st.before.v | replace: ".", dec }} $</span>
       </button>
       {% endif %}{% endfor %}
     </div>

@@ -655,7 +655,7 @@ def update_oil_shocks():
         days = lambda p: (datetime.date.fromisoformat(p[0]) - d).days  # noqa: E731
         start, end = (d - datetime.timedelta(days=45)).isoformat(), (d + datetime.timedelta(days=90)).isoformat()
         events[eid] = {
-            "before": {"date": b[0], "v": b[1]},
+            "before": {"date": b[0], "v": b[1], "txt": f"{b[1]:.2f}"},
             "j1": {"date": after[0][0], "v": after[0][1], "pct": pct(b[1], after[0][1])},
             "j5": {"date": after[4][0], "v": after[4][1], "pct": pct(b[1], after[4][1])},
             "hi30": {"date": hi[0], "v": hi[1], "pct": pct(b[1], hi[1]), "days": days(hi)},

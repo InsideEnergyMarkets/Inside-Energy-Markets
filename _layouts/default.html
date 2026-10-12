@@ -1556,6 +1556,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     if (back) back.hidden = !selected;
     var e = D.events.find(function (x) { return x.id === selected; });
     if (e) zoom(e); else overview();
+    var src = document.querySelector('[data-shock-src]');
+    if (src) src.textContent = src.getAttribute(e ? 'data-zoom' : 'data-overview');
     if (e) cv.closest('.sh-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   cards.forEach(function (c) { c.addEventListener('click', function () { select(c.getAttribute('data-shock')); }); });
