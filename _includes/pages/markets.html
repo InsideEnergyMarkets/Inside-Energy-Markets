@@ -460,6 +460,9 @@
 </section>
 
 <!-- ===== 6. CHOCS GÉOPOLITIQUES ET PRIX DU PÉTROLE ===== -->
+{% comment %}Frise horizontale : les grands chocs de l'histoire (espacés régulièrement), puis les événements depuis 2022
+  à l'échelle, sur la courbe du Brent. Clic sur un événement : détail et zoom en dessous. Données : _data/oil_shocks.yml
+  (événements) et _data/oil_shocks_data.json (chiffres, scripts/fetch_market_data.py).{% endcomment %}
 {% assign shocks = site.data.oil_shocks %}
 {% assign sd = site.data.oil_shocks_data %}
 {% if shocks and sd and sd.weekly %}
@@ -472,40 +475,34 @@
         <p class="mk-lead">{{ mk.shocks_lead }}</p>
       </div>
     </header>
-    <div class="sh-card">
-      <div class="pw-chart-head">
-        <span class="sh-legend"><i class="sh-dot sh-dot--geo"></i>{{ mk.shocks_geo }} <i class="sh-dot sh-dot--eco"></i>{{ mk.shocks_eco }}</span>
-        <button type="button" class="period-btn" data-shock-back hidden><span aria-hidden="true"><i class="fa-solid fa-chevron-left ico-arr"></i></span> {{ mk.shocks_back }}</button>
-      </div>
-      <div class="sh-chart"><canvas id="shocks-chart" aria-label="{{ mk.shocks_chart_aria }}"></canvas></div>
-      <p class="pw-sub" data-shock-src data-overview="{{ mk.shocks_src }}" data-zoom="{{ mk.shocks_src_daily }}">{{ mk.shocks_src }}</p>
-    </div>
-
-    <div class="sh-grid">
-      {% for ev in shocks %}{% assign st = sd.events[ev.id] %}{% if st %}
-      <button type="button" class="sh-ev sh-ev--{{ ev.type }}" data-shock="{{ ev.id }}" aria-pressed="false">
-        <span class="sh-ev-date">{% include date.html date=ev.date %}</span>
-        <strong>{% if lang == "en" %}{{ ev.en }}{% else %}{{ ev.fr }}{% endif %}</strong>
-        <span class="sh-ev-desc">{% if lang == "en" %}{{ ev.desc_en }}{% else %}{{ ev.desc_fr }}{% endif %}</span>
-        <span class="sh-ev-stats">
-          <span><small>{{ mk.shocks_j1 }}</small><b class="{% if st.j1.pct > 0 %}up{% elsif st.j1.pct < 0 %}down{% endif %}">{% if st.j1.pct > 0 %}+{% endif %}{{ st.j1.pct | replace: ".", dec }} %</b></span>
-          <span><small>{{ mk.shocks_j5 }}</small><b class="{% if st.j5.pct > 0 %}up{% elsif st.j5.pct < 0 %}down{% endif %}">{% if st.j5.pct > 0 %}+{% endif %}{{ st.j5.pct | replace: ".", dec }} %</b></span>
-          {% assign hi_abs = st.hi30.pct | abs %}{% assign lo_abs = st.lo30.pct | abs %}
-          {% if hi_abs >= lo_abs %}{% assign x = st.hi30 %}{% assign xl = mk.shocks_hi30 %}{% else %}{% assign x = st.lo30 %}{% assign xl = mk.shocks_lo30 %}{% endif %}
-          <span><small>{{ xl }}</small><b class="{% if x.pct > 0 %}up{% elsif x.pct < 0 %}down{% endif %}">{% if x.pct > 0 %}+{% endif %}{{ x.pct | replace: ".", dec }} %</b><em>{{ mk.shocks_after | replace: "%n", x.days }}</em></span>
+    <div class="fz" data-frise>
+      <div class="fz-head">
+        <span class="fz-legend"><i class="sh-dot sh-dot--geo"></i>{{ mk.shocks_geo }} <i class="sh-dot sh-dot--eco"></i>{{ mk.shocks_eco }}</span>
+        <span class="fz-arrows">
+          <button type="button" class="fz-arrow" data-fz-dir="-1" aria-label="{{ mk.shocks_prev }}"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+          <button type="button" class="fz-arrow" data-fz-dir="1" aria-label="{{ mk.shocks_next }}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
         </span>
-        <span class="sh-ev-before">{{ mk.shocks_before }}{{ t.colon }}{{ st.before.txt | default: st.before.v | replace: ".", dec }} $</span>
-      </button>
-      {% endif %}{% endfor %}
+      </div>
+      <div class="fz-scroll" tabindex="0" aria-label="{{ mk.shocks_title }}"><div class="fz-track"></div></div>
+      <div class="fz-panel" aria-live="polite"></div>
+      <p class="fz-src">{{ mk.shocks_src }}</p>
     </div>
     <p class="sh-note">{{ mk.shocks_note }}</p>
   </div>
 </section>
+{% assign recent_weeks = sd.weekly | where_exp: "w", "w[0] >= '2022-01-01'" %}
 <script>
   window.mktShocks = {
-    weekly: {{ sd.weekly | jsonify }},
+    weekly: {{ recent_weeks | jsonify }},
+    recentFrom: "2022-01-01",
+    t: { hist: {{ mk.shocks_hist | jsonify }}, recent: {{ mk.shocks_recent | jsonify }}, before: {{ mk.shocks_before | jsonify }},
+         beforeM: {{ mk.shocks_before_m | jsonify }}, j1: {{ mk.shocks_j1 | jsonify }}, j5: {{ mk.shocks_j5 | jsonify }},
+         hi30: {{ mk.shocks_hi30 | jsonify }}, lo30: {{ mk.shocks_lo30 | jsonify }}, after: {{ mk.shocks_after | jsonify }},
+         hi12: {{ mk.shocks_hi12 | jsonify }}, afterM: {{ mk.shocks_after_m | jsonify }}, monthly: {{ mk.shocks_monthly_note | jsonify }},
+         geo: {{ mk.shocks_geo | jsonify }}, eco: {{ mk.shocks_eco | jsonify }}, srcDaily: {{ mk.shocks_src_daily | jsonify }} },
     events: [{% for ev in shocks %}{% assign st = sd.events[ev.id] %}{% if st %}{ id: {{ ev.id | jsonify }}, date: {{ ev.date | date: "%Y-%m-%d" | jsonify }}, type: {{ ev.type | jsonify }},
-      name: {% if lang == "en" %}{{ ev.en | jsonify }}{% else %}{{ ev.fr | jsonify }}{% endif %}, window: {{ st.window | jsonify }} }{% unless forloop.last %},{% endunless %}{% endif %}{% endfor %}]
+      name: {% if lang == "en" %}{{ ev.en | jsonify }}{% else %}{{ ev.fr | jsonify }}{% endif %}, desc: {% if lang == "en" %}{{ ev.desc_en | jsonify }}{% else %}{{ ev.desc_fr | jsonify }}{% endif %},
+      s: {{ st | jsonify }} }{% unless forloop.last %},{% endunless %}{% endif %}{% endfor %}]
   };
 </script>
 {% endif %}

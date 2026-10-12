@@ -618,20 +618,30 @@ def read_oil_shocks():
     return events
 
 
+def fetch_fred_daily(series_id):
+    """Série de la FRED (fichier CSV officiel) : [(date, valeur)] sans les jours vides."""
+    r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}", timeout=60)
+    r.raise_for_status()
+    out = []
+    for line in r.text.strip().splitlines()[1:]:
+        day, _, value = line.partition(",")
+        if value and value != ".":
+            out.append((day, round(float(value), 2)))
+    return out
+
+
 def update_oil_shocks():
-    """Frise « chocs et prix du pétrole » : Brent spot (Dated, série EIA RBRTE via le CSV officiel de la FRED,
-    DCOILBRENTEU, depuis 1987), en moyenne hebdomadaire pour la grande courbe, et pour chaque événement :
-    dernier prix avant, variation le jour de cotation suivant (J+1), au 5e jour, plus haut et plus bas sur 30 jours,
-    et les cours quotidiens de 45 jours avant à 90 jours après (zoom). En cas d'erreur, on garde le fichier existant."""
+    """Frise « chocs et prix du pétrole » (/marches/#chocs).
+    - Brent spot (Dated) quotidien depuis 1987 (série EIA RBRTE via la FRED, DCOILBRENTEU) : moyenne hebdomadaire pour la
+      frise, et pour chaque événement depuis 1987 : dernier prix avant, J+1, J+5 (jours de cotation), plus haut et plus bas
+      sur 30 jours, cours quotidiens de 45 jours avant à 90 jours après (zoom).
+    - Avant 1987 (1973, 1979) : WTI mensuel (FRED, WTISPLC), seul historique officiel gratuit : prix du mois précédent,
+      plus haut sur 12 mois, mois de 12 mois avant à 24 mois après. Signalé comme tel sur le site.
+    En cas d'erreur, on garde le fichier existant."""
     try:
-        r = requests.get("https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU", timeout=60)
-        r.raise_for_status()
-        rows = []
-        for line in r.text.strip().splitlines()[1:]:
-            day, _, value = line.partition(",")
-            if value and value != ".":
-                rows.append((day, round(float(value), 2)))
-        if len(rows) < 1000:
+        rows = fetch_fred_daily("DCOILBRENTEU")
+        monthly = fetch_fred_daily("WTISPLC")
+        if len(rows) < 1000 or len(monthly) < 100:
             raise ValueError("série trop courte")
     except Exception as e:
         print(f"Erreur Brent long (FRED): {e}")
@@ -645,6 +655,24 @@ def update_oil_shocks():
     events = {}
     for eid, day in read_oil_shocks():
         d = datetime.date.fromisoformat(day)
+        if day < rows[0][0]:
+            # Avant le Brent quotidien : WTI mensuel
+            month = day[:7] + "-01"
+            before = [p for p in monthly if p[0] < month]
+            after = [p for p in monthly if p[0] >= month]
+            if not before or len(after) < 2:
+                continue
+            b = before[-1]
+            win = after[:13]
+            hi = max(win, key=lambda p: p[1])
+            months = lambda p: (int(p[0][:4]) - d.year) * 12 + int(p[0][5:7]) - d.month  # noqa: E731
+            lo_m = f"{d.year - 1}-{d.month:02d}-01"
+            hi_m = f"{d.year + 2}-{d.month:02d}-01"
+            events[eid] = {"monthly": True, "series": "WTI",
+                           "before": {"date": b[0], "v": b[1], "txt": f"{b[1]:.2f}"},
+                           "hi12": {"date": hi[0], "v": hi[1], "pct": pct(b[1], hi[1]), "months": months(hi)},
+                           "window": [[p[0], p[1]] for p in monthly if lo_m <= p[0] <= hi_m]}
+            continue
         before = [p for p in rows if p[0] < day]
         after = [p for p in rows if p[0] >= day]
         if not before or len(after) < 5:
@@ -663,7 +691,7 @@ def update_oil_shocks():
             "window": [[p[0], p[1]] for p in rows if start <= p[0] <= end],
         }
     with open(OIL_SHOCKS_DATA_PATH, "w", encoding="utf-8") as fh:
-        json.dump({"source": "EIA via FRED (DCOILBRENTEU)", "last": {"date": rows[-1][0], "v": rows[-1][1]},
+        json.dump({"source": "EIA via FRED (DCOILBRENTEU) ; avant 1987 : FRED (WTISPLC)", "last": {"date": rows[-1][0], "v": rows[-1][1]},
                    "weekly": weekly, "events": events}, fh, ensure_ascii=False, separators=(",", ":"))
 
 
