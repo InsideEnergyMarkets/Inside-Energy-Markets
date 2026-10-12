@@ -1481,9 +1481,10 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   var track = car.querySelector('.nt-track'), slides = car.querySelectorAll('.nt-slide'), pos = car.querySelector('.nt-pos');
   var arrows = car.querySelectorAll('[data-nt-dir]');
   if (!track || slides.length < 2) return;
-  function index() { return Math.round(track.scrollLeft / track.clientWidth); }
+  // Largeur encore nulle au tout premier rendu : on reste sur la première note
+  function index() { var w = track.clientWidth; return w ? Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / w))) : 0; }
   function update() {
-    var i = Math.max(0, Math.min(slides.length - 1, index()));
+    var i = index();
     if (pos) pos.textContent = slides[i].getAttribute('data-week') + ' · ' + (i + 1) + '/' + slides.length;
     arrows.forEach(function (b) {
       var d = parseInt(b.getAttribute('data-nt-dir'), 10);
@@ -1499,6 +1500,8 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   var t = null;
   track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(update, 60); }, { passive: true });
   update();
+  requestAnimationFrame(update);
+  window.addEventListener('resize', update);
 });
 
 // ===== Graphiques des notes de marché (données dans l'attribut data-nt-chart) =====
