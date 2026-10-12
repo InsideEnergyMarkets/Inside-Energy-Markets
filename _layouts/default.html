@@ -1515,8 +1515,9 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     options: { responsive: true, maintainAspectRatio: false, animation: false, events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: { x: { display: false }, y: { display: false, min: 0 } } } });
 
-  // Repères : côté (haut / bas) et hauteur choisis pour éviter tout chevauchement d'étiquettes
-  var pins = [], lastRight = { up: [-1e9, -1e9, -1e9], down: [-1e9, -1e9, -1e9] }, pref = 'up';
+  // Repères : côté (haut / bas) et hauteur choisis pour éviter tout chevauchement d'étiquettes ;
+  // la hauteur de la frise s'adapte ensuite aux niveaux réellement utilisés
+  var pins = [], lastRight = { up: [-1e9, -1e9, -1e9], down: [-1e9, -1e9, -1e9] }, pref = 'up', place = [], maxL = { up: 0, down: 0 };
   E.forEach(function (e) {
     var isHist = e.date < D.recentFrom, x = isHist ? PAD + hist.indexOf(e) * STEP : xRecent(e.date);
     var side = null, lv = 0, sides = [pref, pref === 'up' ? 'down' : 'up'];
@@ -1524,13 +1525,20 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
       for (var q = 0; q < 2; q++) { if (x - LW / 2 > lastRight[sides[q]][l] + 8) { side = sides[q]; lv = l; break; } }
     }
     if (!side) { side = pref; lv = 2; }
-    lastRight[side][lv] = x + LW / 2;
+    lastRight[side][lv] = x + LW / 2; maxL[side] = Math.max(maxL[side], lv);
     pref = side === 'up' ? 'down' : 'up';
-    var b = el('button', 'fz-pin fz-pin--' + e.type + ' fz-pin--' + side);
-    b.type = 'button'; b.style.left = x + 'px';
-    var stemH = 26 + lv * LV;
+    place.push({ e: e, x: x, side: side, lv: lv });
+  });
+  AXIS = 30 + LH + 26 + maxL.up * LV;
+  track.style.height = (AXIS + 8 + 26 + maxL.down * LV + LH + 22) + 'px';
+  axis.style.top = AXIS + 'px';
+  track.querySelectorAll('.fz-year').forEach(function (n) { n.style.top = (AXIS + 8) + 'px'; });
+  bg.style.top = (AXIS - 104) + 'px'; bg.style.height = '104px';
+  place.forEach(function (p) {
+    var e = p.e, b = el('button', 'fz-pin fz-pin--' + e.type + ' fz-pin--' + p.side), stemH = 26 + p.lv * LV;
+    b.type = 'button'; b.style.left = p.x + 'px';
     var lbl = '<span class="fz-lbl"><small>' + day(e.date) + '</small><b>' + e.name + '</b></span>';
-    if (side === 'up') { b.style.top = (AXIS - stemH - LH) + 'px'; b.innerHTML = lbl + '<span class="fz-stem" style="height:' + stemH + 'px"></span><span class="fz-dot"></span>'; }
+    if (p.side === 'up') { b.style.top = (AXIS - stemH - LH) + 'px'; b.innerHTML = lbl + '<span class="fz-stem" style="height:' + stemH + 'px"></span><span class="fz-dot"></span>'; }
     else { b.style.top = (AXIS - 7) + 'px'; b.innerHTML = '<span class="fz-dot"></span><span class="fz-stem" style="height:' + stemH + 'px"></span>' + lbl; }
     b.addEventListener('click', function () { show(E.indexOf(e), true); });
     track.appendChild(b); pins.push(b);
