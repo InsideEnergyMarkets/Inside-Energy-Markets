@@ -1485,11 +1485,12 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   track.innerHTML = '';
   var E = D.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
   var hist = E.filter(function (e) { return e.date < D.recentFrom; }), recent = E.filter(function (e) { return e.date >= D.recentFrom; });
-  var STEP = 230, PAD = 130, H0 = PAD + Math.max(0, hist.length - 1) * STEP + PAD, YEAR = 360, AXIS = 222;
+  // Frise compacte : étiquettes de largeur fixe, posées sur 3 hauteurs de chaque côté pour ne jamais se chevaucher
+  var STEP = 165, PAD = 95, H0 = PAD + Math.max(0, hist.length - 1) * STEP + PAD, YEAR = 200, AXIS = 236, LW = 150, LH = 56, LV = 62, RPAD = 60;
   var r0 = new Date(D.recentFrom + 'T00:00:00'), rEnd = new Date((D.weekly.length ? D.weekly[D.weekly.length - 1][0] : D.recentFrom) + 'T00:00:00');
   var RW = Math.max(900, (rEnd - r0) / 31557600000 * YEAR) + PAD;
-  var xRecent = function (d) { return H0 + 40 + (new Date(d + 'T00:00:00') - r0) / (rEnd - r0) * (RW - PAD); };
-  track.style.width = (H0 + 40 + RW + PAD) + 'px';
+  var xRecent = function (d) { return H0 + RPAD + (new Date(d + 'T00:00:00') - r0) / (rEnd - r0) * (RW - PAD); };
+  track.style.width = (H0 + RPAD + RW + PAD) + 'px';
   var fmt = function (v) { return (v > 0 ? '+' : '') + v.toLocaleString(iemT.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %'; };
   var cls = function (v) { return v > 0 ? 'up' : (v < 0 ? 'down' : ''); };
   var day = function (d, o) { return new Date(d + 'T12:00:00').toLocaleDateString(iemT.locale, o || { day: 'numeric', month: 'short', year: 'numeric' }); };
@@ -1505,7 +1506,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     var tk = el('span', 'fz-year', y); tk.style.left = xRecent(yd) + 'px'; track.appendChild(tk);
   }
   // Courbe du Brent (zone récente)
-  var bg = el('div', 'fz-bg'); bg.style.left = (H0 + 40) + 'px'; bg.style.width = (RW - PAD) + 'px';
+  var bg = el('div', 'fz-bg'); bg.style.left = (H0 + RPAD) + 'px'; bg.style.width = (RW - PAD) + 'px';
   var cv = el('canvas'); bg.appendChild(cv); track.appendChild(bg);
   var g = cv.getContext('2d').createLinearGradient(0, 0, 0, 130); g.addColorStop(0, 'rgba(232,112,58,0.35)'); g.addColorStop(1, 'rgba(232,112,58,0)');
   var oldBg = Chart.getChart(cv); if (oldBg) oldBg.destroy();
@@ -1514,15 +1515,23 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     options: { responsive: true, maintainAspectRatio: false, animation: false, events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: { x: { display: false }, y: { display: false, min: 0 } } } });
 
-  // Repères
-  var pins = [];
+  // Repères : côté (haut / bas) et hauteur choisis pour éviter tout chevauchement d'étiquettes
+  var pins = [], lastRight = { up: [-1e9, -1e9, -1e9], down: [-1e9, -1e9, -1e9] }, pref = 'up';
   E.forEach(function (e) {
-    var isHist = e.date < D.recentFrom, k = isHist ? hist.indexOf(e) : recent.indexOf(e), up = k % 2 === 0;
-    var x = isHist ? PAD + k * STEP : xRecent(e.date);
-    var b = el('button', 'fz-pin fz-pin--' + e.type + (up ? ' fz-pin--up' : ' fz-pin--down'));
+    var isHist = e.date < D.recentFrom, x = isHist ? PAD + hist.indexOf(e) * STEP : xRecent(e.date);
+    var side = null, lv = 0, sides = [pref, pref === 'up' ? 'down' : 'up'];
+    for (var l = 0; l < 3 && !side; l++) {
+      for (var q = 0; q < 2; q++) { if (x - LW / 2 > lastRight[sides[q]][l] + 8) { side = sides[q]; lv = l; break; } }
+    }
+    if (!side) { side = pref; lv = 2; }
+    lastRight[side][lv] = x + LW / 2;
+    pref = side === 'up' ? 'down' : 'up';
+    var b = el('button', 'fz-pin fz-pin--' + e.type + ' fz-pin--' + side);
     b.type = 'button'; b.style.left = x + 'px';
+    var stemH = 26 + lv * LV;
     var lbl = '<span class="fz-lbl"><small>' + day(e.date) + '</small><b>' + e.name + '</b></span>';
-    b.innerHTML = up ? lbl + '<span class="fz-stem"></span><span class="fz-dot"></span>' : '<span class="fz-dot"></span><span class="fz-stem"></span>' + lbl;
+    if (side === 'up') { b.style.top = (AXIS - stemH - LH) + 'px'; b.innerHTML = lbl + '<span class="fz-stem" style="height:' + stemH + 'px"></span><span class="fz-dot"></span>'; }
+    else { b.style.top = (AXIS - 7) + 'px'; b.innerHTML = '<span class="fz-dot"></span><span class="fz-stem" style="height:' + stemH + 'px"></span>' + lbl; }
     b.addEventListener('click', function () { show(E.indexOf(e), true); });
     track.appendChild(b); pins.push(b);
   });

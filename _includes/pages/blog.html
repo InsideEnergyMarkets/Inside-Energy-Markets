@@ -1,5 +1,5 @@
 {% comment %}Page Analyses (analyses/ et en/analysis/) : la note de marché de la semaine en tête, puis les articles,
-  puis les notes précédentes. Notes : collection _notes (scripts/generate_note.py).{% endcomment %}
+  les notes précédentes sont dans le carrousel. Notes : collection _notes (scripts/generate_note.py).{% endcomment %}
 {% include i18n.html %}
 <section class="episodes-header">
   <div class="wrap">
@@ -70,15 +70,6 @@
     {% endif %}
     {% else %}
     <p>{{ t.blog.soon }}</p>
-    {% endif %}
-
-    {% if lnotes.size > 1 %}
-    <div class="section-head bl-more-head"><h2>{{ t.blog.notes_older }}</h2></div>
-    <ul class="nt-list">
-      {% for n in lnotes offset: 1 %}
-      <li><a href="{{ n.url | relative_url }}"><span>{{ t.note.week }} {{ n.week }} · {% include date.html date=n.period_end %}</span><strong>{{ n.headline }}</strong><small>{{ n.intro }}</small></a></li>
-      {% endfor %}
-    </ul>
     {% endif %}
 
     <aside class="bl-follow">
