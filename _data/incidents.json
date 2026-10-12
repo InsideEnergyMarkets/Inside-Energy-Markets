@@ -1,18 +1,18 @@
 {
- "updated_at": "2026-10-12T15:56:50+00:00",
+ "updated_at": "2026-10-12T23:09:25+00:00",
  "stats": {
-  "total_30d": 32,
-  "attacks_30d": 27,
+  "total_30d": 35,
+  "attacks_30d": 29,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 26
+    "n": 28
    },
    {
     "place": "Golfe d'Oman",
     "place_en": "Gulf of Oman",
-    "n": 2
+    "n": 3
    },
    {
     "place": "Sud du golfe Persique",
@@ -22,6 +22,48 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-169",
+   "number": 169,
+   "date": "2026-10-12T18:53:00Z",
+   "type": "Attack",
+   "lat": 26.3722,
+   "lon": 55.9425,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident within the Strait of Hormuz. A verified source has reported that a crude oil tanker has been struck by an unknown projectile whilst conducting an outbound transit."
+  },
+  {
+   "id": "UKMTO-2026-168",
+   "number": 168,
+   "date": "2026-10-12T18:23:00Z",
+   "type": "Attack",
+   "lat": 26.4042,
+   "lon": 56.1236,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident within the Strait of Hormuz. A verified source has reported that a Products Tanker has been struck by an unknown projectile whilst conducting an outbound transit."
+  },
+  {
+   "id": "UKMTO-2026-167",
+   "number": 167,
+   "date": "2026-10-12T18:18:00Z",
+   "type": "Attack",
+   "lat": 26.4756,
+   "lon": 56.3792,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Cargo",
+   "vessel_type_en": "Cargo",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report from a verified source that a container vessel was struck by an unknown projectile while transiting inbound through of the Strait of Hormuz. Authorities are investigating."
+  },
   {
    "id": "UKMTO-2026-166",
    "number": 166,
@@ -67,6 +109,20 @@
   {
    "id": "UKMTO-2026-28082035",
    "number": 28082035,
+   "date": "2026-10-10T23:35:00Z",
+   "type": "Advisory",
+   "lat": 24.9333,
+   "lon": 57.45,
+   "place": "Golfe d'Oman",
+   "place_en": "Gulf of Oman",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "TKR",
+   "summary": "UKMTO have received a report of an incident involving a tanker and military forces in the Gulf of Oman. Vessels are advised to consider the latest maritime security information and maintain awareness of the evolving operational environment. Authorities are aware and relevant investigations remain…"
+  },
+  {
+   "id": "UKMTO-2026-163",
+   "number": 163,
    "date": "2026-10-10T23:35:00Z",
    "type": "Advisory",
    "lat": 24.9333,
