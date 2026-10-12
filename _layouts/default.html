@@ -1485,7 +1485,7 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   track.innerHTML = '';
   var E = D.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
   var hist = E.filter(function (e) { return e.date < D.recentFrom; }), recent = E.filter(function (e) { return e.date >= D.recentFrom; });
-  var STEP = 230, PAD = 70, H0 = PAD + Math.max(0, hist.length - 1) * STEP + PAD, YEAR = 360, AXIS = 222;
+  var STEP = 230, PAD = 130, H0 = PAD + Math.max(0, hist.length - 1) * STEP + PAD, YEAR = 360, AXIS = 222;
   var r0 = new Date(D.recentFrom + 'T00:00:00'), rEnd = new Date((D.weekly.length ? D.weekly[D.weekly.length - 1][0] : D.recentFrom) + 'T00:00:00');
   var RW = Math.max(900, (rEnd - r0) / 31557600000 * YEAR) + PAD;
   var xRecent = function (d) { return H0 + 40 + (new Date(d + 'T00:00:00') - r0) / (rEnd - r0) * (RW - PAD); };
@@ -1531,9 +1531,8 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   function stats(e) {
     var s = e.s;
     if (s.monthly) {
-      return '<div class="fz-stats"><div><small>' + T.beforeM + '</small><b>' + s.before.txt.replace('.', iemT.locale === 'fr-FR' ? ',' : '.') + ' $</b></div>' +
-        '<div><small>' + T.hi12 + '</small><b class="' + cls(s.hi12.pct) + '">' + fmt(s.hi12.pct) + '</b><em>' + T.afterM.replace('%n', s.hi12.months) + '</em></div></div>' +
-        '<p class="fz-mnote">' + T.monthly + '</p>';
+      return '<div class="fz-stats fz-stats--2"><div><small>' + T.beforeM + '</small><b>' + s.before.txt.replace('.', iemT.locale === 'fr-FR' ? ',' : '.') + ' $</b></div>' +
+        '<div><small>' + T.hi12 + '</small><b class="' + cls(s.hi12.pct) + '">' + fmt(s.hi12.pct) + '</b><em>' + T.afterM.replace('%n', s.hi12.months) + '</em></div></div>';
     }
     var x = Math.abs(s.hi30.pct) >= Math.abs(s.lo30.pct) ? [s.hi30, T.hi30] : [s.lo30, T.lo30];
     return '<div class="fz-stats"><div><small>' + T.before + '</small><b>' + s.before.txt.replace('.', iemT.locale === 'fr-FR' ? ',' : '.') + ' $</b></div>' +
