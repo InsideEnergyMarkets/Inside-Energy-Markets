@@ -1529,11 +1529,13 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     pref = side === 'up' ? 'down' : 'up';
     place.push({ e: e, x: x, side: side, lv: lv });
   });
-  AXIS = 30 + LH + 26 + maxL.up * LV;
+  // Bande du haut : courbe du Brent (jamais masquée par les étiquettes) et années juste en dessous, loin des points de l'axe
+  var BAND_TOP = 26, BAND_H = 84;
+  AXIS = BAND_TOP + BAND_H + 26 + LH + 26 + maxL.up * LV;
   track.style.height = (AXIS + 8 + 26 + maxL.down * LV + LH + 22) + 'px';
   axis.style.top = AXIS + 'px';
-  track.querySelectorAll('.fz-year').forEach(function (n) { n.style.top = (AXIS + 8) + 'px'; });
-  bg.style.top = (AXIS - 104) + 'px'; bg.style.height = '104px';
+  track.querySelectorAll('.fz-year').forEach(function (n) { n.style.top = (BAND_TOP + BAND_H + 4) + 'px'; });
+  bg.style.top = BAND_TOP + 'px'; bg.style.height = BAND_H + 'px';
   place.forEach(function (p) {
     var e = p.e, b = el('button', 'fz-pin fz-pin--' + e.type + ' fz-pin--' + p.side), stemH = 26 + p.lv * LV;
     b.type = 'button'; b.style.left = p.x + 'px';
