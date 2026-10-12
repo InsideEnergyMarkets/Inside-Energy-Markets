@@ -13,6 +13,7 @@ Récupère les données marché et les écrit dans _data/market.json :
 - Brent sur 12 mois (EIA) pour le graphique Ormuz / Brent : _data/brent_year.json
 - Exportations mensuelles de GNL des États-Unis (EIA) : _data/lng_exports.json
 - Prix mondiaux du gaz par mois (FMI via la FRED) : Europe, Asie, États-Unis : _data/gas_world.json
+- Brent spot depuis 1987 (EIA via la FRED) et chiffres des grands chocs (_data/oil_shocks.yml) : _data/oil_shocks_data.json
 - Stocks de gaz en Europe et en France (GIE AGSI+ -> secret GIE_API_KEY) : _data/gas_storage.json
 - Prix day-ahead de l'électricité, France et pays voisins, aujourd'hui et demain
 - WTI (OilPriceAPI, repli EIA) et Brent / WTI sur 12 mois (EIA) : _data/oil_year.json
@@ -597,6 +598,101 @@ def fetch_fred_monthly(series_id, months):
         if value and value != ".":
             out[day[:7]] = round(float(value), 2)
     return dict(sorted(out.items())[-months:])
+
+
+OIL_SHOCKS_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "oil_shocks.yml")
+OIL_SHOCKS_DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "_data", "oil_shocks_data.json")
+
+
+def read_oil_shocks():
+    """Événements de _data/oil_shocks.yml (liste tenue à la main) : [(id, date)]. Lecture simple, sans PyYAML."""
+    events, cur = [], None
+    with open(OIL_SHOCKS_PATH, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if line.startswith("- id:"):
+                cur = line.split(":", 1)[1].strip()
+            elif line.startswith("date:") and cur:
+                events.append((cur, line.split(":", 1)[1].strip()))
+                cur = None
+    return events
+
+
+def fetch_fred_daily(series_id):
+    """Série de la FRED (fichier CSV officiel) : [(date, valeur)] sans les jours vides."""
+    r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}", timeout=60)
+    r.raise_for_status()
+    out = []
+    for line in r.text.strip().splitlines()[1:]:
+        day, _, value = line.partition(",")
+        if value and value != ".":
+            out.append((day, round(float(value), 2)))
+    return out
+
+
+def update_oil_shocks():
+    """Frise « chocs et prix du pétrole » (/marches/#chocs).
+    - Brent spot (Dated) quotidien depuis 1987 (série EIA RBRTE via la FRED, DCOILBRENTEU) : moyenne hebdomadaire pour la
+      frise, et pour chaque événement depuis 1987 : dernier prix avant, J+1, J+5 (jours de cotation), plus haut et plus bas
+      sur 30 jours, cours quotidiens de 45 jours avant à 90 jours après (zoom).
+    - Avant 1987 (1973, 1979) : WTI mensuel (FRED, WTISPLC), seul historique officiel gratuit : prix du mois précédent,
+      plus haut sur 12 mois, mois de 12 mois avant à 24 mois après. Signalé comme tel sur le site.
+    En cas d'erreur, on garde le fichier existant."""
+    try:
+        rows = fetch_fred_daily("DCOILBRENTEU")
+        monthly = fetch_fred_daily("WTISPLC")
+        if len(rows) < 1000 or len(monthly) < 100:
+            raise ValueError("série trop courte")
+    except Exception as e:
+        print(f"Erreur Brent long (FRED): {e}")
+        return
+    weeks = {}
+    for day, v in rows:
+        d = datetime.date.fromisoformat(day)
+        weeks.setdefault((d - datetime.timedelta(days=d.weekday())).isoformat(), []).append(v)
+    weekly = [[w, round(sum(v) / len(v), 2)] for w, v in sorted(weeks.items())]
+    pct = lambda a, b: round((b - a) / a * 100, 1)  # noqa: E731
+    events = {}
+    for eid, day in read_oil_shocks():
+        d = datetime.date.fromisoformat(day)
+        if day < rows[0][0]:
+            # Avant le Brent quotidien : WTI mensuel
+            month = day[:7] + "-01"
+            before = [p for p in monthly if p[0] < month]
+            after = [p for p in monthly if p[0] >= month]
+            if not before or len(after) < 2:
+                continue
+            b = before[-1]
+            win = after[:13]
+            hi = max(win, key=lambda p: p[1])
+            months = lambda p: (int(p[0][:4]) - d.year) * 12 + int(p[0][5:7]) - d.month  # noqa: E731
+            lo_m = f"{d.year - 1}-{d.month:02d}-01"
+            hi_m = f"{d.year + 2}-{d.month:02d}-01"
+            events[eid] = {"monthly": True, "series": "WTI",
+                           "before": {"date": b[0], "v": b[1], "txt": f"{b[1]:.2f}"},
+                           "hi12": {"date": hi[0], "v": hi[1], "pct": pct(b[1], hi[1]), "months": months(hi)},
+                           "window": [[p[0], p[1]] for p in monthly if lo_m <= p[0] <= hi_m]}
+            continue
+        before = [p for p in rows if p[0] < day]
+        after = [p for p in rows if p[0] >= day]
+        if not before or len(after) < 5:
+            continue
+        b = before[-1]
+        win = [p for p in after if p[0] <= (d + datetime.timedelta(days=30)).isoformat()]
+        hi, lo = max(win, key=lambda p: p[1]), min(win, key=lambda p: p[1])
+        days = lambda p: (datetime.date.fromisoformat(p[0]) - d).days  # noqa: E731
+        start, end = (d - datetime.timedelta(days=45)).isoformat(), (d + datetime.timedelta(days=90)).isoformat()
+        events[eid] = {
+            "before": {"date": b[0], "v": b[1], "txt": f"{b[1]:.2f}"},
+            "j1": {"date": after[0][0], "v": after[0][1], "pct": pct(b[1], after[0][1])},
+            "j5": {"date": after[4][0], "v": after[4][1], "pct": pct(b[1], after[4][1])},
+            "hi30": {"date": hi[0], "v": hi[1], "pct": pct(b[1], hi[1]), "days": days(hi)},
+            "lo30": {"date": lo[0], "v": lo[1], "pct": pct(b[1], lo[1]), "days": days(lo)},
+            "window": [[p[0], p[1]] for p in rows if start <= p[0] <= end],
+        }
+    with open(OIL_SHOCKS_DATA_PATH, "w", encoding="utf-8") as fh:
+        json.dump({"source": "EIA via FRED (DCOILBRENTEU) ; avant 1987 : FRED (WTISPLC)", "last": {"date": rows[-1][0], "v": rows[-1][1]},
+                   "weekly": weekly, "events": events}, fh, ensure_ascii=False, separators=(",", ":"))
 
 
 def update_gas_world():
@@ -1257,6 +1353,7 @@ def main():
     update_brent_year()
     update_lng_exports()
     update_gas_world()
+    update_oil_shocks()
     enrich_gas_world()
     update_gas_storage()
     update_day_ahead()

@@ -1476,6 +1476,75 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 })();
 </script>
 <script>
+// ===== /marches/ : chocs et prix du pétrole, un événement à la fois (pastilles, graphique, chiffres) =====
+(function () {
+  var root = document.querySelector('[data-shocks]'), D = window.mktShocks;
+  if (!root || !D || typeof Chart === 'undefined') return;
+  var T = D.t, chips = root.querySelector('.sd-chips'), text = root.querySelector('.sd-text'), cv = root.querySelector('.sd-zoom canvas');
+  var count = root.querySelector('.sd-count'), src = root.querySelector('.sd-src'), btns = root.querySelectorAll('[data-sd-dir]');
+  var E = D.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+  var dec = iemT.locale === 'fr-FR' ? ',' : '.';
+  var fmt = function (v) { return (v > 0 ? '+' : '') + v.toLocaleString(iemT.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %'; };
+  var cls = function (v) { return v > 0 ? 'up' : (v < 0 ? 'down' : ''); };
+  var day = function (d, o) { return new Date(d + 'T12:00:00').toLocaleDateString(iemT.locale, o || { day: 'numeric', month: 'short', year: 'numeric' }); };
+  chips.innerHTML = '';
+  var sep = false, chipEls = [];
+  E.forEach(function (e, i) {
+    if (!sep && e.date >= D.recentFrom) { var s = document.createElement('span'); s.className = 'sd-sep'; s.setAttribute('aria-hidden', 'true'); chips.appendChild(s); sep = true; }
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'sd-chip sd-chip--' + e.type;
+    b.innerHTML = '<small>' + day(e.date) + '</small><span><i aria-hidden="true"></i>' + e.name + '</span>';
+    b.addEventListener('click', function () { show(i); });
+    chips.appendChild(b); chipEls.push(b);
+  });
+  function stats(e) {
+    var s = e.s;
+    if (s.monthly) {
+      return '<div class="sd-stats sd-stats--2"><div><small>' + T.beforeM + '</small><b>' + s.before.txt.replace('.', dec) + ' $</b></div>' +
+        '<div><small>' + T.hi12 + '</small><b class="' + cls(s.hi12.pct) + '">' + fmt(s.hi12.pct) + '</b><em>' + T.afterM.replace('%n', s.hi12.months) + '</em></div></div>';
+    }
+    var x = Math.abs(s.hi30.pct) >= Math.abs(s.lo30.pct) ? [s.hi30, T.hi30] : [s.lo30, T.lo30];
+    return '<div class="sd-stats"><div><small>' + T.before + '</small><b>' + s.before.txt.replace('.', dec) + ' $</b></div>' +
+      '<div><small>' + T.j1 + '</small><b class="' + cls(s.j1.pct) + '">' + fmt(s.j1.pct) + '</b></div>' +
+      '<div><small>' + T.j5 + '</small><b class="' + cls(s.j5.pct) + '">' + fmt(s.j5.pct) + '</b></div>' +
+      '<div><small>' + x[1] + '</small><b class="' + cls(x[0].pct) + '">' + fmt(x[0].pct) + '</b><em>' + T.after.replace('%n', x[0].days) + '</em></div></div>';
+  }
+  var chart = null, cur = E.length - 1;
+  function show(i, noScroll) {
+    cur = i; var e = E[i], s = e.s;
+    chipEls.forEach(function (c, k) { c.classList.toggle('is-on', k === i); c.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    if (!noScroll) chips.scrollTo({ left: chipEls[i].offsetLeft - chips.clientWidth / 2 + chipEls[i].offsetWidth / 2, behavior: 'smooth' });
+    text.innerHTML = '<span class="sd-tag sd-tag--' + e.type + '">' + (e.type === 'geo' ? T.geo : T.eco) + '</span><h3>' + e.name + '</h3>' +
+      '<p>' + day(e.date, { day: 'numeric', month: 'long', year: 'numeric' }) + ' · ' + e.desc + '</p>' + stats(e);
+    var labels = s.window.map(function (w) { return w[0]; });
+    var at = labels.findIndex(function (l) { return l >= (s.monthly ? e.date.slice(0, 7) + '-01' : e.date); });
+    var g = cv.getContext('2d').createLinearGradient(0, 0, 0, 300); g.addColorStop(0, 'rgba(232,112,58,0.35)'); g.addColorStop(1, 'rgba(232,112,58,0)');
+    var vline = { id: 'sdV', afterDatasetsDraw: function (ch) { if (at < 0) return; var xx = ch.scales.x.getPixelForValue(at), k = ch.ctx;
+      k.save(); k.strokeStyle = 'rgba(232,112,58,0.9)'; k.setLineDash([4, 4]); k.lineWidth = 1.5; k.beginPath(); k.moveTo(xx, ch.chartArea.top); k.lineTo(xx, ch.chartArea.bottom); k.stroke(); k.restore(); } };
+    if (chart) chart.destroy();
+    var old = Chart.getChart(cv); if (old) old.destroy();
+    chart = new Chart(cv, { type: 'line', plugins: [vline], data: { labels: labels, datasets: [{ data: s.window.map(function (w) { return w[1]; }), borderColor: '#e8703a',
+      backgroundColor: g, fill: true, tension: s.monthly ? 0 : 0.25, stepped: s.monthly ? 'middle' : false, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 3 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
+          title: function (it) { return it.length ? day(it[0].label, s.monthly ? { month: 'long', year: 'numeric' } : undefined) : ''; },
+          label: function (c) { return c.parsed.y.toLocaleString(iemT.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' $'; } } } },
+        scales: { x: { ticks: { color: 'rgba(255,255,255,0.55)', font: { size: 11 }, maxTicksLimit: 6, maxRotation: 0,
+            callback: function (v) { return day(this.getLabelForValue(v), s.monthly ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short' }); } }, grid: { display: false } },
+          y: { ticks: { color: 'rgba(255,255,255,0.55)', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.07)' } } } } });
+    src.textContent = s.monthly ? T.monthly : T.srcDaily;
+    count.textContent = (i + 1) + ' / ' + E.length;
+    btns.forEach(function (b) { var d = +b.getAttribute('data-sd-dir'); b.disabled = (d < 0 && i === 0) || (d > 0 && i === E.length - 1); });
+  }
+  btns.forEach(function (b) { b.addEventListener('click', function () { show(Math.max(0, Math.min(E.length - 1, cur + (+b.getAttribute('data-sd-dir'))))); }); });
+  root.addEventListener('keydown', function (ev) {
+    if (ev.key === 'ArrowRight') { ev.preventDefault(); show(Math.min(E.length - 1, cur + 1)); }
+    if (ev.key === 'ArrowLeft') { ev.preventDefault(); show(Math.max(0, cur - 1)); }
+  });
+  show(cur, true);
+  requestAnimationFrame(function () { chips.scrollLeft = chips.scrollWidth; });
+})();
+
 // ===== Page Analyses : carrousel des notes de marché (flèches, balayage, clavier) =====
 document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   var track = car.querySelector('.nt-track'), slides = car.querySelectorAll('.nt-slide'), pos = car.querySelector('.nt-pos');

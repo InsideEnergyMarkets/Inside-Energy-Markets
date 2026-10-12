@@ -1,0 +1,110 @@
+# Frise « Chocs géopolitiques et prix du pétrole » (/marches/#chocs). Liste tenue à la main (validée par Tom) :
+# les grands chocs de l'histoire, puis les événements récents (depuis 2022, frise à l'échelle).
+# Les chiffres sont calculés par scripts/fetch_market_data.py (update_oil_shocks) dans _data/oil_shocks_data.json :
+# Brent quotidien (EIA via FRED) depuis 1987 ; avant 1987, WTI mensuel (FRED, WTISPLC), signalé comme tel.
+# type : geo (choc géopolitique) ou eco (choc économique ou décision de l'OPEP).
+- id: embargo-1973
+  date: 1973-10-17
+  type: geo
+  fr: "Premier choc pétrolier"
+  en: "First oil shock"
+  desc_fr: "Pendant la guerre du Kippour, les pays arabes producteurs (OPAEP) réduisent leur production puis décrètent un embargo contre plusieurs pays occidentaux."
+  desc_en: "During the Yom Kippur War, Arab producers (OAPEC) cut output and then impose an embargo on several Western countries."
+- id: iran-1979
+  date: 1979-01-16
+  type: geo
+  fr: "Révolution iranienne"
+  en: "Iranian Revolution"
+  desc_fr: "Le Shah quitte l'Iran ; grèves dans le secteur pétrolier et révolution islamique : deuxième choc pétrolier."
+  desc_en: "The Shah leaves Iran; oil-sector strikes and the Islamic Revolution: the second oil shock."
+- id: koweit
+  date: 1990-08-02
+  type: geo
+  fr: "Invasion du Koweït"
+  en: "Invasion of Kuwait"
+  desc_fr: "L'Irak envahit le Koweït."
+  desc_en: "Iraq invades Kuwait."
+- id: krach-2008
+  date: 2008-09-15
+  type: eco
+  fr: "Krach de 2008"
+  en: "2008 crash"
+  desc_fr: "Faillite de Lehman Brothers : la crise financière fait plonger la demande, après un record du baril en juillet."
+  desc_en: "Lehman Brothers collapses: the financial crisis crushes demand, after a record oil price in July."
+- id: opep-2014
+  date: 2014-11-27
+  type: eco
+  fr: "L'OPEP ne réduit pas sa production"
+  en: "OPEC keeps output unchanged"
+  desc_fr: "L'OPEP décide de maintenir sa production malgré la chute des prix."
+  desc_en: "OPEC decides to hold output despite falling prices."
+- id: covid
+  date: 2020-03-06
+  type: eco
+  fr: "Guerre des prix OPEP+ et Covid"
+  en: "OPEC+ price war and Covid"
+  desc_fr: "Réunion OPEP+ sans accord : la Russie refuse de nouvelles baisses, l'Arabie saoudite lance une guerre des prix, en pleine pandémie."
+  desc_en: "OPEC+ meeting ends without a deal: Russia refuses further cuts, Saudi Arabia starts a price war as the pandemic spreads."
+- id: ukraine
+  date: 2022-02-24
+  type: geo
+  fr: "Invasion de l'Ukraine"
+  en: "Invasion of Ukraine"
+  desc_fr: "La Russie envahit l'Ukraine."
+  desc_en: "Russia invades Ukraine."
+- id: embargo-russie
+  date: 2022-12-05
+  type: geo
+  fr: "Embargo et plafond sur le pétrole russe"
+  en: "Russian oil embargo and price cap"
+  desc_fr: "Entrée en vigueur de l'embargo de l'UE sur le brut russe par voie maritime et du plafond de prix du G7 (60 $ le baril)."
+  desc_en: "The EU embargo on seaborne Russian crude and the G7 price cap ($60 a barrel) come into force."
+- id: sept-octobre
+  date: 2023-10-07
+  type: geo
+  fr: "Attaque du 7 octobre"
+  en: "October 7 attack"
+  desc_fr: "Attaque du Hamas contre Israël ; début de la guerre à Gaza."
+  desc_en: "Hamas attacks Israel; the war in Gaza begins."
+- id: mer-rouge
+  date: 2023-11-19
+  type: geo
+  fr: "Attaques en mer Rouge"
+  en: "Red Sea attacks"
+  desc_fr: "Les Houthis saisissent le Galaxy Leader : début des attaques contre les navires en mer Rouge."
+  desc_en: "The Houthis seize the Galaxy Leader: attacks on Red Sea shipping begin."
+- id: iran-israel-2024
+  date: 2024-04-13
+  type: geo
+  fr: "Attaque iranienne contre Israël"
+  en: "Iranian attack on Israel"
+  desc_fr: "Première attaque directe de l'Iran contre Israël depuis son territoire (drones et missiles)."
+  desc_en: "Iran's first direct attack on Israel from its own territory (drones and missiles)."
+- id: israel-iran-2025
+  date: 2025-06-13
+  type: geo
+  fr: "Frappes israéliennes sur l'Iran"
+  en: "Israeli strikes on Iran"
+  desc_fr: "Israël frappe des sites nucléaires et militaires iraniens ; le marché craint pour le détroit d'Ormuz."
+  desc_en: "Israel strikes Iranian nuclear and military sites; the market fears for the Strait of Hormuz."
+- id: maduro
+  date: 2026-01-03
+  type: geo
+  fr: "Capture de Nicolás Maduro"
+  en: "Capture of Nicolás Maduro"
+  desc_fr: "Les États-Unis capturent le président vénézuélien Nicolás Maduro lors d'une opération militaire."
+  desc_en: "The United States captures Venezuelan president Nicolás Maduro in a military operation."
+- id: ormuz
+  date: 2026-02-28
+  type: geo
+  fr: "Crise d'Ormuz"
+  en: "Hormuz crisis"
+  desc_fr: "Début de la crise du détroit d'Ormuz."
+  desc_en: "The Strait of Hormuz crisis begins."
+- id: g7-stocks-2026
+  date: 2026-10-02
+  type: eco
+  fr: "Déblocage de stocks par le G7"
+  en: "G7 stock release"
+  desc_fr: "Le G7 annonce le déblocage de 100 millions de barils de stocks stratégiques."
+  desc_en: "The G7 announces the release of 100 million barrels from strategic stocks."

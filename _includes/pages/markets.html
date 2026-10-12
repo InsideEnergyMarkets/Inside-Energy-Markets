@@ -40,6 +40,7 @@
     <a href="#{{ t.ids.oil }}"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>{{ mk.toc_oil }}</a>
     <a href="#{{ t.ids.sea }}"><i class="fa-solid fa-ship" aria-hidden="true"></i>{{ mk.toc_sea }}</a>
     <a href="#{{ t.ids.security }}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{{ mk.toc_security }}</a>
+    <a href="#{{ t.ids.shocks }}"><i class="fa-solid fa-landmark-flag" aria-hidden="true"></i>{{ mk.toc_shocks }}</a>
   </div>
 </nav>
 
@@ -457,3 +458,50 @@
     {% endif %}
   </div>
 </section>
+
+<!-- ===== 6. CHOCS GÉOPOLITIQUES ET PRIX DU PÉTROLE ===== -->
+{% comment %}Chocs et prix du pétrole, un événement à la fois : rangée de pastilles (grands chocs, puis depuis 2022),
+  graphique du prix autour de l'événement et chiffres ; flèches, clic ou clavier. Données : _data/oil_shocks.yml
+  (événements) et _data/oil_shocks_data.json (chiffres, scripts/fetch_market_data.py).{% endcomment %}
+{% assign shocks = site.data.oil_shocks %}
+{% assign sd = site.data.oil_shocks_data %}
+{% if shocks and sd and sd.weekly %}
+<section class="mk-section mk-section--alt" id="{{ t.ids.shocks }}">
+  <div class="wrap">
+    <header class="mk-head">
+      <span class="mk-head-icon mk-head-icon--shocks"><i class="fa-solid fa-landmark-flag" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="mkt-page-title">{{ mk.shocks_title }}</h2>
+        <p class="mk-lead">{{ mk.shocks_lead }}</p>
+      </div>
+    </header>
+    <div class="sd" data-shocks>
+      <div class="sd-chips" role="group" aria-label="{{ mk.shocks_title }}"></div>
+      <div class="sd-body" aria-live="polite">
+        <div class="sd-zoom"><canvas aria-label="{{ mk.shocks_chart_aria }}"></canvas></div>
+        <div class="sd-text"></div>
+      </div>
+      <div class="sd-nav">
+        <button type="button" class="btn-ghost sd-btn" data-sd-dir="-1"><span aria-hidden="true"><i class="fa-solid fa-chevron-left ico-arr"></i></span> {{ mk.shocks_prev_short }}</button>
+        <span class="sd-count"></span>
+        <button type="button" class="btn-ghost sd-btn" data-sd-dir="1">{{ mk.shocks_next_short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></button>
+      </div>
+      <p class="sd-src"></p>
+    </div>
+    <p class="sh-note">{{ mk.shocks_note }}</p>
+  </div>
+</section>
+<script>
+  window.mktShocks = {
+    recentFrom: "2022-01-01",
+    t: { hist: {{ mk.shocks_hist | jsonify }}, recent: {{ mk.shocks_recent | jsonify }}, before: {{ mk.shocks_before | jsonify }},
+         beforeM: {{ mk.shocks_before_m | jsonify }}, j1: {{ mk.shocks_j1 | jsonify }}, j5: {{ mk.shocks_j5 | jsonify }},
+         hi30: {{ mk.shocks_hi30 | jsonify }}, lo30: {{ mk.shocks_lo30 | jsonify }}, after: {{ mk.shocks_after | jsonify }},
+         hi12: {{ mk.shocks_hi12 | jsonify }}, afterM: {{ mk.shocks_after_m | jsonify }}, monthly: {{ mk.shocks_monthly_note | jsonify }},
+         geo: {{ mk.shocks_geo | jsonify }}, eco: {{ mk.shocks_eco | jsonify }}, srcDaily: {{ mk.shocks_src_daily | jsonify }} },
+    events: [{% for ev in shocks %}{% assign st = sd.events[ev.id] %}{% if st %}{ id: {{ ev.id | jsonify }}, date: {{ ev.date | date: "%Y-%m-%d" | jsonify }}, type: {{ ev.type | jsonify }},
+      name: {% if lang == "en" %}{{ ev.en | jsonify }}{% else %}{{ ev.fr | jsonify }}{% endif %}, desc: {% if lang == "en" %}{{ ev.desc_en | jsonify }}{% else %}{{ ev.desc_fr | jsonify }}{% endif %},
+      s: {{ st | jsonify }} }{% unless forloop.last %},{% endunless %}{% endif %}{% endfor %}]
+  };
+</script>
+{% endif %}

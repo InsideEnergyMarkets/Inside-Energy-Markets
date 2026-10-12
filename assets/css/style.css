@@ -2838,7 +2838,7 @@ html.has-player .nav-note { display: inline-flex; }
 .pw-card--single { grid-template-columns: minmax(0, 1fr); }
 .pw-card--single .pw-mix { border-left: none; background: none; }
 .ref-explain { max-width: 780px; }
-.ref-faq { display: flex; flex-direction: column; gap: 8px; }
+.ref-faq { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
 .ref-faq details { background: #fff; border: 1px solid #d8e1e6; border-radius: 12px; padding: 12px 16px; }
 .ref-faq summary { cursor: pointer; font-weight: 700; color: #17255f; }
 .ref-faq details[open] summary { color: #00817d; }
@@ -3075,3 +3075,66 @@ html.has-player .nav-note { display: inline-flex; }
 .nt-carousel--multi .nt-slide { flex-basis: 88%; }
 .nt-carousel .section-head { gap: 12px; }
 @media (max-width: 640px) { .nt-carousel--multi .nt-slide { flex-basis: 86%; } .nt-pos { display: none; } }
+
+/* /marches/ : chocs géopolitiques et prix du pétrole */
+.mk-head-icon--shocks { background: #17255f; }
+.sh-card { padding: 20px 22px 14px; border-radius: 18px; background: linear-gradient(160deg, #1b2a6b, #0d1638); color: #fff; }
+.sh-card .pw-chart-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.sh-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: rgba(255, 255, 255, 0.75); }
+.sh-dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: -6px; border: 2px solid #0d1638; }
+.sh-dot--geo { background: #4fd1c5; } .sh-dot--eco { background: #cbd5e1; }
+.sh-chart { position: relative; height: 340px; }
+.sh-card .pw-sub { margin: 10px 0 0; color: rgba(255, 255, 255, 0.55); }
+.sh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 18px; }
+.sh-ev { display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 14px 16px; border-radius: 14px; background: #fff;
+  border: 1px solid #d8e1e6; border-top: 3px solid #4fd1c5; font: inherit; color: #1a2433; cursor: pointer; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+.sh-ev--eco { border-top-color: #94a3b8; }
+.sh-ev:hover { box-shadow: 0 6px 18px rgba(23, 37, 95, 0.1); }
+.sh-ev.is-on { border-color: #e8703a; box-shadow: 0 0 0 2px rgba(232, 112, 58, 0.35); }
+.sh-ev-date { font: 700 11px 'Inter', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #5a6b7b; }
+.sh-ev strong { font-size: 16px; color: #17255f; }
+.sh-ev-desc { font-size: 13px; color: #5a6b7b; line-height: 1.4; }
+.sh-ev-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: auto; padding-top: 6px; }
+.sh-ev-stats > span { display: flex; flex-direction: column; padding: 6px 8px; border-radius: 8px; background: #f4f7f9; }
+.sh-ev-stats small { font-size: 10.5px; color: #5a6b7b; white-space: nowrap; }
+.sh-ev-stats b { font: 700 13px 'JetBrains Mono', monospace; color: #17255f; white-space: nowrap; }
+.sh-ev-stats b.up { color: #1f8a55; } .sh-ev-stats b.down { color: #c53030; }
+.sh-ev-stats em { font-style: normal; font-size: 10.5px; color: #5a6b7b; white-space: nowrap; }
+.sh-ev-before { font-size: 12px; color: #5a6b7b; }
+.sh-note { margin: 14px 0 0; font-size: 12.5px; color: #5a6b7b; }
+@media (max-width: 640px) { .sh-chart { height: 260px; } }
+
+
+/* /marches/ : chocs et prix du pétrole, un événement à la fois */
+.sd { padding: 18px 22px 16px; border-radius: 18px; background: linear-gradient(160deg, #1b2a6b, #0d1638); color: #fff; }
+.sd:focus-within { outline: none; }
+.sd-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
+.sd-chip { flex: none; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05); color: #fff; font: inherit; text-align: left; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
+.sd-chip small { font: 700 11px 'JetBrains Mono', monospace; color: rgba(255, 255, 255, 0.6); }
+.sd-chip span { font: 600 12.5px 'Inter', sans-serif; white-space: nowrap; }
+.sd-chip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.sd-chip--geo i { background: #4fd1c5; } .sd-chip--eco i { background: #cbd5e1; }
+.sd-chip:hover { border-color: rgba(79, 209, 197, 0.6); }
+.sd-chip.is-on { border-color: #e8703a; background: rgba(232, 112, 58, 0.18); }
+.sd-sep { flex: none; align-self: stretch; width: 0; margin: 0 4px; border-left: 2px dashed rgba(255, 255, 255, 0.25); }
+.sd-body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; align-items: center; margin-top: 16px; }
+.sd-zoom { position: relative; height: 290px; }
+.sd-text h3 { margin: 8px 0 6px; font: 400 32px/1 'Bebas Neue', sans-serif; letter-spacing: 0.4px; color: #fff; }
+.sd-text p { margin: 0 0 12px; font-size: 14px; color: rgba(255, 255, 255, 0.75); }
+.sd-tag { display: inline-block; padding: 2px 9px; border-radius: 999px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.4px; text-transform: uppercase; }
+.sd-tag--geo { background: rgba(79, 209, 197, 0.15); color: #4fd1c5; } .sd-tag--eco { background: rgba(203, 213, 225, 0.15); color: #cbd5e1; }
+.sd-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.sd-stats--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 380px; }
+.sd-stats > div { padding: 9px 11px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); }
+.sd-stats small { display: block; font-size: 11px; color: rgba(255, 255, 255, 0.6); white-space: nowrap; }
+.sd-stats b { font: 700 17px 'JetBrains Mono', monospace; white-space: nowrap; color: #fff; }
+.sd-stats b.up { color: #3ddc97; } .sd-stats b.down { color: #ff6b5b; }
+.sd-stats em { display: block; font-style: normal; font-size: 11px; color: rgba(255, 255, 255, 0.5); white-space: nowrap; }
+.sd-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.sd-count { font: 600 13px 'Inter', sans-serif; color: rgba(255, 255, 255, 0.6); }
+.sd-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.06); color: #fff; font: 600 13px 'Inter', sans-serif; cursor: pointer; }
+.sd-btn:hover:not(:disabled) { border-color: #4fd1c5; color: #4fd1c5; }
+.sd-btn:disabled { opacity: 0.35; cursor: default; }
+.sd-src { margin: 10px 0 0; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+@media (max-width: 760px) { .sd { padding: 16px 14px; } .sd-body { grid-template-columns: minmax(0, 1fr); } .sd-zoom { height: 230px; } .sd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
