@@ -1481,8 +1481,15 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   var track = car.querySelector('.nt-track'), slides = car.querySelectorAll('.nt-slide'), pos = car.querySelector('.nt-pos');
   var arrows = car.querySelectorAll('[data-nt-dir]');
   if (!track || slides.length < 2) return;
-  // Largeur encore nulle au tout premier rendu : on reste sur la première note
-  function index() { var w = track.clientWidth; return w ? Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / w))) : 0; }
+  // Position de chaque note dans la bande (les notes ne font pas toute la largeur : la suivante dépasse)
+  function left(i) { return slides[i].offsetLeft - slides[0].offsetLeft; }
+  function index() {
+    var best = 0;
+    for (var k = 1; k < slides.length; k++) {
+      if (Math.abs(left(k) - track.scrollLeft) < Math.abs(left(best) - track.scrollLeft)) best = k;
+    }
+    return best;
+  }
   function show(i) {
     if (pos) pos.textContent = slides[i].getAttribute('data-week') + ' · ' + (i + 1) + '/' + slides.length;
     arrows.forEach(function (b) {
@@ -1494,7 +1501,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   // Le compteur suit la cible tout de suite, sans attendre la fin de l'animation de défilement
   function go(d) {
     var i = Math.max(0, Math.min(slides.length - 1, index() + d));
-    track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+    track.scrollTo({ left: left(i), behavior: 'smooth' });
     show(i);
   }
   arrows.forEach(function (b) { b.addEventListener('click', function () { go(parseInt(b.getAttribute('data-nt-dir'), 10)); }); });
