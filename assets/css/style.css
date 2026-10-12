@@ -3059,3 +3059,16 @@ html.has-player .nav-note { display: inline-flex; }
   .vid-a4-tile b { font-size: 32px; }
 }
 .vid-phone video::-webkit-media-controls-fullscreen-button { display: none; }
+
+/* Page Analyses : carrousel des notes (une note par vue, balayage natif sur mobile) */
+.nt-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 16px; }
+.nt-track::-webkit-scrollbar { display: none; }
+.nt-track:focus-visible { outline: 2px solid #00817d; outline-offset: 4px; }
+.nt-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
+.nt-slide .nt-feature { height: 100%; box-shadow: none; }
+.nt-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; }
+.nt-pos { min-width: 140px; text-align: center; font: 600 13px 'Inter', sans-serif; color: var(--mut, #5a6b7b); }
+.nt-arrow { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(23, 37, 95, 0.18); background: #fff; color: #17255f; cursor: pointer;
+  display: inline-grid; place-items: center; transition: border-color 0.15s ease, background 0.15s ease; }
+.nt-arrow:hover:not(:disabled) { border-color: #00817d; background: rgba(0, 129, 125, 0.06); color: #00817d; }
+.nt-arrow:disabled { opacity: 0.35; cursor: default; }

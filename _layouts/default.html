@@ -1476,6 +1476,31 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 })();
 </script>
 <script>
+// ===== Page Analyses : carrousel des notes de marché (flèches, balayage, clavier) =====
+document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
+  var track = car.querySelector('.nt-track'), slides = car.querySelectorAll('.nt-slide'), pos = car.querySelector('.nt-pos');
+  var arrows = car.querySelectorAll('[data-nt-dir]');
+  if (!track || slides.length < 2) return;
+  function index() { return Math.round(track.scrollLeft / track.clientWidth); }
+  function update() {
+    var i = Math.max(0, Math.min(slides.length - 1, index()));
+    if (pos) pos.textContent = slides[i].getAttribute('data-week') + ' · ' + (i + 1) + '/' + slides.length;
+    arrows.forEach(function (b) {
+      var d = parseInt(b.getAttribute('data-nt-dir'), 10);
+      b.disabled = (d < 0 && i === 0) || (d > 0 && i === slides.length - 1);
+    });
+  }
+  function go(d) { track.scrollTo({ left: (index() + d) * track.clientWidth, behavior: 'smooth' }); }
+  arrows.forEach(function (b) { b.addEventListener('click', function () { go(parseInt(b.getAttribute('data-nt-dir'), 10)); }); });
+  track.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+  var t = null;
+  track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(update, 60); }, { passive: true });
+  update();
+});
+
 // ===== Graphiques des notes de marché (données dans l'attribut data-nt-chart) =====
 (function () {
   if (typeof Chart === 'undefined') return;

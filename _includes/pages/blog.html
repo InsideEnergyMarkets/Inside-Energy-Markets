@@ -13,9 +13,22 @@
   <div class="wrap">
     {% assign lnotes = site.notes | where: "lang", lang | sort: "date" | reverse %}
     {% if lnotes.size > 0 %}
-    {% assign note = lnotes | first %}
     <div class="section-head" id="notes"><h2>{{ t.blog.notes_title }}</h2></div>
-    {% include note-feature.html note=note visual=true %}
+    {% comment %}Carrousel : la note la plus récente d'abord, flèches ou balayage vers les plus anciennes{% endcomment %}
+    <div class="nt-carousel" data-nt-carousel>
+      <div class="nt-track" tabindex="0" aria-label="{{ t.blog.notes_title }}">
+        {% for n in lnotes limit: 12 %}
+        <div class="nt-slide" data-week="{{ t.note.week }} {{ n.week }}">{% include note-feature.html note=n visual=true %}</div>
+        {% endfor %}
+      </div>
+      {% if lnotes.size > 1 %}
+      <div class="nt-nav">
+        <button type="button" class="nt-arrow" data-nt-dir="-1" aria-label="{{ t.blog.newer_note }}"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+        <span class="nt-pos" aria-live="polite"></span>
+        <button type="button" class="nt-arrow" data-nt-dir="1" aria-label="{{ t.blog.older_note }}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      {% endif %}
+    </div>
     {% endif %}
 
     {% assign posts = site.posts | where: "lang", lang %}
