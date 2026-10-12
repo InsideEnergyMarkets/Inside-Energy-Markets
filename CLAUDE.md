@@ -88,7 +88,11 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   `#electricite` (carte prix + mix), `#gaz` (Henry Hub quotidien + stocks de gaz UE/France ; tuiles
   « Le gaz dans le monde sur 10 ans » et « Exportations de GNL » en fenêtre), `#petrole` (Brent +
   graphique Ormuz / Brent 12 mois), `#routes-maritimes` (3 fiches compactes avec carte MarineTraffic,
-  détail 90 j en fenêtre), `#securite` (carte des incidents + chiffres 30 j).
+  détail 90 j en fenêtre), `#securite` (carte des incidents + chiffres 30 j), `#chocs` (« Chocs et prix », format D2 :
+  pastilles par événement (grands chocs, puis depuis 2022), graphique du prix autour de l'événement, J+1 / J+5 / extrême 30 j ;
+  événements tenus à la main dans `_data/oil_shocks.yml` (dates et phrases vérifiées), chiffres calculés par
+  `update_oil_shocks()` dans `_data/oil_shocks_data.json` : Brent spot quotidien EIA via FRED (DCOILBRENTEU) depuis 1987,
+  WTI mensuel (FRED WTISPLC) pour 1973 et 1979, signalé comme tel).
   Règle de cohérence : à l'écran, seulement des données récentes ; les séries mensuelles en retard
   (FMI, EIA) vont dans une fenêtre, présentées comme tendance de fond.
 - Navigation Turbo (`@hotwired/turbo` via jsDelivr, dans `<head>`, cache désactivé) : les liens internes
