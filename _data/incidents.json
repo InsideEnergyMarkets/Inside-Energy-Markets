@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-12T06:22:40+00:00",
+ "updated_at": "2026-10-12T15:56:50+00:00",
  "stats": {
-  "total_30d": 31,
-  "attacks_30d": 26,
+  "total_30d": 32,
+  "attacks_30d": 27,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 25
+    "n": 26
    },
    {
     "place": "Golfe d'Oman",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-166",
+   "number": 166,
+   "date": "2026-10-12T15:48:00Z",
+   "type": "Attack",
+   "lat": 26.4469,
+   "lon": 56.5458,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time late report of an incident in the Strait of Hormuz. An outbound tanker has been struck by an unknown projectile."
+  },
   {
    "id": "UKMTO-2026-165",
    "number": 165,
