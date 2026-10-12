@@ -1476,117 +1476,55 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
 })();
 </script>
 <script>
-// ===== /marches/ : frise des chocs et prix du pétrole (grands chocs, puis depuis 2022 à l'échelle) =====
+// ===== /marches/ : chocs et prix du pétrole, un événement à la fois (pastilles, graphique, chiffres) =====
 (function () {
-  var root = document.querySelector('[data-frise]'), D = window.mktShocks;
+  var root = document.querySelector('[data-shocks]'), D = window.mktShocks;
   if (!root || !D || typeof Chart === 'undefined') return;
-  var T = D.t, track = root.querySelector('.fz-track'), sc = root.querySelector('.fz-scroll'), panel = root.querySelector('.fz-panel');
-  var src = root.querySelector('.fz-src'), srcWeekly = src.textContent;
-  track.innerHTML = '';
+  var T = D.t, chips = root.querySelector('.sd-chips'), text = root.querySelector('.sd-text'), cv = root.querySelector('.sd-zoom canvas');
+  var count = root.querySelector('.sd-count'), src = root.querySelector('.sd-src'), btns = root.querySelectorAll('[data-sd-dir]');
   var E = D.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-  var hist = E.filter(function (e) { return e.date < D.recentFrom; }), recent = E.filter(function (e) { return e.date >= D.recentFrom; });
-  // Frise compacte : étiquettes de largeur fixe, posées sur 3 hauteurs de chaque côté pour ne jamais se chevaucher
-  var STEP = 165, PAD = 95, H0 = PAD + Math.max(0, hist.length - 1) * STEP + PAD, YEAR = 200, AXIS = 236, LW = 150, LH = 56, LV = 62, RPAD = 60;
-  var r0 = new Date(D.recentFrom + 'T00:00:00'), rEnd = new Date((D.weekly.length ? D.weekly[D.weekly.length - 1][0] : D.recentFrom) + 'T00:00:00');
-  var RW = Math.max(900, (rEnd - r0) / 31557600000 * YEAR) + PAD;
-  var xRecent = function (d) { return H0 + RPAD + (new Date(d + 'T00:00:00') - r0) / (rEnd - r0) * (RW - PAD); };
-  track.style.width = (H0 + RPAD + RW + PAD) + 'px';
+  var dec = iemT.locale === 'fr-FR' ? ',' : '.';
   var fmt = function (v) { return (v > 0 ? '+' : '') + v.toLocaleString(iemT.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %'; };
   var cls = function (v) { return v > 0 ? 'up' : (v < 0 ? 'down' : ''); };
   var day = function (d, o) { return new Date(d + 'T12:00:00').toLocaleDateString(iemT.locale, o || { day: 'numeric', month: 'short', year: 'numeric' }); };
-  var el = function (tag, c, html) { var n = document.createElement(tag); if (c) n.className = c; if (html !== undefined) n.innerHTML = html; return n; };
-
-  // Axe, zones et légendes
-  var axis = el('div', 'fz-axis'); track.appendChild(axis);
-  var z1 = el('span', 'fz-zone', T.hist); z1.style.left = '16px'; track.appendChild(z1);
-  var sep = el('div', 'fz-sep'); sep.style.left = H0 + 'px'; track.appendChild(sep);
-  var z2 = el('span', 'fz-zone fz-zone--recent', T.recent); z2.style.left = (H0 + 16) + 'px'; track.appendChild(z2);
-  for (var y = r0.getFullYear(); y <= rEnd.getFullYear(); y++) {
-    var yd = y + '-01-01'; if (yd < D.recentFrom) continue;
-    var tk = el('span', 'fz-year', y); tk.style.left = xRecent(yd) + 'px'; track.appendChild(tk);
-  }
-  // Courbe du Brent (zone récente)
-  var bg = el('div', 'fz-bg'); bg.style.left = (H0 + RPAD) + 'px'; bg.style.width = (RW - PAD) + 'px';
-  var cv = el('canvas'); bg.appendChild(cv); track.appendChild(bg);
-  var g = cv.getContext('2d').createLinearGradient(0, 0, 0, 130); g.addColorStop(0, 'rgba(232,112,58,0.35)'); g.addColorStop(1, 'rgba(232,112,58,0)');
-  var oldBg = Chart.getChart(cv); if (oldBg) oldBg.destroy();
-  new Chart(cv, { type: 'line', data: { labels: D.weekly.map(function (w) { return w[0]; }), datasets: [{ data: D.weekly.map(function (w) { return w[1]; }),
-    borderColor: 'rgba(232,112,58,0.9)', backgroundColor: g, fill: true, borderWidth: 1.8, tension: 0.2, pointRadius: 0 }] },
-    options: { responsive: true, maintainAspectRatio: false, animation: false, events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: { x: { display: false }, y: { display: false, grace: "8%" } } } });
-
-  // Repères : côté (haut / bas) et hauteur choisis pour éviter tout chevauchement d'étiquettes ;
-  // la hauteur de la frise s'adapte ensuite aux niveaux réellement utilisés
-  var pins = [], lastRight = { up: [-1e9, -1e9, -1e9], down: [-1e9, -1e9, -1e9] }, pref = 'up', place = [], maxL = { up: 0, down: 0 };
-  E.forEach(function (e) {
-    var isHist = e.date < D.recentFrom, x = isHist ? PAD + hist.indexOf(e) * STEP : xRecent(e.date);
-    var side = null, lv = 0, sides = [pref, pref === 'up' ? 'down' : 'up'];
-    for (var l = 0; l < 3 && !side; l++) {
-      for (var q = 0; q < 2; q++) { if (x - LW / 2 > lastRight[sides[q]][l] + 8) { side = sides[q]; lv = l; break; } }
-    }
-    if (!side) { side = pref; lv = 2; }
-    lastRight[side][lv] = x + LW / 2; maxL[side] = Math.max(maxL[side], lv);
-    pref = side === 'up' ? 'down' : 'up';
-    place.push({ e: e, x: x, side: side, lv: lv });
+  chips.innerHTML = '';
+  var sep = false, chipEls = [];
+  E.forEach(function (e, i) {
+    if (!sep && e.date >= D.recentFrom) { var s = document.createElement('span'); s.className = 'sd-sep'; s.setAttribute('aria-hidden', 'true'); chips.appendChild(s); sep = true; }
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'sd-chip sd-chip--' + e.type;
+    b.innerHTML = '<small>' + day(e.date) + '</small><span><i aria-hidden="true"></i>' + e.name + '</span>';
+    b.addEventListener('click', function () { show(i); });
+    chips.appendChild(b); chipEls.push(b);
   });
-  // Bande du haut : courbe du Brent (jamais masquée par les étiquettes) et années juste en dessous, loin des points de l'axe
-  var BAND_TOP = 26, BAND_H = 84;
-  AXIS = BAND_TOP + BAND_H + 26 + LH + 26 + maxL.up * LV;
-  track.style.height = (AXIS + 8 + 26 + maxL.down * LV + LH + 22) + 'px';
-  axis.style.top = AXIS + 'px';
-  track.querySelectorAll('.fz-year').forEach(function (n) { n.style.top = (BAND_TOP + BAND_H + 4) + 'px'; });
-  bg.style.top = BAND_TOP + 'px'; bg.style.height = BAND_H + 'px';
-  // Grands chocs : une mini-courbe du prix autour de chaque événement (même bande), jour de l'événement en pointillé
-  hist.forEach(function (e, k) {
-    var w = e.s.window, mx = PAD + k * STEP, box = el('div', 'fz-mini');
-    box.style.left = (mx - 66) + 'px'; box.style.top = BAND_TOP + 'px'; box.style.width = '132px'; box.style.height = BAND_H + 'px';
-    var mc = el('canvas'); box.appendChild(mc); track.appendChild(box);
-    var at = w.findIndex(function (p) { return p[0] >= (e.s.monthly ? e.date.slice(0, 7) + '-01' : e.date); });
-    var gm = mc.getContext('2d').createLinearGradient(0, 0, 0, BAND_H); gm.addColorStop(0, 'rgba(232,112,58,0.35)'); gm.addColorStop(1, 'rgba(232,112,58,0)');
-    var mk = { id: 'fzM', afterDatasetsDraw: function (ch) { if (at < 0) return; var xx = ch.scales.x.getPixelForValue(at), c = ch.ctx;
-      c.save(); c.strokeStyle = 'rgba(255,255,255,0.55)'; c.setLineDash([3, 3]); c.lineWidth = 1; c.beginPath(); c.moveTo(xx, ch.chartArea.top); c.lineTo(xx, ch.chartArea.bottom); c.stroke(); c.restore(); } };
-    var oldM = Chart.getChart(mc); if (oldM) oldM.destroy();
-    new Chart(mc, { type: 'line', plugins: [mk], data: { labels: w.map(function (p) { return p[0]; }), datasets: [{ data: w.map(function (p) { return p[1]; }),
-      borderColor: 'rgba(232,112,58,0.9)', backgroundColor: gm, fill: true, borderWidth: 1.6, tension: 0.2, stepped: e.s.monthly ? 'middle' : false, pointRadius: 0 }] },
-      options: { responsive: true, maintainAspectRatio: false, animation: false, events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } },
-        scales: { x: { display: false }, y: { display: false, grace: '8%' } } } });
-  });
-  place.forEach(function (p) {
-    var e = p.e, b = el('button', 'fz-pin fz-pin--' + e.type + ' fz-pin--' + p.side), stemH = 26 + p.lv * LV;
-    b.type = 'button'; b.style.left = p.x + 'px';
-    var lbl = '<span class="fz-lbl"><small>' + day(e.date) + '</small><b>' + e.name + '</b></span>';
-    if (p.side === 'up') { b.style.top = (AXIS - stemH - LH) + 'px'; b.innerHTML = lbl + '<span class="fz-stem" style="height:' + stemH + 'px"></span><span class="fz-dot"></span>'; }
-    else { b.style.top = (AXIS - 7) + 'px'; b.innerHTML = '<span class="fz-dot"></span><span class="fz-stem" style="height:' + stemH + 'px"></span>' + lbl; }
-    b.addEventListener('click', function () { show(E.indexOf(e), true); });
-    track.appendChild(b); pins.push(b);
-  });
-
-  var chart = null, cur = -1;
   function stats(e) {
     var s = e.s;
     if (s.monthly) {
-      return '<div class="fz-stats fz-stats--2"><div><small>' + T.beforeM + '</small><b>' + s.before.txt.replace('.', iemT.locale === 'fr-FR' ? ',' : '.') + ' $</b></div>' +
+      return '<div class="sd-stats sd-stats--2"><div><small>' + T.beforeM + '</small><b>' + s.before.txt.replace('.', dec) + ' $</b></div>' +
         '<div><small>' + T.hi12 + '</small><b class="' + cls(s.hi12.pct) + '">' + fmt(s.hi12.pct) + '</b><em>' + T.afterM.replace('%n', s.hi12.months) + '</em></div></div>';
     }
     var x = Math.abs(s.hi30.pct) >= Math.abs(s.lo30.pct) ? [s.hi30, T.hi30] : [s.lo30, T.lo30];
-    return '<div class="fz-stats"><div><small>' + T.before + '</small><b>' + s.before.txt.replace('.', iemT.locale === 'fr-FR' ? ',' : '.') + ' $</b></div>' +
+    return '<div class="sd-stats"><div><small>' + T.before + '</small><b>' + s.before.txt.replace('.', dec) + ' $</b></div>' +
       '<div><small>' + T.j1 + '</small><b class="' + cls(s.j1.pct) + '">' + fmt(s.j1.pct) + '</b></div>' +
       '<div><small>' + T.j5 + '</small><b class="' + cls(s.j5.pct) + '">' + fmt(s.j5.pct) + '</b></div>' +
       '<div><small>' + x[1] + '</small><b class="' + cls(x[0].pct) + '">' + fmt(x[0].pct) + '</b><em>' + T.after.replace('%n', x[0].days) + '</em></div></div>';
   }
-  function show(i, scroll) {
+  var chart = null, cur = E.length - 1;
+  function show(i, noScroll) {
     cur = i; var e = E[i], s = e.s;
-    pins.forEach(function (p, k) { p.classList.toggle('is-on', k === i); p.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
-    panel.innerHTML = '<div class="fz-text"><span class="fz-tag fz-tag--' + e.type + '">' + (e.type === 'geo' ? T.geo : T.eco) + '</span><h3>' + e.name + '</h3>' +
-      '<p>' + day(e.date, { day: 'numeric', month: 'long', year: 'numeric' }) + ' · ' + e.desc + '</p>' + stats(e) + '</div><div class="fz-zoom"><canvas></canvas></div>';
-    var zc = panel.querySelector('canvas'), labels = s.window.map(function (w) { return w[0]; });
+    chipEls.forEach(function (c, k) { c.classList.toggle('is-on', k === i); c.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    if (!noScroll) chips.scrollTo({ left: chipEls[i].offsetLeft - chips.clientWidth / 2 + chipEls[i].offsetWidth / 2, behavior: 'smooth' });
+    text.innerHTML = '<span class="sd-tag sd-tag--' + e.type + '">' + (e.type === 'geo' ? T.geo : T.eco) + '</span><h3>' + e.name + '</h3>' +
+      '<p>' + day(e.date, { day: 'numeric', month: 'long', year: 'numeric' }) + ' · ' + e.desc + '</p>' + stats(e);
+    var labels = s.window.map(function (w) { return w[0]; });
     var at = labels.findIndex(function (l) { return l >= (s.monthly ? e.date.slice(0, 7) + '-01' : e.date); });
-    var gz = zc.getContext('2d').createLinearGradient(0, 0, 0, 240); gz.addColorStop(0, 'rgba(232,112,58,0.35)'); gz.addColorStop(1, 'rgba(232,112,58,0)');
-    var vline = { id: 'fzV', afterDatasetsDraw: function (ch) { if (at < 0) return; var xx = ch.scales.x.getPixelForValue(at), k = ch.ctx;
+    var g = cv.getContext('2d').createLinearGradient(0, 0, 0, 300); g.addColorStop(0, 'rgba(232,112,58,0.35)'); g.addColorStop(1, 'rgba(232,112,58,0)');
+    var vline = { id: 'sdV', afterDatasetsDraw: function (ch) { if (at < 0) return; var xx = ch.scales.x.getPixelForValue(at), k = ch.ctx;
       k.save(); k.strokeStyle = 'rgba(232,112,58,0.9)'; k.setLineDash([4, 4]); k.lineWidth = 1.5; k.beginPath(); k.moveTo(xx, ch.chartArea.top); k.lineTo(xx, ch.chartArea.bottom); k.stroke(); k.restore(); } };
     if (chart) chart.destroy();
-    chart = new Chart(zc, { type: 'line', plugins: [vline], data: { labels: labels, datasets: [{ data: s.window.map(function (w) { return w[1]; }), borderColor: '#e8703a',
-      backgroundColor: gz, fill: true, tension: s.monthly ? 0 : 0.25, stepped: s.monthly ? 'middle' : false, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 3 }] },
+    var old = Chart.getChart(cv); if (old) old.destroy();
+    chart = new Chart(cv, { type: 'line', plugins: [vline], data: { labels: labels, datasets: [{ data: s.window.map(function (w) { return w[1]; }), borderColor: '#e8703a',
+      backgroundColor: g, fill: true, tension: s.monthly ? 0 : 0.25, stepped: s.monthly ? 'middle' : false, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 3 }] },
       options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { displayColors: false, callbacks: {
           title: function (it) { return it.length ? day(it[0].label, s.monthly ? { month: 'long', year: 'numeric' } : undefined) : ''; },
@@ -1595,21 +1533,16 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
             callback: function (v) { return day(this.getLabelForValue(v), s.monthly ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short' }); } }, grid: { display: false } },
           y: { ticks: { color: 'rgba(255,255,255,0.55)', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.07)' } } } } });
     src.textContent = s.monthly ? T.monthly : T.srcDaily;
-    root.querySelectorAll('[data-fz-dir]').forEach(function (b) { var d = +b.getAttribute('data-fz-dir'); b.disabled = (d < 0 && i === 0) || (d > 0 && i === E.length - 1); });
-    if (scroll) sc.scrollTo({ left: parseFloat(pins[i].style.left) - sc.clientWidth / 2, behavior: 'smooth' });
+    count.textContent = (i + 1) + ' / ' + E.length;
+    btns.forEach(function (b) { var d = +b.getAttribute('data-sd-dir'); b.disabled = (d < 0 && i === 0) || (d > 0 && i === E.length - 1); });
   }
-  root.querySelectorAll('[data-fz-dir]').forEach(function (b) { b.addEventListener('click', function () { show(Math.max(0, Math.min(E.length - 1, cur + (+b.getAttribute('data-fz-dir')))), true); }); });
-  sc.addEventListener('keydown', function (ev) {
-    if (ev.key === 'ArrowRight') { ev.preventDefault(); show(Math.min(E.length - 1, cur + 1), true); }
-    if (ev.key === 'ArrowLeft') { ev.preventDefault(); show(Math.max(0, cur - 1), true); }
+  btns.forEach(function (b) { b.addEventListener('click', function () { show(Math.max(0, Math.min(E.length - 1, cur + (+b.getAttribute('data-sd-dir'))))); }); });
+  root.addEventListener('keydown', function (ev) {
+    if (ev.key === 'ArrowRight') { ev.preventDefault(); show(Math.min(E.length - 1, cur + 1)); }
+    if (ev.key === 'ArrowLeft') { ev.preventDefault(); show(Math.max(0, cur - 1)); }
   });
-  // Glisser à la souris (le doigt fait défiler nativement)
-  var drag = null;
-  sc.addEventListener('mousedown', function (ev) { if (ev.target.closest('.fz-pin')) return; drag = [ev.pageX, sc.scrollLeft]; sc.classList.add('is-drag'); });
-  window.addEventListener('mouseup', function () { drag = null; sc.classList.remove('is-drag'); });
-  sc.addEventListener('mousemove', function (ev) { if (drag) sc.scrollLeft = drag[1] - (ev.pageX - drag[0]); });
-  show(E.length - 1, false);
-  requestAnimationFrame(function () { sc.scrollLeft = sc.scrollWidth; });
+  show(cur, true);
+  requestAnimationFrame(function () { chips.scrollLeft = chips.scrollWidth; });
 })();
 
 // ===== Page Analyses : carrousel des notes de marché (flèches, balayage, clavier) =====

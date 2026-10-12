@@ -460,8 +460,8 @@
 </section>
 
 <!-- ===== 6. CHOCS GÉOPOLITIQUES ET PRIX DU PÉTROLE ===== -->
-{% comment %}Frise horizontale : les grands chocs de l'histoire (espacés régulièrement), puis les événements depuis 2022
-  à l'échelle, sur la courbe du Brent. Clic sur un événement : détail et zoom en dessous. Données : _data/oil_shocks.yml
+{% comment %}Chocs et prix du pétrole, un événement à la fois : rangée de pastilles (grands chocs, puis depuis 2022),
+  graphique du prix autour de l'événement et chiffres ; flèches, clic ou clavier. Données : _data/oil_shocks.yml
   (événements) et _data/oil_shocks_data.json (chiffres, scripts/fetch_market_data.py).{% endcomment %}
 {% assign shocks = site.data.oil_shocks %}
 {% assign sd = site.data.oil_shocks_data %}
@@ -475,25 +475,24 @@
         <p class="mk-lead">{{ mk.shocks_lead }}</p>
       </div>
     </header>
-    <div class="fz" data-frise>
-      <div class="fz-head">
-        <span class="fz-legend"><i class="sh-dot sh-dot--geo"></i>{{ mk.shocks_geo }} <i class="sh-dot sh-dot--eco"></i>{{ mk.shocks_eco }}</span>
-        <span class="fz-arrows">
-          <button type="button" class="fz-arrow" data-fz-dir="-1" aria-label="{{ mk.shocks_prev }}"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
-          <button type="button" class="fz-arrow" data-fz-dir="1" aria-label="{{ mk.shocks_next }}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
-        </span>
+    <div class="sd" data-shocks>
+      <div class="sd-chips" role="group" aria-label="{{ mk.shocks_title }}"></div>
+      <div class="sd-body" aria-live="polite">
+        <div class="sd-zoom"><canvas aria-label="{{ mk.shocks_chart_aria }}"></canvas></div>
+        <div class="sd-text"></div>
       </div>
-      <div class="fz-scroll" tabindex="0" aria-label="{{ mk.shocks_title }}"><div class="fz-track"></div></div>
-      <div class="fz-panel" aria-live="polite"></div>
-      <p class="fz-src">{{ mk.shocks_src }}</p>
+      <div class="sd-nav">
+        <button type="button" class="btn-ghost sd-btn" data-sd-dir="-1"><span aria-hidden="true"><i class="fa-solid fa-chevron-left ico-arr"></i></span> {{ mk.shocks_prev_short }}</button>
+        <span class="sd-count"></span>
+        <button type="button" class="btn-ghost sd-btn" data-sd-dir="1">{{ mk.shocks_next_short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></button>
+      </div>
+      <p class="sd-src"></p>
     </div>
     <p class="sh-note">{{ mk.shocks_note }}</p>
   </div>
 </section>
-{% assign recent_weeks = sd.weekly | where_exp: "w", "w[0] >= '2022-01-01'" %}
 <script>
   window.mktShocks = {
-    weekly: {{ recent_weeks | jsonify }},
     recentFrom: "2022-01-01",
     t: { hist: {{ mk.shocks_hist | jsonify }}, recent: {{ mk.shocks_recent | jsonify }}, before: {{ mk.shocks_before | jsonify }},
          beforeM: {{ mk.shocks_before_m | jsonify }}, j1: {{ mk.shocks_j1 | jsonify }}, j5: {{ mk.shocks_j5 | jsonify }},
