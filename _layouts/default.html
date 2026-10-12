@@ -1483,15 +1483,20 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   if (!track || slides.length < 2) return;
   // Largeur encore nulle au tout premier rendu : on reste sur la première note
   function index() { var w = track.clientWidth; return w ? Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / w))) : 0; }
-  function update() {
-    var i = index();
+  function show(i) {
     if (pos) pos.textContent = slides[i].getAttribute('data-week') + ' · ' + (i + 1) + '/' + slides.length;
     arrows.forEach(function (b) {
       var d = parseInt(b.getAttribute('data-nt-dir'), 10);
       b.disabled = (d < 0 && i === 0) || (d > 0 && i === slides.length - 1);
     });
   }
-  function go(d) { track.scrollTo({ left: (index() + d) * track.clientWidth, behavior: 'smooth' }); }
+  function update() { show(index()); }
+  // Le compteur suit la cible tout de suite, sans attendre la fin de l'animation de défilement
+  function go(d) {
+    var i = Math.max(0, Math.min(slides.length - 1, index() + d));
+    track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+    show(i);
+  }
   arrows.forEach(function (b) { b.addEventListener('click', function () { go(parseInt(b.getAttribute('data-nt-dir'), 10)); }); });
   track.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
