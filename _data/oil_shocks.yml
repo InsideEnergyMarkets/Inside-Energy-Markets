@@ -35,8 +35,8 @@
   type: geo
   fr: "Printemps arabe et Libye"
   en: "Arab Spring and Libya"
-  desc_fr: "Soulèvements du printemps arabe ; la production libyenne s'effondre."
-  desc_en: "Arab Spring uprisings; Libyan output collapses."
+  desc_fr: "Printemps arabe ; en Libye, la guerre civile interrompt presque totalement les exportations de pétrole."
+  desc_en: "Arab Spring; in Libya, the civil war almost completely halts oil exports."
 - id: opep-2014
   date: 2014-11-27
   type: eco
@@ -56,8 +56,8 @@
   type: eco
   fr: "Guerre des prix OPEP+ et Covid"
   en: "OPEC+ price war and Covid"
-  desc_fr: "Échec de l'accord OPEP+ entre l'Arabie saoudite et la Russie, en pleine pandémie."
-  desc_en: "OPEC+ talks between Saudi Arabia and Russia collapse as the pandemic spreads."
+  desc_fr: "Réunion OPEP+ sans accord : la Russie refuse de nouvelles baisses, l'Arabie saoudite lance une guerre des prix, en pleine pandémie."
+  desc_en: "OPEC+ meeting ends without a deal: Russia refuses further cuts, Saudi Arabia starts a price war as the pandemic spreads."
 - id: ukraine
   date: 2022-02-24
   type: geo
@@ -77,8 +77,8 @@
   type: geo
   fr: "Capture de Nicolás Maduro"
   en: "Capture of Nicolás Maduro"
-  desc_fr: "Capture du président vénézuélien Nicolás Maduro."
-  desc_en: "Venezuelan president Nicolás Maduro is captured."
+  desc_fr: "Les États-Unis capturent le président vénézuélien Nicolás Maduro lors d'une opération militaire."
+  desc_en: "The United States captures Venezuelan president Nicolás Maduro in a military operation."
 - id: ormuz
   date: 2026-02-28
   type: geo
