@@ -3148,3 +3148,4 @@ html.has-player .nav-note { display: inline-flex; }
 .fz-zoom { position: relative; height: 240px; }
 .fz-src { margin: 10px 22px 0; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
 @media (max-width: 760px) { .fz-panel { grid-template-columns: minmax(0, 1fr); margin: 8px 12px 0; } .fz-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fz-head { padding: 0 14px; } .fz-src { margin: 10px 14px 0; } }
+.fz-mini { position: absolute; pointer-events: none; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }

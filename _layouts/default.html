@@ -1536,6 +1536,21 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
   axis.style.top = AXIS + 'px';
   track.querySelectorAll('.fz-year').forEach(function (n) { n.style.top = (BAND_TOP + BAND_H + 4) + 'px'; });
   bg.style.top = BAND_TOP + 'px'; bg.style.height = BAND_H + 'px';
+  // Grands chocs : une mini-courbe du prix autour de chaque événement (même bande), jour de l'événement en pointillé
+  hist.forEach(function (e, k) {
+    var w = e.s.window, mx = PAD + k * STEP, box = el('div', 'fz-mini');
+    box.style.left = (mx - 66) + 'px'; box.style.top = BAND_TOP + 'px'; box.style.width = '132px'; box.style.height = BAND_H + 'px';
+    var mc = el('canvas'); box.appendChild(mc); track.appendChild(box);
+    var at = w.findIndex(function (p) { return p[0] >= (e.s.monthly ? e.date.slice(0, 7) + '-01' : e.date); });
+    var gm = mc.getContext('2d').createLinearGradient(0, 0, 0, BAND_H); gm.addColorStop(0, 'rgba(232,112,58,0.35)'); gm.addColorStop(1, 'rgba(232,112,58,0)');
+    var mk = { id: 'fzM', afterDatasetsDraw: function (ch) { if (at < 0) return; var xx = ch.scales.x.getPixelForValue(at), c = ch.ctx;
+      c.save(); c.strokeStyle = 'rgba(255,255,255,0.55)'; c.setLineDash([3, 3]); c.lineWidth = 1; c.beginPath(); c.moveTo(xx, ch.chartArea.top); c.lineTo(xx, ch.chartArea.bottom); c.stroke(); c.restore(); } };
+    var oldM = Chart.getChart(mc); if (oldM) oldM.destroy();
+    new Chart(mc, { type: 'line', plugins: [mk], data: { labels: w.map(function (p) { return p[0]; }), datasets: [{ data: w.map(function (p) { return p[1]; }),
+      borderColor: 'rgba(232,112,58,0.9)', backgroundColor: gm, fill: true, borderWidth: 1.6, tension: 0.2, stepped: e.s.monthly ? 'middle' : false, pointRadius: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, events: [], plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: { x: { display: false }, y: { display: false, grace: '8%' } } } });
+  });
   place.forEach(function (p) {
     var e = p.e, b = el('button', 'fz-pin fz-pin--' + e.type + ' fz-pin--' + p.side), stemH = 26 + p.lv * LV;
     b.type = 'button'; b.style.left = p.x + 'px';
