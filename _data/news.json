@@ -1,29 +1,71 @@
 {
- "updated_at": "2026-10-13T07:01:01+00:00",
+ "updated_at": "2026-10-13T16:19:19+00:00",
  "items": [
   {
-   "title": "Les émissions de gaz à effet de serre en France diminuent du fait de l’envolée des prix des carburants",
-   "url": "https://www.lemonde.fr/planete/article/2026/10/13/les-emissions-de-gaz-a-effet-de-serre-en-france-diminuent-du-fait-de-l-envolee-des-prix-des-carburants_6793062_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-13T04:50:07+00:00"
+   "title": "France seizes tanker suspected of belonging to Russia’s shadow fleet",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/13/france-seizes-tanker-suspected-of-belonging-to-russias-shadow-fleet?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-13T15:44:44+00:00"
   },
   {
-   "title": "Au Niger, une éruption de pétrole provoque un incident environnemental « d’une gravité exceptionnelle »",
-   "url": "https://www.lemonde.fr/afrique/article/2026/10/13/au-niger-une-eruption-de-petrole-provoque-un-incident-environnemental-d-une-gravite-exceptionnelle_6793055_3212.html",
+   "title": "Nucléaire : plusieurs entreprises perquisitionnées pour des soupçons d’entente et de corruption « au détriment d’EDF », annonce le Parquet national financier",
+   "url": "https://www.lemonde.fr/societe/article/2026/10/13/nucleaire-plusieurs-entreprises-perquisitionnees-pour-des-soupcons-d-entente-et-de-corruption-au-detriment-d-edf-annonce-le-parquet-national-financier_6793137_3224.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-13T03:45:37+00:00"
+   "date": "2026-10-13T15:11:57+00:00"
   },
   {
-   "title": "Aux Etats-Unis, le recours de Donald Trump au gazole russe, au détriment de l’Ukraine, provoque une vaste controverse",
-   "url": "https://www.lemonde.fr/international/article/2026/10/13/aux-etats-unis-le-recours-de-donald-trump-au-gazole-russe-au-detriment-de-l-ukraine-provoque-une-vaste-controverse_6793051_3210.html",
+   "title": "L'Arabie saoudite menace un site pétrolier à Sanaa, les Houthis prêts à riposter sur Riyad",
+   "url": "https://www.france24.com/fr/moyen-orient/20261013-l-arabie-saoudite-menace-un-site-p%C3%A9trolier-%C3%A0-sanaa-les-houthis-pr%C3%AAts-%C3%A0-frapper-riyad-en-riposteand",
+   "source": "France 24",
+   "lang": "fr",
+   "date": "2026-10-13T14:58:59+00:00"
+  },
+  {
+   "title": "Au Nigeria, le milliardaire Aliko Dangote veut faire de l’entrée en Bourse de sa raffinerie de Lagos une opération populaire",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/13/au-nigeria-le-milliardaire-aliko-dangote-veut-faire-de-l-entree-en-bourse-de-sa-raffinerie-de-lagos-une-operation-populaire_6793110_3234.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-13T03:31:32+00:00"
+   "date": "2026-10-13T13:30:13+00:00"
   },
   {
-   "title": "Trump rewards Putin and betrays Ukraine with Russia diesel deal - The Latest",
+   "title": "Trump’s diesel deal opens a new rift with Europe over Ukraine",
+   "url": "https://www.aljazeera.com/news/2026/10/13/trumps-diesel-deal-opens-a-new-rift-with-europe-over-ukraine?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-13T13:06:42+00:00"
+  },
+  {
+   "title": "EN DIRECT, guerre en Ukraine : la Finlande dénonce l’accord de Donald Trump sur le diesel russe, « une énorme déception »",
+   "url": "https://www.lemonde.fr/international/live/2026/10/13/en-direct-guerre-en-ukraine-la-finlande-denonce-l-accord-de-donald-trump-sur-le-diesel-russe-une-enorme-deception_6791198_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-13T10:38:56+00:00"
+  },
+  {
+   "title": "Eurostat: EU oil imports value up by 56%, volume stable in Q2 2026",
+   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20260922-2",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-13T09:58:44+00:00"
+  },
+  {
+   "title": "Eurostat: Evolution of fuel prices in August 2026",
+   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20250922-1",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-13T09:58:28+00:00"
+  },
+  {
+   "title": "Gaz à effet de serre : des émissions en baisse mais loin d’être « dans les clous »",
+   "url": "https://www.connaissancedesenergies.org/gaz-a-effet-de-serre-des-emissions-en-forte-baisse-mais-loin-detre-dans-les-clous",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-10-13T00:00:00+00:00"
+  },
+  {
+   "title": "Trump-Putin diesel deal met with fury from Zelenskyy – The Latest",
    "url": "https://www.theguardian.com/news/audio/2026/oct/12/trump-rewards-putin-and-betrays-ukraine-with-russia-diesel-deal-the-latest",
    "source": "The Guardian",
    "lang": "en",
@@ -84,20 +126,6 @@
    "source": "BBC",
    "lang": "en",
    "date": "2026-10-08T23:09:56+00:00"
-  },
-  {
-   "title": "EU gas system prepared for the winter despite lower storage levels",
-   "url": "https://energy.ec.europa.eu/news/eu-gas-system-prepared-winter-despite-lower-storage-levels-2026-10-08_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-08T15:55:59+00:00"
-  },
-  {
-   "title": "Tanker hit by multiple projectiles in Gulf off Qatar, maritime agency says",
-   "url": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-08T12:11:31+00:00"
   }
  ]
 }
