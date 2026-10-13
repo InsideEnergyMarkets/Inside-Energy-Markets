@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-13T16:19:19+00:00",
+ "updated_at": "2026-10-13T21:28:28+00:00",
  "stats": {
-  "total_30d": 35,
-  "attacks_30d": 29,
+  "total_30d": 37,
+  "attacks_30d": 31,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 28
+    "n": 30
    },
    {
     "place": "Golfe d'Oman",
@@ -22,6 +22,34 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-171",
+   "number": 171,
+   "date": "2026-10-13T19:04:00Z",
+   "type": "Attack",
+   "lat": 26.5075,
+   "lon": 56.3872,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident within the Strait of Hormuz. A verified source has reported that a tanker was struck by an unknown projectile."
+  },
+  {
+   "id": "UKMTO-2026-170",
+   "number": 170,
+   "date": "2026-10-13T18:59:00Z",
+   "type": "Attack",
+   "lat": 26.4483,
+   "lon": 56.2636,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Cargo",
+   "vessel_type_en": "Cargo",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident within the Strait of Hormuz. A verified source has reported that a container ship was struck by an unknown projectile."
+  },
   {
    "id": "UKMTO-2026-169",
    "number": 169,
