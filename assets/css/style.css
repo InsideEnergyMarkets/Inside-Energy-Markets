@@ -3161,7 +3161,9 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 }
 .lng-chip:hover { border-color: #4fd1c5; }
 .lng-chip.is-on { border-color: #e8703a; background: rgba(232, 112, 58, 0.2); }
-.lng-grid { display: grid; grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 6px; }
+.lng-grid { margin-top: 8px; }
+.lng-side { margin-top: 6px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.lng-bars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
 .lng-map { min-height: 200px; }
 .lng-map svg { display: block; width: 100%; height: auto; }
 .lng-map .sphere { fill: #101c4c; }
@@ -3178,9 +3180,9 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 .lng-lbl { font: 600 10.5px 'Inter', sans-serif; fill: rgba(255, 255, 255, 0.78); paint-order: stroke; stroke: #0d1638; stroke-width: 3px; pointer-events: none; }
 .lng-choke { fill: #e8703a; stroke: #0d1638; stroke-width: 1.5; }
 .lng-clbl { font: 700 10.5px 'JetBrains Mono', monospace; fill: #ffd2bd; paint-order: stroke; stroke: #0d1638; stroke-width: 3px; pointer-events: none; }
-.lng-side h3 { margin: 6px 0 8px; font: 400 22px 'Bebas Neue', sans-serif; letter-spacing: 0.4px; color: #fff; }
-.lng-side h4 { margin: 14px 0 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
-.lng-bar { display: grid; grid-template-columns: minmax(0, 118px) 1fr 52px; gap: 8px; align-items: center; font-size: 12.5px; margin: 5px 0; }
+.lng-side h3 { margin: 4px 0 4px; font: 400 22px 'Bebas Neue', sans-serif; letter-spacing: 0.4px; color: #fff; }
+.lng-side h4 { margin: 4px 0 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
+.lng-bar { display: grid; grid-template-columns: minmax(0, 150px) 1fr 52px; gap: 8px; align-items: center; font-size: 12.5px; margin: 5px 0; }
 .lng-bar span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lng-bar .t { height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
 .lng-bar .t i { display: block; height: 100%; border-radius: 4px; }
@@ -3201,7 +3203,7 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 .lng-card.is-error .lng-map::before { content: attr(data-error); display: block; padding: 40px 0; text-align: center; color: rgba(255, 255, 255, 0.6); }
 .ref-section .lng-card { margin-bottom: 28px; }
 @media (max-width: 860px) {
-  .lng-grid { grid-template-columns: 1fr; }
+  .lng-bars { grid-template-columns: 1fr; }
   .lng-kpis { display: none; }
   .lng-card { padding: 16px 14px 14px; border-radius: 14px; }
   .lng-chips-label { width: 100%; }

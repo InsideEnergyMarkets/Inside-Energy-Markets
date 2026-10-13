@@ -1739,7 +1739,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     svg.append('g').selectAll('path').data(topojson.feature(world, world.objects.countries).features).join('path').attr('class', 'land').attr('d', path);
     var gF = svg.append('g').attr('clip-path', 'url(#lng-clip)'), gC = svg.append('g'), gN = svg.append('g');
     // Taille des textes : constante à l'écran quelle que soit la largeur de la carte
-    var k = Math.min(2.4, Math.max(1, W / (box.clientWidth || W)));
+    var k = Math.min(2.6, Math.max(1, W / (box.clientWidth || W)));
     var width = function (mt) { return Math.max(0.8, Math.sqrt(mt) * 1.05); };
     var flows = D.flows.filter(function (f) { return f.mt >= 0.3; }).sort(function (a, b) { return a.mt - b.mt; });
     var chokeName = {}; D.choke.forEach(function (c) { chokeName[c.k] = L ? c.en : c.fr; });
@@ -1773,7 +1773,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
       if (n.mt > (k > 1.6 ? 25 : 8)) gN.append('text').attr('class', 'lng-lbl').attr('x', p[0] + 7 * k).attr('y', p[1] - 5 * k).style('font-size', (10.5 * k) + 'px').text(nm(n.k)); });
 
     // Détroits : volume des flux sélectionnés qui y passent
-    var OFF = { SUZN: [-8, -8, 'end'], HMZ: [-8, -10, 'end'], GIB: [-8, 16, 'end'] };
+    var OFF = { SUZN: [-8, -8, 'end'], HMZ: [8, -10, 'start'], GIB: [-8, 16, 'end'], MLC: [-8, 16, 'end'], LOM: [-8, 14, 'end'], DOV: [-8, -8, 'end'] };
     function drawChoke(sel, all) {
       gC.selectAll('*').remove();
       D.choke.forEach(function (c) {
@@ -1798,8 +1798,8 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
 
     function bars(rows, total, unit) {
       var mx = rows.length ? rows[0].mt : 1;
-      return rows.map(function (r) { return '<div class="lng-bar"><span title="' + esc(r.n) + '">' + esc(r.n) + '</span><span class="t"><i style="width:' +
-        (r.mt / mx * 100).toFixed(1) + '%;background:' + r.c + '"></i></span><b>' + (unit === '%' ? fmt(r.mt / total * 100) + ' %' : fmt(r.mt)) + '</b></div>'; }).join('');
+      return '<div class="lng-bars">' + rows.map(function (r) { return '<div class="lng-bar"><span title="' + esc(r.n) + '">' + esc(r.n) + '</span><span class="t"><i style="width:' +
+        (r.mt / mx * 100).toFixed(1) + '%;background:' + r.c + '"></i></span><b>' + (unit === '%' ? fmt(r.mt / total * 100) + ' %' : fmt(r.mt)) + '</b></div>'; }).join('') + '</div>';
     }
     function pick(sel) {
       root.querySelectorAll('.lng-chip').forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-sel') === sel); });
