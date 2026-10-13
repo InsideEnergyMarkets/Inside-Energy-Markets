@@ -89,6 +89,21 @@
     {% capture ans2 %}{{ sx.a_france | replace: "%n", fr_full | replace: "%m", fr_twh }}{% endcapture %}
     {% assign faq = "" | split: "" | push: sx.q_level | push: ans1 | push: sx.q_france | push: ans2 | push: sx.q_why | push: sx.a_why %}
     {% assign anchor = t.ids.gas %}
+
+    {% when "lng" %}
+    {% assign lt = site.data.lng_trade %}
+    {% include blocks/lng-map.html %}
+    {% assign ys = lt.year | append: "" %}
+    {% capture top_txt %}{% for x in lt.summary.top_exp limit: 3 %}{% if lang == "en" %}{{ x.en }}{% else %}{{ x.fr }}{% endif %} ({{ x.mt | replace: ".", dec }} Mt){% unless forloop.last %}, {% endunless %}{% endfor %}{% endcapture %}
+    {% capture ans1 %}{{ sx.a_top | replace: "%y", ys | replace: "%n", top_txt }}{% endcapture %}
+    {% capture eu_txt %}{% for x in lt.summary.eu_top %}{% if lang == "en" %}{{ x.en }}{% else %}{{ x.fr }}{% endif %} {{ x.share | round: 0 }} %{% unless forloop.last %}, {% endunless %}{% endfor %}{% endcapture %}
+    {% capture eu_mt %}{{ lt.summary.eu_mt | replace: ".", dec }}{% endcapture %}
+    {% capture ans2 %}{{ sx.a_europe | replace: "%y", ys | replace: "%m", eu_mt | replace: "%n", eu_txt }}{% endcapture %}
+    {% capture hz_mt %}{{ lt.summary.hormuz | round: 0 }}{% endcapture %}
+    {% capture hz_sh %}{{ lt.summary.hormuz_share | round: 0 }}{% endcapture %}
+    {% capture ans3 %}{{ sx.a_hormuz | replace: "%y", ys | replace: "%n", hz_mt | replace: "%m", hz_sh }}{% endcapture %}
+    {% assign faq = "" | split: "" | push: sx.q_top | push: ans1 | push: sx.q_europe | push: ans2 | push: sx.q_hormuz | push: ans3 %}
+    {% assign anchor = t.ids.gas %}
     {% endcase %}
 
     <div class="da-explain ref-explain">
@@ -110,6 +125,7 @@
         {% if page.kind != "brent" %}<a href="{{ u.brent | relative_url }}">{{ t.seo.brent.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
         {% if page.kind != "diesel" %}<a href="{{ u.diesel | relative_url }}">{{ t.seo.diesel.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
         {% if page.kind != "storage" %}<a href="{{ u.storage | relative_url }}">{{ t.seo.storage.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
+        {% if page.kind != "lng" %}<a href="{{ u.lng | relative_url }}">{{ t.seo.lng.short }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a>{% endif %}
       </p>
     </div>
   </div>

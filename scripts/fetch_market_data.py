@@ -1354,6 +1354,11 @@ def main():
     update_lng_exports()
     update_gas_world()
     update_oil_shocks()
+    try:
+        import lng_trade
+        lng_trade.update()
+    except Exception as e:
+        print(f"Erreur commerce de GNL : {e}")
     enrich_gas_world()
     update_gas_storage()
     update_day_ahead()
