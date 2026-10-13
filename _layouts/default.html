@@ -1770,7 +1770,8 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     Object.keys(ex).forEach(function (key) { var n = ex[key], p = proj(n.p);
       gN.append('circle').attr('class', 'lng-node-e').attr('fill', COL[n.re]).attr('cx', p[0]).attr('cy', p[1]).attr('r', (3 + Math.sqrt(n.mt) * .65) * Math.sqrt(k))
         .on('mousemove', function (ev) { showTip(ev, '<b>' + esc(nm(n.k)) + '</b><br>' + T.exports + ' ' + fmt(n.mt) + ' Mt'); }).on('mouseleave', hideTip);
-      if (n.mt > (k > 1.6 ? 25 : 8)) gN.append('text').attr('class', 'lng-lbl').attr('x', p[0] + 7 * k).attr('y', p[1] - 5 * k).style('font-size', (10.5 * k) + 'px').text(nm(n.k)); });
+      var lo = { e634: [-7, 14, 'end'], e360: [7, 12, 'start'] }[n.k] || [7, -5, 'start'];
+      if (n.mt > (k > 1.6 ? 25 : 8)) gN.append('text').attr('class', 'lng-lbl').attr('x', p[0] + lo[0] * k).attr('y', p[1] + lo[1] * k).attr('text-anchor', lo[2]).style('font-size', (10.5 * k) + 'px').text(nm(n.k)); });
 
     // Détroits : volume des flux sélectionnés qui y passent
     var OFF = { SUZN: [-8, -8, 'end'], HMZ: [8, -10, 'start'], GIB: [-8, 16, 'end'], MLC: [-8, 16, 'end'], LOM: [-8, 14, 'end'], DOV: [-8, -8, 'end'] };
@@ -1778,13 +1779,14 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
       gC.selectAll('*').remove();
       D.choke.forEach(function (c) {
         var mt = sel.reduce(function (s, f) { return s + (f.via.indexOf(c.k) >= 0 ? f.mt : 0); }, 0);
-        var avoided = all && (c.k === 'SUZN' || c.k === 'BAB') && mt < 1;
+        if (c.k === 'SUZN') return; // Suez et Bab el-Mandeb : un seul repère « mer Rouge »
+        var avoided = all && c.k === 'BAB' && mt < 1;
         if (mt < 1 && !avoided) return;
         if (k > 1.6 && mt < 20 && !avoided) return;
         var p = proj(c.p), o = OFF[c.k] || [8, 14, 'start'], g = gC.append('g').attr('transform', 'translate(' + p[0] + ',' + p[1] + ')');
         g.append('rect').attr('class', 'lng-choke').attr('x', -4 * k).attr('y', -4 * k).attr('width', 8 * k).attr('height', 8 * k).attr('transform', 'rotate(45)');
         g.append('text').attr('class', 'lng-clbl').attr('x', o[0] * k).attr('y', o[1] * k).attr('text-anchor', o[2]).style('font-size', (10.5 * k) + 'px')
-          .text((L ? c.en : c.fr) + ' · ' + (avoided ? T.avoided : fmt(mt) + ' Mt'));
+          .text(avoided ? T.red_sea : (L ? c.en : c.fr) + ' · ' + fmt(mt) + ' Mt');
       });
     }
 
