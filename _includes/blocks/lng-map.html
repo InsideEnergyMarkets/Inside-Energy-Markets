@@ -1,0 +1,37 @@
+{% comment %}
+  Carte mondiale des flux de GNL (_data/lng_trade.json, UN Comtrade, itinéraires estimés par les détroits).
+  Dessinée par le script du layout (d3 chargé à la demande) ; filtres par exportateur et par région d'arrivée.
+{% endcomment %}
+{% assign lt = site.data.lng_trade %}
+{% assign lm = t.lngmap %}
+{% if lt and lt.flows %}
+<div class="lng-card" data-lng-map>
+  <div class="lng-head">
+    <div>
+      <h2 class="lng-title">{{ lm.title }}</h2>
+      <p class="lng-sub">{{ lm.sub | replace: "%y", lt.year }}</p>
+    </div>
+    <div class="lng-kpis">
+      <div class="lng-kpi"><small>{{ lm.total }}</small><b>{{ lt.summary.total | replace: ".", dec }} Mt</b></div>
+      {% for x in lt.summary.top_exp limit: 3 %}
+      <div class="lng-kpi"><small>{{ forloop.index }}. {% if lang == "en" %}{{ x.en }}{% else %}{{ x.fr }}{% endif %}</small><b>{{ x.mt | replace: ".", dec }} Mt</b></div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="lng-filters">
+    <div class="lng-chips" data-lng-chips="exp"><span class="lng-chips-label">{{ lm.by_exp }}</span></div>
+    <div class="lng-chips" data-lng-chips="reg"><span class="lng-chips-label">{{ lm.by_reg }}</span></div>
+  </div>
+  <div class="lng-grid">
+    <div class="lng-map" data-lng-svg role="img" aria-label="{{ lm.aria }}"></div>
+    <div class="lng-side" data-lng-side aria-live="polite"></div>
+  </div>
+  <div class="lng-legend">
+    {% for o in lm.origins %}<span><i class="lng-sw lng-sw--{{ o[0] }}"></i>{{ o[1] }}</span>{% endfor %}
+    <span><i class="lng-choke-sw"></i>{{ lm.straits }}</span>
+  </div>
+  <p class="lng-src">Source{{ t.colon }}{{ lm.source }}</p>
+  <div class="lng-tip" data-lng-tip></div>
+</div>
+<script>window.lngMap = { lang: {{ lang | jsonify }}, t: {{ lm | jsonify }}, d: {{ lt | jsonify }} };</script>
+{% endif %}

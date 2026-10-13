@@ -3138,3 +3138,71 @@ html.has-player .nav-note { display: inline-flex; }
 .sd-btn:disabled { opacity: 0.35; cursor: default; }
 .sd-src { margin: 10px 0 0; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
 @media (max-width: 760px) { .sd { padding: 16px 14px; } .sd-body { grid-template-columns: minmax(0, 1fr); } .sd-zoom { height: 230px; } .sd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ===== Carte mondiale du GNL (/gnl-monde/, _includes/blocks/lng-map.html) ===== */
+a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
+.lng-card {
+  position: relative; color: #fff; border-radius: 18px; padding: 20px 22px 16px; overflow: hidden;
+  background: radial-gradient(900px 500px at 70% 0%, rgba(0, 129, 125, 0.22), transparent 60%), linear-gradient(160deg, #1b2a6b, #0d1638);
+}
+.lng-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.lng-title { margin: 0; font: 400 30px 'Bebas Neue', sans-serif; letter-spacing: 0.5px; color: #fff; }
+.lng-sub { margin: 2px 0 0; font-size: 13px; color: rgba(255, 255, 255, 0.65); }
+.lng-kpis { display: flex; gap: 10px; flex-wrap: wrap; }
+.lng-kpi { padding: 8px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); }
+.lng-kpi small { display: block; font-size: 11px; color: rgba(255, 255, 255, 0.6); }
+.lng-kpi b { font: 700 17px 'JetBrains Mono', monospace; }
+.lng-filters { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+.lng-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.lng-chips-label { width: 84px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
+.lng-chip {
+  padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05);
+  color: #fff; font: 600 12.5px 'Inter', sans-serif; cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.lng-chip:hover { border-color: #4fd1c5; }
+.lng-chip.is-on { border-color: #e8703a; background: rgba(232, 112, 58, 0.2); }
+.lng-grid { display: grid; grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 6px; }
+.lng-map { min-height: 200px; }
+.lng-map svg { display: block; width: 100%; height: auto; }
+.lng-map .sphere { fill: #101c4c; }
+.lng-map .grat { fill: none; stroke: rgba(255, 255, 255, 0.04); }
+.lng-map .land { fill: #24357a; stroke: #0d1638; stroke-width: 0.5; }
+.lng-flow { fill: none; stroke-linecap: round; stroke-dasharray: 2 7; opacity: 0.55; transition: opacity 0.2s; cursor: pointer; }
+.lng-flow:hover { opacity: 1; }
+.lng-flow.is-dim { opacity: 0.06; }
+.lng-map.is-live .lng-flow { animation: lng-flow 14s linear infinite; }
+@keyframes lng-flow { to { stroke-dashoffset: -270; } }
+@media (prefers-reduced-motion: reduce) { .lng-map.is-live .lng-flow { animation: none; } }
+.lng-node-e { stroke: #0d1638; stroke-width: 1.5; }
+.lng-node-i { fill: #fff; stroke: #0d1638; stroke-width: 1; opacity: 0.85; }
+.lng-lbl { font: 600 10.5px 'Inter', sans-serif; fill: rgba(255, 255, 255, 0.78); paint-order: stroke; stroke: #0d1638; stroke-width: 3px; pointer-events: none; }
+.lng-choke { fill: #e8703a; stroke: #0d1638; stroke-width: 1.5; }
+.lng-clbl { font: 700 10.5px 'JetBrains Mono', monospace; fill: #ffd2bd; paint-order: stroke; stroke: #0d1638; stroke-width: 3px; pointer-events: none; }
+.lng-side h3 { margin: 6px 0 8px; font: 400 22px 'Bebas Neue', sans-serif; letter-spacing: 0.4px; color: #fff; }
+.lng-side h4 { margin: 14px 0 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
+.lng-bar { display: grid; grid-template-columns: minmax(0, 118px) 1fr 52px; gap: 8px; align-items: center; font-size: 12.5px; margin: 5px 0; }
+.lng-bar span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lng-bar .t { height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.lng-bar .t i { display: block; height: 100%; border-radius: 4px; }
+.lng-bar b { font: 700 12px 'JetBrains Mono', monospace; text-align: right; }
+.lng-note { margin: 10px 0 0; font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.lng-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; font-size: 12.5px; color: rgba(255, 255, 255, 0.8); }
+.lng-sw { display: inline-block; width: 22px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.lng-sw--na { background: #4fd1c5; } .lng-sw--me { background: #e8b33a; } .lng-sw--ap { background: #e8703a; }
+.lng-sw--ru { background: #c4b5fd; } .lng-sw--af { background: #cbd5e1; }
+.lng-choke-sw { display: inline-block; width: 8px; height: 8px; margin: 0 8px 0 2px; background: #e8703a; transform: rotate(45deg); vertical-align: middle; }
+.lng-src { margin: 8px 0 0; font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+.lng-tip {
+  position: absolute; z-index: 5; pointer-events: none; padding: 7px 10px; border-radius: 8px; max-width: 260px;
+  background: #0d1638; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  color: #fff; font-size: 12.5px; line-height: 1.45; opacity: 0; transition: opacity 0.1s;
+}
+.lng-tip b { color: #fff; }
+.lng-card.is-error .lng-map::before { content: attr(data-error); display: block; padding: 40px 0; text-align: center; color: rgba(255, 255, 255, 0.6); }
+.ref-section .lng-card { margin-bottom: 28px; }
+@media (max-width: 860px) {
+  .lng-grid { grid-template-columns: 1fr; }
+  .lng-kpis { display: none; }
+  .lng-card { padding: 16px 14px 14px; border-radius: 14px; }
+  .lng-chips-label { width: 100%; }
+}

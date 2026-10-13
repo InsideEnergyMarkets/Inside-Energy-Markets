@@ -223,6 +223,17 @@
         <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
+      {% assign lt = site.data.lng_trade %}
+      {% if lt and lt.flows %}
+      {% assign lt_top = lt.summary.top_exp | first %}
+      {% capture lt_name %}{% if lang == "en" %}{{ lt_top.en }}{% else %}{{ lt_top.fr }}{% endif %}{% endcapture %}
+      {% assign lt_y = lt.year | append: "" %}
+      <a class="mk-link-tile" href="{{ u.lng | relative_url }}">
+        <i class="fa-solid fa-route" aria-hidden="true"></i>
+        <span><strong>{{ t.seo.lng.title }}</strong>{{ mk.lngw_tile_sub | replace: "%y", lt_y | replace: "%n", lt_name }}</span>
+        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
+      </a>
+      {% endif %}
       {% assign lng = site.data.lng_exports %}
       {% if lng and lng.size > 12 %}
       {% assign lng_last = lng | last %}

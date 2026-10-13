@@ -25,6 +25,7 @@ fr:
     brent: "/prix-baril-brent/"
     diesel: "/prix-gazole/"
     storage: "/stocks-gaz-europe/"
+    lng: "/gnl-monde/"
   ids:
     power: electricite
     gas: gaz
@@ -75,6 +76,27 @@ fr:
     on_video: "En vidéo : %t"
     read_report: "Lire le reportage : %t"
     video: "VIDÉO"
+  lngmap:
+    title: "Les routes du GNL dans le monde"
+    sub: "Flux de gaz naturel liquéfié en %y, en millions de tonnes (Mt)"
+    total: "Total des flux"
+    all: "Tous les flux"
+    by_exp: "Exportateur"
+    by_reg: "Arrivée"
+    regs: { eu: "Europe", as: "Asie", am: "Amériques", mo: "Moyen-Orient et Afrique" }
+    origins: { na: "Amériques", me: "Moyen-Orient", ap: "Asie-Pacifique", ru: "Russie et Norvège", af: "Afrique" }
+    top_exp: "Premiers exportateurs"
+    clients: "Principaux clients"
+    suppliers: "Principaux fournisseurs"
+    europe_share: "Part de l'Europe : %n %"
+    straits: "Volumes estimés aux détroits"
+    avoided: "évité"
+    exports: "exporte"
+    imports: "importe"
+    via: "via"
+    source: "UN Comtrade (code douanier 271111) : importations déclarées, complétées par les exportations des pays fournisseurs ; itinéraires estimés"
+    aria: "Carte des flux mondiaux de gaz naturel liquéfié"
+    error: "La carte n'a pas pu se charger."
   cta:
     listen_kicker: "Écouter le podcast"
     listen_kicker_cap: "Écouter le podcast"
@@ -267,6 +289,22 @@ fr:
       a_france: "Les stockages français sont remplis à %n %, soit environ %m TWh de gaz."
       q_why: "Que se passe-t-il si les stocks sont bas ?"
       a_why: "Des stocks bas à l'entrée de l'hiver obligent à importer davantage, surtout du GNL, au moment où la demande est la plus forte : les prix montent et le risque de tension augmente en cas d'hiver froid."
+    lng:
+      eyebrow: "Gaz"
+      title: "Les routes du GNL dans le monde"
+      short: "Routes du GNL"
+      lead: "Qui vend du gaz naturel liquéfié, à qui, et par quels détroits passent les méthaniers : la carte des flux mondiaux de GNL."
+      how_title: "Comment lire la carte"
+      how:
+        - "Chaque trait est un flux annuel de GNL entre un pays exportateur et un pays importateur. Son épaisseur suit le volume, en millions de tonnes (Mt), et sa couleur indique la région d'origine. Les filtres isolent un pays exportateur ou une région d'arrivée."
+        - "Les volumes sont ceux déclarés aux douanes et publiés par les Nations unies (UN Comtrade). Quand un pays importateur ne publie pas ses chiffres, on reprend les exportations déclarées par ses fournisseurs. Quelques pays manquent encore : le total couvre l'essentiel du commerce mondial, pas sa totalité."
+        - "Les itinéraires sont estimés : route maritime la plus courte entre les terminaux, en évitant la mer Rouge (attaques des Houthis depuis fin 2023) et en limitant le canal de Panama (restrictions liées à la sécheresse en 2023 et 2024). Les volumes affichés aux détroits en découlent."
+      q_top: "Quels sont les plus grands exportateurs de GNL ?"
+      a_top: "En %y, d'après les données déclarées : %n."
+      q_europe: "D'où vient le GNL importé par l'Europe ?"
+      a_europe: "En %y, l'Europe (Union européenne, Royaume-Uni et Turquie) a importé %m Mt de GNL : %n."
+      q_hormuz: "Quelle part du GNL passe par le détroit d'Ormuz ?"
+      a_hormuz: "Environ %n Mt en %y, soit %m % des volumes de la carte : tout le GNL du Qatar et des Émirats arabes unis passe par Ormuz, sans itinéraire de contournement."
   quotes:
     spot: "Spot France"
     hormuz: "Ormuz"
@@ -407,6 +445,7 @@ fr:
     storage_chart_aria: "Taux de remplissage des stockages de gaz, cette année et l'an dernier"
     gw_tile: "Le gaz dans le monde sur 10 ans"
     gw_tile_sub: "Europe, Asie, États-Unis : l'Europe paie son gaz %n fois le prix américain"
+    lngw_tile_sub: "Carte des flux %y · premier exportateur : %n"
     lng_title: "Exportations de GNL des États-Unis"
     in_month: "en"
     yoy: "sur un an"
@@ -571,6 +610,7 @@ en:
     brent: "/en/brent-oil-price/"
     diesel: "/en/diesel-price-france/"
     storage: "/en/european-gas-storage/"
+    lng: "/en/lng-world/"
   ids:
     power: electricity
     gas: gas
@@ -621,6 +661,27 @@ en:
     on_video: "On video: %t"
     read_report: "Read the report: %t"
     video: "VIDEO"
+  lngmap:
+    title: "Global LNG trade routes"
+    sub: "Liquefied natural gas flows in %y, in million tonnes (Mt)"
+    total: "Total flows"
+    all: "All flows"
+    by_exp: "Exporter"
+    by_reg: "Arrival"
+    regs: { eu: "Europe", as: "Asia", am: "Americas", mo: "Middle East and Africa" }
+    origins: { na: "Americas", me: "Middle East", ap: "Asia-Pacific", ru: "Russia and Norway", af: "Africa" }
+    top_exp: "Top exporters"
+    clients: "Main buyers"
+    suppliers: "Main suppliers"
+    europe_share: "Share going to Europe: %n %"
+    straits: "Estimated volumes at straits"
+    avoided: "avoided"
+    exports: "exports"
+    imports: "imports"
+    via: "via"
+    source: "UN Comtrade (customs code 271111): declared imports, completed with suppliers' declared exports; estimated routes"
+    aria: "Map of global liquefied natural gas flows"
+    error: "The map could not be loaded."
   cta:
     listen_kicker: "Listen to the podcast"
     listen_kicker_cap: "Listen to the podcast"
@@ -813,6 +874,22 @@ en:
       a_france: "French storage is %n% full, about %m TWh of gas."
       q_why: "What happens if storage is low?"
       a_why: "Low storage going into winter means importing more, mostly LNG, when demand peaks: prices rise and the risk of shortages increases if the winter is cold."
+    lng:
+      eyebrow: "Gas"
+      title: "Global LNG trade routes"
+      short: "LNG trade routes"
+      lead: "Who sells liquefied natural gas, to whom, and through which straits the carriers sail: the map of global LNG flows."
+      how_title: "How to read the map"
+      how:
+        - "Each line is an annual LNG flow between an exporting and an importing country. Its thickness follows the volume, in million tonnes (Mt), and its colour shows the region of origin. The filters isolate one exporter or one arrival region."
+        - "Volumes are those declared to customs and published by the United Nations (UN Comtrade). When an importing country does not publish its figures, the exports declared by its suppliers are used instead. A few countries are still missing: the total covers most of world trade, not all of it."
+        - "Routes are estimated: the shortest sea route between terminals, avoiding the Red Sea (Houthi attacks since late 2023) and limiting the Panama Canal (drought restrictions in 2023 and 2024). The volumes shown at each strait follow from these routes."
+      q_top: "Which countries export the most LNG?"
+      a_top: "In %y, according to declared data: %n."
+      q_europe: "Where does Europe's LNG come from?"
+      a_europe: "In %y, Europe (European Union, United Kingdom and Türkiye) imported %m Mt of LNG: %n."
+      q_hormuz: "How much LNG goes through the Strait of Hormuz?"
+      a_hormuz: "About %n Mt in %y, or %m % of the volumes on the map: all LNG from Qatar and the United Arab Emirates goes through Hormuz, with no bypass route."
   quotes:
     spot: "France spot"
     hormuz: "Hormuz"
@@ -953,6 +1030,7 @@ en:
     storage_chart_aria: "Gas storage filling rate, this year and last year"
     gw_tile: "Gas around the world over 10 years"
     gw_tile_sub: "Europe, Asia, United States: Europe pays %n times the US price for its gas"
+    lngw_tile_sub: "Flow map %y · top exporter: %n"
     lng_title: "US LNG exports"
     in_month: "in"
     yoy: "year on year"
