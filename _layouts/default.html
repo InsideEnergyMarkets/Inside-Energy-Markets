@@ -1795,6 +1795,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
         var avoided = all && c.k === 'BAB' && mt < 1;
         if (mt < 1 && !avoided) return;
         if (k > 1.6 && mt < 20 && !avoided) return;
+        if (mode !== 'full' && (avoided || mt < 45)) return; // bannière et vignette : seulement les grands détroits
         var p = proj(c.p), o = OFF[c.k] || [8, 14, 'start'], g = gC.append('g').attr('transform', 'translate(' + p[0] + ',' + p[1] + ')');
         g.append('rect').attr('class', 'lng-choke').attr('x', -4 * k).attr('y', -4 * k).attr('width', 8 * k).attr('height', 8 * k).attr('transform', 'rotate(45)');
         if (mode !== 'thumb') g.append('text').attr('class', 'lng-clbl').attr('x', o[0] * k).attr('y', o[1] * k).attr('text-anchor', o[2]).style('font-size', (10.5 * k) + 'px')

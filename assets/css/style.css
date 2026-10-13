@@ -3220,9 +3220,9 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 @keyframes lng-pulse { 50% { opacity: 0.3; } }
 .lng-promo-title { margin: 10px 0 6px; font: 400 36px/1 'Bebas Neue', sans-serif; letter-spacing: 0.5px; color: #fff; }
 .lng-promo-sub { margin: 0; max-width: 440px; font-size: 14.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.75); }
-.lng-promo-stats { display: flex; flex-wrap: wrap; gap: 14px 24px; margin: 16px 0 20px; }
-.lng-promo-stats div { display: flex; flex-direction: column; max-width: 150px; }
-.lng-promo-stats b { font: 700 22px 'JetBrains Mono', monospace; color: #fff; }
+.lng-promo-stats { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); gap: 14px 20px; margin: 16px 0 20px; }
+.lng-promo-stats div { display: flex; flex-direction: column; max-width: 140px; }
+.lng-promo-stats b { font: 700 20px 'JetBrains Mono', monospace; color: #fff; white-space: nowrap; }
 .lng-promo-stats small { font-size: 12px; line-height: 1.35; color: rgba(255, 255, 255, 0.62); }
 .lng-promo-map { display: block; padding: 10px 10px 10px 0; }
 /* Accueil, sous « Le point marchés » */
