@@ -123,8 +123,17 @@ de l'énergie mises à jour automatiquement. Jekyll sur GitHub Pages.
   (B base 100, C éditorial, D 3 chiffres, E électricité à la loupe) + 5 textes LinkedIn. LinkedIn retenu : titre,
   Lecture clé, une ligne-chiffre par marché (⚡ 🔥 🛢️), lien.
   Une note existante n'est jamais écrasée (sauf `--force`).
-- Pages de référence (SEO, FAQ + FAQPage) : `/prix-baril-brent/`, `/prix-gazole/`, `/stocks-gaz-europe/` (+ EN),
+- Pages de référence (SEO, FAQ + FAQPage) : `/prix-baril-brent/`, `/prix-gazole/`, `/stocks-gaz-europe/`, `/gnl-monde/` (+ EN),
   gabarit `_includes/pages/reference.html`, blocs partagés avec /marches/ dans `_includes/blocks/`.
+- Carte mondiale du GNL (`/gnl-monde/`, `/en/lng-world/`, kind `lng` de reference.html, bloc `_includes/blocks/lng-map.html`) :
+  `scripts/lng_trade.py` → `_data/lng_trade.json` (UN Comtrade HS 271111, API publique sans clé : importations déclarées +
+  données miroir (exportations des fournisseurs) pour les importateurs silencieux ; itinéraires estimés = plus court chemin
+  sur un graphe de points en mer, mer Rouge et Panama pénalisés ; volumes aux détroits). Appelé par fetch_market_data.py,
+  une vérification par mois, passage à l'année suivante quand son total atteint 95 % de l'année affichée (2024 affichée en oct. 2026).
+  Dessin d3 + topojson chargés à la demande (IntersectionObserver), modes `data-lng-map` : plein (filtres exportateur / arrivée,
+  seuls les flux sélectionnés s'animent), `mini` (bannière A de #gaz, `_includes/lng-promo.html`), `thumb` (accueil sous
+  « Le point marchés »). Entrée « Routes du GNL » du sommaire de /marches/ (badge « Nouveau » jusqu'à `lng_new_until` dans
+  `_config.yml`), lien sous les détroits. Région de couleur = origine (na sarcelle clair, me jaune, ap orange, ru violet, af gris).
 - Articles : article le plus récent « à la une », étiquettes (`tags:` dans le front matter), temps de lecture
   (`reading-time.html`), partage LinkedIn, encadré auteur, article précédent / suivant. Flux RSS `/feed.xml`
   (jekyll-feed) gardé sans bouton visible (Tom n'en veut pas).
