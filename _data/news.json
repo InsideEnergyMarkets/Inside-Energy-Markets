@@ -1,19 +1,26 @@
 {
- "updated_at": "2026-10-12T23:09:25+00:00",
+ "updated_at": "2026-10-13T07:01:01+00:00",
  "items": [
   {
-   "title": "Cuba forges ahead with renewable energy plans amid US oil blockade",
-   "url": "https://www.aljazeera.com/economy/2026/10/12/cuba-forges-ahead-with-renewable-energy-plans-amid-us-oil-blockade?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-12T18:52:40+00:00"
-  },
-  {
-   "title": "Carburants : le prix du gazole devrait baisser d’une dizaine de centimes chez TotalEnergies grâce au déstockage",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/12/carburants-le-prix-du-gazole-devrait-baisser-d-une-dizaine-de-centimes-chez-totalenergies-grace-au-destockage_6792695_3234.html",
+   "title": "Les émissions de gaz à effet de serre en France diminuent du fait de l’envolée des prix des carburants",
+   "url": "https://www.lemonde.fr/planete/article/2026/10/13/les-emissions-de-gaz-a-effet-de-serre-en-france-diminuent-du-fait-de-l-envolee-des-prix-des-carburants_6793062_3244.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-12T16:52:56+00:00"
+   "date": "2026-10-13T04:50:07+00:00"
+  },
+  {
+   "title": "Au Niger, une éruption de pétrole provoque un incident environnemental « d’une gravité exceptionnelle »",
+   "url": "https://www.lemonde.fr/afrique/article/2026/10/13/au-niger-une-eruption-de-petrole-provoque-un-incident-environnemental-d-une-gravite-exceptionnelle_6793055_3212.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-13T03:45:37+00:00"
+  },
+  {
+   "title": "Aux Etats-Unis, le recours de Donald Trump au gazole russe, au détriment de l’Ukraine, provoque une vaste controverse",
+   "url": "https://www.lemonde.fr/international/article/2026/10/13/aux-etats-unis-le-recours-de-donald-trump-au-gazole-russe-au-detriment-de-l-ukraine-provoque-une-vaste-controverse_6793051_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-13T03:31:32+00:00"
   },
   {
    "title": "Trump rewards Putin and betrays Ukraine with Russia diesel deal - The Latest",
@@ -30,25 +37,11 @@
    "date": "2026-10-12T15:32:54+00:00"
   },
   {
-   "title": "La Russie satisfaite de l’accord entre Donald Trump et Vladimir Poutine sur le gazole",
-   "url": "https://www.lemonde.fr/international/article/2026/10/12/la-russie-satisfaite-de-l-accord-entre-donald-trump-et-vladimir-poutine-sur-le-gazole_6792633_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-12T12:30:02+00:00"
-  },
-  {
    "title": "Methane emissions reporting templates – Commission launches call for feedback",
    "url": "https://energy.ec.europa.eu/news/methane-emissions-reporting-templates-commission-launches-call-feedback-2026-10-12_en",
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-12T07:30:09+00:00"
-  },
-  {
-   "title": "Le commissaire européen au climat compte sur le « made in Europe » et le nucléaire pour réduire les émissions de carbone",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/12/le-commissaire-europeen-au-climat-compte-sur-le-made-in-europe-et-le-nucleaire-pour-reduire-les-emissions-de-carbone_6792422_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-12T04:00:31+00:00"
   },
   {
    "title": "La transition et les préoccupations des Français : « on paie encore le prix de cette erreur très cher en 2026 »",
@@ -79,13 +72,6 @@
    "date": "2026-10-10T19:00:08+00:00"
   },
   {
-   "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
-   "url": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-10T14:24:14+00:00"
-  },
-  {
    "title": "Les forces yéménites disent progresser contre les Houthis autour du détroit de Bab el-Mandeb",
    "url": "https://www.france24.com/fr/moyen-orient/20261010-y%C3%A9men-la-coalition-men%C3%A9e-par-riyad-m%C3%A8ne-une-op%C3%A9ration-%C3%A0-grande-%C3%A9chelle-contre-les-houthis",
    "source": "France 24",
@@ -105,6 +91,13 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-08T15:55:59+00:00"
+  },
+  {
+   "title": "Tanker hit by multiple projectiles in Gulf off Qatar, maritime agency says",
+   "url": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC",
+   "lang": "en",
+   "date": "2026-10-08T12:11:31+00:00"
   }
  ]
 }
