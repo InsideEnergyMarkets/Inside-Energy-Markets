@@ -1827,7 +1827,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     root.addEventListener('click', function (ev) { var b = ev.target.closest('.lng-chip'); if (b) pick(b.getAttribute('data-sel')); });
     pick('all');
     // Petit écran : carte plus large que l'écran, défilement horizontal, départ centré sur le Moyen-Orient et l'Asie
-    if (box.scrollWidth > box.clientWidth) box.scrollLeft = (box.scrollWidth - box.clientWidth) * 0.62;
+    if (box.scrollWidth > box.clientWidth) box.scrollLeft = (box.scrollWidth - box.clientWidth) * 0.85;
 
     // Animation seulement quand la carte est visible
     if ('IntersectionObserver' in window) {
