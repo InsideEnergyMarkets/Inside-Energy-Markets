@@ -1697,10 +1697,11 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
 })();
 </script>
 <script>
-// ===== /gnl-monde/ : carte mondiale des flux de GNL (d3 et topojson chargés seulement sur cette page) =====
+// ===== Carte mondiale des flux de GNL : page /gnl-monde/ (data-lng-map), bannière de /marches/ ("mini") et accueil ("thumb").
+// d3 et topojson sont chargés seulement quand une carte arrive près de l'écran. =====
 (function () {
-  var root = document.querySelector('[data-lng-map]'), M = window.lngMap;
-  if (!root || !M) return;
+  var roots = document.querySelectorAll('[data-lng-map]'), M = window.lngMap;
+  if (!roots.length || !M) return;
   var D = M.d, T = M.t, L = M.lang === 'en' ? 1 : 0, loc = M.lang === 'en' ? 'en-GB' : 'fr-FR';
   var COL = { na: '#4fd1c5', me: '#e8b33a', ap: '#e8703a', ru: '#c4b5fd', af: '#cbd5e1' };
   var W = 1100, H = 560, sep = M.lang === 'en' ? ': ' : ' : ';
@@ -1710,11 +1711,20 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
   function load(src) {
     return new Promise(function (ok, ko) { var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
   }
-  var ready = (window.d3 && window.topojson) ? Promise.resolve() :
-    load('https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js').then(function () { return load('https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js'); });
-  ready.then(function () {
-    return window.iemWorld || d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(function (w) { window.iemWorld = w; return w; });
-  }).then(draw).catch(function () { root.classList.add('is-error'); root.querySelector('[data-lng-svg]').setAttribute('data-error', T.error); });
+  var libs;
+  function start(root, idx) {
+    libs = libs || ((window.d3 && window.topojson) ? Promise.resolve() :
+      load('https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js').then(function () { return load('https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js'); }))
+      .then(function () { return window.iemWorld || d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(function (w) { window.iemWorld = w; return w; }); });
+    libs.then(function (w) { draw(root, w, idx); }).catch(function () {
+      root.classList.add('is-error'); var b = root.querySelector('[data-lng-svg]'); if (b) b.setAttribute('data-error', T.error); });
+  }
+  roots.forEach(function (root, idx) {
+    if (!('IntersectionObserver' in window)) { start(root, idx); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); start(root, idx); } }, { rootMargin: '300px' });
+    io.observe(root);
+  });
 
   // Itinéraire lissé (coins arrondis) : terminal de départ, points en mer, terminal d'arrivée
   function routeCoords(f) {
@@ -1728,16 +1738,17 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     return pts.map(function (p) { return [((p[0] + 540) % 360) - 180, p[1]]; });
   }
 
-  function draw(world) {
+  function draw(root, world, idx) {
+    var mode = root.getAttribute('data-lng-map') || 'full';
     var box = root.querySelector('[data-lng-svg]'), side = root.querySelector('[data-lng-side]'), tip = root.querySelector('[data-lng-tip]');
     var proj = d3.geoNaturalEarth1().rotate([-10, 0]).fitExtent([[4, 4], [W - 4, H - 4]], { type: 'Sphere' }), path = d3.geoPath(proj);
     box.innerHTML = '';
     var svg = d3.select(box).append('svg').attr('viewBox', '0 0 ' + W + ' ' + H);
-    svg.append('defs').append('clipPath').attr('id', 'lng-clip').append('path').attr('d', path({ type: 'Sphere' }));
+    svg.append('defs').append('clipPath').attr('id', 'lng-clip' + idx).append('path').attr('d', path({ type: 'Sphere' }));
     svg.append('path').attr('class', 'sphere').attr('d', path({ type: 'Sphere' }));
     svg.append('path').attr('class', 'grat').attr('d', path(d3.geoGraticule10()));
     svg.append('g').selectAll('path').data(topojson.feature(world, world.objects.countries).features).join('path').attr('class', 'land').attr('d', path);
-    var gF = svg.append('g').attr('clip-path', 'url(#lng-clip)'), gC = svg.append('g'), gN = svg.append('g');
+    var gF = svg.append('g').attr('clip-path', 'url(#lng-clip' + idx + ')'), gC = svg.append('g'), gN = svg.append('g');
     // Taille des textes : constante à l'écran quelle que soit la largeur de la carte
     var k = Math.min(2.6, Math.max(1, W / (box.querySelector('svg').getBoundingClientRect().width || W)));
     var width = function (mt) { return Math.max(0.8, Math.sqrt(mt) * 1.05); };
@@ -1745,12 +1756,13 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     var chokeName = {}; D.choke.forEach(function (c) { chokeName[c.k] = L ? c.en : c.fr; });
 
     function showTip(ev, html) {
+      if (!tip) return;
       var r = root.getBoundingClientRect(); tip.innerHTML = html; tip.style.opacity = 1;
       var x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
       if (x + tip.offsetWidth > r.width - 8) x = ev.clientX - r.left - tip.offsetWidth - 14;
       tip.style.left = x + 'px'; tip.style.top = y + 'px';
     }
-    function hideTip() { tip.style.opacity = 0; }
+    function hideTip() { if (tip) tip.style.opacity = 0; }
     var ps = gF.selectAll('path').data(flows).join('path').attr('class', 'lng-flow')
       .attr('d', function (f) { return path({ type: 'LineString', coordinates: routeCoords(f) }); })
       .attr('stroke', function (f) { return COL[f.re]; }).attr('stroke-width', function (f) { return width(f.mt); })
@@ -1771,7 +1783,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
       gN.append('circle').attr('class', 'lng-node-e').attr('fill', COL[n.re]).attr('cx', p[0]).attr('cy', p[1]).attr('r', (3 + Math.sqrt(n.mt) * .65) * Math.sqrt(k))
         .on('mousemove', function (ev) { showTip(ev, '<b>' + esc(nm(n.k)) + '</b><br>' + T.exports + ' ' + fmt(n.mt) + ' Mt'); }).on('mouseleave', hideTip);
       var lo = { e634: [-7, 14, 'end'], e360: [7, 12, 'start'] }[n.k] || [7, -5, 'start'];
-      if (n.mt > (k > 1.6 ? 25 : 8)) gN.append('text').attr('class', 'lng-lbl').attr('x', p[0] + lo[0] * k).attr('y', p[1] + lo[1] * k).attr('text-anchor', lo[2]).style('font-size', (10.5 * k) + 'px').text(nm(n.k)); });
+      if (mode !== 'thumb' && n.mt > (k > 1.6 ? 25 : 8)) gN.append('text').attr('class', 'lng-lbl').attr('x', p[0] + lo[0] * k).attr('y', p[1] + lo[1] * k).attr('text-anchor', lo[2]).style('font-size', (10.5 * k) + 'px').text(nm(n.k)); });
 
     // Détroits : volume des flux sélectionnés qui y passent
     var OFF = { SUZN: [-8, -8, 'end'], HMZ: [8, -10, 'start'], GIB: [-8, 16, 'end'], MLC: [-8, 16, 'end'], LOM: [-8, 14, 'end'], DOV: [-8, -8, 'end'] };
@@ -1785,7 +1797,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
         if (k > 1.6 && mt < 20 && !avoided) return;
         var p = proj(c.p), o = OFF[c.k] || [8, 14, 'start'], g = gC.append('g').attr('transform', 'translate(' + p[0] + ',' + p[1] + ')');
         g.append('rect').attr('class', 'lng-choke').attr('x', -4 * k).attr('y', -4 * k).attr('width', 8 * k).attr('height', 8 * k).attr('transform', 'rotate(45)');
-        g.append('text').attr('class', 'lng-clbl').attr('x', o[0] * k).attr('y', o[1] * k).attr('text-anchor', o[2]).style('font-size', (10.5 * k) + 'px')
+        if (mode !== 'thumb') g.append('text').attr('class', 'lng-clbl').attr('x', o[0] * k).attr('y', o[1] * k).attr('text-anchor', o[2]).style('font-size', (10.5 * k) + 'px')
           .text(avoided ? T.red_sea : (L ? c.en : c.fr) + ' · ' + fmt(mt) + ' Mt');
       });
     }
@@ -1794,9 +1806,9 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     var byE = {}; D.flows.forEach(function (f) { byE[f.f] = byE[f.f] || { mt: 0, re: f.re }; byE[f.f].mt += f.mt; });
     var topE = Object.keys(byE).sort(function (a, b) { return byE[b].mt - byE[a].mt; }).slice(0, 8);
     var rowE = root.querySelector('[data-lng-chips="exp"]'), rowR = root.querySelector('[data-lng-chips="reg"]');
-    rowE.insertAdjacentHTML('beforeend', '<button type="button" class="lng-chip" data-sel="all">' + esc(T.all) + '</button>' +
+    if (rowE) rowE.insertAdjacentHTML('beforeend', '<button type="button" class="lng-chip" data-sel="all">' + esc(T.all) + '</button>' +
       topE.map(function (c) { return '<button type="button" class="lng-chip" data-sel="e:' + c + '">' + esc(nm('e' + c)) + '</button>'; }).join(''));
-    rowR.insertAdjacentHTML('beforeend', Object.keys(T.regs).map(function (r) { return '<button type="button" class="lng-chip" data-sel="r:' + r + '">' + esc(T.regs[r]) + '</button>'; }).join(''));
+    if (rowR) rowR.insertAdjacentHTML('beforeend', Object.keys(T.regs).map(function (r) { return '<button type="button" class="lng-chip" data-sel="r:' + r + '">' + esc(T.regs[r]) + '</button>'; }).join(''));
 
     function bars(rows, total, unit) {
       var mx = rows.length ? rows[0].mt : 1;
@@ -1807,6 +1819,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
       root.querySelectorAll('.lng-chip').forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-sel') === sel); });
       var kind = sel.charAt(0), key = sel.slice(2), test = function (f) { return kind === 'a' || (kind === 'e' ? String(f.f) === key : f.ri === key); };
       ps.classed('is-dim', function (f) { return !test(f); });
+      box.classList.toggle('is-filtered', kind !== 'a');
       var list = D.flows.filter(test), tot = list.reduce(function (s, f) { return s + f.mt; }, 0), html;
       if (kind === 'a') {
         html = '<h3>' + esc(T.total) + sep + fmt(tot) + ' Mt</h3><h4>' + esc(T.top_exp) + '</h4>' +
@@ -1821,7 +1834,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
         html = '<h3>' + esc(T.regs[key]) + sep + fmt(tot) + ' Mt</h3><h4>' + esc(T.suppliers) + '</h4>' +
           bars(Object.keys(by).map(function (c) { return by[c]; }).sort(function (a, b) { return b.mt - a.mt; }).slice(0, 8), tot, '%');
       }
-      side.innerHTML = html;
+      if (side) side.innerHTML = html;
       drawChoke(list, kind === 'a');
     }
     root.addEventListener('click', function (ev) { var b = ev.target.closest('.lng-chip'); if (b) pick(b.getAttribute('data-sel')); });

@@ -3173,7 +3173,10 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 .lng-flow.is-dim { opacity: 0.06; }
 .lng-map.is-live .lng-flow { animation: lng-flow 14s linear infinite; }
 @keyframes lng-flow { to { stroke-dashoffset: -270; } }
-@media (prefers-reduced-motion: reduce) { .lng-map.is-live .lng-flow { animation: none; } }
+.lng-mini.is-live .lng-flow { animation: lng-flow 14s linear infinite; }
+/* Pays ou région sélectionné : seuls ses flux avancent */
+.is-live.is-filtered .lng-flow.is-dim { animation: none; }
+@media (prefers-reduced-motion: reduce) { .lng-map.is-live .lng-flow, .lng-mini.is-live .lng-flow { animation: none; } }
 .lng-node-e { stroke: #0d1638; stroke-width: 1.5; }
 .lng-node-i { fill: #fff; stroke: #0d1638; stroke-width: 1; opacity: 0.85; }
 .lng-lbl { font: 600 10.5px 'Inter', sans-serif; fill: rgba(255, 255, 255, 0.78); paint-order: stroke; stroke: #0d1638; stroke-width: 3px; pointer-events: none; }
@@ -3201,8 +3204,48 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 .lng-tip b { color: #fff; }
 .lng-card.is-error .lng-map::before { content: attr(data-error); display: block; padding: 40px 0; text-align: center; color: rgba(255, 255, 255, 0.6); }
 .ref-section .lng-card { margin-bottom: 28px; }
+.lng-mini svg { display: block; width: 100%; height: auto; }
+.lng-mini .sphere { fill: #101c4c; } .lng-mini .grat { fill: none; stroke: rgba(255, 255, 255, 0.04); }
+.lng-mini .land { fill: #24357a; stroke: #0d1638; stroke-width: 0.5; }
+.lng-mini .lng-flow { cursor: inherit; }
+/* Bannière de la rubrique Gaz (/marches/) */
+.lng-promo {
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); align-items: center; margin-top: 18px;
+  color: #fff; border-radius: 18px; overflow: hidden;
+  background: radial-gradient(900px 500px at 80% 0%, rgba(0, 129, 125, 0.25), transparent 60%), linear-gradient(160deg, #1b2a6b, #0d1638);
+}
+.lng-promo-txt { padding: 28px 10px 28px 30px; }
+.lng-new { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #e8703a; color: #fff; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.6px; text-transform: uppercase; }
+.lng-new::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: lng-pulse 1.6s ease-in-out infinite; }
+@keyframes lng-pulse { 50% { opacity: 0.3; } }
+.lng-promo-title { margin: 10px 0 6px; font: 400 36px/1 'Bebas Neue', sans-serif; letter-spacing: 0.5px; color: #fff; }
+.lng-promo-sub { margin: 0; max-width: 440px; font-size: 14.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.75); }
+.lng-promo-stats { display: flex; flex-wrap: wrap; gap: 14px 24px; margin: 16px 0 20px; }
+.lng-promo-stats div { display: flex; flex-direction: column; max-width: 150px; }
+.lng-promo-stats b { font: 700 22px 'JetBrains Mono', monospace; color: #fff; }
+.lng-promo-stats small { font-size: 12px; line-height: 1.35; color: rgba(255, 255, 255, 0.62); }
+.lng-promo-map { display: block; padding: 10px 10px 10px 0; }
+/* Accueil, sous « Le point marchés » */
+.lng-home {
+  display: grid; grid-template-columns: 168px minmax(0, 1fr) auto; gap: 16px; align-items: center; margin-top: 14px;
+  padding: 12px 16px 12px 12px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04);
+  color: #fff; text-decoration: none; transition: border-color 0.2s, background 0.2s;
+}
+.lng-home:hover { border-color: #4fd1c5; background: rgba(255, 255, 255, 0.07); color: #fff; text-decoration: none; }
+.lng-home-map { display: block; border-radius: 10px; overflow: hidden; background: #101c4c; }
+.lng-home-txt { display: flex; flex-direction: column; gap: 3px; }
+.lng-home-txt strong { font: 400 22px 'Bebas Neue', sans-serif; letter-spacing: 0.4px; }
+.lng-home-txt small { font-size: 13px; color: rgba(255, 255, 255, 0.65); }
+.lng-home > b { color: #4fd1c5; }
+/* Sommaire de /marches/ et lien de la rubrique Routes maritimes */
+.mk-toc a.mk-toc-lng em { font-style: normal; margin-left: 2px; padding: 1px 7px; border-radius: 999px; background: #e8703a; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.mk-sea-lng { margin-top: 16px; }
 @media (max-width: 860px) {
   .lng-bars { grid-template-columns: 1fr; }
+  .lng-promo { grid-template-columns: 1fr; }
+  .lng-promo-txt { padding: 22px 18px 6px; }
+  .lng-promo-map { padding: 0 6px 8px; }
+  .lng-home { grid-template-columns: 110px minmax(0, 1fr) auto; gap: 12px; }
   .lng-map { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -14px; padding: 0 14px; scrollbar-width: thin; }
   .lng-map svg { width: 760px; max-width: none; }
   .lng-kpis { display: none; }

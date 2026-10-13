@@ -74,3 +74,5 @@ twitter:
 
 # Mois de lancement du podcast (page À propos), prioritaire sur la date du premier épisode du flux
 podcast_start: "2026-02-01"
+# Badge « Nouveau » de la carte du GNL (sommaire de /marches/, bannière) jusqu'à cette date
+lng_new_until: 2026-11-15

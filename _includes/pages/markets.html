@@ -37,6 +37,8 @@
   <div class="wrap">
     <a href="#{{ t.ids.power }}"><i class="fa-solid fa-bolt" aria-hidden="true"></i>{{ mk.toc_power }}</a>
     <a href="#{{ t.ids.gas }}"><i class="fa-solid fa-fire-flame-simple" aria-hidden="true"></i>{{ mk.toc_gas }}</a>
+    {% assign now_s = site.time | date: "%s" | plus: 0 %}{% assign until_s = site.lng_new_until | date: "%s" | plus: 0 %}
+    <a href="{{ u.lng | relative_url }}" class="mk-toc-lng"><i class="fa-solid fa-route" aria-hidden="true"></i>{{ t.lngmap.toc }}{% if now_s < until_s %}<em>{{ t.nav.new }}</em>{% endif %}</a>
     <a href="#{{ t.ids.oil }}"><i class="fa-solid fa-oil-well" aria-hidden="true"></i>{{ mk.toc_oil }}</a>
     <a href="#{{ t.ids.sea }}"><i class="fa-solid fa-ship" aria-hidden="true"></i>{{ mk.toc_sea }}</a>
     <a href="#{{ t.ids.security }}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{{ mk.toc_security }}</a>
@@ -223,17 +225,6 @@
         <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
       </button>
       {% endif %}
-      {% assign lt = site.data.lng_trade %}
-      {% if lt and lt.flows %}
-      {% assign lt_top = lt.summary.top_exp | first %}
-      {% capture lt_name %}{% if lang == "en" %}{{ lt_top.en }}{% else %}{{ lt_top.fr }}{% endif %}{% endcapture %}
-      {% assign lt_y = lt.year | append: "" %}
-      <a class="mk-link-tile" href="{{ u.lng | relative_url }}">
-        <i class="fa-solid fa-route" aria-hidden="true"></i>
-        <span><strong>{{ t.seo.lng.title }}</strong>{{ mk.lngw_tile_sub | replace: "%y", lt_y | replace: "%n", lt_name }}</span>
-        <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
-      </a>
-      {% endif %}
       {% assign lng = site.data.lng_exports %}
       {% if lng and lng.size > 12 %}
       {% assign lng_last = lng | last %}
@@ -248,6 +239,8 @@
       </button>
       {% endif %}
     </div>
+
+    {% include lng-promo.html kind="banner" %}
 
     {% if gw and gw.europe %}
     <dialog class="mk-dialog" id="dlg-gw" aria-labelledby="dlg-gw-title">
@@ -450,6 +443,7 @@
       {% include chokepoint.html key="bab_el_mandeb" name=mk.bab_strait short=mk.bab lat="12.6" lon="43.4" zoom="7" %}
       {% include chokepoint.html key="malacca" name=mk.malacca_strait short=mk.malacca lat="3.5" lon="100.5" zoom="5" %}
     </div>
+    {% if site.data.lng_trade %}<p class="da-links mk-sea-lng"><a href="{{ u.lng | relative_url }}"><i class="fa-solid fa-route" aria-hidden="true"></i> {{ t.lngmap.sea_link }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></a></p>{% endif %}
   </div>
 </section>
 

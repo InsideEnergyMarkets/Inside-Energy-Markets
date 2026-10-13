@@ -142,6 +142,7 @@
       </div>
       {% endif %}
     </div>
+    {% include lng-promo.html kind="home" %}
 
     {% if market.updated_at %}
     <p class="mkt-updated-footer"><span class="live-dot"></span>{{ t.updated }} {{ market.updated_at | date: t.datetime_fmt }}</p>

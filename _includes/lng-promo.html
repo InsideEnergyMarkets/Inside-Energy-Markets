@@ -1,0 +1,37 @@
+{% comment %}
+  Mise en avant de la carte du GNL (/gnl-monde/) : include.kind = "banner" (rubrique Gaz de /marches/) ou "home"
+  (accueil, sous « Le point marchés »). Carte animée chargée quand le bloc arrive à l'écran (mode mini ou vignette).
+{% endcomment %}
+{% assign lt = site.data.lng_trade %}
+{% assign lm = t.lngmap %}
+{% if lt and lt.flows %}
+{% assign now_s = site.time | date: "%s" | plus: 0 %}
+{% assign until_s = site.lng_new_until | date: "%s" | plus: 0 %}
+{% assign ys = lt.year | append: "" %}
+{% if include.kind == "banner" %}
+{% assign eu1 = lt.summary.eu_top | first %}
+{% capture eu1_name %}{% if lang == "en" %}{{ eu1.en }}{% else %}{{ eu1.fr }}{% endif %}{% endcapture %}
+<div class="lng-promo">
+  <div class="lng-promo-txt">
+    {% if now_s < until_s %}<span class="lng-new">{{ t.nav.new }}</span>{% endif %}
+    <h3 class="lng-promo-title">{{ t.seo.lng.title }}</h3>
+    <p class="lng-promo-sub">{{ lm.promo_sub }}</p>
+    <div class="lng-promo-stats">
+      <div><b>{{ lt.summary.total | round: 0 }} Mt</b><small>{{ lm.stat_traded | replace: "%y", ys }}</small></div>
+      <div><b>{{ eu1.share | round: 0 }} %</b><small>{{ lm.stat_top | replace: "%n", eu1_name }}</small></div>
+      <div><b>{{ lt.summary.hormuz | round: 0 }} Mt</b><small>{{ lm.stat_hormuz }}</small></div>
+    </div>
+    <a class="btn btn-primary" href="{{ u.lng | relative_url }}">{{ lm.explore }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span></a>
+  </div>
+  <a class="lng-promo-map" href="{{ u.lng | relative_url }}" tabindex="-1" aria-hidden="true" data-lng-map="mini"><div class="lng-mini" data-lng-svg></div></a>
+</div>
+{% else %}
+{% capture tot %}{{ lt.summary.total | round: 0 }}{% endcapture %}
+<a class="lng-home" href="{{ u.lng | relative_url }}">
+  <span class="lng-home-map" data-lng-map="thumb"><span class="lng-mini" data-lng-svg></span></span>
+  <span class="lng-home-txt"><strong>{{ t.seo.lng.title }}</strong><small>{{ lm.home_text | replace: "%n", tot }}</small></span>
+  <b aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></b>
+</a>
+{% endif %}
+<script>window.lngMap = { lang: {{ lang | jsonify }}, t: {{ lm | jsonify }}, d: {{ lt | jsonify }} };</script>
+{% endif %}
