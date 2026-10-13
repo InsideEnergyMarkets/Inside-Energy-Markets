@@ -3164,7 +3164,6 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 .lng-grid { margin-top: 8px; }
 .lng-side { margin-top: 6px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
 .lng-bars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
-.lng-map { min-height: 200px; }
 .lng-map svg { display: block; width: 100%; height: auto; }
 .lng-map .sphere { fill: #101c4c; }
 .lng-map .grat { fill: none; stroke: rgba(255, 255, 255, 0.04); }
@@ -3204,6 +3203,8 @@ a.mk-link-tile, a.mk-link-tile:hover { text-decoration: none; }
 .ref-section .lng-card { margin-bottom: 28px; }
 @media (max-width: 860px) {
   .lng-bars { grid-template-columns: 1fr; }
+  .lng-map { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -14px; padding: 0 14px; scrollbar-width: thin; }
+  .lng-map svg { width: 760px; max-width: none; }
   .lng-kpis { display: none; }
   .lng-card { padding: 16px 14px 14px; border-radius: 14px; }
   .lng-chips-label { width: 100%; }

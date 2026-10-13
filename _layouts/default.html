@@ -1739,7 +1739,7 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     svg.append('g').selectAll('path').data(topojson.feature(world, world.objects.countries).features).join('path').attr('class', 'land').attr('d', path);
     var gF = svg.append('g').attr('clip-path', 'url(#lng-clip)'), gC = svg.append('g'), gN = svg.append('g');
     // Taille des textes : constante à l'écran quelle que soit la largeur de la carte
-    var k = Math.min(2.6, Math.max(1, W / (box.clientWidth || W)));
+    var k = Math.min(2.6, Math.max(1, W / (box.querySelector('svg').getBoundingClientRect().width || W)));
     var width = function (mt) { return Math.max(0.8, Math.sqrt(mt) * 1.05); };
     var flows = D.flows.filter(function (f) { return f.mt >= 0.3; }).sort(function (a, b) { return a.mt - b.mt; });
     var chokeName = {}; D.choke.forEach(function (c) { chokeName[c.k] = L ? c.en : c.fr; });
@@ -1826,6 +1826,8 @@ document.querySelectorAll('[data-nt-carousel]').forEach(function (car) {
     }
     root.addEventListener('click', function (ev) { var b = ev.target.closest('.lng-chip'); if (b) pick(b.getAttribute('data-sel')); });
     pick('all');
+    // Petit écran : carte plus large que l'écran, défilement horizontal, départ centré sur le Moyen-Orient et l'Asie
+    if (box.scrollWidth > box.clientWidth) box.scrollLeft = (box.scrollWidth - box.clientWidth) * 0.62;
 
     // Animation seulement quand la carte est visible
     if ('IntersectionObserver' in window) {
