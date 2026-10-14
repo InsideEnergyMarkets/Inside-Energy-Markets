@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-14T07:56:36+00:00",
+ "updated_at": "2026-10-14T13:57:41+00:00",
  "stats": {
-  "total_30d": 37,
-  "attacks_30d": 31,
+  "total_30d": 39,
+  "attacks_30d": 33,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 30
+    "n": 32
    },
    {
     "place": "Golfe d'Oman",
@@ -22,6 +22,34 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-173",
+   "number": 173,
+   "date": "2026-10-14T14:21:00Z",
+   "type": "Attack",
+   "lat": 26.3333,
+   "lon": 56.5,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Cargo",
+   "vessel_type_en": "Cargo",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident within the Strait of Hormuz. A 19,000 tonne Container ship was struck by an unknown projectile whilst conducting an outbound SoH transit."
+  },
+  {
+   "id": "UKMTO-2026-172",
+   "number": 172,
+   "date": "2026-10-14T14:10:00Z",
+   "type": "Attack",
+   "lat": 26.25,
+   "lon": 56.6,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Cargo",
+   "vessel_type_en": "Cargo",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident within the Strait of Hormuz. A 50,000 tonne Container ship was struck by an unknown projectile whilst conducting an inbound SoH transit."
+  },
   {
    "id": "UKMTO-2026-171",
    "number": 171,
