@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-14T11:00:35.237606Z",
+  "updated_at": "2026-10-14T16:20:42.165835Z",
   "brent": {
-    "price_usd": 106.41,
+    "price_usd": 106.08,
     "date": "2026-10-14",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Wed 14/10",
     "prev_value": 106.16,
     "prev_date": "2026-10-13",
-    "change_pct": 0.2
+    "change_pct": -0.1
   },
   "wti": {
-    "price_usd": 95.26,
+    "price_usd": 95.33,
     "date": "2026-10-14",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -20,20 +20,20 @@
     "date_label_en": "Price on Wed 14/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.29,
+    "price_usd_mmbtu": 3.19,
     "date": "2026-10-14",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du mer. 14/10",
     "date_label_en": "Price on Wed 14/10",
-    "price_eur_mwh": 10.03,
-    "usd_per_eur": 1.1188,
+    "price_eur_mwh": 9.72,
+    "usd_per_eur": 1.1195,
     "prev_value": 10.0,
     "prev_date": "2026-10-13",
-    "change_pct": 0.3
+    "change_pct": -2.8
   },
   "peg": {
-    "price_eur_mwh": 83.99,
+    "price_eur_mwh": 84.35,
     "date": "2026-10-14",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,21 +41,21 @@
     "date_label_en": "Average on Wed 14/10",
     "prev_value": 85.15,
     "prev_date": "2026-10-13",
-    "change_pct": -1.4
+    "change_pct": -0.9
   },
   "mix_france": {
-    "date_heure": "2026-10-14T10:45:00+00:00",
+    "date_heure": "2026-10-14T16:00:00+00:00",
     "shares": {
-      "nucleaire": 65.1,
-      "solaire": 24.1,
-      "hydraulique": 4.1,
-      "gaz": 3.4,
-      "bioenergies": 1.7,
-      "eolien": 1.6
+      "nucleaire": 72.1,
+      "hydraulique": 8.7,
+      "solaire": 8.1,
+      "gaz": 7.8,
+      "bioenergies": 1.9,
+      "eolien": 1.4
     },
     "top_source": "nucleaire",
-    "top_share": 65.1,
-    "co2_intensity": 24
+    "top_share": 72.1,
+    "co2_intensity": 44
   },
   "spot_price_france": {
     "price_eur_mwh": 191.12,
@@ -71,56 +71,56 @@
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
-      "date": "2026-10-04",
-      "age_days": 10,
-      "period_start": "2026-09-30",
+      "date": "2026-10-11",
+      "age_days": 3,
+      "period_start": "2026-10-07",
       "days_averaged": 5,
-      "n_tanker": 0.8,
-      "n_total": 2.8,
-      "capacity_tanker_mt": 0.02,
+      "n_tanker": 0.4,
+      "n_total": 3.8,
+      "capacity_tanker_mt": 0.01,
       "ref_tanker": 57.4,
       "ref_total": 95.6,
       "ref_capacity_tanker_mt": 2.79,
       "ref_period": "janv.-oct. 2023",
       "pct_tanker": 1,
-      "pct_total": 3,
-      "pct_capacity": 1,
+      "pct_total": 4,
+      "pct_capacity": 0,
       "status": "arret"
     },
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
-      "date": "2026-10-04",
-      "age_days": 10,
-      "period_start": "2026-09-30",
+      "date": "2026-10-11",
+      "age_days": 3,
+      "period_start": "2026-10-07",
       "days_averaged": 5,
-      "n_tanker": 8.4,
-      "n_total": 28.0,
-      "capacity_tanker_mt": 0.5,
+      "n_tanker": 7.8,
+      "n_total": 27.4,
+      "capacity_tanker_mt": 0.38,
       "ref_tanker": 26.2,
       "ref_total": 74.6,
       "ref_capacity_tanker_mt": 1.31,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 32,
-      "pct_total": 38,
-      "pct_capacity": 38,
+      "pct_tanker": 30,
+      "pct_total": 37,
+      "pct_capacity": 29,
       "status": "ferme"
     },
     "malacca": {
       "portname": "Malacca Strait",
-      "date": "2026-10-04",
-      "age_days": 10,
-      "period_start": "2026-09-30",
+      "date": "2026-10-11",
+      "age_days": 3,
+      "period_start": "2026-10-07",
       "days_averaged": 5,
-      "n_tanker": 72.0,
-      "n_total": 227.0,
-      "capacity_tanker_mt": 2.79,
+      "n_tanker": 77.4,
+      "n_total": 232.6,
+      "capacity_tanker_mt": 2.91,
       "ref_tanker": 83.5,
       "ref_total": 219.0,
       "ref_capacity_tanker_mt": 3.53,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 86,
-      "pct_total": 104,
-      "pct_capacity": 79,
+      "pct_tanker": 93,
+      "pct_total": 106,
+      "pct_capacity": 82,
       "status": "fluide"
     }
   }
