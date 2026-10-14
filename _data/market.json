@@ -1,36 +1,36 @@
 {
-  "updated_at": "2026-10-13T22:12:08.290045Z",
+  "updated_at": "2026-10-14T03:09:25.068035Z",
   "brent": {
-    "price_usd": 106.16,
-    "date": "2026-10-13",
+    "price_usd": 106.73,
+    "date": "2026-10-14",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : mar. 13/10",
-    "date_label_en": "Last known price: Tue 13/10",
-    "prev_value": 105.95,
-    "prev_date": "2026-10-12",
-    "change_pct": 0.2
+    "date_label": "Cours du mer. 14/10",
+    "date_label_en": "Price on Wed 14/10",
+    "prev_value": 106.16,
+    "prev_date": "2026-10-13",
+    "change_pct": 0.5
   },
   "wti": {
-    "price_usd": 94.72,
-    "date": "2026-10-13",
+    "price_usd": 95.11,
+    "date": "2026-10-14",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : mar. 13/10",
-    "date_label_en": "Last known price: Tue 13/10"
+    "date_label": "Cours du mer. 14/10",
+    "date_label_en": "Price on Wed 14/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.28,
-    "date": "2026-10-13",
+    "price_usd_mmbtu": 3.33,
+    "date": "2026-10-14",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : mar. 13/10",
-    "date_label_en": "Last known price: Tue 13/10",
-    "price_eur_mwh": 10.0,
+    "date_label": "Cours du mer. 14/10",
+    "date_label_en": "Price on Wed 14/10",
+    "price_eur_mwh": 10.16,
     "usd_per_eur": 1.1188,
-    "prev_value": 9.58,
-    "prev_date": "2026-10-12",
-    "change_pct": 4.4
+    "prev_value": 10.0,
+    "prev_date": "2026-10-13",
+    "change_pct": 1.6
   },
   "peg": {
     "price_eur_mwh": 85.15,
@@ -44,17 +44,17 @@
     "change_pct": 4.3
   },
   "mix_france": {
-    "date_heure": "2026-10-13T21:45:00+00:00",
+    "date_heure": "2026-10-14T02:45:00+00:00",
     "shares": {
-      "nucleaire": 80.8,
-      "eolien": 8.9,
-      "hydraulique": 5.4,
-      "gaz": 2.9,
-      "bioenergies": 2.1
+      "nucleaire": 85.6,
+      "hydraulique": 6.9,
+      "eolien": 3.7,
+      "bioenergies": 2.3,
+      "gaz": 1.5
     },
     "top_source": "nucleaire",
-    "top_share": 80.8,
-    "co2_intensity": 23
+    "top_share": 85.6,
+    "co2_intensity": 18
   },
   "spot_price_france": {
     "price_eur_mwh": 191.12,
@@ -71,7 +71,7 @@
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-10-04",
-      "age_days": 9,
+      "age_days": 10,
       "period_start": "2026-09-30",
       "days_averaged": 5,
       "n_tanker": 0.8,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-10-04",
-      "age_days": 9,
+      "age_days": 10,
       "period_start": "2026-09-30",
       "days_averaged": 5,
       "n_tanker": 8.4,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-04",
-      "age_days": 9,
+      "age_days": 10,
       "period_start": "2026-09-30",
       "days_averaged": 5,
       "n_tanker": 72.0,
