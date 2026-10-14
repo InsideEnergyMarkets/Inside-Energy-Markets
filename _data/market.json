@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-14T03:09:25.068035Z",
+  "updated_at": "2026-10-14T11:00:35.237606Z",
   "brent": {
-    "price_usd": 106.73,
+    "price_usd": 106.41,
     "date": "2026-10-14",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Wed 14/10",
     "prev_value": 106.16,
     "prev_date": "2026-10-13",
-    "change_pct": 0.5
+    "change_pct": 0.2
   },
   "wti": {
-    "price_usd": 95.11,
+    "price_usd": 95.26,
     "date": "2026-10-14",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -20,41 +20,42 @@
     "date_label_en": "Price on Wed 14/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.33,
+    "price_usd_mmbtu": 3.29,
     "date": "2026-10-14",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du mer. 14/10",
     "date_label_en": "Price on Wed 14/10",
-    "price_eur_mwh": 10.16,
+    "price_eur_mwh": 10.03,
     "usd_per_eur": 1.1188,
     "prev_value": 10.0,
     "prev_date": "2026-10-13",
-    "change_pct": 1.6
+    "change_pct": 0.3
   },
   "peg": {
-    "price_eur_mwh": 85.15,
-    "date": "2026-10-13",
+    "price_eur_mwh": 83.99,
+    "date": "2026-10-14",
     "unit": "EUR/MWh",
     "source": "NaTran",
-    "date_label": "Moyenne du mar. 13/10",
-    "date_label_en": "Average on Tue 13/10",
-    "prev_value": 81.64,
-    "prev_date": "2026-10-12",
-    "change_pct": 4.3
+    "date_label": "Moyenne du mer. 14/10",
+    "date_label_en": "Average on Wed 14/10",
+    "prev_value": 85.15,
+    "prev_date": "2026-10-13",
+    "change_pct": -1.4
   },
   "mix_france": {
-    "date_heure": "2026-10-14T02:45:00+00:00",
+    "date_heure": "2026-10-14T10:45:00+00:00",
     "shares": {
-      "nucleaire": 85.6,
-      "hydraulique": 6.9,
-      "eolien": 3.7,
-      "bioenergies": 2.3,
-      "gaz": 1.5
+      "nucleaire": 65.1,
+      "solaire": 24.1,
+      "hydraulique": 4.1,
+      "gaz": 3.4,
+      "bioenergies": 1.7,
+      "eolien": 1.6
     },
     "top_source": "nucleaire",
-    "top_share": 85.6,
-    "co2_intensity": 18
+    "top_share": 65.1,
+    "co2_intensity": 24
   },
   "spot_price_france": {
     "price_eur_mwh": 191.12,
