@@ -1,12 +1,33 @@
 {
- "updated_at": "2026-10-15T11:57:26+00:00",
+ "updated_at": "2026-10-15T17:16:56+00:00",
  "items": [
   {
-   "title": "Russia says Ukraine resumes attacks on oil refineries",
-   "url": "https://www.aljazeera.com/news/2026/10/15/russia-says-ukraine-resumes-attacks-on-oil-refineries?traffic_source=rss",
-   "source": "Al Jazeera",
+   "title": "L’Arabie saoudite, sous la pression des attaques des houthistes, tente de protéger ses exportations de pétrole",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/15/petrole-sous-pression-des-attaques-l-arabie-saoudite-tente-de-proteger-ses-exportations_6794616_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-15T16:30:10+00:00"
+  },
+  {
+   "title": "Avant les midterms 2026, des républicains gagnés par la fébrilité au Kansas : « Le problème, c’est l’augmentation du prix du gazole »",
+   "url": "https://www.lemonde.fr/international/article/2026/10/15/avant-les-midterms-2026-des-republicains-gagnes-par-la-febrilite-au-kansas-le-probleme-c-est-l-augmentation-du-prix-du-gazole_6794579_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-15T16:00:25+00:00"
+  },
+  {
+   "title": "EN DIRECT, guerre en Ukraine : le secrétaire général de l’OTAN rencontre Volodymyr Zelensky et insiste sur l’importance d’un « cessez-le-feu énergétique »",
+   "url": "https://www.lemonde.fr/international/live/2026/10/15/en-direct-guerre-en-ukraine-volodymyr-zelensky-rencontre-des-dirigeants-de-l-otan-et-de-l-ue-a-bruxelles-pour-exercer-une-pression-reelle-sur-la-russie_6791198_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-15T14:11:21+00:00"
+  },
+  {
+   "title": "PJM, ERCOT, and SWPP all set peak load records this summer",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68305",
+   "source": "EIA",
    "lang": "en",
-   "date": "2026-10-15T10:02:17+00:00"
+   "date": "2026-10-15T14:00:00+00:00"
   },
   {
    "title": "Cross-border gas network code – Commission launches call for feedback on revision of rules",
@@ -14,34 +35,6 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-15T09:14:27+00:00"
-  },
-  {
-   "title": "Containers and debris captured floating around the Strait of Hormuz",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/15/containers-and-debris-captured-floating-around-the-strait-of-hormuz?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-15T08:06:06+00:00"
-  },
-  {
-   "title": "Russian nuclear-powered submarine fires missiles during Pacific drills",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/15/10-15-clip-russia-nuclear-submarines?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-15T07:44:35+00:00"
-  },
-  {
-   "title": "Guerre en Ukraine : Washington bride son soutien à Kiev, en pleine campagne de frappes russes sur les infrastructures énergétiques",
-   "url": "https://www.lemonde.fr/international/article/2026/10/15/guerre-en-ukraine-washington-bride-son-soutien-a-kiev-en-pleine-campagne-de-frappes-russes-sur-les-infrastructures-energetiques_6794070_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-15T04:00:11+00:00"
-  },
-  {
-   "title": "Aux Etats-Unis, l’inflation atteint 3,7 % en septembre, portée par la flambée des cours du pétrole",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/14/aux-etats-unis-l-inflation-atteint-3-7-en-septembre-portee-par-la-flambee-des-cours-du-petrole_6793785_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-14T17:06:20+00:00"
   },
   {
    "title": "Two container ships sink near strait of Hormuz amid surge in Iranian attacks",
@@ -105,13 +98,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-14T00:00:00+00:00"
-  },
-  {
-   "title": "Nucléaire : plusieurs entreprises perquisitionnées pour des soupçons d’entente et de corruption « au détriment d’EDF », annonce le Parquet national financier",
-   "url": "https://www.lemonde.fr/societe/article/2026/10/13/nucleaire-plusieurs-entreprises-perquisitionnees-pour-des-soupcons-d-entente-et-de-corruption-au-detriment-d-edf-annonce-le-parquet-national-financier_6793137_3224.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-13T15:11:54+00:00"
   },
   {
    "title": "Gaz à effet de serre : des émissions en baisse mais loin d’être « dans les clous »",
