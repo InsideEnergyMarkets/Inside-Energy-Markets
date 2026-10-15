@@ -1,19 +1,40 @@
 {
- "updated_at": "2026-10-15T05:02:45+00:00",
+ "updated_at": "2026-10-15T11:57:26+00:00",
  "items": [
+  {
+   "title": "Russia says Ukraine resumes attacks on oil refineries",
+   "url": "https://www.aljazeera.com/news/2026/10/15/russia-says-ukraine-resumes-attacks-on-oil-refineries?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-15T10:02:17+00:00"
+  },
+  {
+   "title": "Cross-border gas network code – Commission launches call for feedback on revision of rules",
+   "url": "https://energy.ec.europa.eu/news/cross-border-gas-network-code-commission-launches-call-feedback-revision-rules-2026-10-14_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-15T09:14:27+00:00"
+  },
+  {
+   "title": "Containers and debris captured floating around the Strait of Hormuz",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/15/containers-and-debris-captured-floating-around-the-strait-of-hormuz?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-15T08:06:06+00:00"
+  },
+  {
+   "title": "Russian nuclear-powered submarine fires missiles during Pacific drills",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/15/10-15-clip-russia-nuclear-submarines?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-15T07:44:35+00:00"
+  },
   {
    "title": "Guerre en Ukraine : Washington bride son soutien à Kiev, en pleine campagne de frappes russes sur les infrastructures énergétiques",
    "url": "https://www.lemonde.fr/international/article/2026/10/15/guerre-en-ukraine-washington-bride-son-soutien-a-kiev-en-pleine-campagne-de-frappes-russes-sur-les-infrastructures-energetiques_6794070_3210.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-15T04:00:11+00:00"
-  },
-  {
-   "title": "Iran war live: Tehran vows to fight until US yields as ships sink in Hormuz",
-   "url": "https://www.aljazeera.com/news/liveblog/2026/10/15/iran-war-live-tehran-vows-to-fight-until-us-yields-as-ships-sink-in-hormuz?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-15T00:00:00+00:00"
   },
   {
    "title": "Aux Etats-Unis, l’inflation atteint 3,7 % en septembre, portée par la flambée des cours du pétrole",
@@ -28,13 +49,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-10-14T17:05:42+00:00"
-  },
-  {
-   "title": "Cross-border gas network code – Commission launches call for feedback on revision of rules",
-   "url": "https://energy.ec.europa.eu/news/cross-border-gas-network-code-commission-launches-call-feedback-revision-rules-2026-10-14_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-14T15:50:34+00:00"
   },
   {
    "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
@@ -126,13 +140,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-12T00:00:00+00:00"
-  },
-  {
-   "title": "Les forces yéménites disent progresser contre les Houthis autour du détroit de Bab el-Mandeb",
-   "url": "https://www.france24.com/fr/moyen-orient/20261010-y%C3%A9men-la-coalition-men%C3%A9e-par-riyad-m%C3%A8ne-une-op%C3%A9ration-%C3%A0-grande-%C3%A9chelle-contre-les-houthis",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-10-10T06:03:06+00:00"
   }
  ]
 }
