@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-10-16T13:28:14+00:00",
+ "updated_at": "2026-10-16T18:17:14+00:00",
  "items": [
+  {
+   "title": "Ukraine advances in occupied Donetsk as Trump hands Putin diesel deal",
+   "url": "https://www.aljazeera.com/news/2026/10/16/ukraine-repels-russian-forces-as-us-support-wavers-energy-strikes-escalate?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-16T17:28:41+00:00"
+  },
+  {
+   "title": "Qatar announces ‘massive’ solar plant project in Lebanon",
+   "url": "https://www.aljazeera.com/news/2026/10/16/qatar-announces-massive-solar-plant-project-in-lebanon?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-16T14:19:36+00:00"
+  },
   {
    "title": "U.S. small-scale solar generation has quadrupled in the last decade",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68324",
@@ -9,32 +23,11 @@
    "date": "2026-10-16T14:00:00+00:00"
   },
   {
-   "title": "Fuel tanker fire engulfs market in southern Nigeria",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/16/fuel-tanker-fire-engulfs-market-in-southern-nigeria?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-16T12:23:12+00:00"
-  },
-  {
    "title": "Commissioner Jørgensen in Slovakia to discuss energy prices and security with Visegrad Energy Ministers and continue his Affordable Housing Tour",
    "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-slovakia-discuss-energy-prices-and-security-visegrad-energy-ministers-and-2026-10-16_en",
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-16T12:18:52+00:00"
-  },
-  {
-   "title": "US in ‘denuclearisation’ talks with Russia and China: Trump",
-   "url": "https://www.aljazeera.com/news/2026/10/16/us-in-denuclearisation-talks-with-russia-and-china-trump?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-16T11:28:12+00:00"
-  },
-  {
-   "title": "Trump rules out using a nuclear bomb on Iran: Why that matters",
-   "url": "https://www.aljazeera.com/news/2026/10/16/trump-rules-out-using-a-nuclear-bomb-on-iran-why-that-matters?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-16T10:21:12+00:00"
   },
   {
    "title": "Trump calls Ukraine’s renewed strikes on Russian oil refineries ‘a disgrace’",
@@ -51,13 +44,6 @@
    "date": "2026-10-16T06:18:10+00:00"
   },
   {
-   "title": "Les progrès de la dissuasion nucléaire nord-coréenne depuis des sous-marins inquiètent Séoul",
-   "url": "https://www.lemonde.fr/international/article/2026/10/16/les-progres-de-la-dissuasion-nucleaire-nord-coreenne-depuis-des-sous-marins-inquietent-seoul_6795287_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-16T05:28:51+00:00"
-  },
-  {
    "title": "Ship attack reports near Hormuz reach record high as oil exports slow",
    "url": "https://www.bbc.co.uk/news/articles/cmde8dpg8g0no?at_medium=RSS&at_campaign=rss",
    "source": "BBC",
@@ -65,18 +51,18 @@
    "date": "2026-10-16T05:00:17+00:00"
   },
   {
-   "title": "Volodymyr Zelensky acte la reprise des frappes ukrainiennes contre les raffineries russes, « une honte » selon Donald Trump",
-   "url": "https://www.lemonde.fr/international/article/2026/10/16/guerre-en-ukraine-volodymyr-zelensky-acte-la-reprise-des-frappes-contre-les-raffineries-russes-une-honte-selon-donald-trump_6795219_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-16T04:47:03+00:00"
-  },
-  {
    "title": "Carburants : les Etats membres de l’UE peinent à s’entendre pour faire baisser les prix de l’énergie, un cauchemar pour l’économie européenne",
    "url": "https://www.lemonde.fr/economie/article/2026/10/16/carburants-les-vingt-sept-peinent-a-s-entendre-pour-faire-baisser-les-prix-de-l-energie-un-cauchemar-pour-l-economie-europeenne_6795109_3234.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-16T03:30:15+00:00"
+  },
+  {
+   "title": "L’Arabie saoudite, sous la pression des attaques des houthistes, tente de protéger ses exportations de pétrole",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/15/petrole-sous-pression-des-attaques-l-arabie-saoudite-tente-de-proteger-ses-exportations_6794616_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-15T16:30:10+00:00"
   },
   {
    "title": "PJM, ERCOT, and SWPP all set peak load records this summer",
@@ -91,6 +77,13 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-15T13:17:39+00:00"
+  },
+  {
+   "title": "Ligne à très haute tension en Camargue : une étape-clé du projet franchie, la contestation reste vive",
+   "url": "https://www.lemonde.fr/planete/article/2026/10/15/ligne-a-tres-haute-tension-en-camargue-une-etape-cle-du-projet-franchie-la-contestation-reste-vive_6794444_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-15T12:30:04+00:00"
   },
   {
    "title": "Plan électrification : les 17 nouvelles mesures « pour accélérer »",
