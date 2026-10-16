@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-16T10:30:57.419919Z",
+  "updated_at": "2026-10-16T15:56:11.902875Z",
   "brent": {
-    "price_usd": 105.63,
+    "price_usd": 106.2,
     "date": "2026-10-16",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Fri 16/10",
     "prev_value": 105.79,
     "prev_date": "2026-10-15",
-    "change_pct": -0.2
+    "change_pct": 0.4
   },
   "wti": {
-    "price_usd": 97.42,
+    "price_usd": 95.91,
     "date": "2026-10-16",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -20,20 +20,20 @@
     "date_label_en": "Price on Fri 16/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.19,
+    "price_usd_mmbtu": 3.13,
     "date": "2026-10-16",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du ven. 16/10",
     "date_label_en": "Price on Fri 16/10",
-    "price_eur_mwh": 9.71,
-    "usd_per_eur": 1.1208,
+    "price_eur_mwh": 9.49,
+    "usd_per_eur": 1.1253,
     "prev_value": 9.86,
     "prev_date": "2026-10-15",
-    "change_pct": -1.5
+    "change_pct": -3.8
   },
   "peg": {
-    "price_eur_mwh": 85.52,
+    "price_eur_mwh": 86.66,
     "date": "2026-10-16",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,21 +41,21 @@
     "date_label_en": "Average on Fri 16/10",
     "prev_value": 84.85,
     "prev_date": "2026-10-15",
-    "change_pct": 0.8
+    "change_pct": 2.1
   },
   "mix_france": {
-    "date_heure": "2026-10-16T10:15:00+00:00",
+    "date_heure": "2026-10-16T15:30:00+00:00",
     "shares": {
-      "nucleaire": 67.3,
-      "solaire": 20.2,
-      "eolien": 5.6,
-      "hydraulique": 3.4,
-      "gaz": 1.8,
+      "nucleaire": 66.8,
+      "eolien": 10.7,
+      "solaire": 7.6,
+      "hydraulique": 7.2,
+      "gaz": 5.9,
       "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 67.3,
-    "co2_intensity": 17
+    "top_share": 66.8,
+    "co2_intensity": 34
   },
   "spot_price_france": {
     "price_eur_mwh": 212.0,
