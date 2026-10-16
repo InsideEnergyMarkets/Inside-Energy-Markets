@@ -1,19 +1,33 @@
 {
- "updated_at": "2026-10-16T00:38:26+00:00",
+ "updated_at": "2026-10-16T07:27:56+00:00",
  "items": [
   {
-   "title": "L’Arabie saoudite, sous la pression des attaques des houthistes, tente de protéger ses exportations de pétrole",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/15/petrole-sous-pression-des-attaques-l-arabie-saoudite-tente-de-proteger-ses-exportations_6794616_3234.html",
+   "title": "EN DIRECT, guerre en Ukraine : Donald Trump critique Volodymyr Zelensky après la reprise des attaques sur les raffineries russes : « Il n’est pas le bon type pour trouver un accord »",
+   "url": "https://www.lemonde.fr/international/live/2026/10/16/en-direct-guerre-en-ukraine-donald-trump-critique-volodymyr-zelensky-apres-la-reprise-des-attaques-sur-les-raffineries-russes-il-n-est-pas-le-bon-type-pour-trouver-un-accord_6791198_3210.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-15T16:30:10+00:00"
+   "date": "2026-10-16T07:20:57+00:00"
   },
   {
-   "title": "Avant les midterms 2026, des républicains gagnés par la fébrilité au Kansas : « Le problème, c’est l’augmentation du prix du gazole »",
-   "url": "https://www.lemonde.fr/international/article/2026/10/15/avant-les-midterms-2026-des-republicains-gagnes-par-la-febrilite-au-kansas-le-probleme-c-est-l-augmentation-du-prix-du-gazole_6794579_3210.html",
+   "title": "Mayors meet with EU leaders in Brussels to advance affordable energy and climate resilience",
+   "url": "https://eu-mayors.ec.europa.eu/en/news/mayors-meet-eu-leaders-brussels-advance-affordable-energy-and-climate-resilience",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-16T06:18:10+00:00"
+  },
+  {
+   "title": "Les progrès de la dissuasion nucléaire nord-coréenne depuis des sous-marins inquiètent Séoul",
+   "url": "https://www.lemonde.fr/international/article/2026/10/16/les-progres-de-la-dissuasion-nucleaire-nord-coreenne-depuis-des-sous-marins-inquietent-seoul_6795287_3210.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-15T16:00:25+00:00"
+   "date": "2026-10-16T05:28:51+00:00"
+  },
+  {
+   "title": "Guerre en Ukraine : Volodymyr Zelensky acte la reprise des frappes contre les raffineries russes, « une honte » selon Donald Trump",
+   "url": "https://www.lemonde.fr/international/article/2026/10/16/guerre-en-ukraine-volodymyr-zelensky-acte-la-reprise-des-frappes-contre-les-raffineries-russes-une-honte-selon-donald-trump_6795219_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-16T04:47:03+00:00"
   },
   {
    "title": "PJM, ERCOT, and SWPP all set peak load records this summer",
@@ -23,11 +37,11 @@
    "date": "2026-10-15T14:00:00+00:00"
   },
   {
-   "title": "Ligne à très haute tension en Camargue : une étape-clé du projet franchie, la contestation reste vive",
-   "url": "https://www.lemonde.fr/planete/article/2026/10/15/ligne-a-tres-haute-tension-en-camargue-une-etape-cle-du-projet-franchie-la-contestation-reste-vive_6794444_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-15T12:30:04+00:00"
+   "title": "Steady progress on the One Europe, One Market roadmap",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/jp_26_2169",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-15T13:17:39+00:00"
   },
   {
    "title": "Cross-border gas network code – Commission launches call for feedback on revision of rules",
@@ -72,25 +86,11 @@
    "date": "2026-10-14T12:26:27+00:00"
   },
   {
-   "title": "EU local leaders and authorities gather to discuss affordable energy, housing and climate resilience",
-   "url": "https://energy.ec.europa.eu/news/eu-local-leaders-and-authorities-gather-discuss-affordable-energy-housing-and-climate-resilience-2026-10-14_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-14T11:58:50+00:00"
-  },
-  {
    "title": "Arabie saoudite : les attaques houthis touchent le géant pétrolier Aramco",
    "url": "https://www.france24.com/fr/vid%C3%A9o/20261014-arabie-saoudite-les-attaques-houthis-touchent-le-g%C3%A9ant-p%C3%A9trolier-aramco",
    "source": "France 24",
    "lang": "fr",
    "date": "2026-10-14T09:18:22+00:00"
-  },
-  {
-   "title": "Commission proposes flexibility to methane importers to help save costs",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2119",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-14T08:56:36+00:00"
   },
   {
    "title": "« Nous avons posé les bases d’un nouveau modèle » : entretien avec Mathieu Bihet, ministre belge de l’Énergie",
