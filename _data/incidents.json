@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-17T07:08:43+00:00",
+ "updated_at": "2026-10-17T12:20:15+00:00",
  "stats": {
-  "total_30d": 38,
-  "attacks_30d": 33,
+  "total_30d": 40,
+  "attacks_30d": 35,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -10,21 +10,49 @@
     "n": 31
    },
    {
+    "place": "Golfe Persique",
+    "place_en": "Persian Gulf",
+    "n": 3
+   },
+   {
     "place": "Golfe d'Oman",
     "place_en": "Gulf of Oman",
     "n": 2
-   },
-   {
-    "place": "Golfe Persique",
-    "place_en": "Persian Gulf",
-    "n": 1
    }
   ]
  },
  "items": [
   {
+   "id": "UKMTO-2026-175",
+   "number": 175,
+   "date": "2026-10-16T19:22:00Z",
+   "type": "Attack",
+   "lat": 27.6667,
+   "lon": 50.8167,
+   "place": "Golfe Persique",
+   "place_en": "Persian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "tkr",
+   "summary": "UKMTO has received a report of an incident 78NM northeast of Al Jubayl, Saudi Arabia. The Master of a tanker has reported being attacked by an RPG from a small boat, resulting in damage to the aft port quarter."
+  },
+  {
    "id": "UKMTO-2026-28082035",
    "number": 28082035,
+   "date": "2026-10-16T09:00:00Z",
+   "type": "Attack",
+   "lat": 27.8,
+   "lon": 50.6167,
+   "place": "Golfe Persique",
+   "place_en": "Persian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "tkr",
+   "summary": "UKMTO has received a time-late report of an incident 68NM northeast of Al Jubayl, Saudi Arabia of a tanker stuck by an unknown projectile. All crew are reported safe and have been evacuated."
+  },
+  {
+   "id": "UKMTO-2026-174",
+   "number": 174,
    "date": "2026-10-16T09:00:00Z",
    "type": "Attack",
    "lat": 27.8,
