@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-17T12:20:15+00:00",
+ "updated_at": "2026-10-17T15:50:59+00:00",
  "stats": {
   "total_30d": 40,
-  "attacks_30d": 35,
+  "attacks_30d": 36,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-176",
+   "number": 176,
+   "date": "2026-10-17T10:30:00Z",
+   "type": "Attack",
+   "lat": 12.9,
+   "lon": 47.9167,
+   "place": "Golfe d'Aden",
+   "place_en": "Gulf of Aden",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "TKR",
+   "summary": "UKMTO has received a report of an incident 140NM southwest of Al Mukalla, Yemen. A Master of an LNG Tanker has reported being approached by a small skiff with seven persons onboard."
+  },
   {
    "id": "UKMTO-2026-175",
    "number": 175,
