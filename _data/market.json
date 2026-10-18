@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T19:58:43.813597Z",
+  "updated_at": "2026-10-18T02:38:36.676134Z",
   "brent": {
     "price_usd": 109.95,
     "date": "2026-10-16",
@@ -44,34 +44,34 @@
     "change_pct": 0.2
   },
   "mix_france": {
-    "date_heure": "2026-10-17T19:30:00+00:00",
+    "date_heure": "2026-10-18T02:15:00+00:00",
     "shares": {
-      "nucleaire": 70.2,
-      "eolien": 19.7,
-      "hydraulique": 5.7,
-      "gaz": 2.6,
-      "bioenergies": 1.9
+      "nucleaire": 77.1,
+      "eolien": 15.0,
+      "hydraulique": 3.1,
+      "gaz": 2.8,
+      "bioenergies": 2.1
     },
     "top_source": "nucleaire",
-    "top_share": 70.2,
-    "co2_intensity": 21
+    "top_share": 77.1,
+    "co2_intensity": 23
   },
   "spot_price_france": {
-    "price_eur_mwh": 139.3,
-    "date": "2026-10-17",
-    "date_label": "Moyenne du sam. 17/10",
-    "date_label_en": "Average for Sat 17/10",
+    "price_eur_mwh": 171.88,
+    "date": "2026-10-18",
+    "date_label": "Moyenne du dim. 18/10",
+    "date_label_en": "Average for Sun 18/10",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 212.0,
-    "prev_date": "2026-10-16",
-    "change_pct": -34.3
+    "prev_value": 139.3,
+    "prev_date": "2026-10-17",
+    "change_pct": 23.4
   },
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-10-11",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-10-07",
       "days_averaged": 5,
       "n_tanker": 0.4,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-10-11",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-10-07",
       "days_averaged": 5,
       "n_tanker": 7.8,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-11",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-10-07",
       "days_averaged": 5,
       "n_tanker": 77.4,
