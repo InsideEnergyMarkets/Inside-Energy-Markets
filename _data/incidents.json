@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-17T22:33:45+00:00",
+ "updated_at": "2026-10-18T04:59:51+00:00",
  "stats": {
-  "total_30d": 39,
-  "attacks_30d": 35,
+  "total_30d": 40,
+  "attacks_30d": 36,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 30
+    "n": 31
    },
    {
     "place": "Golfe Persique",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-177",
+   "number": 177,
+   "date": "2026-10-18T01:00:00Z",
+   "type": "Attack",
+   "lat": 26.1167,
+   "lon": 56.5667,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tug",
+   "vessel_type_en": "Tug",
+   "vessel_name": "MERCHANT",
+   "summary": "UKMTO has received a report of an incident northeast of Khor Fakkan, UAE. A tug travelling southbound has reported being struck by 2 unknown projectiles."
+  },
   {
    "id": "UKMTO-2026-176",
    "number": 176,
