@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-10-18T22:32:22+00:00",
+ "updated_at": "2026-10-19T05:08:31+00:00",
  "items": [
+  {
+   "title": "Pris au piège du détroit d’Ormuz, le Qatar cherche une sortie de crise",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/19/pris-au-piege-du-detroit-d-ormuz-le-qatar-cherche-une-sortie-de-crise_6797486_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-19T04:30:02+00:00"
+  },
+  {
+   "title": "Pourquoi l’Iran intensifie ses attaques dans le détroit d’Ormuz",
+   "url": "https://www.lemonde.fr/international/article/2026/10/19/pourquoi-l-iran-intensifie-ses-attaques-dans-le-detroit-d-ormuz_6797367_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-19T03:00:07+00:00"
+  },
   {
    "title": "U.S. small-scale solar generation has quadrupled in the last decade",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68324",
@@ -44,13 +58,6 @@
    "date": "2026-10-16T03:30:15+00:00"
   },
   {
-   "title": "L’Arabie saoudite, sous la pression des attaques des houthistes, tente de protéger ses exportations de pétrole",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/15/petrole-sous-pression-des-attaques-l-arabie-saoudite-tente-de-proteger-ses-exportations_6794616_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-15T16:30:10+00:00"
-  },
-  {
    "title": "PJM, ERCOT, and SWPP all set peak load records this summer",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68305",
    "source": "EIA",
@@ -63,13 +70,6 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-10-15T13:17:39+00:00"
-  },
-  {
-   "title": "Ligne à très haute tension en Camargue : une étape-clé du projet franchie, la contestation reste vive",
-   "url": "https://www.lemonde.fr/planete/article/2026/10/15/ligne-a-tres-haute-tension-en-camargue-une-etape-cle-du-projet-franchie-la-contestation-reste-vive_6794444_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-15T12:30:04+00:00"
   },
   {
    "title": "Plan électrification : les 17 nouvelles mesures « pour accélérer »",
@@ -112,13 +112,6 @@
    "source": "France 24",
    "lang": "fr",
    "date": "2026-10-14T09:18:22+00:00"
-  },
-  {
-   "title": "« Nous avons posé les bases d’un nouveau modèle » : entretien avec Mathieu Bihet, ministre belge de l’Énergie",
-   "url": "https://www.connaissancedesenergies.org/nous-avons-pose-les-bases-dun-nouveau-modele-entretien-avec-mathieu-bihet-ministre-belge-de-lenergie",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-10-14T00:00:00+00:00"
   }
  ]
 }
