@@ -1,19 +1,47 @@
 {
- "updated_at": "2026-10-19T05:08:31+00:00",
+ "updated_at": "2026-10-19T13:49:47+00:00",
  "items": [
   {
-   "title": "Pris au piège du détroit d’Ormuz, le Qatar cherche une sortie de crise",
+   "title": "Hybrid sales rise while battery electric sales remain lower after tax credit expiration",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68325",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-10-19T14:00:00+00:00"
+  },
+  {
+   "title": "In focus: Renewable energy – building trust and sharing benefits",
+   "url": "https://energy.ec.europa.eu/news/focus-renewable-energy-building-trust-and-sharing-benefits-2026-10-19_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-19T13:43:23+00:00"
+  },
+  {
+   "title": "Statement by President von der Leyen at the joint press conference with President Costa following the meeting of the European Council of October 2026",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_2190",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-19T12:36:18+00:00"
+  },
+  {
+   "title": "Energy Transition Investment Council - Call for applications",
+   "url": "https://energy.ec.europa.eu/news/energy-transition-investment-council-call-applications-2026-10-06_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-19T11:58:19+00:00"
+  },
+  {
+   "title": "Le Qatar, pris au piège du détroit d’Ormuz, cherche une sortie de crise",
    "url": "https://www.lemonde.fr/economie/article/2026/10/19/pris-au-piege-du-detroit-d-ormuz-le-qatar-cherche-une-sortie-de-crise_6797486_3234.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-19T04:30:02+00:00"
+   "date": "2026-10-19T04:30:00+00:00"
   },
   {
    "title": "Pourquoi l’Iran intensifie ses attaques dans le détroit d’Ormuz",
    "url": "https://www.lemonde.fr/international/article/2026/10/19/pourquoi-l-iran-intensifie-ses-attaques-dans-le-detroit-d-ormuz_6797367_3210.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-19T03:00:07+00:00"
+   "date": "2026-10-19T03:00:02+00:00"
   },
   {
    "title": "U.S. small-scale solar generation has quadrupled in the last decade",
@@ -23,25 +51,11 @@
    "date": "2026-10-16T14:00:00+00:00"
   },
   {
-   "title": "Commissioner Jørgensen in Slovakia to discuss energy prices and security with Visegrad Energy Ministers and continue his Affordable Housing Tour",
-   "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-slovakia-discuss-energy-prices-and-security-visegrad-energy-ministers-and-2026-10-16_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-16T12:18:52+00:00"
-  },
-  {
    "title": "Trump calls Ukraine’s renewed strikes on Russian oil refineries ‘a disgrace’",
    "url": "https://www.theguardian.com/world/2026/oct/16/trump-calls-ukraines-resumption-of-strikes-on-russian-oil-refineries-a-disgrace",
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-10-16T10:01:58+00:00"
-  },
-  {
-   "title": "Mayors meet with EU leaders in Brussels to advance affordable energy and climate resilience",
-   "url": "https://eu-mayors.ec.europa.eu/en/news/mayors-meet-eu-leaders-brussels-advance-affordable-energy-and-climate-resilience",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-16T06:18:10+00:00"
   },
   {
    "title": "Ship attack reports near Hormuz reach record high as oil exports slow",
@@ -65,13 +79,6 @@
    "date": "2026-10-15T14:00:00+00:00"
   },
   {
-   "title": "Steady progress on the One Europe, One Market roadmap",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/jp_26_2169",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-15T13:17:39+00:00"
-  },
-  {
    "title": "Plan électrification : les 17 nouvelles mesures « pour accélérer »",
    "url": "https://www.connaissancedesenergies.org/plan-electrification-17-nouvelles-mesures-pour-accelerer",
    "source": "Connaissance des Énergies",
@@ -91,27 +98,6 @@
    "source": "BBC",
    "lang": "en",
    "date": "2026-10-14T15:34:19+00:00"
-  },
-  {
-   "title": "Monthly wind generation in ISO-NE is about 68% higher than last year",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68304",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-10-14T14:00:00+00:00"
-  },
-  {
-   "title": "‘From liabilities to goldmines’: refineries eye record profits from diesel shortage",
-   "url": "https://www.theguardian.com/business/2026/oct/14/refineries-record-profits-diesel-shortage-fuel-crude-oil",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-14T12:26:27+00:00"
-  },
-  {
-   "title": "Arabie saoudite : les attaques houthis touchent le géant pétrolier Aramco",
-   "url": "https://www.france24.com/fr/vid%C3%A9o/20261014-arabie-saoudite-les-attaques-houthis-touchent-le-g%C3%A9ant-p%C3%A9trolier-aramco",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-10-14T09:18:22+00:00"
   }
  ]
 }
