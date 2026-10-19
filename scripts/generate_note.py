@@ -411,19 +411,30 @@ def build(s, c, lang, week):
     movers.sort(key=lambda m: abs(m[3]), reverse=True)
     top2 = movers[:2]
     if fr:
-        parts = [f"{m[0]} {(SOAR_FR if m[3] > 10 else 'grimpe' if m[3] > 3 else 'progresse') if m[3] > 0 else ('chute' if m[3] < -10 else 'recule' if m[3] < -3 else 'fléchit')}"
-                 for m in top2]
+        verb = lambda v: (SOAR_FR if v > 10 else 'grimpe' if v > 3 else 'progresse') if v > 0 else ('chute' if v < -10 else 'recule' if v < -3 else 'fléchit')
+        plural = {SOAR_FR: "s'envolent", "grimpe": "grimpent", "progresse": "progressent", "chute": "chutent", "recule": "reculent", "fléchit": "fléchissent"}
+        if len(top2) == 2 and verb(top2[0][3]) == verb(top2[1][3]):  # même verbe : une seule phrase au pluriel
+            parts = [f"{top2[0][0]} et {top2[1][0]} {plural[verb(top2[0][3])]}"]
+        else:
+            parts = [f"{m[0]} {verb(m[3])}" for m in top2]
         headline = (lambda h: h[0].upper() + h[1:])(", ".join(parts)) if parts else "La semaine sur les marchés de l'énergie"
         reading = []
         if top2:
-            reading.append("Semaine marquée par " + " et ".join(
-                f"{'la hausse' if m[3] > 0 else 'le repli'} {('de l’' + m[0][2:]) if m[0].startswith('l’') else ('de ' + m[0]) if m[0].startswith(('l', 'L')) else ('du ' + m[0])} ({pct(m[3], lang)})"
-                .replace("de le ", "du ").replace("de l'", "de l'") for m in top2) + ".")
+            de = lambda n: (('de l’' + n[2:]) if n.startswith('l’') else ('de ' + n) if n.startswith(('l', 'L')) else ('du ' + n)).replace("de le ", "du ")
+            if len(top2) == 2 and (top2[0][3] > 0) == (top2[1][3] > 0):  # même sens : « la hausse de A (...) et de B (...) »
+                reading.append(f"Semaine marquée par {'la hausse' if top2[0][3] > 0 else 'le repli'} {de(top2[0][0])} ({pct(top2[0][3], lang)}) "
+                               f"et {de(top2[1][0])} ({pct(top2[1][3], lang)}).")
+            else:
+                reading.append("Semaine marquée par " + " et ".join(
+                    f"{'la hausse' if m[3] > 0 else 'le repli'} {de(m[0])} ({pct(m[3], lang)})" for m in top2) + ".")
         if eu and eu["ly"] is not None and eu["ly"] < -5:
             reading.append("Les stocks de gaz européens abordent l'hiver nettement en dessous de l'an dernier, ce qui rend le marché sensible au froid.")
     else:
-        parts = [f"{m[1]} {('soar' if m[3] > 10 else 'jump' if m[3] > 3 else 'edge up') if m[3] > 0 else ('plunge' if m[3] < -10 else 'slip' if m[3] < -3 else 'ease')}{'' if m[1].endswith('prices') else 's'}"
-                 for m in top2]
+        verb = lambda v: ('soar' if v > 10 else 'jump' if v > 3 else 'edge up') if v > 0 else ('plunge' if v < -10 else 'slip' if v < -3 else 'ease')
+        if len(top2) == 2 and verb(top2[0][3]) == verb(top2[1][3]):
+            parts = [f"{top2[0][1]} and {top2[1][1]} {verb(top2[0][3])}"]
+        else:
+            parts = [f"{m[1]} {verb(m[3])}{'' if m[1].endswith('prices') else 's'}" for m in top2]
         headline = (lambda h: h[0].upper() + h[1:])(", ".join(parts)) if parts else "The week on energy markets"
         reading = []
         if top2:
