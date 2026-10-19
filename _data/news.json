@@ -1,6 +1,13 @@
 {
- "updated_at": "2026-10-19T13:49:47+00:00",
+ "updated_at": "2026-10-19T20:06:49+00:00",
  "items": [
+  {
+   "title": "En tournée dans le golfe Persique, Emmanuel Macron cherche une issue à la flambée des prix du carburant",
+   "url": "https://www.lemonde.fr/international/article/2026/10/19/en-tournee-dans-le-golfe-persique-emmanuel-macron-cherche-une-issue-a-la-flambee-des-prix-du-carburant_6797585_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-19T19:45:39+00:00"
+  },
   {
    "title": "Hybrid sales rise while battery electric sales remain lower after tax credit expiration",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68325",
@@ -35,13 +42,6 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-19T04:30:00+00:00"
-  },
-  {
-   "title": "Pourquoi l’Iran intensifie ses attaques dans le détroit d’Ormuz",
-   "url": "https://www.lemonde.fr/international/article/2026/10/19/pourquoi-l-iran-intensifie-ses-attaques-dans-le-detroit-d-ormuz_6797367_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-19T03:00:02+00:00"
   },
   {
    "title": "U.S. small-scale solar generation has quadrupled in the last decade",
@@ -84,20 +84,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-15T00:00:00+00:00"
-  },
-  {
-   "title": "Two container ships sink near strait of Hormuz amid surge in Iranian attacks",
-   "url": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-14T17:05:42+00:00"
-  },
-  {
-   "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
-   "url": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-14T15:34:19+00:00"
   }
  ]
 }
