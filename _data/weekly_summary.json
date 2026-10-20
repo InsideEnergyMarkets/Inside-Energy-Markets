@@ -3,8 +3,8 @@
   "period_end": "2026-10-20",
   "brent": {
     "start_usd": 106.16,
-    "end_usd": 111.46,
-    "change_pct": 5.0
+    "end_usd": 108.42,
+    "change_pct": 2.1
   },
   "spot_price": {
     "avg_eur_mwh": 188.36,
