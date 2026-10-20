@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-10-20T11:58:50+00:00",
+ "updated_at": "2026-10-20T17:26:38+00:00",
  "items": [
+  {
+   "title": "Macron lines up more Gulf diesel as France battles soaring fuel prices",
+   "url": "https://www.aljazeera.com/economy/2026/10/20/macron-lines-up-more-gulf-diesel-as-france-battles-soaring-fuel?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-20T16:33:43+00:00"
+  },
+  {
+   "title": "Commission data shows continued growth in sustainable investments across the EU",
+   "url": "https://finance.ec.europa.eu/news/commission-data-shows-continued-growth-sustainable-investments-across-eu-2026-10-20_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-20T13:52:01+00:00"
+  },
   {
    "title": "Diesel : Macron sécurise 200 000 tonnes supplémentaires par mois auprès des Émirats et de Bahreïn",
    "url": "https://www.france24.com/fr/moyen-orient/20261020-diesel-macron-s%C3%A9curise-200-000-tonnes-suppl%C3%A9mentaires-par-mois-aupr%C3%A8s-des-%C3%A9mirats-et-de-bahre%C3%AFn",
@@ -23,20 +37,6 @@
    "date": "2026-10-20T07:29:19+00:00"
   },
   {
-   "title": "En Europe, la colère sociale gagne du terrain, sur fond de flambée des prix de l’énergie et de crise du logement",
-   "url": "https://www.lemonde.fr/international/article/2026/10/20/italie-espagne-belgique-portugal-en-europe-la-colere-sociale-gagne-du-terrain-sur-fond-de-flambee-des-prix-de-l-energie-et-de-crise-du-logement_6797862_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-20T04:00:03+00:00"
-  },
-  {
-   "title": "Accord Trump-Poutine sur le gazole : un tournant dans la guerre en Ukraine ?",
-   "url": "https://www.lemonde.fr/podcasts/article/2026/10/20/accord-trump-poutine-sur-le-gazole-un-tournant-dans-la-guerre-en-ukraine_6797817_5463015.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-20T03:00:13+00:00"
-  },
-  {
    "title": "Hybrid sales rise while battery electric sales remain lower after tax credit expiration",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68325",
    "source": "EIA",
@@ -51,11 +51,11 @@
    "date": "2026-10-19T13:43:23+00:00"
   },
   {
-   "title": "Statement by President von der Leyen at the joint press conference with President Costa following the meeting of the European Council of October 2026",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_2190",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-19T12:36:18+00:00"
+   "title": "Le Qatar, pris au piège du détroit d’Ormuz, cherche une sortie de crise",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/19/pris-au-piege-du-detroit-d-ormuz-le-qatar-cherche-une-sortie-de-crise_6797486_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-19T04:30:00+00:00"
   },
   {
    "title": "Pourquoi le diesel coûte-t-il si cher ? Et comment en sortir ?",
@@ -86,11 +86,11 @@
    "date": "2026-10-16T05:00:17+00:00"
   },
   {
-   "title": "PJM, ERCOT, and SWPP all set peak load records this summer",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68305",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-10-15T14:00:00+00:00"
+   "title": "Carburants : les Etats membres de l’UE peinent à s’entendre pour faire baisser les prix de l’énergie, un cauchemar pour l’économie européenne",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/16/carburants-les-vingt-sept-peinent-a-s-entendre-pour-faire-baisser-les-prix-de-l-energie-un-cauchemar-pour-l-economie-europeenne_6795109_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-16T03:30:15+00:00"
   }
  ]
 }

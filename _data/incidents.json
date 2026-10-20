@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-20T11:58:51+00:00",
+ "updated_at": "2026-10-20T17:26:39+00:00",
  "stats": {
   "total_30d": 39,
   "attacks_30d": 34,
@@ -10,14 +10,14 @@
     "n": 29
    },
    {
-    "place": "Golfe d'Oman",
-    "place_en": "Gulf of Oman",
-    "n": 3
-   },
-   {
     "place": "Golfe Persique",
     "place_en": "Persian Gulf",
     "n": 3
+   },
+   {
+    "place": "Golfe d'Oman",
+    "place_en": "Gulf of Oman",
+    "n": 2
    }
   ]
  },
@@ -29,8 +29,8 @@
    "type": "Advisory",
    "lat": 19.8833,
    "lon": 60.05,
-   "place": "Golfe d'Oman",
-   "place_en": "Gulf of Oman",
+   "place": "Mer d'Arabie",
+   "place_en": "Arabian Sea",
    "vessel_type": "Tanker",
    "vessel_type_en": "Tanker",
    "vessel_name": "",
