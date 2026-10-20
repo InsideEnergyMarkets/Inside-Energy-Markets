@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-20T05:09:01+00:00",
+ "updated_at": "2026-10-20T11:58:51+00:00",
  "stats": {
-  "total_30d": 38,
+  "total_30d": 39,
   "attacks_30d": 34,
   "top_places": [
    {
@@ -10,18 +10,32 @@
     "n": 29
    },
    {
-    "place": "Golfe Persique",
-    "place_en": "Persian Gulf",
+    "place": "Golfe d'Oman",
+    "place_en": "Gulf of Oman",
     "n": 3
    },
    {
-    "place": "Golfe d'Oman",
-    "place_en": "Gulf of Oman",
-    "n": 2
+    "place": "Golfe Persique",
+    "place_en": "Persian Gulf",
+    "n": 3
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-178",
+   "number": 178,
+   "date": "2026-10-20T11:04:00Z",
+   "type": "Advisory",
+   "lat": 19.8833,
+   "lon": 60.05,
+   "place": "Golfe d'Oman",
+   "place_en": "Gulf of Oman",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident involving a tanker and military forces approximately 121NM east of Duqm, Oman. Reports indicate that the tanker was subject to interaction as part of ongoing military activity in the region."
+  },
   {
    "id": "UKMTO-2026-177",
    "number": 177,

@@ -1,12 +1,33 @@
 {
- "updated_at": "2026-10-20T05:09:01+00:00",
+ "updated_at": "2026-10-20T11:58:50+00:00",
  "items": [
   {
-   "title": "Italie, Espagne, Belgique, Portugal : en Europe, la colère sociale gagne du terrain, sur fond de flambée des prix de l’énergie et de crise du logement",
+   "title": "Diesel : Macron sécurise 200 000 tonnes supplémentaires par mois auprès des Émirats et de Bahreïn",
+   "url": "https://www.france24.com/fr/moyen-orient/20261020-diesel-macron-s%C3%A9curise-200-000-tonnes-suppl%C3%A9mentaires-par-mois-aupr%C3%A8s-des-%C3%A9mirats-et-de-bahre%C3%AFn",
+   "source": "France 24",
+   "lang": "fr",
+   "date": "2026-10-20T09:53:01+00:00"
+  },
+  {
+   "title": "Emmanuel Macron annonce avoir sécurisé des livraisons supplémentaires de 200 000 tonnes de gazole par mois de la part des Emirats arabes unis et de Bahreïn",
+   "url": "https://www.lemonde.fr/international/article/2026/10/20/emmanuel-macron-annonce-avoir-securise-des-livraisons-supplementaires-de-200-000-tonnes-de-gazole-par-mois-de-la-part-des-emirats-arabes-unis-et-de-bahrein_6797884_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-20T07:57:28+00:00"
+  },
+  {
+   "title": "EU and New Caledonia sign strategic partnership on sustainable raw materials",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2205",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-20T07:29:19+00:00"
+  },
+  {
+   "title": "En Europe, la colère sociale gagne du terrain, sur fond de flambée des prix de l’énergie et de crise du logement",
    "url": "https://www.lemonde.fr/international/article/2026/10/20/italie-espagne-belgique-portugal-en-europe-la-colere-sociale-gagne-du-terrain-sur-fond-de-flambee-des-prix-de-l-energie-et-de-crise-du-logement_6797862_3210.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-10-20T04:00:08+00:00"
+   "date": "2026-10-20T04:00:03+00:00"
   },
   {
    "title": "Accord Trump-Poutine sur le gazole : un tournant dans la guerre en Ukraine ?",
@@ -14,13 +35,6 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-20T03:00:13+00:00"
-  },
-  {
-   "title": "En tournée dans le golfe Persique, Emmanuel Macron cherche une issue à la flambée des prix du carburant",
-   "url": "https://www.lemonde.fr/international/article/2026/10/19/en-tournee-dans-le-golfe-persique-emmanuel-macron-cherche-une-issue-a-la-flambee-des-prix-du-carburant_6797585_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-19T19:45:39+00:00"
   },
   {
    "title": "Hybrid sales rise while battery electric sales remain lower after tax credit expiration",
@@ -44,11 +58,11 @@
    "date": "2026-10-19T12:36:18+00:00"
   },
   {
-   "title": "Energy Transition Investment Council - Call for applications",
-   "url": "https://energy.ec.europa.eu/news/energy-transition-investment-council-call-applications-2026-10-06_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-19T11:58:19+00:00"
+   "title": "Pourquoi le diesel coûte-t-il si cher ? Et comment en sortir ?",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/pourquoi-le-diesel-coute-t-il-si-cher-et-comment-en-sortir",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-10-19T00:00:00+00:00"
   },
   {
    "title": "U.S. small-scale solar generation has quadrupled in the last decade",
