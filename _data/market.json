@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-20T03:01:47.666122Z",
+  "updated_at": "2026-10-20T10:48:47.850218Z",
   "brent": {
-    "price_usd": 109.83,
+    "price_usd": 111.46,
     "date": "2026-10-20",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Tue 20/10",
     "prev_value": 110.21,
     "prev_date": "2026-10-19",
-    "change_pct": -0.3
+    "change_pct": 1.1
   },
   "wti": {
-    "price_usd": 98.53,
+    "price_usd": 100.73,
     "date": "2026-10-20",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -33,28 +33,29 @@
     "change_pct": -1.9
   },
   "peg": {
-    "price_eur_mwh": 87.78,
-    "date": "2026-10-19",
+    "price_eur_mwh": 89.03,
+    "date": "2026-10-20",
     "unit": "EUR/MWh",
     "source": "NaTran",
-    "date_label": "Moyenne du lun. 19/10",
-    "date_label_en": "Average on Mon 19/10",
-    "prev_value": 89.08,
-    "prev_date": "2026-10-18",
-    "change_pct": -1.5
+    "date_label": "Moyenne du mar. 20/10",
+    "date_label_en": "Average on Tue 20/10",
+    "prev_value": 87.78,
+    "prev_date": "2026-10-19",
+    "change_pct": 1.4
   },
   "mix_france": {
-    "date_heure": "2026-10-20T02:45:00+00:00",
+    "date_heure": "2026-10-20T10:30:00+00:00",
     "shares": {
-      "nucleaire": 76.1,
-      "eolien": 13.8,
-      "hydraulique": 5.4,
-      "gaz": 2.7,
-      "bioenergies": 2.0
+      "nucleaire": 67.1,
+      "solaire": 11.5,
+      "eolien": 8.9,
+      "hydraulique": 5.5,
+      "gaz": 5.4,
+      "bioenergies": 1.6
     },
     "top_source": "nucleaire",
-    "top_share": 76.1,
-    "co2_intensity": 22
+    "top_share": 67.1,
+    "co2_intensity": 32
   },
   "spot_price_france": {
     "price_eur_mwh": 212.32,
@@ -70,21 +71,21 @@
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
-      "date": "2026-10-11",
-      "age_days": 9,
-      "period_start": "2026-10-07",
+      "date": "2021-08-17",
+      "age_days": 1890,
+      "period_start": "2021-08-13",
       "days_averaged": 5,
-      "n_tanker": 0.4,
-      "n_total": 3.8,
-      "capacity_tanker_mt": 0.01,
+      "n_tanker": 48.4,
+      "n_total": 80.8,
+      "capacity_tanker_mt": 2.58,
       "ref_tanker": 57.4,
       "ref_total": 95.6,
       "ref_capacity_tanker_mt": 2.79,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 1,
-      "pct_total": 4,
-      "pct_capacity": 0,
-      "status": "arret"
+      "pct_tanker": 84,
+      "pct_total": 85,
+      "pct_capacity": 92,
+      "status": "fluide"
     },
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
