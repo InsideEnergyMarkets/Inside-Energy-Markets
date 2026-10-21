@@ -125,7 +125,7 @@
         {% else %}<span class="hq-value">-</span>{% endif %}
       </a>
       <a class="hq-row" href="{{ marches }}#{{ t.ids.sea }}">
-        <span class="hq-name">{{ t.mk.hormuz_strait }}<small>IMF PortWatch · {{ t.home.data_as_of }} {{ ormuz.date | date: "%d/%m" }}</small></span>
+        <span class="hq-name">{{ t.mk.hormuz_strait }}<small>IMF PortWatch · {% assign d1 = ormuz.period_start | date: "%d/%m" %}{% assign d2 = ormuz.date | date: "%d/%m" %}{{ t.cp.avg_5d | replace: "%n", d1 | replace: "%m", d2 }}</small></span>
         {% if ormuz.pct_total != nil %}
         <span class="hq-value">{{ ormuz.pct_total }} % <small>{{ t.cp.of_normal_traffic }}</small></span>
         <span class="hq-change"><b class="mt-badge {{ ormuz.status }}">{{ t.status_short[ormuz.status] | default: t.status_short.ferme }}</b></span>

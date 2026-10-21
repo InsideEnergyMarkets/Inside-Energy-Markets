@@ -35,7 +35,7 @@
       <a class="inc-all" href="https://www.marinetraffic.com/en/ais/home/centerx:{{ include.lon }}/centery:{{ include.lat }}/zoom:{{ include.zoom }}" target="_blank" rel="noopener">{{ t.cp.see_mt }} <span aria-hidden="true"><i class="fa-solid fa-arrow-up-right-from-square ico-arr ico-ext"></i></span></a>
     </div>
   </div>
-  <p class="mt-src">{{ t.cp.traffic }}{{ t.colon }}IMF PortWatch{% if cp.date %}, {{ t.cp.as_of }} {{ cp.date | date: "%d/%m" }}{% endif %} · {{ t.cp.map }}{{ t.colon }}MarineTraffic</p>
+  <p class="mt-src">{{ t.cp.traffic }}{{ t.colon }}IMF PortWatch{% if cp.date %}{% assign d1 = cp.period_start | date: "%d/%m" %}{% assign d2 = cp.date | date: "%d/%m" %}, {{ t.cp.avg_5d | replace: "%n", d1 | replace: "%m", d2 }}{% endif %} · {{ t.cp.map }}{{ t.colon }}MarineTraffic</p>
 
   <button type="button" class="mk-open" data-dialog="dlg-{{ include.key }}">{{ t.cp.detail_btn }} <span aria-hidden="true"><i class="fa-solid fa-chevron-right ico-arr"></i></span></button>
 </article>
