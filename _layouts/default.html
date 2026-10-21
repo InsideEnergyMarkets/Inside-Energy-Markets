@@ -1506,9 +1506,9 @@ document.querySelectorAll('.nw-bar').forEach(function (bar) {
     }
     var x = Math.abs(s.hi30.pct) >= Math.abs(s.lo30.pct) ? [s.hi30, T.hi30] : [s.lo30, T.lo30];
     return '<div class="sd-stats"><div><small>' + T.before + '</small><b>' + s.before.txt.replace('.', dec) + ' $</b></div>' +
-      '<div><small>' + T.j1 + '</small><b class="' + cls(s.j1.pct) + '">' + fmt(s.j1.pct) + '</b></div>' +
+      '<div><small>' + (s.j1.date === e.date ? T.j0 : T.j1) + '</small><b class="' + cls(s.j1.pct) + '">' + fmt(s.j1.pct) + '</b></div>' +
       '<div><small>' + T.j5 + '</small><b class="' + cls(s.j5.pct) + '">' + fmt(s.j5.pct) + '</b></div>' +
-      '<div><small>' + x[1] + '</small><b class="' + cls(x[0].pct) + '">' + fmt(x[0].pct) + '</b><em>' + T.after.replace('%n', x[0].days) + '</em></div></div>';
+      '<div><small>' + x[1] + '</small><b class="' + cls(x[0].pct) + '">' + fmt(x[0].pct) + '</b><em>' + (x[0].days === 0 ? T.sameDay : T.after.replace('%n', x[0].days)) + '</em></div></div>';
   }
   var chart = null, cur = E.length - 1;
   function show(i, noScroll) {
