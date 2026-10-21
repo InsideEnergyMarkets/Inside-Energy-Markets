@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-21T07:56:14+00:00",
+ "updated_at": "2026-10-21T14:03:25+00:00",
  "stats": {
-  "total_30d": 39,
-  "attacks_30d": 34,
+  "total_30d": 40,
+  "attacks_30d": 35,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -22,6 +22,34 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-179",
+   "number": 179,
+   "date": "2026-10-21T01:45:00Z",
+   "type": "Attack",
+   "lat": 26.3214,
+   "lon": 56.1119,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 11NM west of Bukha, Oman. Local Authorities have reported that a Tanker has been struck by an unknown projectile which started a fire which has been extinguished."
+  },
+  {
+   "id": "UKMTO-2026-180",
+   "number": 180,
+   "date": "2026-10-20T18:30:00Z",
+   "type": "Attack",
+   "lat": 29.4367,
+   "lon": 48.8894,
+   "place": "Nord du golfe Persique",
+   "place_en": "Northern Arabian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time late report of an incident 30NM southeast of Al Faw, Iraq. The Master of a tanker reports being struck by an unknown projectile, the crew are reported as safe and there is no reported damage or environmental impact."
+  },
   {
    "id": "UKMTO-2026-178",
    "number": 178,
