@@ -1,39 +1,39 @@
 {
-  "updated_at": "2026-10-22T21:06:47.991589Z",
+  "updated_at": "2026-10-23T02:58:57.849359Z",
   "brent": {
-    "price_usd": 112.91,
-    "date": "2026-10-22",
+    "price_usd": 113.75,
+    "date": "2026-10-23",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du jeu. 22/10",
-    "date_label_en": "Price on Thu 22/10",
-    "prev_value": 109.67,
-    "prev_date": "2026-10-21",
-    "change_pct": 3.0
+    "date_label": "Cours du ven. 23/10",
+    "date_label_en": "Price on Fri 23/10",
+    "prev_value": 112.91,
+    "prev_date": "2026-10-22",
+    "change_pct": 0.7
   },
   "wti": {
-    "price_usd": 99.13,
-    "date": "2026-10-22",
+    "price_usd": 100.09,
+    "date": "2026-10-23",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du jeu. 22/10",
-    "date_label_en": "Price on Thu 22/10"
+    "date_label": "Cours du ven. 23/10",
+    "date_label_en": "Price on Fri 23/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 2.78,
-    "date": "2026-10-22",
+    "price_usd_mmbtu": 2.76,
+    "date": "2026-10-23",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Cours du jeu. 22/10",
-    "date_label_en": "Price on Thu 22/10",
-    "price_eur_mwh": 8.47,
+    "date_label": "Cours du ven. 23/10",
+    "date_label_en": "Price on Fri 23/10",
+    "price_eur_mwh": 8.4,
     "usd_per_eur": 1.1205,
-    "prev_value": 8.44,
-    "prev_date": "2026-10-21",
-    "change_pct": 0.4
+    "prev_value": 8.47,
+    "prev_date": "2026-10-22",
+    "change_pct": -0.8
   },
   "peg": {
-    "price_eur_mwh": 89.71,
+    "price_eur_mwh": 89.74,
     "date": "2026-10-22",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,37 +41,37 @@
     "date_label_en": "Average on Thu 22/10",
     "prev_value": 87.67,
     "prev_date": "2026-10-21",
-    "change_pct": 2.3
+    "change_pct": 2.4
   },
   "mix_france": {
-    "date_heure": "2026-10-22T20:45:00+00:00",
+    "date_heure": "2026-10-23T02:30:00+00:00",
     "shares": {
-      "nucleaire": 63.6,
-      "eolien": 24.7,
-      "hydraulique": 8.4,
-      "gaz": 1.7,
-      "bioenergies": 1.6
+      "nucleaire": 65.4,
+      "eolien": 28.7,
+      "hydraulique": 3.8,
+      "bioenergies": 1.6,
+      "gaz": 0.5
     },
     "top_source": "nucleaire",
-    "top_share": 63.6,
-    "co2_intensity": 15
+    "top_share": 65.4,
+    "co2_intensity": 11
   },
   "spot_price_france": {
-    "price_eur_mwh": 156.28,
-    "date": "2026-10-22",
-    "date_label": "Moyenne du jeu. 22/10",
-    "date_label_en": "Average for Thu 22/10",
+    "price_eur_mwh": 72.76,
+    "date": "2026-10-23",
+    "date_label": "Moyenne du ven. 23/10",
+    "date_label_en": "Average for Fri 23/10",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 161.33,
-    "prev_date": "2026-10-21",
-    "change_pct": -3.1
+    "prev_value": 156.28,
+    "prev_date": "2026-10-22",
+    "change_pct": -53.4
   },
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-10-18",
-      "age_days": 4,
+      "age_days": 5,
       "period_start": "2026-10-14",
       "days_averaged": 5,
       "n_tanker": 0.8,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-10-18",
-      "age_days": 4,
+      "age_days": 5,
       "period_start": "2026-10-14",
       "days_averaged": 5,
       "n_tanker": 10.4,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-18",
-      "age_days": 4,
+      "age_days": 5,
       "period_start": "2026-10-14",
       "days_averaged": 5,
       "n_tanker": 73.8,
