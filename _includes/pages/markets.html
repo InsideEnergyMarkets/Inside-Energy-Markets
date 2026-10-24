@@ -500,7 +500,7 @@
   window.mktShocks = {
     recentFrom: "2022-01-01",
     t: { hist: {{ mk.shocks_hist | jsonify }}, recent: {{ mk.shocks_recent | jsonify }}, before: {{ mk.shocks_before | jsonify }},
-         beforeM: {{ mk.shocks_before_m | jsonify }}, j1: {{ mk.shocks_j1 | jsonify }}, j5: {{ mk.shocks_j5 | jsonify }},
+         beforeM: {{ mk.shocks_before_m | jsonify }}, j1: {{ mk.shocks_j1 | jsonify }}, j0: {{ mk.shocks_j0 | jsonify }}, sameDay: {{ mk.shocks_same_day | jsonify }}, j5: {{ mk.shocks_j5 | jsonify }},
          hi30: {{ mk.shocks_hi30 | jsonify }}, lo30: {{ mk.shocks_lo30 | jsonify }}, after: {{ mk.shocks_after | jsonify }},
          hi12: {{ mk.shocks_hi12 | jsonify }}, afterM: {{ mk.shocks_after_m | jsonify }}, monthly: {{ mk.shocks_monthly_note | jsonify }},
          geo: {{ mk.shocks_geo | jsonify }}, eco: {{ mk.shocks_eco | jsonify }}, srcDaily: {{ mk.shocks_src_daily | jsonify }} },

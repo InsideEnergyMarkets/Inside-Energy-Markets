@@ -3124,11 +3124,11 @@ html.has-player .nav-note { display: inline-flex; }
 .sd-text p { margin: 0 0 12px; font-size: 14px; color: rgba(255, 255, 255, 0.75); }
 .sd-tag { display: inline-block; padding: 2px 9px; border-radius: 999px; font: 700 11px 'Inter', sans-serif; letter-spacing: 0.4px; text-transform: uppercase; }
 .sd-tag--geo { background: rgba(79, 209, 197, 0.15); color: #4fd1c5; } .sd-tag--eco { background: rgba(203, 213, 225, 0.15); color: #cbd5e1; }
-.sd-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-.sd-stats--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 380px; }
+.sd-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-width: 420px; }
+.sd-stats--2 { max-width: 380px; }
 .sd-stats > div { padding: 9px 11px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); }
 .sd-stats small { display: block; font-size: 11px; color: rgba(255, 255, 255, 0.6); white-space: nowrap; }
-.sd-stats b { font: 700 17px 'JetBrains Mono', monospace; white-space: nowrap; color: #fff; }
+.sd-stats b { display: block; font: 700 18px 'JetBrains Mono', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
 .sd-stats b.up { color: #3ddc97; } .sd-stats b.down { color: #ff6b5b; }
 .sd-stats em { display: block; font-style: normal; font-size: 11px; color: rgba(255, 255, 255, 0.5); white-space: nowrap; }
 .sd-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }

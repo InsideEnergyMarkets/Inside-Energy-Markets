@@ -3,6 +3,8 @@
 # Les chiffres sont calculés par scripts/fetch_market_data.py (update_oil_shocks) dans _data/oil_shocks_data.json :
 # Brent quotidien (EIA via FRED) depuis 1987 ; avant 1987, WTI mensuel (FRED, WTISPLC), signalé comme tel.
 # type : geo (choc géopolitique) ou eco (choc économique ou décision de l'OPEP).
+# Retiré (24/10/2026) : déblocage de stocks du G7 du 02/10/2026. Le Brent Dated a bondi de 18 % le même jour
+# (tension physique liée à Ormuz) alors que les contrats à terme ont reculé : chiffre trompeur pour cet événement.
 - id: embargo-1973
   date: 1973-10-17
   type: geo
@@ -101,10 +103,3 @@
   en: "Hormuz crisis"
   desc_fr: "Début de la crise du détroit d'Ormuz."
   desc_en: "The Strait of Hormuz crisis begins."
-- id: g7-stocks-2026
-  date: 2026-10-02
-  type: eco
-  fr: "Déblocage de stocks par le G7"
-  en: "G7 stock release"
-  desc_fr: "Le G7 annonce le déblocage de 100 millions de barils de stocks stratégiques."
-  desc_en: "The G7 announces the release of 100 million barrels from strategic stocks."
