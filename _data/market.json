@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24T20:04:41.140808Z",
+  "updated_at": "2026-10-25T02:48:34.251621Z",
   "brent": {
     "price_usd": 117.38,
     "date": "2026-10-23",
@@ -33,7 +33,7 @@
     "change_pct": -5.0
   },
   "peg": {
-    "price_eur_mwh": 95.89,
+    "price_eur_mwh": 95.93,
     "date": "2026-10-24",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,37 +41,37 @@
     "date_label_en": "Average on Sat 24/10",
     "prev_value": 92.55,
     "prev_date": "2026-10-23",
-    "change_pct": 3.6
+    "change_pct": 3.7
   },
   "mix_france": {
-    "date_heure": "2026-10-24T19:45:00+00:00",
+    "date_heure": "2026-10-25T02:30:00+00:00",
     "shares": {
-      "nucleaire": 59.3,
-      "eolien": 32.1,
-      "hydraulique": 5.8,
-      "bioenergies": 1.6,
-      "gaz": 1.2
+      "nucleaire": 54.6,
+      "eolien": 37.6,
+      "hydraulique": 4.5,
+      "bioenergies": 2.0,
+      "gaz": 1.4
     },
     "top_source": "nucleaire",
-    "top_share": 59.3,
-    "co2_intensity": 14
+    "top_share": 54.6,
+    "co2_intensity": 16
   },
   "spot_price_france": {
-    "price_eur_mwh": 48.76,
-    "date": "2026-10-24",
-    "date_label": "Moyenne du sam. 24/10",
-    "date_label_en": "Average for Sat 24/10",
+    "price_eur_mwh": 25.34,
+    "date": "2026-10-25",
+    "date_label": "Moyenne du dim. 25/10",
+    "date_label_en": "Average for Sun 25/10",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 72.76,
-    "prev_date": "2026-10-23",
-    "change_pct": -33.0
+    "prev_value": 48.76,
+    "prev_date": "2026-10-24",
+    "change_pct": -48.0
   },
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-10-18",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-10-14",
       "days_averaged": 5,
       "n_tanker": 0.8,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-10-18",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-10-14",
       "days_averaged": 5,
       "n_tanker": 10.4,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-18",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-10-14",
       "days_averaged": 5,
       "n_tanker": 73.8,
