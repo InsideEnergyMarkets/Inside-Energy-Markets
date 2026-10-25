@@ -873,11 +873,14 @@
     "spot_eur_mwh": 25.34,
     "spot_source": "RTE",
     "mix_shares": {
-      "nucleaire": 54.6,
-      "eolien": 37.6,
-      "hydraulique": 4.5,
-      "bioenergies": 2.0,
-      "gaz": 1.4
-    }
+      "nucleaire": 50.9,
+      "eolien": 29.7,
+      "solaire": 12.3,
+      "hydraulique": 4.3,
+      "bioenergies": 1.7,
+      "gaz": 1.1
+    },
+    "peg_eur_mwh": 97.66,
+    "peg_source": "NaTran"
   }
 ]
