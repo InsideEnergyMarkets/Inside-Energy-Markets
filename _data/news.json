@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-10-28T01:34:18+00:00",
+ "updated_at": "2026-10-28T08:54:04+00:00",
  "items": [
+  {
+   "title": "En Espagne, les éoliennes de dernière génération libèrent le paysage",
+   "url": "https://www.lemonde.fr/economie/article/2026/10/28/en-espagne-les-eoliennes-de-derniere-generation-liberent-le-paysage_6801526_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-28T04:30:11+00:00"
+  },
+  {
+   "title": "Donald Trump abroge des règles sur la limitation des émissions de méthane, un gaz à effet de serre extrêmement polluant",
+   "url": "https://www.lemonde.fr/planete/article/2026/10/28/donald-trump-abroge-des-regles-sur-la-limitation-des-emissions-de-methane-un-gaz-a-effet-de-serre-extremement-polluant_6801449_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-28T02:19:38+00:00"
+  },
   {
    "title": "Plan for multibillion-pound Sizewell nuclear plant a ‘terrible deal’ for UK taxpayers, MPs say",
    "url": "https://www.theguardian.com/business/2026/oct/28/plan-for-multibillion-pound-sizewell-nuclear-plant-a-terrible-deal-for-uk-taxpayers-mps-say",
@@ -63,27 +77,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-26T00:00:00+00:00"
-  },
-  {
-   "title": "Passage à l’heure d’hiver : pourquoi le changement d’heure est si critiqué",
-   "url": "https://www.lemonde.fr/les-decodeurs/article/2026/10/24/passage-a-l-heure-d-hiver-pourquoi-le-changement-d-heure-est-si-critique_5348679_4355771.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-24T15:18:22+00:00"
-  },
-  {
-   "title": "Prix des carburants : un décret en vue de la libération de stocks stratégiques de gazole publié au « Journal officiel »",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/24/prix-des-carburants-un-decret-en-vue-de-la-liberation-de-stocks-strategiques-de-gazole-publie-au-journal-officiel_6799684_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-24T09:20:17+00:00"
-  },
-  {
-   "title": "Oil spill washes up on UAE beaches after tanker strike",
-   "url": "https://www.bbc.co.uk/news/articles/c6rey3n974g5o?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-10-23T15:30:47+00:00"
   }
  ]
 }
