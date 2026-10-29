@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-29T12:07:53.512943Z",
+  "updated_at": "2026-10-29T22:19:59.930433Z",
   "brent": {
-    "price_usd": 114.41,
+    "price_usd": 115.66,
     "date": "2026-10-29",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Thu 29/10",
     "prev_value": 115.33,
     "prev_date": "2026-10-28",
-    "change_pct": -0.8
+    "change_pct": 0.3
   },
   "wti": {
-    "price_usd": 101.96,
+    "price_usd": 102.82,
     "date": "2026-10-29",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -20,20 +20,20 @@
     "date_label_en": "Price on Thu 29/10"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.03,
+    "price_usd_mmbtu": 2.95,
     "date": "2026-10-29",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du jeu. 29/10",
     "date_label_en": "Price on Thu 29/10",
-    "price_eur_mwh": 9.29,
-    "usd_per_eur": 1.1133,
+    "price_eur_mwh": 9.04,
+    "usd_per_eur": 1.113,
     "prev_value": 8.7,
     "prev_date": "2026-10-28",
-    "change_pct": 6.8
+    "change_pct": 3.9
   },
   "peg": {
-    "price_eur_mwh": 97.19,
+    "price_eur_mwh": 97.6,
     "date": "2026-10-29",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,21 +41,20 @@
     "date_label_en": "Average on Thu 29/10",
     "prev_value": 99.75,
     "prev_date": "2026-10-28",
-    "change_pct": -2.6
+    "change_pct": -2.2
   },
   "mix_france": {
-    "date_heure": "2026-10-29T11:45:00+00:00",
+    "date_heure": "2026-10-29T22:00:00+00:00",
     "shares": {
-      "nucleaire": 66.1,
-      "solaire": 20.8,
-      "gaz": 4.2,
-      "hydraulique": 3.8,
-      "eolien": 3.6,
-      "bioenergies": 1.5
+      "nucleaire": 72.1,
+      "eolien": 11.9,
+      "gaz": 8.0,
+      "hydraulique": 6.3,
+      "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 66.1,
-    "co2_intensity": 26
+    "top_share": 72.1,
+    "co2_intensity": 43
   },
   "spot_price_france": {
     "price_eur_mwh": 266.72,
@@ -108,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-25",
-      "age_days": 3,
+      "age_days": 4,
       "period_start": "2026-10-21",
       "days_averaged": 5,
       "n_tanker": 75.4,
