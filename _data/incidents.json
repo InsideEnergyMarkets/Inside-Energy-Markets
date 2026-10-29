@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-29T06:17:57+00:00",
+ "updated_at": "2026-10-29T13:33:35+00:00",
  "stats": {
-  "total_30d": 41,
+  "total_30d": 42,
   "attacks_30d": 35,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 28
+    "n": 29
    },
    {
     "place": "Golfe Persique",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-185",
+   "number": 185,
+   "date": "2026-10-29T06:27:00Z",
+   "type": "Suspicious Activity",
+   "lat": 26.355,
+   "lon": 56.2686,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident occurring in the Strait of Hormuz, 9NM north of Khasab, Oman. The Master of a third-party vessel has reported sighting another vessel on fire."
+  },
   {
    "id": "UKMTO-2026-184",
    "number": 184,
