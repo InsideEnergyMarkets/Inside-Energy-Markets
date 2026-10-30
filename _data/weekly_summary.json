@@ -1,20 +1,20 @@
 {
-  "period_start": "2026-10-22",
-  "period_end": "2026-10-29",
+  "period_start": "2026-10-23",
+  "period_end": "2026-10-30",
   "brent": {
-    "start_usd": 112.91,
-    "end_usd": 115.66,
-    "change_pct": 2.4
+    "start_usd": 117.38,
+    "end_usd": 116.25,
+    "change_pct": -1.0
   },
   "spot_price": {
-    "avg_eur_mwh": 142.21,
+    "avg_eur_mwh": 153.64,
     "min_eur_mwh": 25.34,
     "max_eur_mwh": 266.72,
     "days_count": 8
   },
   "mix": {
-    "nuclear_avg_share": 66.7,
-    "renewables_avg_share": 29.1,
+    "nuclear_avg_share": 68.1,
+    "renewables_avg_share": 26.8,
     "days_count": 8
   }
 }
