@@ -1,19 +1,47 @@
 {
- "updated_at": "2026-10-30T13:23:59+00:00",
+ "updated_at": "2026-10-30T19:37:15+00:00",
  "items": [
+  {
+   "title": "Oman rescues 25 from burning oil tanker in Strait of Hormuz",
+   "url": "https://www.aljazeera.com/news/2026/10/30/oman-rescues-25-from-burning-oil-tanker-in-strait-of-hormuz?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-30T18:33:29+00:00"
+  },
+  {
+   "title": "Le gouvernement met fin à cinq programmes d’aide à la rénovation énergétique des logements et des bâtiments publics",
+   "url": "https://www.lemonde.fr/societe/article/2026/10/30/le-gouvernement-met-fin-a-cinq-programmes-d-aide-a-la-renovation-energetique-des-logements-et-des-batiments-publics_6803122_3224.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-30T17:08:42+00:00"
+  },
+  {
+   "title": "Energy Transition Investment Council - Call for applications",
+   "url": "https://energy.ec.europa.eu/news/energy-transition-investment-council-call-applications-2026-10-30_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-30T16:43:34+00:00"
+  },
+  {
+   "title": "Eurostat: Household electricity prices ease in 1st half of 2026",
+   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20261030-2",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-30T15:14:42+00:00"
+  },
+  {
+   "title": "Eurostat: EU household gas prices decrease in first half of 2026",
+   "url": "https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20261030-3",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-10-30T14:48:32+00:00"
+  },
   {
    "title": "The share of solar generation with co-located battery storage is increasing",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68384",
    "source": "EIA",
    "lang": "en",
    "date": "2026-10-30T14:00:00+00:00"
-  },
-  {
-   "title": "Russian oil refinery struck as Ukraine renews drone attacks",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/30/russian-oil-refinery-struck-as-ukraine-renews-drone-attacks?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-10-30T09:14:16+00:00"
   },
   {
    "title": "Crise énergétique : 11 pays de l’UE vont libérer 42,6 millions de barils de pétrole afin de stabiliser les prix du gazole avant l’hiver",
@@ -30,7 +58,7 @@
    "date": "2026-10-30T00:00:00+00:00"
   },
   {
-   "title": "Seven oil tankers carrying 288,000 tonnes of Russian diesel sail towards US",
+   "title": "Six oil tankers carrying 268,000 tonnes of Russian diesel sail towards US",
    "url": "https://www.theguardian.com/us-news/2026/oct/29/seven-oil-tankers-288000-tonnes-russian-diesel-sail-us-putin-trump",
    "source": "The Guardian",
    "lang": "en",
@@ -51,32 +79,11 @@
    "date": "2026-10-29T10:05:06+00:00"
   },
   {
-   "title": "Superprofits de TotalEnergies : est-il vraiment possible de taxer les bénéfices exceptionnels des pétroliers ?",
-   "url": "https://www.lemonde.fr/les-decodeurs/article/2026/10/29/superprofits-de-totalenergies-est-il-vraiment-possible-de-taxer-les-benefices-exceptionnels-des-petroliers_6686551_4355771.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-29T09:39:47+00:00"
-  },
-  {
-   "title": "Commission launches High-Level Dialogue with the European refining sector",
-   "url": "https://energy.ec.europa.eu/news/commission-launches-high-level-dialogue-european-refining-sector-2026-10-28_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-29T08:41:16+00:00"
-  },
-  {
    "title": "Superprofits pétroliers : plus de 2 milliards d’euros grâce à un nouvel impôt « dormant »",
    "url": "https://www.connaissancedesenergies.org/superprofits-petroliers-plus-de-2-milliards-deuros-grace-a-un-nouvel-impot-dormant",
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-29T00:00:00+00:00"
-  },
-  {
-   "title": "Press remarks by Commissioner Jørgensen following the Dialogue with European refineries",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_2278",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-28T16:00:46+00:00"
   },
   {
    "title": "Plan for multibillion-pound Sizewell nuclear plant a ‘terrible deal’ for UK taxpayers, MPs say",
@@ -91,13 +98,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-10-27T23:07:06+00:00"
-  },
-  {
-   "title": "EU gas storage is 75% filled",
-   "url": "https://www.acer.europa.eu/news/eu-gas-storage-75-filled",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-27T10:57:52+00:00"
   },
   {
    "title": "Panneaux solaires : pourquoi il faut (aussi) ajuster les tarifs de réseau pour les autoconsommateurs",

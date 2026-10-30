@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-30T13:23:59+00:00",
+ "updated_at": "2026-10-30T19:37:15+00:00",
  "stats": {
-  "total_30d": 41,
-  "attacks_30d": 33,
+  "total_30d": 42,
+  "attacks_30d": 35,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -15,18 +15,32 @@
     "n": 3
    },
    {
-    "place": "Golfe d'Aden",
-    "place_en": "Gulf of Aden",
+    "place": "Central Arabian Gulf",
+    "place_en": "Central Arabian Gulf",
     "n": 2
    }
   ]
  },
  "items": [
   {
+   "id": "UKMTO-2026-188",
+   "number": 188,
+   "date": "2026-10-30T19:01:00Z",
+   "type": "Attack",
+   "lat": 26.1333,
+   "lon": 53.25,
+   "place": "Central Arabian Gulf",
+   "place_en": "Central Arabian Gulf",
+   "vessel_type": "",
+   "vessel_type_en": "",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 40NM south of Lavan Island, Iran. UKMTO has received a report that an vessel has been hit by an unknown projectile on the port side which has caused a fire onboard."
+  },
+  {
    "id": "UKMTO-2026-187",
    "number": 187,
    "date": "2026-10-29T22:12:00Z",
-   "type": "Suspicious Activity",
+   "type": "Attack",
    "lat": 26.1667,
    "lon": 56.5667,
    "place": "Détroit d'Ormuz",
