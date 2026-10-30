@@ -1,19 +1,33 @@
 {
- "updated_at": "2026-10-30T06:17:59+00:00",
+ "updated_at": "2026-10-30T13:23:59+00:00",
  "items": [
   {
-   "title": "Crise énergétique : onze pays de l’UE vont libérer 42,6 millions de barils de pétrole afin de stabiliser les prix du gazole avant l’hiver",
+   "title": "The share of solar generation with co-located battery storage is increasing",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68384",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-10-30T14:00:00+00:00"
+  },
+  {
+   "title": "Russian oil refinery struck as Ukraine renews drone attacks",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/10/30/russian-oil-refinery-struck-as-ukraine-renews-drone-attacks?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-10-30T09:14:16+00:00"
+  },
+  {
+   "title": "Crise énergétique : 11 pays de l’UE vont libérer 42,6 millions de barils de pétrole afin de stabiliser les prix du gazole avant l’hiver",
    "url": "https://www.lemonde.fr/economie/article/2026/10/30/crise-energetique-onze-pays-de-l-ue-vont-liberer-42-6-millions-de-barils-de-petrole-afin-de-stabiliser-les-prix-du-gazole-avant-l-hiver_6802691_3234.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-30T03:21:07+00:00"
   },
   {
-   "title": "Quatre pétroliers en feu après des explosions de mines dans le détroit d’Ormuz",
-   "url": "https://www.lemonde.fr/international/article/2026/10/30/quatre-petroliers-en-feu-apres-des-explosions-de-mines-dans-le-detroit-d-ormuz_6802559_3210.html",
-   "source": "Le Monde",
+   "title": "Comprendre le paradoxe des prix négatifs de l’électricité : quand la rareté change de camp",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/comprendre-le-paradoxe-des-prix-negatifs-de-lelectricite-quand-la-rarete-change-de-camp",
+   "source": "Connaissance des Énergies",
    "lang": "fr",
-   "date": "2026-10-30T01:52:18+00:00"
+   "date": "2026-10-30T00:00:00+00:00"
   },
   {
    "title": "Seven oil tankers carrying 288,000 tonnes of Russian diesel sail towards US",
@@ -35,6 +49,13 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-29T10:05:06+00:00"
+  },
+  {
+   "title": "Superprofits de TotalEnergies : est-il vraiment possible de taxer les bénéfices exceptionnels des pétroliers ?",
+   "url": "https://www.lemonde.fr/les-decodeurs/article/2026/10/29/superprofits-de-totalenergies-est-il-vraiment-possible-de-taxer-les-benefices-exceptionnels-des-petroliers_6686551_4355771.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-10-29T09:39:47+00:00"
   },
   {
    "title": "Commission launches High-Level Dialogue with the European refining sector",
@@ -84,13 +105,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-27T00:00:00+00:00"
-  },
-  {
-   "title": "COP31 : la triple alerte du Programme des Nations Unies pour l’Environnement",
-   "url": "https://www.connaissancedesenergies.org/tribune/christian-de-perthuis/le-point-sur-les-emissions-a-la-veille-de-la-cop31",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-10-26T00:00:00+00:00"
   }
  ]
 }
