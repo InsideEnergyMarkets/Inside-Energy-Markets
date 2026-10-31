@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-10-31T16:40:53.609508Z",
+  "updated_at": "2026-10-31T20:53:09.295443Z",
   "brent": {
-    "price_usd": 113.1,
+    "price_usd": 113.4,
     "date": "2026-10-30",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,7 +9,7 @@
     "date_label_en": "Close on Fri 30/10 (market closed at weekends)",
     "prev_value": 115.66,
     "prev_date": "2026-10-29",
-    "change_pct": -2.2
+    "change_pct": -2.0
   },
   "wti": {
     "price_usd": 102.89,
@@ -33,7 +33,7 @@
     "change_pct": -2.0
   },
   "peg": {
-    "price_eur_mwh": 103.98,
+    "price_eur_mwh": 102.92,
     "date": "2026-10-31",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,21 +41,20 @@
     "date_label_en": "Average on Sat 31/10",
     "prev_value": 102.9,
     "prev_date": "2026-10-30",
-    "change_pct": 1.0
+    "change_pct": 0.0
   },
   "mix_france": {
-    "date_heure": "2026-10-31T16:15:00+00:00",
+    "date_heure": "2026-10-31T20:30:00+00:00",
     "shares": {
-      "nucleaire": 73.7,
-      "hydraulique": 8.1,
-      "eolien": 7.5,
-      "gaz": 6.8,
-      "solaire": 2.2,
+      "nucleaire": 72.7,
+      "eolien": 12.3,
+      "gaz": 7.5,
+      "hydraulique": 5.9,
       "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 73.7,
-    "co2_intensity": 38
+    "top_share": 72.7,
+    "co2_intensity": 40
   },
   "spot_price_france": {
     "price_eur_mwh": 238.0,
