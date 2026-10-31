@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-10-31T18:41:46+00:00",
+ "updated_at": "2026-10-31T23:35:36+00:00",
  "stats": {
   "total_30d": 43,
-  "attacks_30d": 36,
+  "attacks_30d": 35,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 29
+    "n": 28
    },
    {
     "place": "Golfe Persique",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-190",
+   "number": 190,
+   "date": "2026-10-31T18:48:00Z",
+   "type": "Suspicious Activity",
+   "lat": 9.9,
+   "lon": 53.05,
+   "place": "Océan Indien",
+   "place_en": "Indian Ocean",
+   "vessel_type": "Boutre",
+   "vessel_type_en": "Dhow",
+   "vessel_name": "",
+   "summary": "UKMTO has received information that a large fishing vessel has been boarded by unauthorised personnel. Authorities are concerned that this activity will form part of a PAG (Pirate Action Group)."
+  },
   {
    "id": "UKMTO-2026-189",
    "number": 189,
