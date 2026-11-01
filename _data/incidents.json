@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-01T15:25:10+00:00",
+ "updated_at": "2026-11-01T20:44:13+00:00",
  "stats": {
   "total_30d": 43,
   "attacks_30d": 35,
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-191",
+   "number": 191,
+   "date": "2026-11-01T18:12:00Z",
+   "type": "Attack",
+   "lat": 26.5333,
+   "lon": 56.4478,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tug",
+   "vessel_type_en": "Tug",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident within the Strait of Hormuz. The Master of a merchant vessel has relayed a Mayday call from VHF Ch 16, stating that another vessel has been struck by an unknown projectile."
+  },
   {
    "id": "UKMTO-2026-190",
    "number": 190,
