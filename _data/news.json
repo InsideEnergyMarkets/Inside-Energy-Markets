@@ -1,26 +1,33 @@
 {
- "updated_at": "2026-10-31T23:35:35+00:00",
+ "updated_at": "2026-11-01T06:40:58+00:00",
  "items": [
+  {
+   "title": "EN DIRECT, guerre en Ukraine : le site pétrolier de Kstovo, l’une des plus grandes raffineries de Russie, visé par une attaque",
+   "url": "https://www.lemonde.fr/international/live/2026/11/01/en-direct-guerre-en-ukraine-le-site-petrolier-de-kstovo-l-une-des-plus-grandes-raffineries-de-russie-vise-par-une-attaque_6803934_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-01T06:30:22+00:00"
+  },
+  {
+   "title": "Donald Trump menace l’Iran de nouvelles frappes sur « un ou deux sites », dont le mont Kolang, près du complexe nucléaire de Natanz",
+   "url": "https://www.lemonde.fr/international/article/2026/11/01/donald-trump-menace-l-iran-de-nouvelles-frappes-sur-un-ou-deux-sites-dont-le-mont-kolang-pres-du-complexe-nucleaire-de-natanz_6804009_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-01T04:24:33+00:00"
+  },
+  {
+   "title": "Iran war live: Tehran eyes 2-day Hormuz plan; Trump says talks ‘going fine’",
+   "url": "https://www.aljazeera.com/news/liveblog/2026/11/1/iran-war-live-araghchi-says-talks-under-way-on-2-day-plan-to-reopen-hormuz?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-01T00:00:51+00:00"
+  },
   {
    "title": "Pour faire baisser le prix du gazole à la pompe, une course contre la montre et un casse-tête logistique",
    "url": "https://www.lemonde.fr/economie/article/2026/10/31/course-contre-la-montre-et-casse-tete-logistique-pour-faire-baisser-le-prix-du-gazole-a-la-pompe_6803469_3234.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-10-31T07:00:06+00:00"
-  },
-  {
-   "title": "Pénurie de navires et tarifs record : comment la guerre au Moyen-Orient fait bondir les prix du transport de pétrole",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/31/penurie-de-navires-et-tarifs-record-comment-la-guerre-au-moyen-orient-fait-bondir-les-prix-du-transport-de-petrole_6803378_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-31T04:00:48+00:00"
-  },
-  {
-   "title": "Le gouvernement met fin à cinq programmes d’aide à la rénovation énergétique des logements et des bâtiments publics",
-   "url": "https://www.lemonde.fr/societe/article/2026/10/30/le-gouvernement-met-fin-a-cinq-programmes-d-aide-a-la-renovation-energetique-des-logements-et-des-batiments-publics_6803122_3224.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-30T17:08:42+00:00"
   },
   {
    "title": "Energy Transition Investment Council - Call for applications",
@@ -91,13 +98,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-10-27T23:07:06+00:00"
-  },
-  {
-   "title": "Panneaux solaires : pourquoi il faut (aussi) ajuster les tarifs de réseau pour les autoconsommateurs",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/panneaux-solaires-pourquoi-il-faut-aussi-ajuster-les-tarifs-de-reseau-pour-les-autoconsommateurs",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-10-27T00:00:00+00:00"
   }
  ]
 }
