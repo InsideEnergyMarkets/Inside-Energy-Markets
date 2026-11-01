@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-31T20:53:09.295443Z",
+  "updated_at": "2026-11-01T03:51:23.086588Z",
   "brent": {
     "price_usd": 113.4,
     "date": "2026-10-30",
@@ -33,7 +33,7 @@
     "change_pct": -2.0
   },
   "peg": {
-    "price_eur_mwh": 102.92,
+    "price_eur_mwh": 102.73,
     "date": "2026-10-31",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,31 +41,31 @@
     "date_label_en": "Average on Sat 31/10",
     "prev_value": 102.9,
     "prev_date": "2026-10-30",
-    "change_pct": 0.0
+    "change_pct": -0.2
   },
   "mix_france": {
-    "date_heure": "2026-10-31T20:30:00+00:00",
+    "date_heure": "2026-11-01T03:30:00+00:00",
     "shares": {
-      "nucleaire": 72.7,
-      "eolien": 12.3,
-      "gaz": 7.5,
-      "hydraulique": 5.9,
-      "bioenergies": 1.7
+      "nucleaire": 77.6,
+      "eolien": 10.8,
+      "gaz": 5.2,
+      "hydraulique": 4.5,
+      "bioenergies": 1.8
     },
     "top_source": "nucleaire",
-    "top_share": 72.7,
-    "co2_intensity": 40
+    "top_share": 77.6,
+    "co2_intensity": 32
   },
   "spot_price_france": {
-    "price_eur_mwh": 238.0,
-    "date": "2026-10-31",
-    "date_label": "Moyenne du sam. 31/10",
-    "date_label_en": "Average for Sat 31/10",
+    "price_eur_mwh": 233.74,
+    "date": "2026-11-01",
+    "date_label": "Moyenne du dim. 01/11",
+    "date_label_en": "Average for Sun 01/11",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 247.71,
-    "prev_date": "2026-10-30",
-    "change_pct": -3.9
+    "prev_value": 238.0,
+    "prev_date": "2026-10-31",
+    "change_pct": -1.8
   },
   "chokepoints": {
     "hormuz": {
