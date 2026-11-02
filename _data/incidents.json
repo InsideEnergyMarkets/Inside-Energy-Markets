@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-02T09:51:14+00:00",
+ "updated_at": "2026-11-02T20:28:30+00:00",
  "stats": {
   "total_30d": 43,
   "attacks_30d": 35,
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-193",
+   "number": 193,
+   "date": "2026-11-02T18:47:00Z",
+   "type": "Attack",
+   "lat": 26.25,
+   "lon": 56.55,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 9NM northeast of Lima, Oman. The Master reports the vessel has been struck by an unknown projectile which has caused a hole on the starboard side."
+  },
   {
    "id": "UKMTO-2026-192",
    "number": 192,
@@ -54,7 +68,7 @@
    "id": "UKMTO-2026-190",
    "number": 190,
    "date": "2026-10-31T18:48:00Z",
-   "type": "Suspicious Activity",
+   "type": "Hijack",
    "lat": 9.9,
    "lon": 53.05,
    "place": "Océan Indien",
