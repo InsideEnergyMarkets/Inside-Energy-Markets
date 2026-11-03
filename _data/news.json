@@ -1,12 +1,40 @@
 {
- "updated_at": "2026-11-03T12:14:03+00:00",
+ "updated_at": "2026-11-03T19:43:50+00:00",
  "items": [
   {
-   "title": "Lebanon cuts power to public bodies as electricity crisis deepens",
-   "url": "https://www.aljazeera.com/news/2026/11/3/lebanon-cuts-power-to-public-bodies-as-electricity-crisis-deepens?traffic_source=rss",
+   "title": "EN DIRECT, guerre en Ukraine : à Kiev, des coupures de courant d’urgence mises en place, le maire dénonce les attaques russes sur les infrastructures énergétiques de la ville",
+   "url": "https://www.lemonde.fr/international/live/2026/11/03/en-direct-guerre-en-ukraine-a-kiev-des-coupures-de-courant-d-urgence-mises-en-place-le-maire-denonce-les-attaques-russes-sur-les-infrastructures-energetiques-de-la-ville_6803934_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-03T18:01:01+00:00"
+  },
+  {
+   "title": "Transition écologique : le gouvernement suspend les nouvelles demandes d’aide au fonds chaleur",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/03/transition-ecologique-le-gouvernement-suspend-les-nouvelles-demandes-d-aide-au-fonds-chaleur_6805633_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-03T16:57:26+00:00"
+  },
+  {
+   "title": "Syria says it foiled Hezbollah plot to target Homs oil refinery",
+   "url": "https://www.aljazeera.com/news/2026/11/3/syria-arrests-cell-it-links-to-isis-over-plot-against-oil-refinery?traffic_source=rss",
    "source": "Al Jazeera",
    "lang": "en",
-   "date": "2026-11-03T10:17:27+00:00"
+   "date": "2026-11-03T15:47:34+00:00"
+  },
+  {
+   "title": "En Alsace, la hausse des factures de fioul domestique « fait mal » aux ménages",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/03/en-alsace-la-hausse-des-factures-de-fioul-domestique-fait-mal-aux-menages_6805612_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-03T15:30:05+00:00"
+  },
+  {
+   "title": "Global refinery inputs fell sharply in the second quarter of 2026 before modest recovery",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68404",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-03T14:00:00+00:00"
   },
   {
    "title": "Énergie : les jeunes « plus ouverts à la transition » et « davantage exposés à la précarité »",
@@ -16,32 +44,11 @@
    "date": "2026-11-03T00:00:00+00:00"
   },
   {
-   "title": "Baisse des prix du gazole : Emmanuel Macron se félicite de « solutions concrètes qui portent leurs fruits », « sans toucher aux taxes »",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/02/baisse-des-prix-du-gazole-emmanuel-macron-se-felicite-de-solutions-concretes-qui-portent-leurs-fruits-sans-toucher-aux-taxes_6805242_3235.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-02T17:05:03+00:00"
-  },
-  {
-   "title": "Le Canada rêve d’exporter son gaz naturel liquéfié en Europe",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/02/le-canada-reve-d-exporter-son-gaz-naturel-liquefie-en-europe_6805185_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-02T08:00:05+00:00"
-  },
-  {
    "title": "Midterms américaines : l’essence, le diesel et l’électricité dans les urnes",
    "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/midterms-americaines-lessence-le-diesel-et-lelectricite-dans-les-urnes",
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-02T00:00:00+00:00"
-  },
-  {
-   "title": "Pour faire baisser le prix du gazole à la pompe, une course contre la montre et un casse-tête logistique",
-   "url": "https://www.lemonde.fr/economie/article/2026/10/31/course-contre-la-montre-et-casse-tete-logistique-pour-faire-baisser-le-prix-du-gazole-a-la-pompe_6803469_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-10-31T07:00:06+00:00"
   },
   {
    "title": "Energy Transition Investment Council - Call for applications",
@@ -77,20 +84,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-10-30T00:00:00+00:00"
-  },
-  {
-   "title": "Six oil tankers carrying 268,000 tonnes of Russian diesel sail towards US",
-   "url": "https://www.theguardian.com/us-news/2026/oct/29/seven-oil-tankers-288000-tonnes-russian-diesel-sail-us-putin-trump",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-10-29T19:04:17+00:00"
-  },
-  {
-   "title": "LNG imports make up increasing share of Colombia's natural gas supply",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-10-29T14:00:00+00:00"
   }
  ]
 }
