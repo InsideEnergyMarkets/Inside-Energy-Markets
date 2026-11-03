@@ -1,12 +1,5 @@
 [
   {
-    "date": "2026-09-03",
-    "spot_eur_mwh": 138.34,
-    "spot_source": "Energy-Charts / SMARD",
-    "peg_eur_mwh": 71.16,
-    "peg_source": "NaTran"
-  },
-  {
     "date": "2026-09-04",
     "spot_eur_mwh": 110.12,
     "spot_source": "Energy-Charts / SMARD",
@@ -952,7 +945,7 @@
   },
   {
     "date": "2026-11-02",
-    "brent_usd": 110.05,
+    "brent_usd": 104.32,
     "brent_source": "OilPriceAPI",
     "henry_hub_usd_mmbtu": 2.93,
     "henry_hub_source": "OilPriceAPI",
@@ -966,8 +959,23 @@
       "hydraulique": 3.2,
       "bioenergies": 1.6
     },
-    "henry_hub_eur_mwh": 8.95,
-    "peg_eur_mwh": 97.45,
+    "henry_hub_eur_mwh": 8.91,
+    "peg_eur_mwh": 96.19,
     "peg_source": "NaTran"
+  },
+  {
+    "date": "2026-11-03",
+    "henry_hub_usd_mmbtu": 2.87,
+    "henry_hub_source": "OilPriceAPI",
+    "spot_eur_mwh": 246.37,
+    "spot_source": "RTE",
+    "mix_shares": {
+      "nucleaire": 70.3,
+      "eolien": 15.7,
+      "gaz": 8.8,
+      "hydraulique": 3.5,
+      "bioenergies": 1.7
+    },
+    "henry_hub_eur_mwh": 8.73
   }
 ]
