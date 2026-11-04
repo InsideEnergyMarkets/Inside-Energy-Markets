@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-11-03T12:14:03+00:00",
+ "updated_at": "2026-11-04T00:48:32+00:00",
  "stats": {
-  "total_30d": 42,
+  "total_30d": 41,
   "attacks_30d": 34,
   "top_places": [
    {
@@ -22,6 +22,34 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-195",
+   "number": 195,
+   "date": "2026-11-03T21:06:00Z",
+   "type": "Attack",
+   "lat": 26.2,
+   "lon": 56.6,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 14NM northeast of Lima, Oman. The Company Security Officer for a Tanker reports being struck by two unknown projectiles into the engine room."
+  },
+  {
+   "id": "UKMTO-2026-194",
+   "number": 194,
+   "date": "2026-11-03T13:16:00Z",
+   "type": "Attack",
+   "lat": 26.2883,
+   "lon": 56.5928,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Boutre",
+   "vessel_type_en": "Dhow",
+   "vessel_name": "MSV AL JUSUFI",
+   "summary": "20261103-UKMTO_WARNING 194-26 UKMTO is aware of a report by the Indian Government of an attack on an Indian crewed Dhow whilst sailing outbound through the Strait of Hormuz. The Omani Royal Navy have rescued the surviving crew. UKMTO is unaware of the status of the vessel. Vessels are advised to…"
+  },
   {
    "id": "UKMTO-2026-193",
    "number": 193,

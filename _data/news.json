@@ -1,13 +1,6 @@
 {
- "updated_at": "2026-11-03T19:43:50+00:00",
+ "updated_at": "2026-11-04T00:48:31+00:00",
  "items": [
-  {
-   "title": "EN DIRECT, guerre en Ukraine : à Kiev, des coupures de courant d’urgence mises en place, le maire dénonce les attaques russes sur les infrastructures énergétiques de la ville",
-   "url": "https://www.lemonde.fr/international/live/2026/11/03/en-direct-guerre-en-ukraine-a-kiev-des-coupures-de-courant-d-urgence-mises-en-place-le-maire-denonce-les-attaques-russes-sur-les-infrastructures-energetiques-de-la-ville_6803934_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-03T18:01:01+00:00"
-  },
   {
    "title": "Transition écologique : le gouvernement suspend les nouvelles demandes d’aide au fonds chaleur",
    "url": "https://www.lemonde.fr/planete/article/2026/11/03/transition-ecologique-le-gouvernement-suspend-les-nouvelles-demandes-d-aide-au-fonds-chaleur_6805633_3244.html",
@@ -16,18 +9,18 @@
    "date": "2026-11-03T16:57:26+00:00"
   },
   {
-   "title": "Syria says it foiled Hezbollah plot to target Homs oil refinery",
-   "url": "https://www.aljazeera.com/news/2026/11/3/syria-arrests-cell-it-links-to-isis-over-plot-against-oil-refinery?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-11-03T15:47:34+00:00"
-  },
-  {
    "title": "En Alsace, la hausse des factures de fioul domestique « fait mal » aux ménages",
    "url": "https://www.lemonde.fr/economie/article/2026/11/03/en-alsace-la-hausse-des-factures-de-fioul-domestique-fait-mal-aux-menages_6805612_3234.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-03T15:30:05+00:00"
+  },
+  {
+   "title": "COP31 : « Il est essentiel que celles et ceux qui aspirent à gouverner notre pays présentent leur vision de l’avenir énergétique français »",
+   "url": "https://www.lemonde.fr/idees/article/2026/11/03/cop31-il-est-essentiel-que-celles-et-ceux-qui-aspirent-a-gouverner-notre-pays-presentent-leur-vision-de-l-avenir-energetique-francais_6805605_3232.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-03T15:00:00+00:00"
   },
   {
    "title": "Global refinery inputs fell sharply in the second quarter of 2026 before modest recovery",
@@ -77,13 +70,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-10-30T14:00:00+00:00"
-  },
-  {
-   "title": "Comprendre le paradoxe des prix négatifs de l’électricité : quand la rareté change de camp",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/comprendre-le-paradoxe-des-prix-negatifs-de-lelectricite-quand-la-rarete-change-de-camp",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-10-30T00:00:00+00:00"
   }
  ]
 }
