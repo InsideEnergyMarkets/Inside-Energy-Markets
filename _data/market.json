@@ -1,39 +1,39 @@
 {
-  "updated_at": "2026-11-04T13:39:07.105143Z",
+  "updated_at": "2026-11-04T23:05:53.774610Z",
   "brent": {
-    "price_usd": 101.77,
+    "price_usd": 94.48,
     "date": "2026-11-04",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du mer. 04/11",
-    "date_label_en": "Price on Wed 04/11",
+    "date_label": "Dernier cours connu : mer. 04/11",
+    "date_label_en": "Last known price: Wed 04/11",
     "prev_value": 104.41,
     "prev_date": "2026-11-03",
-    "change_pct": -2.5
+    "change_pct": -9.5
   },
   "wti": {
-    "price_usd": 94.4,
+    "price_usd": 88.04,
     "date": "2026-11-04",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du mer. 04/11",
-    "date_label_en": "Price on Wed 04/11"
+    "date_label": "Dernier cours connu : mer. 04/11",
+    "date_label_en": "Last known price: Wed 04/11"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 2.92,
+    "price_usd_mmbtu": 2.96,
     "date": "2026-11-04",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Cours du mer. 04/11",
-    "date_label_en": "Price on Wed 04/11",
-    "price_eur_mwh": 8.91,
-    "usd_per_eur": 1.1179,
+    "date_label": "Dernier cours connu : mer. 04/11",
+    "date_label_en": "Last known price: Wed 04/11",
+    "price_eur_mwh": 8.96,
+    "usd_per_eur": 1.1267,
     "prev_value": 8.85,
     "prev_date": "2026-11-03",
-    "change_pct": 0.7
+    "change_pct": 1.2
   },
   "peg": {
-    "price_eur_mwh": 88.5,
+    "price_eur_mwh": 88.21,
     "date": "2026-11-04",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,32 +41,31 @@
     "date_label_en": "Average on Wed 04/11",
     "prev_value": 92.11,
     "prev_date": "2026-11-03",
-    "change_pct": -3.9
+    "change_pct": -4.2
   },
   "mix_france": {
-    "date_heure": "2026-11-04T13:15:00+00:00",
+    "date_heure": "2026-11-04T22:45:00+00:00",
     "shares": {
-      "nucleaire": 61.7,
-      "solaire": 10.6,
-      "eolien": 10.2,
-      "gaz": 9.3,
-      "hydraulique": 6.7,
-      "bioenergies": 1.4
+      "nucleaire": 71.5,
+      "eolien": 11.4,
+      "gaz": 9.9,
+      "hydraulique": 5.4,
+      "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 61.7,
-    "co2_intensity": 54
+    "top_share": 71.5,
+    "co2_intensity": 58
   },
   "spot_price_france": {
-    "price_eur_mwh": 247.7,
-    "date": "2026-11-04",
-    "date_label": "Moyenne du mer. 04/11",
-    "date_label_en": "Average for Wed 04/11",
+    "price_eur_mwh": 261.4,
+    "date": "2026-11-05",
+    "date_label": "Moyenne du jeu. 05/11",
+    "date_label_en": "Average for Thu 05/11",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 246.37,
-    "prev_date": "2026-11-03",
-    "change_pct": 0.5
+    "prev_value": 247.7,
+    "prev_date": "2026-11-04",
+    "change_pct": 5.5
   },
   "chokepoints": {
     "hormuz": {
