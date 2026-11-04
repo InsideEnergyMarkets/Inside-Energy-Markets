@@ -1,6 +1,27 @@
 {
- "updated_at": "2026-11-04T09:43:13+00:00",
+ "updated_at": "2026-11-04T18:11:24+00:00",
  "items": [
+  {
+   "title": "Commissioner Jørgensen in Croatia to discuss housing and energy priorities",
+   "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-croatia-discuss-housing-and-energy-priorities-2026-11-04_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-04T16:44:28+00:00"
+  },
+  {
+   "title": "Joint Statement: The European Union and Canada building together an Alliance for the future",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_2313",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-04T15:35:27+00:00"
+  },
+  {
+   "title": "EU electricity market integration progresses but significant benefits remain untapped",
+   "url": "https://www.acer.europa.eu/news/eu-electricity-market-integration-progresses-significant-benefits-remain-untapped",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-04T14:30:23+00:00"
+  },
   {
    "title": "L'Iran annonce la destruction de quatre pétroliers qui tentaient de franchir le détroit d'Ormuz",
    "url": "https://www.france24.com/fr/moyen-orient/20261104-quatre-p%C3%A9troliers-tentant-franchir-d%C3%A9troit-ormuz-d%C3%A9truits",
@@ -16,6 +37,13 @@
    "date": "2026-11-04T05:00:13+00:00"
   },
   {
+   "title": "Cloué au sol par l’inaction : pourquoi l’UE doit soutenir l’avion à l’hydrogène",
+   "url": "https://www.connaissancedesenergies.org/tribune/radu-cirligeanu/pourquoi-lue-doit-soutenir-lavion-a-lhydrogene",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-04T00:00:00+00:00"
+  },
+  {
    "title": "Transition écologique : le gouvernement suspend les nouvelles demandes d’aide au fonds chaleur",
    "url": "https://www.lemonde.fr/planete/article/2026/11/03/transition-ecologique-le-gouvernement-suspend-les-nouvelles-demandes-d-aide-au-fonds-chaleur_6805633_3244.html",
    "source": "Le Monde",
@@ -27,7 +55,7 @@
    "url": "https://www.lemonde.fr/economie/article/2026/11/03/en-alsace-la-hausse-des-factures-de-fioul-domestique-fait-mal-aux-menages_6805612_3234.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-03T15:30:05+00:00"
+   "date": "2026-11-03T15:30:03+00:00"
   },
   {
    "title": "Global refinery inputs fell sharply in the second quarter of 2026 before modest recovery",
@@ -49,34 +77,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-02T00:00:00+00:00"
-  },
-  {
-   "title": "Energy Transition Investment Council - Call for applications",
-   "url": "https://energy.ec.europa.eu/news/energy-transition-investment-council-call-applications-2026-10-30_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-30T16:43:34+00:00"
-  },
-  {
-   "title": "Eurostat: Household electricity prices ease in 1st half of 2026",
-   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20261030-2",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-30T15:14:42+00:00"
-  },
-  {
-   "title": "Eurostat: EU household gas prices decrease in first half of 2026",
-   "url": "https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20261030-3",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-10-30T14:48:32+00:00"
-  },
-  {
-   "title": "The share of solar generation with co-located battery storage is increasing",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68384",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-10-30T14:00:00+00:00"
   }
  ]
 }

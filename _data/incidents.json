@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-04T09:43:13+00:00",
+ "updated_at": "2026-11-04T18:11:24+00:00",
  "stats": {
-  "total_30d": 40,
-  "attacks_30d": 34,
+  "total_30d": 39,
+  "attacks_30d": 33,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 25
+    "n": 24
    },
    {
     "place": "Nord du golfe Persique",
