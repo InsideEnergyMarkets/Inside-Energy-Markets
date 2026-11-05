@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-11-05T07:14:17+00:00",
+ "updated_at": "2026-11-05T16:41:15+00:00",
  "stats": {
-  "total_30d": 38,
-  "attacks_30d": 32,
+  "total_30d": 39,
+  "attacks_30d": 33,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -10,18 +10,32 @@
     "n": 23
    },
    {
-    "place": "Nord du golfe Persique",
-    "place_en": "Northern Arabian Gulf",
+    "place": "Central Arabian Gulf",
+    "place_en": "Central Arabian Gulf",
     "n": 3
    },
    {
-    "place": "Golfe Persique",
-    "place_en": "Persian Gulf",
+    "place": "Nord du golfe Persique",
+    "place_en": "Northern Arabian Gulf",
     "n": 3
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-196",
+   "number": 196,
+   "date": "2026-11-05T08:00:00Z",
+   "type": "Attack",
+   "lat": 26.3833,
+   "lon": 51.0167,
+   "place": "Central Arabian Gulf",
+   "place_en": "Central Arabian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "Merchant",
+   "summary": "UKMTO has received a report of an incident 50NM North of Madinat ash Shamal, Qatar. A tanker has been struck by two unidentified projectiles."
+  },
   {
    "id": "UKMTO-2026-195",
    "number": 195,
