@@ -991,20 +991,24 @@
     "date": "2026-11-05",
     "spot_eur_mwh": 261.4,
     "spot_source": "RTE",
-    "brent_usd": 96.74,
+    "brent_usd": 99.32,
     "brent_source": "OilPriceAPI",
-    "henry_hub_usd_mmbtu": 2.96,
+    "henry_hub_usd_mmbtu": 2.95,
     "henry_hub_source": "OilPriceAPI",
     "mix_shares": {
-      "nucleaire": 65.3,
-      "solaire": 15.8,
-      "gaz": 9.5,
-      "hydraulique": 5.0,
-      "eolien": 2.8,
-      "bioenergies": 1.6
+      "nucleaire": 78.1,
+      "gaz": 11.6,
+      "hydraulique": 6.2,
+      "eolien": 2.3,
+      "bioenergies": 1.7
     },
-    "henry_hub_eur_mwh": 8.96,
-    "peg_eur_mwh": 87.33,
+    "henry_hub_eur_mwh": 8.97,
+    "peg_eur_mwh": 87.97,
     "peg_source": "NaTran"
+  },
+  {
+    "date": "2026-11-06",
+    "spot_eur_mwh": 278.29,
+    "spot_source": "RTE"
   }
 ]
