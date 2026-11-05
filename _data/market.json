@@ -1,36 +1,36 @@
 {
-  "updated_at": "2026-11-04T23:05:53.774610Z",
+  "updated_at": "2026-11-05T04:45:25.347459Z",
   "brent": {
-    "price_usd": 94.48,
-    "date": "2026-11-04",
+    "price_usd": 93.88,
+    "date": "2026-11-05",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : mer. 04/11",
-    "date_label_en": "Last known price: Wed 04/11",
-    "prev_value": 104.41,
-    "prev_date": "2026-11-03",
-    "change_pct": -9.5
+    "date_label": "Cours du jeu. 05/11",
+    "date_label_en": "Price on Thu 05/11",
+    "prev_value": 94.48,
+    "prev_date": "2026-11-04",
+    "change_pct": -0.6
   },
   "wti": {
-    "price_usd": 88.04,
-    "date": "2026-11-04",
+    "price_usd": 86.97,
+    "date": "2026-11-05",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : mer. 04/11",
-    "date_label_en": "Last known price: Wed 04/11"
+    "date_label": "Cours du jeu. 05/11",
+    "date_label_en": "Price on Thu 05/11"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 2.96,
-    "date": "2026-11-04",
+    "price_usd_mmbtu": 2.94,
+    "date": "2026-11-05",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Dernier cours connu : mer. 04/11",
-    "date_label_en": "Last known price: Wed 04/11",
-    "price_eur_mwh": 8.96,
+    "date_label": "Cours du jeu. 05/11",
+    "date_label_en": "Price on Thu 05/11",
+    "price_eur_mwh": 8.9,
     "usd_per_eur": 1.1267,
-    "prev_value": 8.85,
-    "prev_date": "2026-11-03",
-    "change_pct": 1.2
+    "prev_value": 8.96,
+    "prev_date": "2026-11-04",
+    "change_pct": -0.7
   },
   "peg": {
     "price_eur_mwh": 88.21,
@@ -44,17 +44,17 @@
     "change_pct": -4.2
   },
   "mix_france": {
-    "date_heure": "2026-11-04T22:45:00+00:00",
+    "date_heure": "2026-11-05T04:30:00+00:00",
     "shares": {
-      "nucleaire": 71.5,
-      "eolien": 11.4,
-      "gaz": 9.9,
-      "hydraulique": 5.4,
+      "nucleaire": 73.2,
+      "eolien": 11.0,
+      "gaz": 9.3,
+      "hydraulique": 4.7,
       "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 71.5,
-    "co2_intensity": 58
+    "top_share": 73.2,
+    "co2_intensity": 59
   },
   "spot_price_france": {
     "price_eur_mwh": 261.4,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-25",
-      "age_days": 9,
+      "age_days": 11,
       "period_start": "2026-10-21",
       "days_averaged": 5,
       "n_tanker": 75.4,
