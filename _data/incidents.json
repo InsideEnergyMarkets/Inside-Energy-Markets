@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-11-06T16:09:57+00:00",
+ "updated_at": "2026-11-06T21:42:53+00:00",
  "stats": {
-  "total_30d": 39,
-  "attacks_30d": 33,
+  "total_30d": 38,
+  "attacks_30d": 32,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -10,13 +10,13 @@
     "n": 23
    },
    {
-    "place": "Central Arabian Gulf",
-    "place_en": "Central Arabian Gulf",
+    "place": "Nord du golfe Persique",
+    "place_en": "Northern Arabian Gulf",
     "n": 3
    },
    {
-    "place": "Nord du golfe Persique",
-    "place_en": "Northern Arabian Gulf",
+    "place": "Golfe Persique",
+    "place_en": "Persian Gulf",
     "n": 3
    }
   ]

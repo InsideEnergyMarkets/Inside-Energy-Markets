@@ -1,6 +1,27 @@
 {
- "updated_at": "2026-11-06T16:09:57+00:00",
+ "updated_at": "2026-11-06T21:42:53+00:00",
  "items": [
+  {
+   "title": "A bord du « TGV nouvelle génération », entre Paris et Marseille : un train repensé de A à Z, à la capacité accrue et moins gourmand en énergie",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/06/a-bord-du-tgv-nouvelle-generation-entre-paris-et-marseille-un-train-repense-de-a-a-z-a-la-capacite-accrue-et-moins-gourmand-en-energie_6807856_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-06T19:23:08+00:00"
+  },
+  {
+   "title": "Russia’s land gains in Ukraine dwindle as its diesel reportedly goes unsold",
+   "url": "https://www.aljazeera.com/news/2026/11/6/in-ukraine-russias-territorial-gains-dwindle-as-its-diesel-goes-unsold?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-06T18:23:11+00:00"
+  },
+  {
+   "title": "EN DIRECT, guerre en Ukraine : Volodymyr Zelensky affirme que la Russie prépare une nouvelle attaque contre le réseau énergétique et les ponts sur le Dniepr",
+   "url": "https://www.lemonde.fr/international/live/2026/11/06/en-direct-guerre-en-ukraine-volodymyr-zelensky-reclame-le-deblocage-de-16-milliards-de-dollars-d-aide-americaine_6803934_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-06T16:47:27+00:00"
+  },
   {
    "title": "U.S. crude oil imports from Venezuela in July were highest since 2017",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68425",
@@ -18,6 +39,13 @@
   {
    "title": "Le prix du gaz va franchir un nouveau cap en décembre",
    "url": "https://www.connaissancedesenergies.org/le-prix-du-gaz-va-franchir-un-nouveau-cap-en-decembre",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-06T00:00:00+00:00"
+  },
+  {
+   "title": "Après les élections de mi-mandat, l’échec de la promesse de Trump d’une énergie moins chère",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/apres-les-elections-de-mi-mandat-lechec-de-la-promesse-de-trump-dune-energie-moins-chere",
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-06T00:00:00+00:00"
@@ -51,13 +79,6 @@
    "date": "2026-11-05T14:00:00+00:00"
   },
   {
-   "title": "Appel à témoignages : salariés, étudiants, comment vous adaptez-vous à la flambée des factures de gaz et d’électricité ?",
-   "url": "https://www.lemonde.fr/economie/appel-temoignages/2026/11/05/appel-a-temoignages-salaries-etudiants-comment-vous-adaptez-vous-a-la-flambee-des-factures-de-gaz-et-d-electricite_6806862_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-05T12:38:39+00:00"
-  },
-  {
    "title": "‘I never understood wind’: midterms spark hope for renewables after Trump’s hostility",
    "url": "https://www.theguardian.com/business/2026/nov/05/democrats-midterms-triumph-renewable-energy-industry-donald-trump",
    "source": "The Guardian",
@@ -79,13 +100,6 @@
    "date": "2026-11-04T09:03:11+00:00"
   },
   {
-   "title": "Electrifier les usages tout en freinant sur les énergies renouvelables, la politique paradoxale de la France",
-   "url": "https://www.lemonde.fr/planete/article/2026/11/04/electrifier-les-usages-tout-en-freinant-sur-les-energies-renouvelables-la-politique-paradoxale-de-la-france_6806071_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-04T05:00:13+00:00"
-  },
-  {
    "title": "Cloué au sol par l’inaction : pourquoi l’UE doit soutenir l’avion à l’hydrogène",
    "url": "https://www.connaissancedesenergies.org/tribune/radu-cirligeanu/pourquoi-lue-doit-soutenir-lavion-a-lhydrogene",
    "source": "Connaissance des Énergies",
@@ -105,13 +119,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-11-03T14:00:00+00:00"
-  },
-  {
-   "title": "Énergie : les jeunes « plus ouverts à la transition » et « davantage exposés à la précarité »",
-   "url": "https://www.connaissancedesenergies.org/electrification-des-usages-pas-une-priorite-pour-plus-de-la-moitie-des-francais",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-03T00:00:00+00:00"
   }
  ]
 }
