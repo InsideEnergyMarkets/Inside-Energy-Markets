@@ -1,6 +1,13 @@
 {
- "updated_at": "2026-11-06T07:13:59+00:00",
+ "updated_at": "2026-11-06T16:09:57+00:00",
  "items": [
+  {
+   "title": "U.S. crude oil imports from Venezuela in July were highest since 2017",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68425",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-06T14:00:00+00:00"
+  },
   {
    "title": "Accord sur le gazole mort-né : pourquoi les pétroliers russes se détournent des États-Unis",
    "url": "https://www.france24.com/fr/%C3%A9co-tech/20261106-accord-sur-le-gazole-mort-n%C3%A9-pourquoi-les-p%C3%A9troliers-russes-se-d%C3%A9tournent-des-%C3%A9tats-unis",
@@ -9,11 +16,25 @@
    "date": "2026-11-06T06:37:01+00:00"
   },
   {
-   "title": "Why is Iran exempting India, China, Qatar, Iraq from Hormuz restrictions?",
-   "url": "https://www.aljazeera.com/news/2026/11/6/why-is-iran-exempting-india-china-qatar-iraq-from-hormuz-restrictions?traffic_source=rss",
-   "source": "Al Jazeera",
+   "title": "Le prix du gaz va franchir un nouveau cap en décembre",
+   "url": "https://www.connaissancedesenergies.org/le-prix-du-gaz-va-franchir-un-nouveau-cap-en-decembre",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-06T00:00:00+00:00"
+  },
+  {
+   "title": "EU to push for accelerated global climate action at COP31",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2342",
+   "source": "European Commission",
    "lang": "en",
-   "date": "2026-11-06T06:06:24+00:00"
+   "date": "2026-11-05T23:00:00+00:00"
+  },
+  {
+   "title": "CESEC Ministerial takes stock of cross-border energy infrastructure and prices and welcomes Czechia and Poland to the group",
+   "url": "https://energy.ec.europa.eu/news/cesec-ministerial-takes-stock-cross-border-energy-infrastructure-and-prices-and-welcomes-czechia-and-2026-11-06_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-05T23:00:00+00:00"
   },
   {
    "title": "L’accord américano-russe sur le gazole vanté par Donald Trump bat de l’aile",
@@ -79,20 +100,6 @@
    "date": "2026-11-03T23:00:00+00:00"
   },
   {
-   "title": "Eurostat: Annual fall in non-household gas prices: -6.7%",
-   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20261104-2",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-03T23:00:00+00:00"
-  },
-  {
-   "title": "Eurostat: Non-household electricity prices fall further in 2026",
-   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20261104-1",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-03T23:00:00+00:00"
-  },
-  {
    "title": "Global refinery inputs fell sharply in the second quarter of 2026 before modest recovery",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68404",
    "source": "EIA",
@@ -105,13 +112,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-03T00:00:00+00:00"
-  },
-  {
-   "title": "Midterms américaines : l’essence, le diesel et l’électricité dans les urnes",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/midterms-americaines-lessence-le-diesel-et-lelectricite-dans-les-urnes",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-02T00:00:00+00:00"
   }
  ]
 }
