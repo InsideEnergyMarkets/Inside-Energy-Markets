@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-07T04:12:28.692571Z",
+  "updated_at": "2026-11-07T12:16:56.531986Z",
   "brent": {
     "price_usd": 97.97,
     "date": "2026-11-06",
@@ -33,28 +33,29 @@
     "change_pct": 2.2
   },
   "peg": {
-    "price_eur_mwh": 84.95,
-    "date": "2026-11-06",
+    "price_eur_mwh": 85.35,
+    "date": "2026-11-07",
     "unit": "EUR/MWh",
     "source": "NaTran",
-    "date_label": "Moyenne du ven. 06/11",
-    "date_label_en": "Average on Fri 06/11",
-    "prev_value": 87.96,
-    "prev_date": "2026-11-05",
-    "change_pct": -3.4
+    "date_label": "Moyenne du sam. 07/11",
+    "date_label_en": "Average on Sat 07/11",
+    "prev_value": 84.95,
+    "prev_date": "2026-11-06",
+    "change_pct": 0.5
   },
   "mix_france": {
-    "date_heure": "2026-11-07T03:45:00+00:00",
+    "date_heure": "2026-11-07T12:00:00+00:00",
     "shares": {
-      "nucleaire": 78.1,
-      "gaz": 13.5,
-      "hydraulique": 4.9,
-      "bioenergies": 2.0,
-      "eolien": 1.6
+      "nucleaire": 62.9,
+      "solaire": 19.6,
+      "gaz": 10.6,
+      "hydraulique": 4.3,
+      "bioenergies": 1.6,
+      "eolien": 1.0
     },
     "top_source": "nucleaire",
-    "top_share": 78.1,
-    "co2_intensity": 68
+    "top_share": 62.9,
+    "co2_intensity": 54
   },
   "spot_price_france": {
     "price_eur_mwh": 258.75,
@@ -71,7 +72,7 @@
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-10-25",
-      "age_days": 3,
+      "age_days": 13,
       "period_start": "2026-10-21",
       "days_averaged": 5,
       "n_tanker": 0.8,
@@ -89,7 +90,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-10-25",
-      "age_days": 3,
+      "age_days": 13,
       "period_start": "2026-10-21",
       "days_averaged": 5,
       "n_tanker": 9.6,
@@ -107,7 +108,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-10-25",
-      "age_days": 11,
+      "age_days": 13,
       "period_start": "2026-10-21",
       "days_averaged": 5,
       "n_tanker": 75.4,
