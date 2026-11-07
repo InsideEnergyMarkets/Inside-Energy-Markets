@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-07T12:16:56.531986Z",
+  "updated_at": "2026-11-07T21:20:28.090930Z",
   "brent": {
     "price_usd": 97.97,
     "date": "2026-11-06",
@@ -33,7 +33,7 @@
     "change_pct": 2.2
   },
   "peg": {
-    "price_eur_mwh": 85.35,
+    "price_eur_mwh": 85.21,
     "date": "2026-11-07",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,21 +41,20 @@
     "date_label_en": "Average on Sat 07/11",
     "prev_value": 84.95,
     "prev_date": "2026-11-06",
-    "change_pct": 0.5
+    "change_pct": 0.3
   },
   "mix_france": {
-    "date_heure": "2026-11-07T12:00:00+00:00",
+    "date_heure": "2026-11-07T21:00:00+00:00",
     "shares": {
-      "nucleaire": 62.9,
-      "solaire": 19.6,
-      "gaz": 10.6,
-      "hydraulique": 4.3,
-      "bioenergies": 1.6,
-      "eolien": 1.0
+      "nucleaire": 71.7,
+      "hydraulique": 11.8,
+      "gaz": 11.6,
+      "eolien": 3.1,
+      "bioenergies": 1.8
     },
     "top_source": "nucleaire",
-    "top_share": 62.9,
-    "co2_intensity": 54
+    "top_share": 71.7,
+    "co2_intensity": 59
   },
   "spot_price_france": {
     "price_eur_mwh": 258.75,
@@ -71,56 +70,56 @@
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
-      "date": "2026-10-25",
-      "age_days": 13,
-      "period_start": "2026-10-21",
+      "date": "2026-11-01",
+      "age_days": 6,
+      "period_start": "2026-10-28",
       "days_averaged": 5,
-      "n_tanker": 0.8,
-      "n_total": 3.2,
-      "capacity_tanker_mt": 0.01,
+      "n_tanker": 1.6,
+      "n_total": 4.4,
+      "capacity_tanker_mt": 0.02,
       "ref_tanker": 57.4,
       "ref_total": 95.6,
       "ref_capacity_tanker_mt": 2.79,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 1,
-      "pct_total": 3,
-      "pct_capacity": 0,
+      "pct_tanker": 3,
+      "pct_total": 5,
+      "pct_capacity": 1,
       "status": "arret"
     },
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
-      "date": "2026-10-25",
-      "age_days": 13,
-      "period_start": "2026-10-21",
+      "date": "2026-11-01",
+      "age_days": 6,
+      "period_start": "2026-10-28",
       "days_averaged": 5,
-      "n_tanker": 9.6,
-      "n_total": 26.6,
-      "capacity_tanker_mt": 0.39,
+      "n_tanker": 8.6,
+      "n_total": 27.0,
+      "capacity_tanker_mt": 0.41,
       "ref_tanker": 26.2,
       "ref_total": 74.6,
       "ref_capacity_tanker_mt": 1.31,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 37,
+      "pct_tanker": 33,
       "pct_total": 36,
-      "pct_capacity": 30,
+      "pct_capacity": 31,
       "status": "ferme"
     },
     "malacca": {
       "portname": "Malacca Strait",
-      "date": "2026-10-25",
-      "age_days": 13,
-      "period_start": "2026-10-21",
+      "date": "2026-11-01",
+      "age_days": 6,
+      "period_start": "2026-10-28",
       "days_averaged": 5,
-      "n_tanker": 75.4,
-      "n_total": 231.2,
-      "capacity_tanker_mt": 3.18,
+      "n_tanker": 69.6,
+      "n_total": 196.8,
+      "capacity_tanker_mt": 2.88,
       "ref_tanker": 83.5,
       "ref_total": 219.0,
       "ref_capacity_tanker_mt": 3.53,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 90,
-      "pct_total": 106,
-      "pct_capacity": 90,
+      "pct_tanker": 83,
+      "pct_total": 90,
+      "pct_capacity": 82,
       "status": "fluide"
     }
   }
