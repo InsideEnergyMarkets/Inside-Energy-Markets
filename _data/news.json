@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-08T16:45:35+00:00",
+ "updated_at": "2026-11-08T22:22:51+00:00",
  "items": [
   {
    "title": "En Nouvelle-Aquitaine, une première dans l’achat groupé d’énergie",
@@ -7,20 +7,6 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-08T13:00:03+00:00"
-  },
-  {
-   "title": "Russian strikes on Ukraine leave hundreds of thousands without electricity",
-   "url": "https://www.aljazeera.com/news/2026/11/8/russian-strikes-on-ukraine-leave-hundreds-of-thousands-without-electricity?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-11-08T12:20:17+00:00"
-  },
-  {
-   "title": "EN DIRECT, guerre en Ukraine : le pilonnage des infrastructures énergétiques ukrainiennes se poursuit ; suivez les dernières informations sur le conflit",
-   "url": "https://www.lemonde.fr/international/live/2026/11/08/en-direct-guerre-en-ukraine-le-pilonnage-des-infrastructures-energetiques-ukrainiennes-se-poursuit-suivez-les-dernieres-informations-sur-le-conflit_6803934_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-08T11:26:12+00:00"
   },
   {
    "title": "US offers $20m reward for information about Iran's nuclear programme",
@@ -42,6 +28,13 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-11-07T10:00:08+00:00"
+  },
+  {
+   "title": "Après huit mois de guerre au Moyen-Orient, la mue forcée des pays du Golfe producteurs de pétrole et de gaz",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/07/apres-huit-mois-de-guerre-au-moyen-orient-la-mue-forcee-des-pays-du-golfe-producteurs-de-petrole-et-de-gaz_6808252_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-07T08:30:03+00:00"
   },
   {
    "title": "U.S. crude oil imports from Venezuela in July were highest since 2017",
