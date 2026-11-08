@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-11-07T22:13:00+00:00",
+ "updated_at": "2026-11-08T01:43:59+00:00",
  "stats": {
-  "total_30d": 38,
+  "total_30d": 39,
   "attacks_30d": 31,
   "top_places": [
    {
@@ -12,7 +12,7 @@
    {
     "place": "Golfe d'Oman",
     "place_en": "Gulf of Oman",
-    "n": 3
+    "n": 4
    },
    {
     "place": "Nord du golfe Persique",
@@ -25,6 +25,20 @@
   {
    "id": "UKMTO-2026-28082035",
    "number": 28082035,
+   "date": "2026-11-07T21:30:00Z",
+   "type": "Advisory",
+   "lat": 25.3667,
+   "lon": 56.55,
+   "place": "Golfe d'Oman",
+   "place_en": "Gulf of Oman",
+   "vessel_type": "Navire marchand",
+   "vessel_type_en": "Merchant",
+   "vessel_name": "BLK",
+   "summary": "UKMTO has received a report of an incident involving a bulk carrier and military forces in the Gulf of Oman, approximately 18NM east of Khor Fakkan, UAE. Status of crew, damage assessment and environmental impact are unknown at time of report."
+  },
+  {
+   "id": "UKMTO-2026-198",
+   "number": 198,
    "date": "2026-11-07T21:30:00Z",
    "type": "Advisory",
    "lat": 25.3667,
