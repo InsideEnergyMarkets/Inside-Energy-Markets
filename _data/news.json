@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-09T10:09:53+00:00",
+ "updated_at": "2026-11-09T20:59:06+00:00",
  "items": [
   {
    "title": "Rare call for more electricity supplies as wind power drops across Europe",
@@ -9,18 +9,18 @@
    "date": "2026-11-09T08:12:17+00:00"
   },
   {
-   "title": "Rubio says war on Iran unpopular but ‘necessary’ to stop nuclear threat",
-   "url": "https://www.aljazeera.com/news/2026/11/9/rubio-says-war-on-iran-unpopular-but-necessary-to-stop-nuclear-threat?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-11-09T04:02:18+00:00"
-  },
-  {
    "title": "La COP31 s’ouvre dans un contexte défavorable : comment retrouver des marges d’action climatique ?",
    "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/la-cop31-souvre-dans-un-contexte-defavorable-comment-retrouver-des-marges-daction-climatique",
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-09T00:00:00+00:00"
+  },
+  {
+   "title": "EU emissions continue to fall as clean energy gains ground",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2343",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-08T23:00:00+00:00"
   },
   {
    "title": "En Nouvelle-Aquitaine, une première dans l’achat groupé d’énergie",
@@ -37,14 +37,7 @@
    "date": "2026-11-07T18:14:38+00:00"
   },
   {
-   "title": "Les prix de l’électricité pour les particuliers « seront stables jusqu’au 1ᵉʳ février au moins », selon le PDG d’EDF",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/07/les-prix-de-l-electricite-pour-les-particuliers-seront-stables-jusqu-au-1-fevrier-au-moins-selon-le-pdg-d-edf_6808283_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-07T14:13:19+00:00"
-  },
-  {
-   "title": "Lanarkshire AI datacentre to fully rely on National Grid despite renewables claim",
+   "title": "Lanarkshire AI datacentre to fully rely on national grid despite renewables claim",
    "url": "https://www.theguardian.com/uk-news/2026/nov/07/lanarkshire-ai-datacentre-datavita-chapelhall-national-grid-renewable-energy",
    "source": "The Guardian",
    "lang": "en",
@@ -98,6 +91,13 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-11-05T23:00:00+00:00"
+  },
+  {
+   "title": "L’accord américano-russe sur le gazole vanté par Donald Trump bat de l’aile",
+   "url": "https://www.lemonde.fr/international/article/2026/11/05/vante-par-donald-trump-l-accord-americano-russe-sur-le-gazole-bat-de-l-aile_6807332_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-05T18:38:21+00:00"
   },
   {
    "title": "Refineries have shifted production away from gasoline to middle distillates",
