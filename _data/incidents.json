@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-11-10T12:53:49+00:00",
+ "updated_at": "2026-11-10T20:57:40+00:00",
  "stats": {
-  "total_30d": 38,
-  "attacks_30d": 31,
+  "total_30d": 37,
+  "attacks_30d": 30,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
@@ -10,18 +10,32 @@
     "n": 24
    },
    {
-    "place": "Golfe d'Oman",
-    "place_en": "Gulf of Oman",
-    "n": 3
-   },
-   {
     "place": "Nord du golfe Persique",
     "place_en": "Northern Arabian Gulf",
     "n": 3
+   },
+   {
+    "place": "Golfe d'Oman",
+    "place_en": "Gulf of Oman",
+    "n": 2
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-201",
+   "number": 201,
+   "date": "2026-11-10T15:50:00Z",
+   "type": "Attack",
+   "lat": 26.2,
+   "lon": 56.5333,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 19NM northeast of Lima, Oman. The Master of a Tanker reports being struck by an unknown projectile."
+  },
   {
    "id": "UKMTO-2026-200",
    "number": 200,

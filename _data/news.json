@@ -1,19 +1,26 @@
 {
- "updated_at": "2026-11-10T12:53:49+00:00",
+ "updated_at": "2026-11-10T20:57:40+00:00",
  "items": [
   {
-   "title": "Gaz : nouvelle hausse de 5,8 % à venir pour les foyers français, dans le sillage de la guerre au Moyen-Orient",
+   "title": "Iran backs nuclear treaty even as hardliners raise prospect of bomb",
+   "url": "https://www.aljazeera.com/news/2026/11/10/iran-backs-nuclear-treaty-even-as-hardliners-raise-prospect-of-bomb?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-10T17:35:07+00:00"
+  },
+  {
+   "title": "En Iran, la tentation de l’arme nucléaire gagne du terrain après la guerre israélo-américaine",
+   "url": "https://www.lemonde.fr/international/article/2026/11/10/en-iran-la-tentation-de-l-arme-nucleaire-gagne-du-terrain-apres-la-guerre-israelo-americaine_6808868_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-10T16:00:03+00:00"
+  },
+  {
+   "title": "Gaz : nouvelle hausse de 5,8 % à venir pour les foyers français, répercussion de la guerre au Moyen-Orient",
    "url": "https://www.lemonde.fr/economie/article/2026/11/10/gaz-nouvelle-hausse-de-5-8-a-venir-pour-les-foyers-francais-dans-le-sillage-du-conflit-au-moyen-orient_6808828_3234.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-10T11:16:20+00:00"
-  },
-  {
-   "title": "La Moldavie réduit sa dépendance énergétique à la Russie grâce à une nouvelle ligne haute tension",
-   "url": "https://www.lemonde.fr/international/article/2026/11/10/la-moldavie-reduit-sa-dependance-energetique-a-la-russie-grace-a-une-nouvelle-ligne-haute-tension_6808809_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-10T10:00:11+00:00"
   },
   {
    "title": "Les émissions de CO₂ liées aux énergies fossiles en très légère baisse dans le monde, un signal encourageant mais insuffisant",
@@ -21,6 +28,27 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-10T04:00:14+00:00"
+  },
+  {
+   "title": "Biométhane : les candidats à la présidentielle doivent répondre à la question du financement",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/biomethane-les-candidats-a-la-presidentielle-doivent-repondre-a-la-question-du-financement",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-10T00:00:00+00:00"
+  },
+  {
+   "title": "EU signs up to Global Geothermal Pledge at COP31",
+   "url": "https://energy.ec.europa.eu/news/eu-signs-global-geothermal-pledge-cop31-2026-11-10_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-09T23:00:00+00:00"
+  },
+  {
+   "title": "Commission approves €2 billion Belgian State aid to support offshore wind energy",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2373",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-09T23:00:00+00:00"
   },
   {
    "title": "Rare call for more electricity supplies as wind power drops across Europe",
@@ -70,34 +98,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-06T00:00:00+00:00"
-  },
-  {
-   "title": "Après les élections de mi-mandat, l’échec de la promesse de Trump d’une énergie moins chère",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/apres-les-elections-de-mi-mandat-lechec-de-la-promesse-de-trump-dune-energie-moins-chere",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-06T00:00:00+00:00"
-  },
-  {
-   "title": "EU to push for accelerated global climate action at COP31",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2342",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-05T23:00:00+00:00"
-  },
-  {
-   "title": "CESEC Ministerial takes stock of cross-border energy infrastructure and prices and welcomes Czechia and Poland to the group",
-   "url": "https://energy.ec.europa.eu/news/cesec-ministerial-takes-stock-cross-border-energy-infrastructure-and-prices-and-welcomes-czechia-and-2026-11-06_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-05T23:00:00+00:00"
-  },
-  {
-   "title": "Refineries have shifted production away from gasoline to middle distillates",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68424",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-11-05T14:00:00+00:00"
   }
  ]
 }
