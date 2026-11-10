@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-10T14:09:25.697312Z",
+  "updated_at": "2026-11-10T22:45:02.092372Z",
   "brent": {
-    "price_usd": 89.58,
+    "price_usd": 92.04,
     "date": "2026-11-10",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Tue 10/11",
     "prev_value": 93.78,
     "prev_date": "2026-11-09",
-    "change_pct": -4.5
+    "change_pct": -1.9
   },
   "wti": {
-    "price_usd": 84.41,
+    "price_usd": 86.52,
     "date": "2026-11-10",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -20,20 +20,20 @@
     "date_label_en": "Price on Tue 10/11"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.23,
+    "price_usd_mmbtu": 3.29,
     "date": "2026-11-10",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du mar. 10/11",
     "date_label_en": "Price on Tue 10/11",
-    "price_eur_mwh": 9.87,
+    "price_eur_mwh": 10.05,
     "usd_per_eur": 1.1165,
     "prev_value": 9.63,
     "prev_date": "2026-11-09",
-    "change_pct": 2.5
+    "change_pct": 4.4
   },
   "peg": {
-    "price_eur_mwh": 80.25,
+    "price_eur_mwh": 80.96,
     "date": "2026-11-10",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,20 +41,19 @@
     "date_label_en": "Average on Tue 10/11",
     "prev_value": 82.79,
     "prev_date": "2026-11-09",
-    "change_pct": -3.1
+    "change_pct": -2.2
   },
   "mix_france": {
-    "date_heure": "2026-11-10T13:30:00+00:00",
+    "date_heure": "2026-11-10T22:15:00+00:00",
     "shares": {
-      "nucleaire": 62.7,
-      "hydraulique": 11.0,
-      "gaz": 10.9,
-      "solaire": 9.3,
-      "eolien": 4.7,
-      "bioenergies": 1.5
+      "nucleaire": 71.3,
+      "gaz": 11.5,
+      "eolien": 8.6,
+      "hydraulique": 6.9,
+      "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 62.7,
+    "top_share": 71.3,
     "co2_intensity": 62
   },
   "spot_price_france": {
@@ -89,20 +88,20 @@
     },
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
-      "date": "2026-11-01",
-      "age_days": 9,
-      "period_start": "2026-10-28",
+      "date": "2026-11-08",
+      "age_days": 2,
+      "period_start": "2026-11-04",
       "days_averaged": 5,
-      "n_tanker": 8.6,
-      "n_total": 27.0,
-      "capacity_tanker_mt": 0.41,
+      "n_tanker": 6.2,
+      "n_total": 25.8,
+      "capacity_tanker_mt": 0.22,
       "ref_tanker": 26.2,
       "ref_total": 74.6,
       "ref_capacity_tanker_mt": 1.31,
       "ref_period": "janv.-oct. 2023",
-      "pct_tanker": 33,
-      "pct_total": 36,
-      "pct_capacity": 31,
+      "pct_tanker": 24,
+      "pct_total": 35,
+      "pct_capacity": 17,
       "status": "ferme"
     },
     "malacca": {
