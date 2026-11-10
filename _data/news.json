@@ -1,12 +1,26 @@
 {
- "updated_at": "2026-11-10T04:16:01+00:00",
+ "updated_at": "2026-11-10T12:53:49+00:00",
  "items": [
   {
-   "title": "Heures creuses d’électricité : Enedis adapte les plages horaires selon les saisons pour 9,3 millions de clients",
-   "url": "https://www.lemonde.fr/planete/article/2026/11/10/heures-creuses-d-electricite-enedis-adapte-les-plages-horaires-selon-les-saisons-pour-9-3-millions-de-clients_6808707_3244.html",
+   "title": "Gaz : nouvelle hausse de 5,8 % à venir pour les foyers français, dans le sillage de la guerre au Moyen-Orient",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/10/gaz-nouvelle-hausse-de-5-8-a-venir-pour-les-foyers-francais-dans-le-sillage-du-conflit-au-moyen-orient_6808828_3234.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-09T23:16:16+00:00"
+   "date": "2026-11-10T11:16:20+00:00"
+  },
+  {
+   "title": "La Moldavie réduit sa dépendance énergétique à la Russie grâce à une nouvelle ligne haute tension",
+   "url": "https://www.lemonde.fr/international/article/2026/11/10/la-moldavie-reduit-sa-dependance-energetique-a-la-russie-grace-a-une-nouvelle-ligne-haute-tension_6808809_3210.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-10T10:00:11+00:00"
+  },
+  {
+   "title": "Les émissions de CO₂ liées aux énergies fossiles en très légère baisse dans le monde, un signal encourageant mais insuffisant",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/10/les-emissions-de-co-liees-aux-energies-fossiles-en-tres-legere-baisse-dans-le-monde-un-signal-encourageant-mais-insuffisant_6808774_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-10T04:00:14+00:00"
   },
   {
    "title": "Rare call for more electricity supplies as wind power drops across Europe",
@@ -30,32 +44,11 @@
    "date": "2026-11-08T23:00:00+00:00"
   },
   {
-   "title": "En Nouvelle-Aquitaine, une première dans l’achat groupé d’énergie",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/08/en-nouvelle-aquitaine-une-premiere-dans-l-achat-groupe-d-energie_6808429_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-08T13:00:02+00:00"
-  },
-  {
-   "title": "US offers $20m reward for information about Iran's nuclear programme",
-   "url": "https://www.bbc.co.uk/news/articles/c6d091ev3p0jo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-11-07T18:14:38+00:00"
-  },
-  {
    "title": "Lanarkshire AI datacentre to fully rely on national grid despite renewables claim",
    "url": "https://www.theguardian.com/uk-news/2026/nov/07/lanarkshire-ai-datacentre-datavita-chapelhall-national-grid-renewable-energy",
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-11-07T10:00:08+00:00"
-  },
-  {
-   "title": "Après huit mois de guerre au Moyen-Orient, la mue forcée des pays du Golfe producteurs de pétrole et de gaz",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/07/apres-huit-mois-de-guerre-au-moyen-orient-la-mue-forcee-des-pays-du-golfe-producteurs-de-petrole-et-de-gaz_6808252_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-07T08:30:03+00:00"
   },
   {
    "title": "U.S. crude oil imports from Venezuela in July were highest since 2017",
@@ -105,13 +98,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-11-05T14:00:00+00:00"
-  },
-  {
-   "title": "‘I never understood wind’: midterms spark hope for renewables after Trump’s hostility",
-   "url": "https://www.theguardian.com/business/2026/nov/05/democrats-midterms-triumph-renewable-energy-industry-donald-trump",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-11-05T09:04:05+00:00"
   }
  ]
 }
