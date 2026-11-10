@@ -1,6 +1,13 @@
 {
- "updated_at": "2026-11-09T20:59:06+00:00",
+ "updated_at": "2026-11-10T04:16:01+00:00",
  "items": [
+  {
+   "title": "Heures creuses d’électricité : Enedis adapte les plages horaires selon les saisons pour 9,3 millions de clients",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/10/heures-creuses-d-electricite-enedis-adapte-les-plages-horaires-selon-les-saisons-pour-9-3-millions-de-clients_6808707_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-09T23:16:16+00:00"
+  },
   {
    "title": "Rare call for more electricity supplies as wind power drops across Europe",
    "url": "https://www.theguardian.com/business/2026/nov/09/rare-call-more-electricity-supplies-windpower-drops-britain-energy-shortfall",
@@ -93,13 +100,6 @@
    "date": "2026-11-05T23:00:00+00:00"
   },
   {
-   "title": "L’accord américano-russe sur le gazole vanté par Donald Trump bat de l’aile",
-   "url": "https://www.lemonde.fr/international/article/2026/11/05/vante-par-donald-trump-l-accord-americano-russe-sur-le-gazole-bat-de-l-aile_6807332_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-05T18:38:21+00:00"
-  },
-  {
    "title": "Refineries have shifted production away from gasoline to middle distillates",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68424",
    "source": "EIA",
@@ -112,13 +112,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-11-05T09:04:05+00:00"
-  },
-  {
-   "title": "La Corée du Sud va déployer sa marine près du détroit d'Ormuz pour en garantir la circulation",
-   "url": "https://www.france24.com/fr/moyen-orient/20261105-coree-sud-va-deployer-marine-d%C3%A9troit-ormuz-pour-garantir-circulation-iran-moyen-orient-cheonghae-antipiraterie-deminage-defense-commerce",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-11-05T03:03:30+00:00"
   }
  ]
 }

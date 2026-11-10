@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-11-09T20:59:06+00:00",
+ "updated_at": "2026-11-10T04:16:01+00:00",
  "stats": {
-  "total_30d": 39,
+  "total_30d": 38,
   "attacks_30d": 31,
   "top_places": [
    {
@@ -12,7 +12,7 @@
    {
     "place": "Golfe d'Oman",
     "place_en": "Gulf of Oman",
-    "n": 4
+    "n": 3
    },
    {
     "place": "Nord du golfe Persique",
