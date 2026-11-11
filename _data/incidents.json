@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-11T02:08:05+00:00",
+ "updated_at": "2026-11-11T09:46:31+00:00",
  "stats": {
-  "total_30d": 37,
+  "total_30d": 38,
   "attacks_30d": 30,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 24
+    "n": 25
    },
    {
     "place": "Nord du golfe Persique",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-202",
+   "number": 202,
+   "date": "2026-11-11T03:05:00Z",
+   "type": "Suspicious Activity",
+   "lat": 26.4333,
+   "lon": 56.4167,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident involving a tanker in the Strait of Hormuz. The status of crew, damage assessment, and environmental impact are unknown at the time of this report."
+  },
   {
    "id": "UKMTO-2026-201",
    "number": 201,
@@ -146,7 +160,7 @@
    "vessel_type": "Boutre",
    "vessel_type_en": "Dhow",
    "vessel_name": "MSV AL JUSUFI",
-   "summary": "20261103-UKMTO_WARNING 194-26 UKMTO is aware of a report by the Indian Government of an attack on an Indian crewed Dhow whilst sailing outbound through the Strait of Hormuz. The Omani Royal Navy have rescued the surviving crew. UKMTO is unaware of the status of the vessel. Vessels are advised to…"
+   "summary": "UKMTO WARNING 194-26. UKMTO is aware of a report by the Indian Government of an attack on an Indian crewed Dhow whilst sailing outbound through the Strait of Hormuz. The Omani Royal Navy have rescued the surviving crew. UKMTO is unaware of the status of the vessel. Vessels are advised to transit…"
   },
   {
    "id": "UKMTO-2026-193",
