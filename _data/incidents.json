@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-12T10:08:08+00:00",
+ "updated_at": "2026-11-12T18:31:51+00:00",
  "stats": {
-  "total_30d": 34,
-  "attacks_30d": 26,
+  "total_30d": 36,
+  "attacks_30d": 28,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 21
+    "n": 22
    },
    {
     "place": "Nord du golfe Persique",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-204",
+   "number": 204,
+   "date": "2026-11-11T18:00:00Z",
+   "type": "Attack",
+   "lat": 25.9667,
+   "lon": 55.7667,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "Merchant",
+   "summary": "UKMTO has received a time-late report of an incident 14NM northwest of Ra’s al Khaymah, UAE. A tanker was struck by an unknown projectile in the engine room."
+  },
   {
    "id": "UKMTO-2026-202",
    "number": 202,
@@ -49,6 +63,20 @@
    "vessel_type_en": "Tanker",
    "vessel_name": "",
    "summary": "UKMTO has received a report of an incident 19NM northeast of Lima, Oman. The Master of a Tanker reports being struck by an unknown projectile."
+  },
+  {
+   "id": "UKMTO-2026-203",
+   "number": 203,
+   "date": "2026-11-10T12:13:00Z",
+   "type": "Attack",
+   "lat": 25.4167,
+   "lon": 53.5833,
+   "place": "Sud du golfe Persique",
+   "place_en": "Southern Arabian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "Merchant",
+   "summary": "UKMTO has received a time-late report of an incident in the Arabian Gulf. A tanker has been struck by an unknown projectile whilst travelling eastbound."
   },
   {
    "id": "UKMTO-2026-200",

@@ -1,9 +1,23 @@
 {
- "updated_at": "2026-11-12T10:08:08+00:00",
+ "updated_at": "2026-11-12T18:31:51+00:00",
  "items": [
+  {
+   "title": "EIA forecasts Alaskan crude oil production to grow 13% in 2027",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68444",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-12T14:00:00+00:00"
+  },
   {
    "title": "Speech by President von der Leyen at the United Nations Climate Change Conference (COP31)",
    "url": "https://ec.europa.eu/commission/presscorner/detail/en/SPEECH_26_2410",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-11T23:00:00+00:00"
+  },
+  {
+   "title": "Eurostat: Emergency oil stocks slightly down; commercial stocks up in July 2026",
+   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20261112-2",
    "source": "European Commission",
    "lang": "en",
    "date": "2026-11-11T23:00:00+00:00"
@@ -49,13 +63,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-10T00:00:00+00:00"
-  },
-  {
-   "title": "EU signs up to Global Geothermal Pledge at COP31",
-   "url": "https://energy.ec.europa.eu/news/eu-signs-global-geothermal-pledge-cop31-2026-11-10_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-09T23:00:00+00:00"
   },
   {
    "title": "Commission approves €2 billion Belgian State aid to support offshore wind energy",
