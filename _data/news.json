@@ -1,19 +1,47 @@
 {
- "updated_at": "2026-11-13T09:53:14+00:00",
+ "updated_at": "2026-11-13T17:58:38+00:00",
  "items": [
   {
-   "title": "EN DIRECT, guerre en Ukraine : une des plus grandes raffineries de Russie endommagée par une attaque de drones",
-   "url": "https://www.lemonde.fr/international/live/2026/11/13/en-direct-guerre-en-ukraine-une-trentaine-de-personnes-evacuees-d-un-hopital-de-kiev-vise-par-une-frappe-russe-selon-l-administration-militaire-locale_6808609_3210.html",
+   "title": "La Cour suprême norvégienne invalide trois licences pétrolières en mer du Nord, un « jugement historique »",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/13/la-cour-supreme-norvegienne-invalide-trois-licences-petrolieres-en-mer-du-nord-un-jugement-historique_6809339_3244.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-13T06:19:44+00:00"
+   "date": "2026-11-13T15:10:43+00:00"
   },
   {
-   "title": "Gaz : la piste d’une réserve stratégique à l’étude pour anticiper de futures crises",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/13/gaz-la-piste-d-une-reserve-strategique-a-l-etude-pour-anticiper-de-futures-crises_6809277_3234.html",
+   "title": "Du Moyen-Orient à l’Asie, la grande course au stockage du pétrole",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/13/du-moyen-orient-en-asie-la-grande-course-au-stockage-du-petrole_6809338_3234.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-13T05:00:32+00:00"
+   "date": "2026-11-13T15:00:06+00:00"
+  },
+  {
+   "title": "Hydropower generation in the Southwest fell to record lows this summer",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68445",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-13T14:00:00+00:00"
+  },
+  {
+   "title": "Le marché mondial du pétrole devrait redevenir excédentaire au dernier trimestre, selon l’Agence internationale de l’énergie",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/13/le-marche-mondial-du-petrole-devrait-redevenir-excedentaire-au-dernier-trimestre-selon-l-agence-internationale-de-l-energie_6809326_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-13T13:12:17+00:00"
+  },
+  {
+   "title": "UN watchdog 'increasingly concerned' over uninspected Iran nuclear site",
+   "url": "https://www.bbc.co.uk/news/articles/cm75261e3pdko?at_medium=RSS&at_campaign=rss",
+   "source": "BBC",
+   "lang": "en",
+   "date": "2026-11-13T12:28:28+00:00"
+  },
+  {
+   "title": "UN watchdog calls on Iran to reopen nuclear facilities to inspection",
+   "url": "https://www.aljazeera.com/news/2026/11/13/un-watchdog-calls-on-iran-to-reopen-nuclear-facilities-to-inspection?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-13T11:51:57+00:00"
   },
   {
    "title": "World is now in ‘age of electricity’, energy agency chief says",
@@ -30,6 +58,20 @@
    "date": "2026-11-12T23:00:00+00:00"
   },
   {
+   "title": "Commission assesses Poland’s 2030 NECP",
+   "url": "https://energy.ec.europa.eu/news/commission-assesses-polands-2030-necp-2026-11-13_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-12T23:00:00+00:00"
+  },
+  {
+   "title": "Oil Coordination Group confirms continued supply stability across the EU",
+   "url": "https://energy.ec.europa.eu/news/oil-coordination-group-confirms-continued-supply-stability-across-eu-2026-11-13_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-12T23:00:00+00:00"
+  },
+  {
    "title": "EIA forecasts Alaskan crude oil production to grow 13% in 2027",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68444",
    "source": "EIA",
@@ -37,32 +79,11 @@
    "date": "2026-11-12T14:00:00+00:00"
   },
   {
-   "title": "Speech by President von der Leyen at the United Nations Climate Change Conference (COP31)",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/SPEECH_26_2410",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-11T23:00:00+00:00"
-  },
-  {
-   "title": "Eurostat: Emergency oil stocks slightly down; commercial stocks up in July 2026",
-   "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20261112-2",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-11T23:00:00+00:00"
-  },
-  {
    "title": "Diesel still costing close to a ‘dismal’ £2 a litre despite oil price falls",
    "url": "https://www.theguardian.com/money/2026/nov/11/diesel-prices-petrol-business-oil-hormuz",
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-11-11T13:30:27+00:00"
-  },
-  {
-   "title": "A la COP31, l’ONU presse les dirigeants d’agir contre les énergies fossiles : « La vérité, brutale, est que la crise du climat nous dépasse », déclare Antonio Guterres",
-   "url": "https://www.lemonde.fr/planete/article/2026/11/11/a-la-cop31-l-onu-presse-les-dirigeants-d-agir-contre-les-energies-fossiles-la-verite-brutale-est-que-la-crise-du-climat-nous-depasse-declare-antonio-guterres_6808958_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-11T11:01:50+00:00"
   },
   {
    "title": "Carburants : les prix baissent aux États-Unis et en France, mais pour combien de temps ?",
@@ -77,13 +98,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-10T00:00:00+00:00"
-  },
-  {
-   "title": "Rare call for more electricity supplies as wind power drops across Europe",
-   "url": "https://www.theguardian.com/business/2026/nov/09/rare-call-more-electricity-supplies-windpower-drops-britain-energy-shortfall",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-11-09T08:12:17+00:00"
   },
   {
    "title": "La COP31 s’ouvre dans un contexte défavorable : comment retrouver des marges d’action climatique ?",
