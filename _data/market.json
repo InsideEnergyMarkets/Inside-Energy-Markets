@@ -1,39 +1,39 @@
 {
-  "updated_at": "2026-11-13T13:47:16.647960Z",
+  "updated_at": "2026-11-13T23:08:51.148878Z",
   "brent": {
-    "price_usd": 96.02,
+    "price_usd": 96.36,
     "date": "2026-11-13",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du ven. 13/11",
-    "date_label_en": "Price on Fri 13/11",
+    "date_label": "Clôture du ven. 13/11 (bourse fermée le week-end)",
+    "date_label_en": "Close on Fri 13/11 (market closed at weekends)",
     "prev_value": 95.91,
     "prev_date": "2026-11-12",
-    "change_pct": 0.1
+    "change_pct": 0.5
   },
   "wti": {
-    "price_usd": 88.47,
+    "price_usd": 89.15,
     "date": "2026-11-13",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
-    "date_label": "Cours du ven. 13/11",
-    "date_label_en": "Price on Fri 13/11"
+    "date_label": "Clôture du ven. 13/11 (bourse fermée le week-end)",
+    "date_label_en": "Close on Fri 13/11 (market closed at weekends)"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.27,
+    "price_usd_mmbtu": 3.23,
     "date": "2026-11-13",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
-    "date_label": "Cours du ven. 13/11",
-    "date_label_en": "Price on Fri 13/11",
-    "price_eur_mwh": 10.07,
-    "usd_per_eur": 1.1081,
+    "date_label": "Clôture du ven. 13/11 (bourse fermée le week-end)",
+    "date_label_en": "Close on Fri 13/11 (market closed at weekends)",
+    "price_eur_mwh": 9.97,
+    "usd_per_eur": 1.1052,
     "prev_value": 10.28,
     "prev_date": "2026-11-12",
-    "change_pct": -2.0
+    "change_pct": -3.0
   },
   "peg": {
-    "price_eur_mwh": 91.41,
+    "price_eur_mwh": 90.33,
     "date": "2026-11-13",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,32 +41,31 @@
     "date_label_en": "Average on Fri 13/11",
     "prev_value": 89.7,
     "prev_date": "2026-11-12",
-    "change_pct": 1.9
+    "change_pct": 0.7
   },
   "mix_france": {
-    "date_heure": "2026-11-13T13:30:00+00:00",
+    "date_heure": "2026-11-13T22:45:00+00:00",
     "shares": {
-      "nucleaire": 65.5,
-      "solaire": 16.0,
-      "hydraulique": 6.1,
-      "eolien": 6.1,
-      "gaz": 4.9,
-      "bioenergies": 1.4
+      "nucleaire": 73.0,
+      "eolien": 9.5,
+      "gaz": 8.5,
+      "hydraulique": 7.4,
+      "bioenergies": 1.6
     },
     "top_source": "nucleaire",
-    "top_share": 65.5,
-    "co2_intensity": 28
+    "top_share": 73.0,
+    "co2_intensity": 45
   },
   "spot_price_france": {
-    "price_eur_mwh": 197.25,
-    "date": "2026-11-13",
-    "date_label": "Moyenne du ven. 13/11",
-    "date_label_en": "Average for Fri 13/11",
+    "price_eur_mwh": 207.97,
+    "date": "2026-11-14",
+    "date_label": "Moyenne du sam. 14/11",
+    "date_label_en": "Average for Sat 14/11",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 206.54,
-    "prev_date": "2026-11-12",
-    "change_pct": -4.5
+    "prev_value": 197.25,
+    "prev_date": "2026-11-13",
+    "change_pct": 5.4
   },
   "chokepoints": {
     "hormuz": {
