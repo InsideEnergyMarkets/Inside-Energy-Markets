@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-13T23:08:51.148878Z",
+  "updated_at": "2026-11-14T04:35:13.292299Z",
   "brent": {
-    "price_usd": 96.36,
+    "price_usd": 96.29,
     "date": "2026-11-13",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,7 +9,7 @@
     "date_label_en": "Close on Fri 13/11 (market closed at weekends)",
     "prev_value": 95.91,
     "prev_date": "2026-11-12",
-    "change_pct": 0.5
+    "change_pct": 0.4
   },
   "wti": {
     "price_usd": 89.15,
@@ -33,7 +33,7 @@
     "change_pct": -3.0
   },
   "peg": {
-    "price_eur_mwh": 90.33,
+    "price_eur_mwh": 90.27,
     "date": "2026-11-13",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,20 +41,20 @@
     "date_label_en": "Average on Fri 13/11",
     "prev_value": 89.7,
     "prev_date": "2026-11-12",
-    "change_pct": 0.7
+    "change_pct": 0.6
   },
   "mix_france": {
-    "date_heure": "2026-11-13T22:45:00+00:00",
+    "date_heure": "2026-11-14T04:15:00+00:00",
     "shares": {
-      "nucleaire": 73.0,
-      "eolien": 9.5,
-      "gaz": 8.5,
-      "hydraulique": 7.4,
-      "bioenergies": 1.6
+      "nucleaire": 77.1,
+      "eolien": 10.7,
+      "hydraulique": 8.1,
+      "gaz": 2.4,
+      "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 73.0,
-    "co2_intensity": 45
+    "top_share": 77.1,
+    "co2_intensity": 19
   },
   "spot_price_france": {
     "price_eur_mwh": 207.97,
@@ -71,7 +71,7 @@
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-11-08",
-      "age_days": 5,
+      "age_days": 6,
       "period_start": "2026-11-04",
       "days_averaged": 5,
       "n_tanker": 0.8,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-11-08",
-      "age_days": 5,
+      "age_days": 6,
       "period_start": "2026-11-04",
       "days_averaged": 5,
       "n_tanker": 6.2,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-11-08",
-      "age_days": 5,
+      "age_days": 6,
       "period_start": "2026-11-04",
       "days_averaged": 5,
       "n_tanker": 80.2,
