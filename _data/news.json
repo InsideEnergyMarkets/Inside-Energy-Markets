@@ -1,19 +1,26 @@
 {
- "updated_at": "2026-11-13T23:47:04+00:00",
+ "updated_at": "2026-11-14T06:55:02+00:00",
  "items": [
   {
-   "title": "Rescue efforts under way after tanker strikes river cruise boat in US",
+   "title": "Tanker collision leaves riverboat passengers clinging to railings",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/14/aje-onl-nf_tanker-collision-in-new-orleans-131126?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-14T01:37:08+00:00"
+  },
+  {
+   "title": "Iran war live: Tehran says tanker hit naval mine, caught fire",
+   "url": "https://www.aljazeera.com/news/liveblog/2026/11/14/iran-war-live-fighting-grips-yemen-as-qatar-turkiye-sign-defence-deal?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-14T00:00:25+00:00"
+  },
+  {
+   "title": "32 passengers taken to hospital after tanker hits river cruise boat in US",
    "url": "https://www.aljazeera.com/news/2026/11/13/rescue-efforts-under-way-after-tanker-strikes-river-cruise-boat-in-us?traffic_source=rss",
    "source": "Al Jazeera",
    "lang": "en",
    "date": "2026-11-13T22:47:16+00:00"
-  },
-  {
-   "title": "IRGC says tanker caught fire after hitting mines in Strait of Hormuz",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/13/irgc-says-tanker-caught-fire-after-hitting-mines-in-strait-of-hormuz?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-11-13T19:23:05+00:00"
   },
   {
    "title": "Urgence climatique : la rente pétrolière difficile à lâcher ?",
@@ -119,13 +126,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-10T00:00:00+00:00"
-  },
-  {
-   "title": "La COP31 s’ouvre dans un contexte défavorable : comment retrouver des marges d’action climatique ?",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/la-cop31-souvre-dans-un-contexte-defavorable-comment-retrouver-des-marges-daction-climatique",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-09T00:00:00+00:00"
   }
  ]
 }
