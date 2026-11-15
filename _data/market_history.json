@@ -1013,7 +1013,7 @@
     "spot_source": "RTE",
     "brent_usd": 96.29,
     "brent_source": "OilPriceAPI",
-    "henry_hub_usd_mmbtu": 3.23,
+    "henry_hub_usd_mmbtu": 3.26,
     "henry_hub_source": "OilPriceAPI",
     "mix_shares": {
       "nucleaire": 73.0,
@@ -1022,7 +1022,7 @@
       "hydraulique": 7.4,
       "bioenergies": 1.6
     },
-    "henry_hub_eur_mwh": 9.97,
+    "henry_hub_eur_mwh": 10.06,
     "peg_eur_mwh": 90.27,
     "peg_source": "NaTran"
   },
@@ -1045,14 +1045,13 @@
     "spot_eur_mwh": 99.2,
     "spot_source": "RTE",
     "mix_shares": {
-      "nucleaire": 60.0,
-      "eolien": 23.2,
-      "solaire": 7.6,
-      "hydraulique": 5.2,
-      "gaz": 2.6,
-      "bioenergies": 1.4
+      "nucleaire": 65.2,
+      "eolien": 24.3,
+      "hydraulique": 6.3,
+      "gaz": 2.8,
+      "bioenergies": 1.5
     },
-    "peg_eur_mwh": 88.54,
+    "peg_eur_mwh": 88.47,
     "peg_source": "NaTran"
   }
 ]

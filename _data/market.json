@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-15T13:17:58.978773Z",
+  "updated_at": "2026-11-15T22:23:36.010547Z",
   "brent": {
     "price_usd": 96.29,
     "date": "2026-11-13",
@@ -20,20 +20,20 @@
     "date_label_en": "Close on Fri 13/11 (market closed at weekends)"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.23,
+    "price_usd_mmbtu": 3.26,
     "date": "2026-11-13",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Clôture du ven. 13/11 (bourse fermée le week-end)",
     "date_label_en": "Close on Fri 13/11 (market closed at weekends)",
-    "price_eur_mwh": 9.97,
+    "price_eur_mwh": 10.06,
     "usd_per_eur": 1.1052,
     "prev_value": 10.28,
     "prev_date": "2026-11-12",
-    "change_pct": -3.0
+    "change_pct": -2.1
   },
   "peg": {
-    "price_eur_mwh": 88.54,
+    "price_eur_mwh": 88.47,
     "date": "2026-11-15",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -41,21 +41,20 @@
     "date_label_en": "Average on Sun 15/11",
     "prev_value": 88.44,
     "prev_date": "2026-11-14",
-    "change_pct": 0.1
+    "change_pct": 0.0
   },
   "mix_france": {
-    "date_heure": "2026-11-15T13:00:00+00:00",
+    "date_heure": "2026-11-15T22:00:00+00:00",
     "shares": {
-      "nucleaire": 60.0,
-      "eolien": 23.2,
-      "solaire": 7.6,
-      "hydraulique": 5.2,
-      "gaz": 2.6,
-      "bioenergies": 1.4
+      "nucleaire": 65.2,
+      "eolien": 24.3,
+      "hydraulique": 6.3,
+      "gaz": 2.8,
+      "bioenergies": 1.5
     },
     "top_source": "nucleaire",
-    "top_share": 60.0,
-    "co2_intensity": 18
+    "top_share": 65.2,
+    "co2_intensity": 20
   },
   "spot_price_france": {
     "price_eur_mwh": 99.2,
