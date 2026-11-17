@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-11-17T13:45:08+00:00",
+ "updated_at": "2026-11-17T22:34:33+00:00",
  "stats": {
-  "total_30d": 33,
+  "total_30d": 34,
   "attacks_30d": 24,
   "top_places": [
    {
@@ -15,13 +15,27 @@
     "n": 3
    },
    {
-    "place": "Océan Indien",
-    "place_en": "Indian Ocean",
+    "place": "Golfe d'Aden",
+    "place_en": "Gulf of Aden",
     "n": 2
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-210",
+   "number": 210,
+   "date": "2026-11-17T14:09:00Z",
+   "type": "Attempted Boarding",
+   "lat": 13.6667,
+   "lon": 48.5,
+   "place": "Golfe d'Aden",
+   "place_en": "Gulf of Aden",
+   "vessel_type": "Cargo",
+   "vessel_type_en": "Cargo",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 50NM southwest of Al Mukalla, Yemen. Local authorities reported a Cargo vessel being approached by small skiff with weapons and ladders onboard."
+  },
   {
    "id": "UKMTO-2026-208",
    "number": 208,
