@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-16T18:49:17+00:00",
+ "updated_at": "2026-11-17T13:45:08+00:00",
  "stats": {
-  "total_30d": 32,
-  "attacks_30d": 23,
+  "total_30d": 33,
+  "attacks_30d": 24,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 19
+    "n": 20
    },
    {
     "place": "Nord du golfe Persique",
@@ -22,6 +22,20 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-208",
+   "number": 208,
+   "date": "2026-11-16T19:00:00Z",
+   "type": "Attack",
+   "lat": 26.3833,
+   "lon": 56.2667,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "TNK",
+   "summary": "UKMTO has received a report of an incident 7NM north of Khasab, Oman. A third-party has reported an attack involving a tanker transiting the Strait of Hormuz, disabling the vessel and resulting in an engine room fire."
+  },
   {
    "id": "UKMTO-2026-207",
    "number": 207,
@@ -63,6 +77,20 @@
    "vessel_type_en": "Tanker",
    "vessel_name": "TKR",
    "summary": "UKMTO is aware of a report by Indian Shipping Authorities of an attack on a Tanker while transiting through the Arabian Gulf eastbound prior to entering the Strait of Hormuz. The crew are accounted for and safe. Damage assessment and environmental impact are unknown at time of report. Vessels are…"
+  },
+  {
+   "id": "UKMTO-2026-209",
+   "number": 209,
+   "date": "2026-11-13T18:41:00Z",
+   "type": "Attack",
+   "lat": 26.5,
+   "lon": 56.3333,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "Merchant",
+   "summary": "UKMTO has received a time-late verified report of an incident in the Arabian Gulf. A Tanker was struck by unknown projectile while transiting through the Arabian Gulf, eastbound prior to entering the Strait of Hormuz."
   },
   {
    "id": "UKMTO-2026-204",
