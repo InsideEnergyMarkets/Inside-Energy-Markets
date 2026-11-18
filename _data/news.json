@@ -1,23 +1,79 @@
 {
- "updated_at": "2026-11-18T07:51:30+00:00",
+ "updated_at": "2026-11-18T17:28:44+00:00",
  "items": [
   {
-   "title": "Higher petrol and diesel prices push UK inflation to 3.6%",
-   "url": "https://www.bbc.co.uk/news/articles/cmy498kdkx3xo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-11-18T07:40:54+00:00"
+   "title": "États-Unis - Iran : attaque contre un navire dans le Détroit d'Ormuz",
+   "url": "https://www.france24.com/fr/vid%C3%A9o/20261118-%C3%A9tats-unis-iran-attaque-contre-un-navire-dans-le-d%C3%A9troit-d-ormuz",
+   "source": "France 24",
+   "lang": "fr",
+   "date": "2026-11-18T15:22:32+00:00"
   },
   {
-   "title": "« Je m’enroule dans des plaids » : ces ménages qui restreignent leur chauffage pour affronter l’envolée des prix de l’énergie",
+   "title": "US official says Hormuz insurance hits $64m: Is the strait really open?",
+   "url": "https://www.aljazeera.com/news/2026/11/18/us-official-says-hormuz-insurance-hits-64m-is-the-strait-really-open?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-18T14:47:34+00:00"
+  },
+  {
+   "title": "U.S. natural gas inventories end injection season above normal levels",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68484",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-18T14:00:00+00:00"
+  },
+  {
+   "title": "« La sûreté nucléaire n’était pas plus conciliante »",
+   "url": "https://www.lemonde.fr/sciences-au-carre/article/2026/11/18/la-surete-nucleaire-n-etait-pas-plus-conciliante_6813111_6565027.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-18T10:32:17+00:00"
+  },
+  {
+   "title": "Dans le nord-ouest de la Chine, un petit félin tient tête à un chantier d’éoliennes géantes",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/18/dans-le-nord-ouest-de-la-chine-un-petit-felin-tient-tete-a-un-chantier-d-eoliennes-geantes_6813110_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-18T10:30:02+00:00"
+  },
+  {
+   "title": "UK inflation rises to 3.6% after petrol and diesel prices hit record high",
+   "url": "https://www.theguardian.com/business/2026/nov/18/uk-inflation-rises-energy-prices-iran-war-oil",
+   "source": "The Guardian",
+   "lang": "en",
+   "date": "2026-11-18T10:14:26+00:00"
+  },
+  {
+   "title": "« Je me contente d’un petit poêle à bois, je porte deux gilets, je calfeutre tout » : ces foyers qui restreignent leur chauffage pour ne pas alourdir leurs factures",
    "url": "https://www.lemonde.fr/economie/article/2026/11/18/je-m-enroule-dans-des-plaids-ces-menages-qui-restreignent-leur-chauffage-pour-affronter-l-envolee-des-prix-de-l-energie_6813075_3234.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-18T05:30:11+00:00"
+   "date": "2026-11-18T05:30:06+00:00"
+  },
+  {
+   "title": "Électricité : « pas de vigilance particulière » cet hiver selon le gestionnaire de réseau",
+   "url": "https://www.connaissancedesenergies.org/securite-dapprovisionnement-electrique-pas-de-vigilance-particuliere-cet-hiver",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-18T00:00:00+00:00"
   },
   {
    "title": "EU endorses Global Electrification Pledge at COP31",
    "url": "https://ec.europa.eu/commission/presscorner/detail/en/jp_26_2465",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-17T23:00:00+00:00"
+  },
+  {
+   "title": "Commissioner Jørgensen in Poland to discuss energy and housing priorities",
+   "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-poland-discuss-energy-and-housing-priorities-2026-11-18_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-17T23:00:00+00:00"
+  },
+  {
+   "title": "Commission welcomes political agreement on faster and simpler permitting for grids, clean energy projects",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2450",
    "source": "European Commission",
    "lang": "en",
    "date": "2026-11-17T23:00:00+00:00"
@@ -30,39 +86,11 @@
    "date": "2026-11-17T14:00:00+00:00"
   },
   {
-   "title": "Prix des carburants : une baisse dans plus de 90 % des stations-service, selon Mathieu Lefèvre, ministre délégué à la transition écologique",
-   "url": "https://www.lemonde.fr/economie-francaise/article/2026/11/17/carburant-une-baisse-du-prix-dans-plus-de-90-des-stations-service-selon-mathieu-lefevre_6812943_1656968.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-17T09:58:12+00:00"
-  },
-  {
    "title": "Hydro-Québec prévoit désormais une hausse de près d’un tiers des besoins québécois d’électricité d’ici 2041",
    "url": "https://www.connaissancedesenergies.org/hydro-quebec-prevoit-une-hausse-de-pres-dun-tiers-des-besoins-quebecois-delectricite-dici-2041",
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-17T00:00:00+00:00"
-  },
-  {
-   "title": "In focus: Industrial carbon management – how it works and why we need it",
-   "url": "https://energy.ec.europa.eu/news/focus-industrial-carbon-management-how-it-works-and-why-we-need-it-2026-11-17_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-16T23:00:00+00:00"
-  },
-  {
-   "title": "Commission approves amended German State aid schemes for energy-intensive companies",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2456",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-16T23:00:00+00:00"
-  },
-  {
-   "title": "Paul-Henri Rebut, pionnier de la recherche sur la fusion nucléaire contrôlée, est mort",
-   "url": "https://www.lemonde.fr/disparitions/article/2026/11/16/paul-henri-rebut-pionnier-de-la-recherche-sur-la-fusion-nucleaire-controlee-est-mort_6812129_3382.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-16T15:32:38+00:00"
   },
   {
    "title": "Great Britain’s oldest renewables projects could rake in nearly £9bn next year",
@@ -77,20 +105,6 @@
    "source": "France 24",
    "lang": "fr",
    "date": "2026-11-13T18:26:21+00:00"
-  },
-  {
-   "title": "Hydropower generation in the Southwest fell to record lows this summer",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68445",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-11-13T14:00:00+00:00"
-  },
-  {
-   "title": "UN watchdog 'increasingly concerned' over uninspected Iran nuclear site",
-   "url": "https://www.bbc.co.uk/news/articles/cm75261e3pdko?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-11-13T12:28:28+00:00"
   }
  ]
 }
