@@ -1,6 +1,27 @@
 {
- "updated_at": "2026-11-17T22:34:33+00:00",
+ "updated_at": "2026-11-18T07:51:30+00:00",
  "items": [
+  {
+   "title": "Higher petrol and diesel prices push UK inflation to 3.6%",
+   "url": "https://www.bbc.co.uk/news/articles/cmy498kdkx3xo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC",
+   "lang": "en",
+   "date": "2026-11-18T07:40:54+00:00"
+  },
+  {
+   "title": "« Je m’enroule dans des plaids » : ces ménages qui restreignent leur chauffage pour affronter l’envolée des prix de l’énergie",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/18/je-m-enroule-dans-des-plaids-ces-menages-qui-restreignent-leur-chauffage-pour-affronter-l-envolee-des-prix-de-l-energie_6813075_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-18T05:30:11+00:00"
+  },
+  {
+   "title": "EU endorses Global Electrification Pledge at COP31",
+   "url": "https://ec.europa.eu/commission/presscorner/detail/en/jp_26_2465",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-17T23:00:00+00:00"
+  },
   {
    "title": "How does EIA account for small differences between energy supply and demand data?",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68464",
@@ -37,25 +58,11 @@
    "date": "2026-11-16T23:00:00+00:00"
   },
   {
-   "title": "Commission approves €9.5 billion Dutch State aid to support offshore wind energy",
-   "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_2457",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-16T23:00:00+00:00"
-  },
-  {
    "title": "Paul-Henri Rebut, pionnier de la recherche sur la fusion nucléaire contrôlée, est mort",
    "url": "https://www.lemonde.fr/disparitions/article/2026/11/16/paul-henri-rebut-pionnier-de-la-recherche-sur-la-fusion-nucleaire-controlee-est-mort_6812129_3382.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-16T15:32:38+00:00"
-  },
-  {
-   "title": "Cibles des attaques de drones iraniens, les pays du Golfe veulent multiplier les infrastructures souterraines",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/16/cibles-des-attaques-de-drones-iraniens-les-pays-du-golfe-veulent-multiplier-les-infrastructures-souterraines_6811769_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-16T13:00:01+00:00"
   },
   {
    "title": "Great Britain’s oldest renewables projects could rake in nearly £9bn next year",
@@ -84,20 +91,6 @@
    "source": "BBC",
    "lang": "en",
    "date": "2026-11-13T12:28:28+00:00"
-  },
-  {
-   "title": "World is now in ‘age of electricity’, energy agency chief says",
-   "url": "https://www.theguardian.com/environment/2026/nov/13/cop-31-electricity-energy-fossil-fuels-fatih-birol-iea",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-11-13T05:00:11+00:00"
-  },
-  {
-   "title": "Global Carbon Budget : que retenir de l’édition 2026 ?",
-   "url": "https://www.connaissancedesenergies.org/tribune/christian-de-perthuis/global-carbon-budget-que-retenir-de-ledition-2026",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-13T00:00:00+00:00"
   }
  ]
 }
