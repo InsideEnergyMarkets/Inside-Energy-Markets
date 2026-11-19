@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-17T22:34:33+00:00",
+ "updated_at": "2026-11-19T00:40:24+00:00",
  "stats": {
-  "total_30d": 34,
-  "attacks_30d": 24,
+  "total_30d": 36,
+  "attacks_30d": 26,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 20
+    "n": 22
    },
    {
     "place": "Nord du golfe Persique",
@@ -22,6 +22,34 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-212",
+   "number": 212,
+   "date": "2026-11-18T22:25:00Z",
+   "type": "Attack",
+   "lat": 26.3167,
+   "lon": 56.2667,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident 6NM north of Khasab, Oman. A tanker was struck by an unknown projectile in the engine room while transiting outbound through the Strait of Hormuz."
+  },
+  {
+   "id": "UKMTO-2026-211",
+   "number": 211,
+   "date": "2026-11-18T09:50:00Z",
+   "type": "Attack",
+   "lat": 26.4167,
+   "lon": 56.3167,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident 13NM north of Khasab, Oman. Local authorities report a tanker was struck by an unknown projectile within the Strait of Hormuz."
+  },
   {
    "id": "UKMTO-2026-210",
    "number": 210,
