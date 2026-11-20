@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-11-19T20:54:17+00:00",
+ "updated_at": "2026-11-20T21:55:39+00:00",
  "stats": {
-  "total_30d": 34,
+  "total_30d": 35,
   "attacks_30d": 25,
   "top_places": [
    {
@@ -12,7 +12,7 @@
    {
     "place": "Golfe d'Aden",
     "place_en": "Gulf of Aden",
-    "n": 2
+    "n": 3
    },
    {
     "place": "Océan Indien",
@@ -22,6 +22,34 @@
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-214",
+   "number": 214,
+   "date": "2026-11-20T15:00:00Z",
+   "type": "Attack",
+   "lat": 26.3333,
+   "lon": 56.2667,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 8NM north of Khasab, Oman. A Tanker on an outbound transit of the Strait of Hormuz has been struck on the port bow by an unknown projectile."
+  },
+  {
+   "id": "UKMTO-2026-213",
+   "number": 213,
+   "date": "2026-11-20T11:02:00Z",
+   "type": "Suspicious Activity",
+   "lat": 12.9833,
+   "lon": 48.6833,
+   "place": "Golfe d'Aden",
+   "place_en": "Gulf of Aden",
+   "vessel_type": "Cargo",
+   "vessel_type_en": "Cargo",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 95NM southwest of Al Mukalla, Yemen. A Bulk Carrier travelling eastbound in the IRTC was approached on the port side by a dark blue skiff with 6 unidentified, armed persons on board."
+  },
   {
    "id": "UKMTO-2026-212",
    "number": 212,
