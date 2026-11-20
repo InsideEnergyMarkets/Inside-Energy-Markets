@@ -1,12 +1,26 @@
 {
- "updated_at": "2026-11-20T03:40:37+00:00",
+ "updated_at": "2026-11-20T13:29:00+00:00",
  "items": [
   {
-   "title": "Ten killed in Pakistan as bus crashes into gas tanker",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/19/ten-killed-in-pakistan-as-bus-crashes-into-gas-tanker?traffic_source=rss",
-   "source": "Al Jazeera",
+   "title": "Les pompes à chaleur sont-elles bonnes pour le climat ?",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/20/les-pompes-a-chaleur-sont-elles-bonnes-pour-le-climat_6813592_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-20T05:30:02+00:00"
+  },
+  {
+   "title": "Nucléaire : après le Bangladesh, deux autres pays vont bientôt disposer de leur première centrale",
+   "url": "https://www.connaissancedesenergies.org/nucleaire-apres-le-bangladesh-deux-autres-pays-vont-bientot-disposer-de-leur-premiere-centrale",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-20T00:00:00+00:00"
+  },
+  {
+   "title": "EU backs global compact to cut energy bills and emissions from buildings",
+   "url": "https://energy.ec.europa.eu/news/eu-backs-global-compact-cut-energy-bills-and-emissions-buildings-2026-11-20_en",
+   "source": "European Commission",
    "lang": "en",
-   "date": "2026-11-19T21:09:24+00:00"
+   "date": "2026-11-19T23:00:00+00:00"
   },
   {
    "title": "Méthane : l’UE reporte l’entrée en vigueur de son règlement pionnier au nom de la sécurité énergétique",
@@ -28,13 +42,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-11-19T14:00:00+00:00"
-  },
-  {
-   "title": "Loi contre le méthane : accord au sein de l’Union européenne pour un report de deux ans de son application",
-   "url": "https://www.lemonde.fr/planete/article/2026/11/19/loi-contre-le-methane-accord-au-sein-de-l-union-europeenne-pour-un-report-de-deux-ans-de-son-application_6813272_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-19T10:18:57+00:00"
   },
   {
    "title": "Le World Energy Outlook 2026 en 10 infographies",
@@ -65,13 +72,6 @@
    "date": "2026-11-18T23:00:00+00:00"
   },
   {
-   "title": "Co-legislators agree on a targeted amendment to Methane Regulation to ensure supply security amid energy crisis",
-   "url": "https://energy.ec.europa.eu/news/co-legislators-agree-targeted-amendment-methane-regulation-ensure-supply-security-amid-energy-crisis-2026-11-19_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-18T23:00:00+00:00"
-  },
-  {
    "title": "États-Unis - Iran : attaque contre un navire dans le Détroit d'Ormuz",
    "url": "https://www.france24.com/fr/vid%C3%A9o/20261118-%C3%A9tats-unis-iran-attaque-contre-un-navire-dans-le-d%C3%A9troit-d-ormuz",
    "source": "France 24",
@@ -91,13 +91,6 @@
    "source": "The Guardian",
    "lang": "en",
    "date": "2026-11-18T10:14:26+00:00"
-  },
-  {
-   "title": "Électricité : « pas de vigilance particulière » cet hiver selon le gestionnaire de réseau",
-   "url": "https://www.connaissancedesenergies.org/securite-dapprovisionnement-electrique-pas-de-vigilance-particuliere-cet-hiver",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-18T00:00:00+00:00"
   },
   {
    "title": "How does EIA account for small differences between energy supply and demand data?",
