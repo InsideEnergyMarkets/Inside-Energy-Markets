@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T22:41:40.733449Z",
+  "updated_at": "2026-11-22T04:40:09.172825Z",
   "brent": {
     "price_usd": 92.59,
     "date": "2026-11-20",
@@ -33,7 +33,7 @@
     "change_pct": 1.2
   },
   "peg": {
-    "price_eur_mwh": 87.58,
+    "price_eur_mwh": 87.59,
     "date": "2026-11-21",
     "unit": "EUR/MWh",
     "source": "NaTran",
@@ -44,34 +44,34 @@
     "change_pct": 1.9
   },
   "mix_france": {
-    "date_heure": "2026-11-21T22:15:00+00:00",
+    "date_heure": "2026-11-22T04:15:00+00:00",
     "shares": {
-      "nucleaire": 69.4,
-      "eolien": 13.5,
-      "hydraulique": 12.3,
-      "gaz": 3.3,
-      "bioenergies": 1.5
+      "nucleaire": 72.0,
+      "eolien": 15.1,
+      "hydraulique": 9.2,
+      "gaz": 2.1,
+      "bioenergies": 1.7
     },
     "top_source": "nucleaire",
-    "top_share": 69.4,
-    "co2_intensity": 22
+    "top_share": 72.0,
+    "co2_intensity": 18
   },
   "spot_price_france": {
-    "price_eur_mwh": 190.19,
-    "date": "2026-11-21",
-    "date_label": "Moyenne du sam. 21/11",
-    "date_label_en": "Average for Sat 21/11",
+    "price_eur_mwh": 90.72,
+    "date": "2026-11-22",
+    "date_label": "Moyenne du dim. 22/11",
+    "date_label_en": "Average for Sun 22/11",
     "unit": "EUR/MWh, moyenne journalière",
     "source": "RTE",
-    "prev_value": 123.54,
-    "prev_date": "2026-11-20",
-    "change_pct": 54.0
+    "prev_value": 190.19,
+    "prev_date": "2026-11-21",
+    "change_pct": -52.3
   },
   "chokepoints": {
     "hormuz": {
       "portname": "Strait of Hormuz",
       "date": "2026-11-15",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-11-11",
       "days_averaged": 5,
       "n_tanker": 0.4,
@@ -89,7 +89,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-11-15",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-11-11",
       "days_averaged": 5,
       "n_tanker": 8.2,
@@ -107,7 +107,7 @@
     "malacca": {
       "portname": "Malacca Strait",
       "date": "2026-11-15",
-      "age_days": 6,
+      "age_days": 7,
       "period_start": "2026-11-11",
       "days_averaged": 5,
       "n_tanker": 78.6,
