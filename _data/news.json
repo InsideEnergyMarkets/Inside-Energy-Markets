@@ -1,12 +1,12 @@
 {
- "updated_at": "2026-11-23T03:00:09+00:00",
+ "updated_at": "2026-11-23T15:12:18+00:00",
  "items": [
   {
-   "title": "Iran war live: Tankers set ablaze in Hormuz as IRGC warns of unrest threat",
-   "url": "https://www.aljazeera.com/news/liveblog/2026/11/22/iran-war-live-tankers-set-ablaze-in-hormuz-as-irgc-warns-of-unrest-threat?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-11-22T23:59:22+00:00"
+   "title": "Voiture : 7 millions de personnes en France prises en étau entre nécessité et coût, pointe une étude",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/23/voiture-sept-millions-de-personnes-en-france-prises-en-etau-entre-necessite-et-cout-pointe-une-etude_6814273_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-23T03:10:36+00:00"
   },
   {
    "title": "La COP31 s’achève sur un échec, sans accord devant la division des pays sur les énergies fossiles",
@@ -14,6 +14,13 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-22T17:11:49+00:00"
+  },
+  {
+   "title": "Hormuz swim highlights environmental cost of war",
+   "url": "https://www.bbc.co.uk/news/articles/c95y1gr27xplo?at_medium=RSS&at_campaign=rss",
+   "source": "BBC",
+   "lang": "en",
+   "date": "2026-11-21T16:12:31+00:00"
   },
   {
    "title": "Les pompes à chaleur sont-elles bonnes pour le climat ?",
@@ -42,13 +49,6 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-11-19T23:00:00+00:00"
-  },
-  {
-   "title": "Méthane : l’UE reporte l’entrée en vigueur de son règlement pionnier au nom de la sécurité énergétique",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/19/l-union-europeenne-reporte-l-entree-en-vigueur-de-son-reglement-pionnier-sur-le-methane-au-nom-de-la-securite-energetique_6813359_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-19T17:32:25+00:00"
   },
   {
    "title": "Oil flows through Middle East chokepoints increased in the third quarter",
@@ -84,20 +84,6 @@
    "source": "France 24",
    "lang": "fr",
    "date": "2026-11-18T15:22:32+00:00"
-  },
-  {
-   "title": "U.S. natural gas inventories end injection season above normal levels",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68484",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-11-18T14:00:00+00:00"
-  },
-  {
-   "title": "UK inflation rises to 3.6% after petrol and diesel prices hit record high",
-   "url": "https://www.theguardian.com/business/2026/nov/18/uk-inflation-rises-energy-prices-iran-war-oil",
-   "source": "The Guardian",
-   "lang": "en",
-   "date": "2026-11-18T10:14:26+00:00"
   }
  ]
 }
