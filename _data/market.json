@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-23T05:16:18.778007Z",
+  "updated_at": "2026-11-23T17:07:57.886987Z",
   "brent": {
-    "price_usd": 92.58,
+    "price_usd": 89.31,
     "date": "2026-11-23",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -9,10 +9,10 @@
     "date_label_en": "Price on Mon 23/11",
     "prev_value": 92.59,
     "prev_date": "2026-11-20",
-    "change_pct": -0.0
+    "change_pct": -3.5
   },
   "wti": {
-    "price_usd": 83.48,
+    "price_usd": 80.31,
     "date": "2026-11-23",
     "unit": "USD/baril",
     "source": "OilPriceAPI",
@@ -20,41 +20,42 @@
     "date_label_en": "Price on Mon 23/11"
   },
   "henry_hub": {
-    "price_usd_mmbtu": 3.27,
+    "price_usd_mmbtu": 3.18,
     "date": "2026-11-23",
     "unit": "USD/MMBtu",
     "source": "OilPriceAPI",
     "date_label": "Cours du lun. 23/11",
     "date_label_en": "Price on Mon 23/11",
-    "price_eur_mwh": 10.15,
-    "usd_per_eur": 1.099,
+    "price_eur_mwh": 9.92,
+    "usd_per_eur": 1.0939,
     "prev_value": 10.28,
     "prev_date": "2026-11-20",
-    "change_pct": -1.3
+    "change_pct": -3.5
   },
   "peg": {
-    "price_eur_mwh": 87.66,
-    "date": "2026-11-22",
+    "price_eur_mwh": 90.12,
+    "date": "2026-11-23",
     "unit": "EUR/MWh",
     "source": "NaTran",
-    "date_label": "Moyenne du dim. 22/11",
-    "date_label_en": "Average on Sun 22/11",
-    "prev_value": 87.59,
-    "prev_date": "2026-11-21",
-    "change_pct": 0.1
+    "date_label": "Moyenne du lun. 23/11",
+    "date_label_en": "Average on Mon 23/11",
+    "prev_value": 87.66,
+    "prev_date": "2026-11-22",
+    "change_pct": 2.8
   },
   "mix_france": {
-    "date_heure": "2026-11-23T05:00:00+00:00",
+    "date_heure": "2026-11-23T16:45:00+00:00",
     "shares": {
-      "nucleaire": 69.7,
-      "eolien": 15.1,
-      "hydraulique": 8.9,
-      "gaz": 4.7,
-      "bioenergies": 1.6
+      "nucleaire": 65.7,
+      "hydraulique": 20.0,
+      "gaz": 9.4,
+      "eolien": 3.1,
+      "bioenergies": 1.5,
+      "solaire": 0.4
     },
     "top_source": "nucleaire",
-    "top_share": 69.7,
-    "co2_intensity": 28
+    "top_share": 65.7,
+    "co2_intensity": 57
   },
   "spot_price_france": {
     "price_eur_mwh": 239.56,
@@ -89,7 +90,7 @@
     "bab_el_mandeb": {
       "portname": "Bab el-Mandeb Strait",
       "date": "2026-11-15",
-      "age_days": 7,
+      "age_days": 8,
       "period_start": "2026-11-11",
       "days_averaged": 5,
       "n_tanker": 8.2,
