@@ -1,12 +1,33 @@
 {
- "updated_at": "2026-11-24T02:59:45+00:00",
+ "updated_at": "2026-11-24T15:10:24+00:00",
  "items": [
   {
-   "title": "Iran war live: Iran says three ships catch fire after hitting Hormuz mines",
-   "url": "https://www.aljazeera.com/news/liveblog/2026/11/24/iran-war-live-iran-says-three-ships-catch-fire-after-hitting-hormuz-mines?traffic_source=rss",
+   "title": "How does EIA compare different types of energy?",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-24T14:00:00+00:00"
+  },
+  {
+   "title": "Hormuz oil traffic is down 40 percent: Are Iran’s tanker attacks working?",
+   "url": "https://www.aljazeera.com/news/2026/11/24/hormuz-oil-traffic-is-down-40-percent-are-irans-tanker-attacks-working?traffic_source=rss",
    "source": "Al Jazeera",
    "lang": "en",
-   "date": "2026-11-24T00:00:00+00:00"
+   "date": "2026-11-24T13:32:24+00:00"
+  },
+  {
+   "title": "En Moselle, le projet de méga-usine Holosolis cherche à ressusciter l’industrie française des panneaux solaires",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/24/photovoltaique-en-moselle-le-projet-de-mega-usine-holosolis-cherche-a-ressusciter-l-industrie-francaise-des-panneaux-solaires_6814729_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-24T09:00:00+00:00"
+  },
+  {
+   "title": "Inflation : pourquoi la hausse des cours de l’énergie tarde à se répercuter sur l’ensemble des prix en France",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/24/inflation-pourquoi-la-hausse-des-cours-de-l-energie-tarde-a-se-repercuter-sur-l-ensemble-des-prix-en-france_6814604_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-24T04:00:09+00:00"
   },
   {
    "title": "COP31 : les raisons d'un fiasco, le pétrole au cœur du blocage",
@@ -30,25 +51,11 @@
    "date": "2026-11-23T00:00:00+00:00"
   },
   {
-   "title": "La COP31 s’achève sur un échec, sans accord devant la division des pays sur les énergies fossiles",
-   "url": "https://www.lemonde.fr/climat/article/2026/11/22/la-cop31-s-acheve-sur-un-echec-sans-accord-devant-la-division-des-pays-sur-les-energies-fossiles_6814199_1652613.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-22T17:11:49+00:00"
-  },
-  {
    "title": "Hormuz swim highlights environmental cost of war",
    "url": "https://www.bbc.co.uk/news/articles/c95y1gr27xplo?at_medium=RSS&at_campaign=rss",
    "source": "BBC",
    "lang": "en",
    "date": "2026-11-21T16:12:31+00:00"
-  },
-  {
-   "title": "Les pompes à chaleur sont-elles bonnes pour le climat ?",
-   "url": "https://www.lemonde.fr/planete/article/2026/11/20/les-pompes-a-chaleur-sont-elles-bonnes-pour-le-climat_6813592_3244.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-20T05:30:02+00:00"
   },
   {
    "title": "Nucléaire : après le Bangladesh, deux autres pays vont bientôt disposer de leur première centrale",
@@ -70,13 +77,6 @@
    "source": "European Commission",
    "lang": "en",
    "date": "2026-11-19T23:00:00+00:00"
-  },
-  {
-   "title": "Oil flows through Middle East chokepoints increased in the third quarter",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=",
-   "source": "EIA",
-   "lang": "en",
-   "date": "2026-11-19T14:00:00+00:00"
   }
  ]
 }
