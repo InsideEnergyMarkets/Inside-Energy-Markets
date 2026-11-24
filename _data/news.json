@@ -1,12 +1,33 @@
 {
- "updated_at": "2026-11-23T15:12:18+00:00",
+ "updated_at": "2026-11-24T02:59:45+00:00",
  "items": [
+  {
+   "title": "Iran war live: Iran says three ships catch fire after hitting Hormuz mines",
+   "url": "https://www.aljazeera.com/news/liveblog/2026/11/24/iran-war-live-iran-says-three-ships-catch-fire-after-hitting-hormuz-mines?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-24T00:00:00+00:00"
+  },
+  {
+   "title": "COP31 : les raisons d'un fiasco, le pétrole au cœur du blocage",
+   "url": "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20261123-cop31-les-raisons-d-un-fiasco-le-p%C3%A9trole-au-c%C5%93ur-du-blocage",
+   "source": "France 24",
+   "lang": "fr",
+   "date": "2026-11-23T09:25:45+00:00"
+  },
   {
    "title": "Voiture : 7 millions de personnes en France prises en étau entre nécessité et coût, pointe une étude",
    "url": "https://www.lemonde.fr/economie/article/2026/11/23/voiture-sept-millions-de-personnes-en-france-prises-en-etau-entre-necessite-et-cout-pointe-une-etude_6814273_3234.html",
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-23T03:10:36+00:00"
+  },
+  {
+   "title": "COP31 : il faut renoncer à deux totems après Antalya",
+   "url": "https://www.connaissancedesenergies.org/tribune/christian-de-perthuis/cop31-il-faut-renoncer-a-deux-totems-apres-antalya",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-23T00:00:00+00:00"
   },
   {
    "title": "La COP31 s’achève sur un échec, sans accord devant la division des pays sur les énergies fossiles",
@@ -56,34 +77,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-11-19T14:00:00+00:00"
-  },
-  {
-   "title": "Le World Energy Outlook 2026 en 10 infographies",
-   "url": "https://www.connaissancedesenergies.org/le-world-energy-outlook-2026-en-10-infographies",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-19T00:00:00+00:00"
-  },
-  {
-   "title": "Pourquoi l’électrification est l’un des sujets phares de la COP31",
-   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/pourquoi-lelectrification-est-lun-des-sujets-phares-de-la-cop31",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-19T00:00:00+00:00"
-  },
-  {
-   "title": "November infringements package: key decisions on energy",
-   "url": "https://energy.ec.europa.eu/news/november-infringements-package-key-decisions-energy-2026-11-19_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-18T23:00:00+00:00"
-  },
-  {
-   "title": "États-Unis - Iran : attaque contre un navire dans le Détroit d'Ormuz",
-   "url": "https://www.france24.com/fr/vid%C3%A9o/20261118-%C3%A9tats-unis-iran-attaque-contre-un-navire-dans-le-d%C3%A9troit-d-ormuz",
-   "source": "France 24",
-   "lang": "fr",
-   "date": "2026-11-18T15:22:32+00:00"
   }
  ]
 }
