@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-24T15:10:24+00:00",
+ "updated_at": "2026-11-25T00:59:21+00:00",
  "items": [
   {
    "title": "How does EIA compare different types of energy?",
@@ -7,13 +7,6 @@
    "source": "EIA",
    "lang": "en",
    "date": "2026-11-24T14:00:00+00:00"
-  },
-  {
-   "title": "Hormuz oil traffic is down 40 percent: Are Iran’s tanker attacks working?",
-   "url": "https://www.aljazeera.com/news/2026/11/24/hormuz-oil-traffic-is-down-40-percent-are-irans-tanker-attacks-working?traffic_source=rss",
-   "source": "Al Jazeera",
-   "lang": "en",
-   "date": "2026-11-24T13:32:24+00:00"
   },
   {
    "title": "En Moselle, le projet de méga-usine Holosolis cherche à ressusciter l’industrie française des panneaux solaires",
@@ -28,6 +21,13 @@
    "source": "Le Monde",
    "lang": "fr",
    "date": "2026-11-24T04:00:09+00:00"
+  },
+  {
+   "title": "Commissioner Jørgensen in Ireland to advance work on energy and housing affordability",
+   "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-ireland-advance-work-energy-and-housing-affordability-2026-11-24_en",
+   "source": "European Commission",
+   "lang": "en",
+   "date": "2026-11-23T23:00:00+00:00"
   },
   {
    "title": "COP31 : les raisons d'un fiasco, le pétrole au cœur du blocage",
@@ -56,27 +56,6 @@
    "source": "BBC",
    "lang": "en",
    "date": "2026-11-21T16:12:31+00:00"
-  },
-  {
-   "title": "Nucléaire : après le Bangladesh, deux autres pays vont bientôt disposer de leur première centrale",
-   "url": "https://www.connaissancedesenergies.org/nucleaire-apres-le-bangladesh-deux-autres-pays-vont-bientot-disposer-de-leur-premiere-centrale",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-20T00:00:00+00:00"
-  },
-  {
-   "title": "EU backs global compact to cut energy bills and emissions from buildings",
-   "url": "https://energy.ec.europa.eu/news/eu-backs-global-compact-cut-energy-bills-and-emissions-buildings-2026-11-20_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-19T23:00:00+00:00"
-  },
-  {
-   "title": "Gas Coordination Group confirms EU’s winter preparedness, importance of gas storage through the winter",
-   "url": "https://energy.ec.europa.eu/news/gas-coordination-group-confirms-eus-winter-preparedness-importance-gas-storage-through-winter-2026-11-20_en",
-   "source": "European Commission",
-   "lang": "en",
-   "date": "2026-11-19T23:00:00+00:00"
   }
  ]
 }
