@@ -1,26 +1,40 @@
 {
- "updated_at": "2026-11-26T14:16:08+00:00",
+ "updated_at": "2026-11-26T23:13:18+00:00",
  "items": [
   {
-   "title": "EN DIRECT, guerre en Ukraine : Volodymyr Zelensky accuse la Russie de préparer de nouvelles frappes massives sur des « infrastructures énergétiques et logistiques »",
-   "url": "https://www.lemonde.fr/international/live/2026/11/26/en-direct-guerre-en-ukraine-un-mort-dans-l-oblast-de-kherson-des-foyers-prives-d-electricite-dans-sept-regions-apres-des-attaques-russes_6814183_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-26T10:06:52+00:00"
+   "title": "Egypt detains driver over Cairo fuel tanker fire that killed 31",
+   "url": "https://www.aljazeera.com/news/2026/11/26/egypt-detains-driver-over-cairo-fuel-tanker-fire-that-killed-31?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-26T21:08:44+00:00"
   },
   {
-   "title": "Thaïlande : une explosion dans un dépôt pétrolier de Bangkok fait provisoirement sept blessés",
-   "url": "https://www.lemonde.fr/international/article/2026/11/26/thailande-une-explosion-dans-un-depot-petrolier-de-bangkok-fait-provisoirement-sept-blesses_6815511_3210.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-26T09:58:23+00:00"
+   "title": "Attack on Saudi’s Jazan refinery kills one person, disrupts operations",
+   "url": "https://www.aljazeera.com/news/2026/11/26/attack-on-saudi-aramcos-jazan-refinery-kills-worker-disrupts-operations?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-26T20:34:34+00:00"
   },
   {
-   "title": "Espagne : le naufrage d’un pétrolier chargé de diesel fait un mort au large d’Ibiza, sans « indice de pollution » provisoirement observé",
-   "url": "https://www.lemonde.fr/international/article/2026/11/26/espagne-un-petrolier-charge-de-diesel-coule-au-large-d-ibiza-faisant-un-mort_6815505_3210.html",
+   "title": "EN DIRECT, guerre en Ukraine : les services de renseignement militaires ukrainiens ont revendiqué l’attaque de la raffinerie russe de Slaviansk-sur-Kouban",
+   "url": "https://www.lemonde.fr/international/live/2026/11/26/en-direct-guerre-en-ukraine-les-services-de-renseignement-militaires-ukrainiens-ont-revendique-l-attaque-de-la-raffinerie-russe-de-slaviansk-sur-kouban_6814183_3210.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-26T09:06:10+00:00"
+   "date": "2026-11-26T19:25:06+00:00"
+  },
+  {
+   "title": "Diesel tanker capsizes near Ibiza, killing crew member",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/26/aje-onl-nf_loaded-diesel-tanker-capsizes-off-ibiza-killing-one-261126?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-26T15:56:39+00:00"
+  },
+  {
+   "title": "EPR2 : le partage de souveraineté comme prix à payer",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/epr2-le-partage-de-souverainete-comme-prix-a-payer",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-26T00:00:00+00:00"
   },
   {
    "title": "Mark your calendars: European Sustainable Energy Week 23-25 June 2027",
@@ -65,6 +79,20 @@
    "date": "2026-11-24T14:00:00+00:00"
   },
   {
+   "title": "En Moselle, le projet de méga-usine Holosolis cherche à ressusciter l’industrie française des panneaux solaires",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/24/photovoltaique-en-moselle-le-projet-de-mega-usine-holosolis-cherche-a-ressusciter-l-industrie-francaise-des-panneaux-solaires_6814729_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-24T09:00:00+00:00"
+  },
+  {
+   "title": "Inflation : pourquoi la hausse des cours de l’énergie tarde à se répercuter sur l’ensemble des prix en France",
+   "url": "https://www.lemonde.fr/economie/article/2026/11/24/inflation-pourquoi-la-hausse-des-cours-de-l-energie-tarde-a-se-repercuter-sur-l-ensemble-des-prix-en-france_6814604_3234.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-24T04:00:09+00:00"
+  },
+  {
    "title": "Commissioner Jørgensen in Ireland to advance work on energy and housing affordability",
    "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-ireland-advance-work-energy-and-housing-affordability-2026-11-24_en",
    "source": "European Commission",
@@ -84,13 +112,6 @@
    "source": "Connaissance des Énergies",
    "lang": "fr",
    "date": "2026-11-23T00:00:00+00:00"
-  },
-  {
-   "title": "Hormuz swim highlights environmental cost of war",
-   "url": "https://www.bbc.co.uk/news/articles/c95y1gr27xplo?at_medium=RSS&at_campaign=rss",
-   "source": "BBC",
-   "lang": "en",
-   "date": "2026-11-21T16:12:31+00:00"
   }
  ]
 }

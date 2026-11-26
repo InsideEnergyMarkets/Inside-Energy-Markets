@@ -1,13 +1,13 @@
 {
- "updated_at": "2026-11-26T04:17:45+00:00",
+ "updated_at": "2026-11-26T23:13:18+00:00",
  "stats": {
-  "total_30d": 40,
-  "attacks_30d": 29,
+  "total_30d": 41,
+  "attacks_30d": 30,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 25
+    "n": 26
    },
    {
     "place": "Golfe d'Oman",
@@ -35,6 +35,20 @@
    "vessel_type_en": "Tanker",
    "vessel_name": "",
    "summary": "UKMTO has received a report of an incident 50NM west of Dubai, UAE. The Master of a tanker, has reported an explosion caused by an unknown projectile in close proximity to the tanker."
+  },
+  {
+   "id": "UKMTO-2026-223",
+   "number": 223,
+   "date": "2026-11-25T13:00:00Z",
+   "type": "Attack",
+   "lat": 26.1,
+   "lon": 56.55,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "",
+   "vessel_type_en": "",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 18NM east of Khasab, Oman. Local authorities have reported that an outbound tanker has been struck by an unknown projectile whilst transiting the Strait of Hormuz."
   },
   {
    "id": "UKMTO-2026-221",
