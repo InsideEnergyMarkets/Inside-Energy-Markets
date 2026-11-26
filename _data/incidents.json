@@ -1,27 +1,83 @@
 {
- "updated_at": "2026-11-24T02:59:45+00:00",
+ "updated_at": "2026-11-26T04:17:45+00:00",
  "stats": {
-  "total_30d": 36,
-  "attacks_30d": 25,
+  "total_30d": 40,
+  "attacks_30d": 29,
   "top_places": [
    {
     "place": "Détroit d'Ormuz",
     "place_en": "Strait of Hormuz",
-    "n": 22
+    "n": 25
    },
    {
     "place": "Golfe d'Oman",
     "place_en": "Gulf of Oman",
-    "n": 3
+    "n": 4
    },
    {
-    "place": "Golfe d'Aden",
-    "place_en": "Gulf of Aden",
+    "place": "Sud du golfe Persique",
+    "place_en": "Southern Arabian Gulf",
     "n": 3
    }
   ]
  },
  "items": [
+  {
+   "id": "UKMTO-2026-222",
+   "number": 222,
+   "date": "2026-11-25T22:54:00Z",
+   "type": "Suspicious Activity",
+   "lat": 25.4167,
+   "lon": 54.2,
+   "place": "Sud du golfe Persique",
+   "place_en": "Southern Arabian Gulf",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a report of an incident 50NM west of Dubai, UAE. The Master of a tanker, has reported an explosion caused by an unknown projectile in close proximity to the tanker."
+  },
+  {
+   "id": "UKMTO-2026-221",
+   "number": 221,
+   "date": "2026-11-22T20:42:00Z",
+   "type": "Attack",
+   "lat": 26.4139,
+   "lon": 56.5178,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident in the Strait of Hormuz. The verified report stated that a tanker was struck by unknown projectile whilst transiting eastbound."
+  },
+  {
+   "id": "UKMTO-2026-220",
+   "number": 220,
+   "date": "2026-11-22T20:32:00Z",
+   "type": "Attack",
+   "lat": 26.4139,
+   "lon": 56.5178,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident in the Strait of Hormuz. The verified report stated that a tanker was struck by unknown projectile whilst transiting eastbound."
+  },
+  {
+   "id": "UKMTO-2026-219",
+   "number": 219,
+   "date": "2026-11-22T20:25:00Z",
+   "type": "Attack",
+   "lat": 26.4139,
+   "lon": 56.5178,
+   "place": "Détroit d'Ormuz",
+   "place_en": "Strait of Hormuz",
+   "vessel_type": "Tanker",
+   "vessel_type_en": "Tanker",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident in the Strait of Hormuz. The verified report stated that a tanker was struck by unknown projectile whilst transiting eastbound."
+  },
   {
    "id": "UKMTO-2026-217",
    "number": 217,
@@ -35,6 +91,20 @@
    "vessel_type_en": "Tanker",
    "vessel_name": "",
    "summary": "UKMTO ADVISORY - 217-26 Incident Date: 22 Nov 2026 Incident Time: 1425UTC UKMTO have received a report of an incident involving a tanker and military forces in the Gulf of Oman. Vessels are advised to consider the latest maritime security information and maintain awareness of the evolving…"
+  },
+  {
+   "id": "UKMTO-2026-218",
+   "number": 218,
+   "date": "2026-11-22T10:26:00Z",
+   "type": "Attack",
+   "lat": 25.6167,
+   "lon": 56.65,
+   "place": "Golfe d'Oman",
+   "place_en": "Gulf of Oman",
+   "vessel_type": "Navire marchand",
+   "vessel_type_en": "Merchant",
+   "vessel_name": "",
+   "summary": "UKMTO has received a time-late report of an incident 23NM northeast of Khor Fakkan, UAE. A Bulk Carrier was struck on the Port side by an unknown projectile whilst anchored at Dibba OPL."
   },
   {
    "id": "UKMTO-2026-216",
