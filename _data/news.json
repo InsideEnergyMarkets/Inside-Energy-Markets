@@ -1,12 +1,47 @@
 {
- "updated_at": "2026-11-27T08:57:53+00:00",
+ "updated_at": "2026-11-27T19:36:26+00:00",
  "items": [
   {
-   "title": "Tempêtes aux Etats-Unis : plus de 900 000 foyers sans électricité sur la Côte est le jour de Thanksgiving",
-   "url": "https://www.lemonde.fr/international/article/2026/11/27/tempetes-aux-etats-unis-plus-de-900-000-foyers-sans-electricite-sur-la-cote-est-le-jour-de-thanksgiving_6815813_3210.html",
+   "title": "EN DIRECT, guerre en Ukraine : l’armée ukrainienne revendique le bombardement d’une « usine stratégique » et la destruction de réservoirs dans une raffinerie en Russie",
+   "url": "https://www.lemonde.fr/international/live/2026/11/27/en-direct-guerre-en-ukraine-l-armee-ukrainienne-revendique-le-bombardement-d-une-usine-strategique-et-la-destruction-de-reservoirs-dans-une-raffinerie-en-russie_6814183_3210.html",
    "source": "Le Monde",
    "lang": "fr",
-   "date": "2026-11-27T07:29:32+00:00"
+   "date": "2026-11-27T18:56:38+00:00"
+  },
+  {
+   "title": "Funeral prayers held for 31 victims of Egypt tanker crash",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/27/funeral-prayers-held-for-31-victims-of-egypt-tanker-crash?traffic_source=rss",
+   "source": "Al Jazeera",
+   "lang": "en",
+   "date": "2026-11-27T15:07:22+00:00"
+  },
+  {
+   "title": "Après le naufrage d’un pétrolier-chimiquier au large d’Ibiza, course contre la montre en Espagne pour éviter une marée noire",
+   "url": "https://www.lemonde.fr/planete/article/2026/11/27/apres-le-naufrage-d-un-petrolier-chimiquier-au-large-d-ibiza-course-contre-la-montre-en-espagne-pour-eviter-une-maree-noire_6815870_3244.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-27T14:04:59+00:00"
+  },
+  {
+   "title": "Global electricity generation more than doubled from 2000 to 2025",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68525",
+   "source": "EIA",
+   "lang": "en",
+   "date": "2026-11-27T14:00:00+00:00"
+  },
+  {
+   "title": "Fin de l’interdiction des passoires thermiques à la location : aux Assises de la rénovation énergétique, la consternation des professionnels du secteur",
+   "url": "https://www.lemonde.fr/societe/article/2026/11/27/fin-de-l-interdiction-des-passoires-thermiques-a-la-location-aux-assises-de-la-renovation-energetique-la-consternation-des-professionnels-du-secteur_6815833_3224.html",
+   "source": "Le Monde",
+   "lang": "fr",
+   "date": "2026-11-27T10:00:07+00:00"
+  },
+  {
+   "title": "Accord sur l’électricité Suisse-UE : en finir avec le pilotage à l’aveugle ?",
+   "url": "https://www.connaissancedesenergies.org/tribune-actualite-energies/accord-sur-lelectricite-suisse-ue-en-finir-avec-le-pilotage-a-laveugle",
+   "source": "Connaissance des Énergies",
+   "lang": "fr",
+   "date": "2026-11-27T00:00:00+00:00"
   },
   {
    "title": "Egyptian authorities arrest motorist over tanker crash that killed 31",
@@ -65,20 +100,6 @@
    "date": "2026-11-24T14:00:00+00:00"
   },
   {
-   "title": "En Moselle, le projet de méga-usine Holosolis cherche à ressusciter l’industrie française des panneaux solaires",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/24/photovoltaique-en-moselle-le-projet-de-mega-usine-holosolis-cherche-a-ressusciter-l-industrie-francaise-des-panneaux-solaires_6814729_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-24T09:00:00+00:00"
-  },
-  {
-   "title": "Inflation : pourquoi la hausse des cours de l’énergie tarde à se répercuter sur l’ensemble des prix en France",
-   "url": "https://www.lemonde.fr/economie/article/2026/11/24/inflation-pourquoi-la-hausse-des-cours-de-l-energie-tarde-a-se-repercuter-sur-l-ensemble-des-prix-en-france_6814604_3234.html",
-   "source": "Le Monde",
-   "lang": "fr",
-   "date": "2026-11-24T04:00:09+00:00"
-  },
-  {
    "title": "Commissioner Jørgensen in Ireland to advance work on energy and housing affordability",
    "url": "https://energy.ec.europa.eu/news/commissioner-jorgensen-ireland-advance-work-energy-and-housing-affordability-2026-11-24_en",
    "source": "European Commission",
@@ -91,13 +112,6 @@
    "source": "France 24",
    "lang": "fr",
    "date": "2026-11-23T09:25:45+00:00"
-  },
-  {
-   "title": "COP31 : il faut renoncer à deux totems après Antalya",
-   "url": "https://www.connaissancedesenergies.org/tribune/christian-de-perthuis/cop31-il-faut-renoncer-a-deux-totems-apres-antalya",
-   "source": "Connaissance des Énergies",
-   "lang": "fr",
-   "date": "2026-11-23T00:00:00+00:00"
   }
  ]
 }
